@@ -6,4 +6,6 @@ export const Endpoint = {
   SWAP: "/agents/{token}/swaps",
 
   RECOMMEND_AGENTS: "/agents/marquee-agents",
+
+  GET_GAME: "/game",
 };

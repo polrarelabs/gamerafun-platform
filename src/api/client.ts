@@ -41,6 +41,8 @@ const RequestClient = class {
   }
 
   async get(endpoint: string, params = {}, configs = {}) {
+    console.log("end point day", axios.defaults.baseURL, API_URL);
+
     try {
       const response = await axios.get(endpoint, {
         params,

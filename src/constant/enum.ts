@@ -29,3 +29,44 @@ export enum Currency {
   APT = "APT",
   USDC = "USDC",
 }
+
+export enum Platform {
+  EPIC = "EPIC",
+  STEAM = "STEAM",
+}
+
+export enum Genre {
+  ACTION = "ACTION",
+  ADVENTURE = "ADVENTURE",
+  RPG = "RPG",
+  STRATEGY = "STRATEGY",
+  PUZZLE = "PUZZLE",
+  CASUAL = "CASUAL",
+  MULTIPLAYER = "MULTIPLAYER",
+  SPORTS = "SPORTS",
+  SHOOTER = "SHOOTER",
+  RACING = "RACING",
+  FIGHTING = "FIGHTING",
+  MMORPG = "MMORPG",
+  METAVERSE = "METAVERSE",
+  FREETOPLAY = "FREETOPLAY",
+  ONCHAIN = "ONCHAIN",
+  CARD = "CARD",
+  BATTLEROYALE = "BATTLEROYALE",
+  AUTOBATTLER = "AUTOBATTLER",
+}
+
+export enum Support_OS {
+  WINDOWS = "WINDOWS",
+  MAC = "MAC",
+  WEB = "WEB",
+  ANDROID = "ANDROID",
+  IOS = "IOS",
+}
+
+export enum Duration_Status {
+  PLAYABLE = "Playable",
+  BETA = "Beta",
+  ALPHA = "Alpha",
+  INDEVELOPMENT = "InDevelopment",
+}
