@@ -1,4 +1,5 @@
-import { memo } from "react";
+"use client";
+
 import { Stack } from "@mui/material";
 import { Button, Text } from "@components/shared";
 import AptosTextImg from "public/images/agents/img-aptos-text.png";
@@ -7,6 +8,7 @@ import { SearchAgents, TrendingTopic } from "./components";
 import Link from "@components/Link";
 import { CREATE_AGENT_PATH } from "@constant/paths";
 import { STUDIO_URL } from "@constant/links";
+import { memo } from "react";
 
 type OverviewProps = {};
 
