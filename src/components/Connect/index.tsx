@@ -1,4 +1,4 @@
-import { memo, useMemo, useState, MouseEvent } from "react";
+import { memo, useMemo, useState, MouseEvent, useEffect } from "react";
 import { Button, ButtonProps, Dropdown, Text } from "@components/shared";
 import LogInIcon from "@icons/LogInIcon";
 import useToggle from "@hooks/useToggle";
@@ -16,7 +16,8 @@ enum Option {
 }
 
 const Connect = (props: ButtonProps) => {
-  const { connected, disconnect, address, wallet } = useAptosWallet();
+  const { connected, disconnect, address, wallet, signMessage } =
+    useAptosWallet();
   const { push } = useRouter();
 
   const [isShow, onShow, onHide] = useToggle();

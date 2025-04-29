@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getListGame as fetchListGame } from "./action";
+import { getGame as fetchListGame } from "./action";
 
 interface ScheduleProps {
   beta: string;
@@ -39,8 +39,8 @@ const initialState: DataState = {
   error: "",
 };
 
-const listGameSlice = createSlice({
-  name: "list_game_reducer",
+const getGameSlice = createSlice({
+  name: "get_game_reducer",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -62,4 +62,4 @@ const listGameSlice = createSlice({
   },
 });
 
-export default listGameSlice.reducer;
+export default getGameSlice.reducer;

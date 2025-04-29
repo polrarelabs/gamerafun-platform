@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import bgSlider from "public/images/Riftstorm_banner1_b0eb3c12c2.webp";
 import { Button, Image, Text } from "@components/shared";
 import { motion } from "framer-motion";
+import { useGame } from "@store/game";
 
 const DATA = [
   {
@@ -184,6 +185,11 @@ const Banner = () => {
                 border={"1px solid white"}
                 position={"relative"}
                 onClick={() => handleClickImage(index)}
+                sx={{
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
               >
                 <Image
                   src={item.img}
