@@ -1,91 +1,90 @@
 "use client";
 
-import { Image, Text } from "@components/shared";
+import { Text } from "@components/shared";
+import PopularIcon from "@icons/PopularIcon";
 import { Stack } from "@mui/material";
-import { motion, useInView } from "framer-motion";
-import React, { useRef, useState } from "react";
+import { useGameCount } from "@store/game";
+import { motion } from "framer-motion";
+import { memo, useEffect, useRef, useState } from "react";
 
 const PopularGenres = () => {
-  const [slideIndex, setSlideIndex] = useState<number>(0);
-  const ref = useRef<HTMLDivElement | null>(null);
-  const isInView = useInView(ref);
+  const { data } = useGameCount();
+  const [arrKeys, setArrKeys] = useState<string[]>([]);
 
-  const maxIndex = DATA.length;
+  useEffect(() => {
+    if (data?.genre) {
+      setArrKeys(Object.keys(data.genre));
+    }
+  }, [data]);
 
-  const onChangeSlideIndex = (type: "prev" | "next") => () => {
-    setSlideIndex((prev) => {
-      if (type === "prev") return (prev - 1 + maxIndex) % maxIndex;
-      return (prev + 1) % maxIndex;
-    });
-  };
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <Stack direction={"column"} gap={2}>
-      <Stack>
-        <Text color="white" fontSize={"20px"} fontWeight={700}>
+    <Stack
+      direction="column"
+      gap={2}
+      overflow="hidden"
+      ref={containerRef}
+      sx={{ width: "100%", height: "auto" }}
+    >
+      <Stack direction={"row"} alignItems={"center"} gap={2}>
+        <PopularIcon sx={{ color: "#9CA3AF" }} />
+        <Text color="white" fontSize="20px" fontWeight={700}>
           Popular Genres
         </Text>
       </Stack>
       <Stack
-        component={motion.section}
+        component={motion.div}
         direction="row"
-        alignItems="center"
-        whileHover="hover"
-        ref={ref}
-        maxWidth="100vw"
-        overflow="hidden"
-        position="relative"
         gap={2}
-        // sx={{ aspectRatio: 4 / 3 }}
+        display="flex"
+        ref={trackRef}
+        drag="x"
+        dragConstraints={{
+          left: -(
+            trackRef.current?.scrollWidth ??
+            0 - (containerRef.current?.offsetWidth ?? 0)
+          ),
+          right: 0,
+        }}
       >
-        {DATA.map((item, index) => {
-          return (
-            <Stack
-              key={index}
-              width="100%"
-              height="100%"
-              position={"relative"}
-              bgcolor={"#546744"}
+        {arrKeys.map((item, index) => (
+          <Stack
+            key={index}
+            width="208px"
+            height="108px"
+            bgcolor="#546744"
+            position="relative"
+            flexShrink={0}
+            sx={{
+              borderRadius: "6px",
+              opacity: 0.7,
+              "&:hover": {
+                opacity: 1,
+                cursor: "pointer",
+              },
+            }}
+          >
+            <Text
+              position="absolute"
+              left="50%"
+              bottom={2}
+              color="common.white"
+              variant={{ xs: "body1", md: "subtitle1" }}
+              fontWeight={500}
               sx={{
-                aspectRatio: 4 / 2.5,
-                borderRadius: "6px",
-                opacity: 0.7,
-                "&:hover": {
-                  opacity: 1,
-                },
+                translate: "-50% -50%",
+                zIndex: 3,
               }}
             >
-              <Text
-                position={"absolute"}
-                left={"50%"}
-                bottom={2}
-                color="common.white"
-                variant={{ xs: "body1", md: "subtitle1" }}
-                fontWeight={500}
-                sx={{
-                  translate: "-50% -50%",
-                  zIndex: 3,
-                }}
-              >
-                {item}
-              </Text>
-            </Stack>
-          );
-        })}
+              {item}
+            </Text>
+          </Stack>
+        ))}
       </Stack>
     </Stack>
   );
 };
 
-export default PopularGenres;
-
-const DATA = [
-  "title1",
-  "title2",
-  "title3",
-  "title4",
-  "title5",
-  "title6",
-  "title7",
-  "title8",
-];
+export default memo(PopularGenres);

@@ -5,8 +5,7 @@ import { Text } from "@components/shared";
 // import { SCREEN_PX } from '@constant'
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Breadcrumbs, Stack } from "@mui/material";
-import BrowserGame from "./components/BrowserGame";
-import PopularGenres from "./components/PopularGenres";
+import LayoutGame from "./components/LayoutGame";
 
 const GameHome = () => {
   return (
@@ -27,17 +26,20 @@ const GameHome = () => {
         </Breadcrumbs>
 
         <Stack direction={"column"}>
-          <Text color="white" fontWeight={700} fontSize={"74px"}>
-            TITLE GAME
+          <Text
+            color="white"
+            fontWeight={700}
+            fontSize={"74px"}
+            textTransform={"uppercase"}
+          >
+            game
           </Text>
           <Text color="#F9FAFB" fontWeight={500} fontSize={"20px"}>
             TITLE GAME
           </Text>
         </Stack>
       </Stack>
-
-      <PopularGenres />
-      <BrowserGame />
+      <LayoutGame />
     </Stack>
   );
 };

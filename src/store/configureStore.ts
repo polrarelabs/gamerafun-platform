@@ -1,28 +1,30 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer, { AppState } from "./app/reducer";
 import tokenReducer, { TokenState } from "./token/reducer";
-import getGameReducer, { DataState } from "./game/reducer";
-import getGameOwnerReducer, { DataStateOwner } from "./game-owner/reducer";
-import getGameCountReducer, { PropGameCount } from "./game-count/reducer";
-import SignMessageReducer, { SignMessageProps } from "./sign-message/reducer";
+import {
+  AsyncState,
+  GameCount,
+  ListGame,
+  reducers as GameReducers,
+} from "./game/reducer";
+import { SignMessageProps, reducers as AuthReducers } from "./auth/reducer";
+// import { DataState, DataStateOwner, PropGameCount } from "./game";
 
 export interface State {
   app: AppState;
   token: TokenState;
-  getGame: DataState;
-  getGameOwner: DataStateOwner;
-  getGameCount: PropGameCount;
   signmessage: SignMessageProps;
+  game: AsyncState<ListGame[]>;
+  gameCount: AsyncState<GameCount>;
+  gameOwner: AsyncState<ListGame[]>;
 }
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
     token: tokenReducer,
-    getGame: getGameReducer,
-    getGameOwner: getGameOwnerReducer,
-    getGameCount: getGameCountReducer,
-    signmessage: SignMessageReducer,
+    ...AuthReducers,
+    ...GameReducers,
   },
 });
 
