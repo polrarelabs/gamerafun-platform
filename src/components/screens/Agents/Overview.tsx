@@ -8,11 +8,29 @@ import { SearchAgents, TrendingTopic } from "./components";
 import Link from "@components/Link";
 import { CREATE_AGENT_PATH } from "@constant/paths";
 import { STUDIO_URL } from "@constant/links";
-import { memo } from "react";
+import { memo, useEffect } from "react";
+import { useGame, useGameCount, useGameOwner } from "@store/game";
+import { setToken } from "@api/helpers";
 
 type OverviewProps = {};
 
 const Overview = (props: OverviewProps) => {
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGFkNjY4Yy0yMTliLTRiNDAtYjY0NC0xZjJiM2ZmNTg1YmUiLCJpYXQiOjE3NDYyNzU0NjgsImV4cCI6MTc0Njg4MDI2OH0.Q-zf0eSI4d1N0Pd2tRNLOx_efIgx85ixiB04PV3GEjI";
+  setToken(token);
+  // const { data: gameData, fetchGetGame } = useGame()
+  // const { data: gameCount, fetchGameCount } = useGameCount()
+  // const { data: gameOwner, fetchGetGameOwner } = useGameOwner()
+
+  // useEffect(() => {
+  //   fetchGetGame()
+  //   fetchGameCount()
+  //   fetchGetGameOwner()
+  // }, [])
+
+  // console.log('fetch data game', gameData);
+  // console.log('fetch data gane count', gameCount);
+  // console.log('fetch data gane owner', gameOwner);
   return (
     <Stack
       sx={{

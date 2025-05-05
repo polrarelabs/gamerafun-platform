@@ -56,7 +56,7 @@ export enum Genre {
   AUTOBATTLER = "AUTOBATTLER",
 }
 
-export enum Support_OS {
+export enum SupportOs {
   WINDOWS = "WINDOWS",
   MAC = "MAC",
   WEB = "WEB",
@@ -64,7 +64,7 @@ export enum Support_OS {
   IOS = "IOS",
 }
 
-export enum Duration_Status {
+export enum ScheduleStatus {
   PLAYABLE = "Playable",
   BETA = "Beta",
   ALPHA = "Alpha",
