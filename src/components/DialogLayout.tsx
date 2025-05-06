@@ -19,6 +19,7 @@ export type DialogLayoutProps = {
   contentProps?: DialogContentProps & StackProps;
   renderHeader?: ReactNode;
   paperSx?: SxProps;
+  widthDialog?: number;
   onClose: () => void;
 } & Omit<DialogProps, "onClose">;
 
@@ -31,6 +32,7 @@ const DialogLayout = (props: DialogLayoutProps) => {
     paperSx,
     sx,
     onClose: onCloseProp,
+    widthDialog,
     ...rest
   } = props;
 
@@ -47,7 +49,7 @@ const DialogLayout = (props: DialogLayoutProps) => {
       sx={{
         [`& .${dialogClasses.paper}`]: {
           position: "relative",
-          maxWidth: 960,
+          maxWidth: widthDialog ? widthDialog : 960,
           width: "100%",
           backgroundImage: "none",
           bgcolor: "background.paper",

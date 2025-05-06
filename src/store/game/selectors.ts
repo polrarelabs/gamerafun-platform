@@ -1,6 +1,17 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { getGame, getGameCount, getGameOwner, ParamsProp } from "./action";
-import { setValueEditorRating, setValueUserRating } from "./reducer";
+import {
+  createGame,
+  getGame,
+  getGameCount,
+  getGameOwner,
+  ParamsProp,
+  PropsFormik,
+} from "./action";
+import {
+  setIsCreateGame,
+  setValueEditorRating,
+  setValueUserRating,
+} from "./reducer";
 
 export const useGame = () => {
   const dispatch = useAppDispatch();
@@ -73,5 +84,29 @@ export const useGameReducers = () => {
     setUserRating,
     valueEditorRating,
     valueUserRating,
+  };
+};
+
+export const useCreateGame = () => {
+  const dispatch = useAppDispatch();
+
+  const createGames = (params: PropsFormik) => {
+    dispatch(createGame(params));
+  };
+
+  const setIsCreate = () => {
+    dispatch(setIsCreateGame());
+  };
+
+  const { isCreate, loadingCreate, errorCreate } = useAppSelector(
+    (state) => state.createGame,
+  );
+
+  return {
+    isCreate,
+    loadingCreate,
+    errorCreate,
+    createGames,
+    setIsCreate,
   };
 };

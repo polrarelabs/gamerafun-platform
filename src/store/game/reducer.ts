@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getGame as fetchListGame, getGameCount, getGameOwner } from "./action";
-import { Genre, Platform, ScheduleStatus, SupportOs } from "@constant/enum";
+import {
+  createGame,
+  getGame as fetchListGame,
+  getGameCount,
+  getGameOwner,
+} from "./action";
 
 export interface ScheduleProps {
   beta: string;
@@ -191,12 +195,50 @@ const GameReducers = createSlice({
   },
 });
 
+interface PropsCreateGame {
+  isCreate: boolean;
+  loadingCreate: boolean;
+  errorCreate: string;
+}
+
+const initialStateCreateGame: PropsCreateGame = {
+  isCreate: false,
+  loadingCreate: false,
+  errorCreate: "",
+};
+
+const CreateGameReducer = createSlice({
+  name: "game/createGameReducers",
+  initialState: initialStateCreateGame,
+  reducers: {
+    setIsCreateGame: (state) => {
+      state.isCreate = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createGame.pending, (state) => {
+        state.loadingCreate = true;
+      })
+      .addCase(createGame.fulfilled, (state) => {
+        state.isCreate = true;
+        state.loadingCreate = false;
+      })
+      .addCase(createGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loadingCreate = false;
+        state.errorCreate = action.payload as string;
+      });
+  },
+});
+
 export const reducers = {
   game: getGameSlice.reducer,
   gameCount: gameCountSlice.reducer,
   gameOwner: getGameOwnerSlice.reducer,
   gameReducers: GameReducers.reducer,
+  createGame: CreateGameReducer.reducer,
 };
 
 export const { setValueEditorRating, setValueUserRating } =
   GameReducers.actions;
+export const { setIsCreateGame } = CreateGameReducer.actions;

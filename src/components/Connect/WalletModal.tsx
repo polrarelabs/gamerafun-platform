@@ -54,6 +54,7 @@ const WalletModal = (props: WalletModalProps) => {
     }
     onClose();
   };
+
   const walletGrouped = useMemo(() => {
     return groupAndSortWallets(
       [...wallets, ...notDetectedWallets].filter(

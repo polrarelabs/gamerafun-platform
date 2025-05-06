@@ -70,3 +70,16 @@ export enum ScheduleStatus {
   ALPHA = "Alpha",
   INDEVELOPMENT = "InDevelopment",
 }
+
+export enum SupportChain {
+  BscTestnet = "BSC_TESTNET",
+  BscMainnet = "BSC_MAINNET",
+  EthereumMainnet = "ETHEREUM_MAINNET",
+  PolygonMainnet = "POLYGON_MAINNET",
+  AvalancheMainnet = "AVALANCHE_MAINNET",
+  ArbitrumMainnet = "ARBITRUM_MAINNET",
+  OptimismMainnet = "OPTIMISM_MAINNET",
+  FantomMainnet = "FANTOM_MAINNET",
+  AuroraMainnet = "AURORA_MAINNET",
+  BaseMainnet = "BASE_MAINNET",
+}

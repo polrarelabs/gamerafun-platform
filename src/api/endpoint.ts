@@ -12,5 +12,8 @@ export const Endpoint = {
   GET_GAME: "/game",
   GET_GAME_OWNER: "/game/owner",
   GET_GAME_COUNT: "/game/count",
+
+  CREATE_GAME: "/game/create",
+
   AUTH_SIGNMESSAGEV1: "/auth",
 };

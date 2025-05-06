@@ -238,6 +238,13 @@ const BrowserGame = () => {
                         color="white"
                         textAlign={"center"}
                         fontWeight={700}
+                        sx={{
+                          display: "-webkit-box",
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          WebkitLineClamp: 1,
+                        }}
                       >
                         {item.name}
                       </Text>
