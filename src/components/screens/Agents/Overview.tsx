@@ -15,9 +15,6 @@ import { setToken } from "@api/helpers";
 type OverviewProps = {};
 
 const Overview = (props: OverviewProps) => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGFkNjY4Yy0yMTliLTRiNDAtYjY0NC0xZjJiM2ZmNTg1YmUiLCJpYXQiOjE3NDYyNzU0NjgsImV4cCI6MTc0Njg4MDI2OH0.Q-zf0eSI4d1N0Pd2tRNLOx_efIgx85ixiB04PV3GEjI";
-  setToken(token);
   // const { data: gameData, fetchGetGame } = useGame()
   // const { data: gameCount, fetchGameCount } = useGameCount()
   // const { data: gameOwner, fetchGetGameOwner } = useGameOwner()

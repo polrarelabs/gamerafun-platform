@@ -10,6 +10,7 @@ import { Box } from "@mui/material";
 import { CONNECT_BUTTON_ID } from "@constant";
 import useAptosWallet from "@hooks/useAptosWallet";
 import { useSignMessage } from "@store/auth";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 enum Option {
   COPY_ADDRESS,
@@ -19,6 +20,9 @@ enum Option {
 const Connect = (props: ButtonProps) => {
   const { connected, disconnect, address, wallet } = useAptosWallet();
   const { push } = useRouter();
+
+  const wallets = useWallet();
+  console.log("walletttsts", wallets);
 
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
 

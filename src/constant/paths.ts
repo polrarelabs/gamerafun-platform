@@ -5,3 +5,4 @@ export const CREATE_AGENT_PATH = "/create-agent";
 export const STORE_PATH = "/store";
 export const TASKS_PATH = "/tasks";
 export const AGENT_DETAIL_PATH = "/agents/{token}";
+export const NEWS_PATH = "/news";
