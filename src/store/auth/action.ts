@@ -1,5 +1,6 @@
 import { client, Endpoint } from "@api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { HttpStatusCode } from "axios";
 
 export interface PropsSignMessage {
   nonce: string;
@@ -19,7 +20,7 @@ export const petraSignMessage = createAsyncThunk(
     try {
       const response = await client.post(Endpoint.AUTH_SIGNMESSAGE, body);
       // const loginId = response.data.split("loginId:")[1]?.trim();
-      return response.data;
+      if ((response.status = HttpStatusCode.Ok)) return response.data;
     } catch (error) {
       throw error;
     }
@@ -31,7 +32,42 @@ export const authSignMessage = createAsyncThunk(
   async (body: AuthSignMessage) => {
     try {
       const response = await client.post(Endpoint.AUTH_SIGNMESSAGEV1, body);
-      return response.data;
+      if ((response.status = HttpStatusCode.Ok)) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export interface PropsLoginX {
+  id: string;
+  sessionId: string;
+}
+
+export const loginX = createAsyncThunk(
+  "post/loginX",
+  async (params: PropsLoginX) => {
+    try {
+      const response = await client.post(Endpoint.LOGIN_X, params);
+
+      if ((response.status = HttpStatusCode.Ok)) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export interface LoginGoogle {
+  email: string;
+}
+
+export const loginGoogle = createAsyncThunk(
+  "post/loginGoogle",
+  async (body: LoginGoogle) => {
+    try {
+      const response = await client.post(Endpoint.LOGIN_GOOGLE, body);
+
+      if (response.status === HttpStatusCode.Ok) return response.data;
     } catch (error) {
       throw error;
     }

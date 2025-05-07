@@ -16,4 +16,8 @@ export const Endpoint = {
   CREATE_GAME: "/game/create",
 
   AUTH_SIGNMESSAGEV1: "/auth",
+
+  GET_URL_X: "/auth/twitter/callback",
+  LOGIN_X: "/auth/auth-x",
+  LOGIN_GOOGLE: "/auth/auth-google",
 };

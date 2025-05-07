@@ -32,7 +32,7 @@ const Connect = (props: ButtonProps) => {
   const open = useMemo(() => !!anchorEl, [anchorEl]);
 
   useEffect(() => {
-    console.log(isConnectPetra);
+    if (!isConnectPetra) disconnect();
   }, [isConnectPetra]);
 
   const onAnchor = (event: MouseEvent<HTMLButtonElement>) => {
@@ -72,7 +72,7 @@ const Connect = (props: ButtonProps) => {
     <>
       <Button
         id={CONNECT_BUTTON_ID}
-        onClick={connected ? onAnchor : onShow}
+        onClick={isConnectPetra ? onAnchor : onShow}
         startIcon={
           wallet && isConnectPetra ? (
             <Box

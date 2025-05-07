@@ -47,24 +47,30 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
     ios: "https://github.com/x89-labs/be-base/actions",
   };
 
-  const { isCreate, setIsCreate, createGames, errorCreate } = useCreateGame();
+  const { isCreate, setIsCreate, createGames } = useCreateGame();
   const { fetchGetGame } = useGame();
 
   const validationSchema = yup.object({
     schedule: yup
       .object({
-        alpha: yup.string().required("Alpha is required"),
-        beta: yup.string().required("Beta is required"),
-        release: yup.string().required("Release is required"),
+        alpha: yup.string().required("Alpha là bắt buộc"),
+        beta: yup.string().required("Beta là bắt buộc"),
+        release: yup.string().required("Release là bắt buộc"),
       })
-      .test("alpha < beta < release", function (props) {
-        const { alpha, beta, release } = props;
-        if (!alpha || !beta || !release) return true;
-        return (
-          dayjs(alpha).isBefore(dayjs(beta)) &&
-          dayjs(beta).isBefore(dayjs(release))
-        );
-      }),
+      .required("Lịch phát hành không được để trống")
+      .test(
+        "alpha-beta-release",
+        "Alpha Beta Release theo thứ tự Alpha < Beta < Release",
+        function (value) {
+          const { alpha, beta, release } = value || {};
+          if (!alpha || !beta || !release) return true;
+          return (
+            dayjs(alpha).isBefore(dayjs(beta)) &&
+            dayjs(beta).isBefore(dayjs(release))
+          );
+        },
+      ),
+    name: yup.string().required("Name là bắt buộc"),
   });
 
   const initialValues: PropsFormik = {
@@ -134,6 +140,10 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const isScheduleError =
+    formik.touched.schedule && typeof formik.errors.schedule === "string";
+
   return (
     <Fragment>
       <DialogLayout open={open} onClose={handleClose} widthDialog={1440}>
@@ -239,23 +249,39 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
                   OptionEnum={SupportChain}
                 />
               </Stack>
-              <Stack direction={"row"} gap={2}>
-                <DatePickerFormik
-                  formik={formik}
-                  label="Alpha"
-                  name="schedule.alpha"
-                />
-                <DatePickerFormik
-                  formik={formik}
-                  label="Beta"
-                  name="schedule.beta"
-                />
-                <DatePickerFormik
-                  formik={formik}
-                  label="Release"
-                  name="schedule.release"
-                />
-              </Stack>
+              <FormControl
+                error={
+                  formik.touched.schedule &&
+                  typeof formik.errors.schedule === "string"
+                }
+                fullWidth
+              >
+                <Stack direction="row" gap={2}>
+                  <DatePickerFormik
+                    formik={formik}
+                    label="Alpha"
+                    name="schedule.alpha"
+                    scheduleError={isScheduleError}
+                  />
+                  <DatePickerFormik
+                    formik={formik}
+                    label="Beta"
+                    name="schedule.beta"
+                    scheduleError={isScheduleError}
+                  />
+                  <DatePickerFormik
+                    formik={formik}
+                    label="Release"
+                    name="schedule.release"
+                    scheduleError={isScheduleError}
+                  />
+                </Stack>
+
+                {formik.touched.schedule &&
+                  typeof formik.errors.schedule === "string" && (
+                    <FormHelperText>{formik.errors.schedule}</FormHelperText>
+                  )}
+              </FormControl>
             </Stack>
 
             <Stack direction={"row"} mt={4} justifyContent={"end"} gap={2}>
