@@ -134,7 +134,7 @@ const WalletModal = (props: WalletModalProps) => {
   ) => {
     try {
       await connect(wallet.name);
-      setSelectedWallet(wallet);
+      // setSelectedWallet(wallet);
     } catch (error) {
       console.log("Lỗi trong quá trình kết nối ví:", error);
     }

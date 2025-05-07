@@ -6,3 +6,4 @@ export const STORE_PATH = "/store";
 export const TASKS_PATH = "/tasks";
 export const AGENT_DETAIL_PATH = "/agents/{token}";
 export const NEWS_PATH = "/news";
+export const LOGIN_PATH = "/login";

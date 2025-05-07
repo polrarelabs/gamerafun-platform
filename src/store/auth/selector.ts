@@ -2,10 +2,14 @@ import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   AuthSignMessage,
   authSignMessage,
+  loginGoogle,
+  LoginGoogle,
+  loginX,
   petraSignMessage,
+  PropsLoginX,
   PropsSignMessage,
 } from "./action";
-import { setIsConnectPetra } from "./reducer";
+import { setIsConnectPetra, setIsLogin } from "./reducer";
 
 export const useSignMessage = () => {
   const dispatch = useAppDispatch();
@@ -14,11 +18,15 @@ export const useSignMessage = () => {
     return dispatch(petraSignMessage(body));
   };
 
+  const IsLogin = (value: boolean) => {
+    return dispatch(setIsLogin(value));
+  };
+
   const IsConnectPetra = (value: boolean) => {
     return dispatch(setIsConnectPetra(value));
   };
 
-  const { data, loading, error, isConnectPetra } = useAppSelector(
+  const { data, loading, error, isConnectPetra, isLogin } = useAppSelector(
     (state) => state.signmessage,
   );
 
@@ -29,6 +37,8 @@ export const useSignMessage = () => {
     petraMessage,
     IsConnectPetra,
     isConnectPetra,
+    IsLogin,
+    isLogin,
   };
 };
 
@@ -48,5 +58,42 @@ export const useAuthSignMessage = () => {
     loadingAuth,
     errorAuth,
     AuthSignMessage,
+  };
+};
+
+export const useAuthLoginX = () => {
+  const dispatch = useAppDispatch();
+
+  const LoginX = (param: PropsLoginX) => {
+    dispatch(loginX(param));
+  };
+
+  const { dataAuthLogin, loadingAuthLogin, errorAuthLogin } = useAppSelector(
+    (state) => state.loginX,
+  );
+
+  return {
+    LoginX,
+    dataAuthLogin,
+    loadingAuthLogin,
+    errorAuthLogin,
+  };
+};
+
+export const useLoginGoogle = () => {
+  const dispatch = useAppDispatch();
+
+  const LoginGoogle = (body: LoginGoogle) => {
+    dispatch(loginGoogle(body));
+  };
+
+  const { dataAuthLoginGoogle, loadingAuthLoginGoogle, errorAuthLoginGoogle } =
+    useAppSelector((state) => state.loginGoogle);
+
+  return {
+    LoginGoogle,
+    dataAuthLoginGoogle,
+    loadingAuthLoginGoogle,
+    errorAuthLoginGoogle,
   };
 };

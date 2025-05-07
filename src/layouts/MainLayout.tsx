@@ -1,6 +1,9 @@
+"use client";
+
 import { memo, ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { usePathname } from "next/navigation";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -9,11 +12,19 @@ type MainLayoutProps = {
 const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
 
+  const pathName = usePathname();
+
   return (
     <>
-      <Header />
-      {children}
-      <Footer />
+      {pathName === "/login" ? (
+        <>{children}</>
+      ) : (
+        <>
+          <Header />
+          {children}
+          <Footer />
+        </>
+      )}
     </>
   );
 };
