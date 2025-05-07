@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { Stack, StackProps } from "@mui/material";
 import Link from "@components/Link";
-import { AGENTS_PATH } from "@constant/paths";
+import { AGENTS_PATH, NEWS_PATH } from "@constant/paths";
 import { usePathname } from "next/navigation";
 import { DOCUMENTS_URL, STUDIO_URL } from "@constant/links";
 import { Text } from "@components/shared";
@@ -84,4 +84,5 @@ const DATA = [
   },
   { label: "Engine", href: STUDIO_URL },
   { label: "Docs", href: DOCUMENTS_URL },
+  { label: "News", href: NEWS_PATH },
 ];

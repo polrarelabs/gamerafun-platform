@@ -11,11 +11,12 @@ import Connect from "@components/Connect";
 import useAptosWallet from "@hooks/useAptosWallet";
 import { HEADER_HEIGHT, SCREEN_PX } from "@constant";
 import Sidebar from "./Sidebar";
+import { useSignMessage } from "@store/auth";
 
 const Header = () => {
   const { isSmSmaller } = useBreakpoint();
   const { connected } = useAptosWallet();
-
+  const { isConnectPetra } = useSignMessage();
   return (
     <Stack
       component="header"
@@ -37,7 +38,7 @@ const Header = () => {
       {!isSmSmaller && <Navigation spacing={{ xs: 2, md: 4 }} />}
       <Stack direction="row" spacing={2} alignItems="center">
         <CreateAgent />
-        {(!isSmSmaller || !connected) && <Connect />}
+        {(!isSmSmaller || !isConnectPetra) && <Connect />}
       </Stack>
     </Stack>
   );
@@ -46,9 +47,8 @@ const Header = () => {
 export default memo(Header);
 
 const CreateAgent = () => {
-  const { connected } = useAptosWallet();
-
-  if (!connected) return null;
+  const { isConnectPetra } = useSignMessage();
+  if (!isConnectPetra) return null;
 
   return (
     <Button

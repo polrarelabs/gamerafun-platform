@@ -1,4 +1,5 @@
-import { memo } from "react";
+"use client";
+
 import { Stack } from "@mui/material";
 import { Button, Text } from "@components/shared";
 import AptosTextImg from "public/images/agents/img-aptos-text.png";
@@ -7,10 +8,26 @@ import { SearchAgents, TrendingTopic } from "./components";
 import Link from "@components/Link";
 import { CREATE_AGENT_PATH } from "@constant/paths";
 import { STUDIO_URL } from "@constant/links";
+import { memo, useEffect } from "react";
+import { useGame, useGameCount, useGameOwner } from "@store/game";
+import { setToken } from "@api/helpers";
 
 type OverviewProps = {};
 
 const Overview = (props: OverviewProps) => {
+  // const { data: gameData, fetchGetGame } = useGame()
+  // const { data: gameCount, fetchGameCount } = useGameCount()
+  // const { data: gameOwner, fetchGetGameOwner } = useGameOwner()
+
+  // useEffect(() => {
+  //   fetchGetGame()
+  //   fetchGameCount()
+  //   fetchGetGameOwner()
+  // }, [])
+
+  // console.log('fetch data game', gameData);
+  // console.log('fetch data gane count', gameCount);
+  // console.log('fetch data gane owner', gameOwner);
   return (
     <Stack
       sx={{
