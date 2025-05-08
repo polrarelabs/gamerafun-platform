@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import { AGENTS_PATH, HOME_PATH } from "@constant/paths";
+import { AGENTS_PATH, HOME_PATH, GAME_PATH } from "@constant/paths";
 import { generateMetadata } from "@utils/seo";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = generateMetadata("Noctra AI", HOME_PATH);
+export const metadata: Metadata = generateMetadata("Gamera", "/");
 
 export default function Home() {
-  redirect(AGENTS_PATH);
+  redirect(HOME_PATH);
 }

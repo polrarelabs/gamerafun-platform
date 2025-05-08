@@ -1,9 +1,14 @@
+"use client";
+
 import { Image, Text } from "@components/shared";
 import { Stack } from "@mui/material";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import img from "public/images/cover-seo.jpg";
 
 const LastNewsLists = () => {
+  const [hover, setHover] = useState<boolean>(false);
+  const [id, setId] = useState<number | null>(null);
+
   return (
     <Stack flex={5} direction={"column"} gap={4}>
       <Stack>
@@ -21,13 +26,29 @@ const LastNewsLists = () => {
               p={"6px"}
               border={"1px solid grey"}
               bgcolor={"#111827"}
+              sx={{
+                transition: "translate 0.2s ease-in-out",
+                "&:hover": {
+                  translate: "0 -6px",
+                  cursor: "pointer",
+                },
+              }}
+              onMouseEnter={() => {
+                setHover(true);
+                setId(index);
+              }}
+              onMouseLeave={() => {
+                setHover(false);
+                setId(null);
+              }}
             >
               <Stack>
                 <Image
                   src={img}
                   alt={`img-${img}`}
                   size="100%"
-                  aspectRatio={7 / 4}
+                  // aspectRatio={(hover && id === index) ? 7 / 4 : 7 / 3}
+                  aspectRatio={7 / 3}
                   sizes="960px"
                   containerProps={{
                     sx: {
@@ -35,12 +56,14 @@ const LastNewsLists = () => {
                       height: "100%",
                       overflow: "hidden",
                       borderRadius: "16px",
+
                       border: "1px",
                       borderColor:
                         "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
                       "& img": {
-                        objectFit: "cover",
+                        objectFit: hover && id === index ? "cover" : "fill",
                         objectPosition: "center",
+                        transition: "all 0.5s ease-in-out",
                       },
                     },
                   }}

@@ -124,6 +124,9 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
           // formik.setFieldValue(`downloadLinks.${osKey}`, DownloadLinks[osKey]);
         }
       });
+
+      console.log("values", values);
+
       await createGames(values);
     },
   });
@@ -157,7 +160,7 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
             <Stack direction={"column"} gap={3}>
               <Stack direction={"row"}>
                 <Stack flex={2} position={"relative"}>
-                  <UploadAvarta />
+                  {/* <UploadAvarta /> */}
                 </Stack>
                 <Stack direction={"column"} gap={3} flex={4}>
                   <Stack direction={"row"} gap={3}>

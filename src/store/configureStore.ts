@@ -8,6 +8,7 @@ import {
   reducers as GameReducers,
 } from "./game/reducer";
 import { SignMessageProps, reducers as AuthReducers } from "./auth/reducer";
+import { reducers as ChatAIReducer } from "./chatAI";
 // import { DataState, DataStateOwner, PropGameCount } from "./game";
 
 export interface State {
@@ -25,6 +26,7 @@ export const store = configureStore({
     token: tokenReducer,
     ...AuthReducers,
     ...GameReducers,
+    ...ChatAIReducer,
   },
 });
 

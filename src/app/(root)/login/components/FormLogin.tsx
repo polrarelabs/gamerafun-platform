@@ -18,6 +18,7 @@ import { CREATE_AGENT_PATH } from "@constant/paths";
 import Link from "@components/Link";
 import useToggle from "@hooks/useToggle";
 import WalletModal from "@components/Connect/WalletModal";
+import Cookies from "js-cookie";
 
 const FormLogin = () => {
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
@@ -28,7 +29,7 @@ const FormLogin = () => {
   };
 
   const paramsTestLocal =
-    "?sessionId=_94xiDic9_VxW_5UtKJEERoSQbeJiyWa&xId=1688586721917796352";
+    "?sessionId=o_4OibOSB4DlvF07TN637DRTqYlL22mT&xId=1688586721917796352";
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -75,19 +76,30 @@ const FormLogin = () => {
   }, [session]);
 
   const [pathName, setPathName] = useState(false);
+
   useEffect(() => {
     if (pathName) {
       const param: PropsLoginX = {
         id: searchParams.get("xId") || "",
         sessionId: searchParams.get("sessionId") || "",
       };
+
+      console.log(param);
+
       LoginX(param);
       setPathName(false);
     }
   }, [pathName]);
 
   useEffect(() => {
-    console.log(dataAuthLogin);
+    console.log("dataa đâyyayyy", dataAuthLogin);
+    if (dataAuthLogin?.accessToken) {
+      Cookies.set("accessToken", dataAuthLogin.accessToken, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+    }
   }, [dataAuthLogin]);
 
   const handleLoginGoogle = () => {
