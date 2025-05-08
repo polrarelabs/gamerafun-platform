@@ -60,7 +60,7 @@ const WalletModal = (props: WalletModalProps) => {
       [...wallets, ...notDetectedWallets].filter(
         (item) =>
           item?.["isOkxWallet"] ||
-          item.name.startsWith("Continue") ||
+          // item.name.startsWith("Continue") ||
           item.name === "Petra",
       ),
     );

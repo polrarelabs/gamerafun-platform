@@ -1,7 +1,7 @@
 "use client";
 
-import { memo } from "react";
-import { Stack } from "@mui/material";
+import { memo, useState } from "react";
+import { Drawer, Stack } from "@mui/material";
 import { Button } from "@components/shared";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Logo, Navigation } from "./components";
@@ -12,45 +12,76 @@ import useAptosWallet from "@hooks/useAptosWallet";
 import { HEADER_HEIGHT, SCREEN_PX } from "@constant";
 import Sidebar from "./Sidebar";
 import { useSignMessage } from "@store/auth";
+import ChatAI from "@components/AskAI/ChatAI";
 
 const Header = () => {
   const { isSmSmaller } = useBreakpoint();
   const { connected } = useAptosWallet();
   const { isConnectPetra, isLogin } = useSignMessage();
-  return (
-    <Stack
-      component="header"
-      direction="row"
-      alignItems="center"
-      px={SCREEN_PX}
-      spacing={{ xs: 3, md: 6 }}
-      justifyContent="space-between"
-      width="100%"
-      height={HEADER_HEIGHT}
-      position="sticky"
-      top={0}
-      bgcolor="background.default"
-      zIndex={99}
-    >
-      <Sidebar />
 
-      <Logo />
-      {!isSmSmaller && <Navigation spacing={{ xs: 2, md: 4 }} />}
-      <Stack direction="row" spacing={2} alignItems="center">
-        <CreateAgent />
-        {(!isSmSmaller || !isConnectPetra) && <Connect />}
-        {!isLogin && (
+  const [open, setOpen] = useState<boolean>(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
+  return (
+    <>
+      <Stack
+        component="header"
+        direction="row"
+        alignItems="center"
+        px={SCREEN_PX}
+        spacing={{ xs: 3, md: 6 }}
+        justifyContent="space-between"
+        width="100%"
+        height={HEADER_HEIGHT}
+        position="sticky"
+        top={0}
+        bgcolor="background.default"
+        zIndex={99}
+      >
+        <Sidebar />
+
+        <Stack direction={"row"} alignItems={"center"} gap={4}>
+          <Logo />
+          {!isSmSmaller && <Navigation spacing={{ xs: 2, md: 4 }} />}
+        </Stack>
+        <Stack direction="row" spacing={2} alignItems="center">
           <Button
-            LinkComponent={Link}
-            href={LOGIN_PATH}
+            onClick={toggleDrawer(true)}
             variant="contained"
-            size="small"
+            size={"small"}
           >
-            Log In
+            Ask AI
           </Button>
-        )}
+          <CreateAgent />
+          {(!isSmSmaller || !isConnectPetra) && <Connect />}
+          {!isLogin && (
+            <Button
+              LinkComponent={Link}
+              href={LOGIN_PATH}
+              variant="contained"
+              size="small"
+            >
+              Log In
+            </Button>
+          )}
+        </Stack>
       </Stack>
-    </Stack>
+      <Drawer
+        open={open}
+        onClose={toggleDrawer(false)}
+        anchor="right"
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: "500px",
+          },
+        }}
+      >
+        <ChatAI />
+      </Drawer>
+    </>
   );
 };
 

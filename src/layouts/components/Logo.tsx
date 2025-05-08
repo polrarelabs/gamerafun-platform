@@ -16,14 +16,18 @@ const Logo = (props: LogoProps) => {
   return (
     <Link
       component={Link}
-      sx={{ height: size }}
+      sx={{
+        height: size,
+        display: "flex",
+        alignItems: "center",
+      }}
       href={HOME_PATH}
       {...linkProps}
     >
       <Image
         src={type === "short" ? LogoImg : LogoTextImg}
         alt="Noctra logo"
-        height={size}
+        height={type === "short" ? size : ""}
         priority
         {...rest}
       />

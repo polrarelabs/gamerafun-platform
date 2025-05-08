@@ -54,7 +54,7 @@ const OptionGame = () => {
   return (
     <Stack direction={"column"} gap={2} flex={1}>
       <InputBase
-        placeholder="Please enter text"
+        placeholder="Search for games"
         startAdornment={
           <SearchIcon
             sx={{

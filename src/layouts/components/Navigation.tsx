@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { Stack, StackProps } from "@mui/material";
 import Link from "@components/Link";
-import { AGENTS_PATH, NEWS_PATH } from "@constant/paths";
+import { AGENTS_PATH, GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import { usePathname } from "next/navigation";
 import { DOCUMENTS_URL, STUDIO_URL } from "@constant/links";
 import { Text } from "@components/shared";
@@ -75,14 +75,15 @@ const sx = {
 
 const DATA = [
   {
-    label: "Agents",
-    href: AGENTS_PATH,
+    label: "Home",
+    href: HOME_PATH,
   },
-  {
-    label: "Research",
-    href: "https://research.noctra.ai",
-  },
-  { label: "Engine", href: STUDIO_URL },
-  { label: "Docs", href: DOCUMENTS_URL },
+  { label: "Games", href: GAME_PATH },
   { label: "News", href: NEWS_PATH },
+  // {
+  //   label: "Research",
+  //   href: "https://research.noctra.ai",
+  // },
+  // { label: "Engine", href: STUDIO_URL },
+  // { label: "Docs", href: DOCUMENTS_URL },
 ];

@@ -21,9 +21,6 @@ const Connect = (props: ButtonProps) => {
   const { connected, disconnect, address, wallet } = useAptosWallet();
   const { push } = useRouter();
 
-  const wallets = useWallet();
-  console.log("walletttsts", wallets);
-
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
 
   const [isShow, onShow, onHide] = useToggle();

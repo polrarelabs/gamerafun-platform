@@ -39,13 +39,13 @@ export default function Home() {
     >
       <Banner />
 
-      <Overview />
+      {/* <Overview /> */}
 
       {/* <ArbitrumCatalogue /> */}
-      <Stack width="100%" spacing={3} pb={14} px={SCREEN_PX}>
+      {/* <Stack width="100%" spacing={3} pb={14} px={SCREEN_PX}>
         <Filters />
         <AgentList />
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 }
