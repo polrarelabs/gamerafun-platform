@@ -52,7 +52,7 @@ const OptionGame = () => {
   };
 
   return (
-    <Stack direction={"column"} gap={2} flex={1}>
+    <Stack direction={"column"} gap={2} flex={{ lg: 1, xs: 2 }}>
       <InputBase
         placeholder="Search for games"
         startAdornment={

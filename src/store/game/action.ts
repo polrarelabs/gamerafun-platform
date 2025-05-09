@@ -37,7 +37,15 @@ export interface PropsDownloading {
   ios: string;
 }
 
+export interface PropsMedia {
+  id: string;
+  url: string;
+  type: string;
+  position: number;
+}
+
 export interface PropsFormik {
+  gameId?: number;
   name: string;
   description: string;
   status: number | 1 | 2 | 3;
@@ -51,7 +59,7 @@ export interface PropsFormik {
   platform: Platform[];
   genre: Genre[];
   chain: SupportChain[];
-  media: string[];
+  media: PropsMedia[];
 }
 
 export const getGame = createAsyncThunk(
@@ -95,6 +103,45 @@ export const createGame = createAsyncThunk(
     try {
       const response = await client.post(Endpoint.CREATE_GAME, params);
       if (response?.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+// export interface PropsGallery {
+//   file: File,
+//   name: string,
+//   description: string
+// }
+
+// export const upGallery = createAsyncThunk(
+//   "upload/gallery", async (body: PropsGallery) => {
+//     try {
+//       const response = await client.post(Endpoint.GALLERY, {
+//         body: body,
+//         'Content-Type': 'multipart/form-data'
+//       })
+//       if (response.status === HttpStatusCode.Ok) {
+//         console.log('upload gallery', response.data);
+//         return response.data
+//       }
+//     } catch (error) {
+//       throw error
+//     }
+//   }
+// )
+
+export const upGallery = createAsyncThunk(
+  "upload/gallery",
+  async (formData: FormData) => {
+    try {
+      const response = await client.post(Endpoint.GALLERY, formData, {
+        headers: {
+          "Content-Type": undefined,
+        },
+      });
+      return response.data;
     } catch (error) {
       throw error;
     }

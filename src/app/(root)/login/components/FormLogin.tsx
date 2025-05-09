@@ -156,7 +156,12 @@ const FormLogin = () => {
     // },
   ];
   return (
-    <Stack width={{ xs: "50%" }} height={"auto"} direction={"column"} gap={4}>
+    <Stack
+      width={{ md: "50%", xs: "90%" }}
+      height={"auto"}
+      direction={"column"}
+      gap={4}
+    >
       {session?.user?.email && (
         <Button variant="contained" onClick={() => signOut()}>
           Log out
@@ -191,7 +196,7 @@ const FormLogin = () => {
         <hr style={{ width: "100%", margin: "0 auto", color: "" }} />
       </Stack>
 
-      <Stack>
+      <Stack width={"100%"}>
         <Button
           onClick={isConnectPetra ? onAnchor : onShow}
           variant="outlined"

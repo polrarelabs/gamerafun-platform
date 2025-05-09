@@ -1,7 +1,7 @@
 // 'use client'
 
 import { Metadata } from "next";
-import { AGENTS_PATH } from "@constant/paths";
+import { AGENTS_PATH, HOME_PATH } from "@constant/paths";
 import { generateMetadata } from "@utils/seo";
 import { Stack } from "@mui/material";
 import { Overview, Filters, AgentList } from "@components/screens/Agents";
@@ -13,7 +13,7 @@ import { useGame } from "@store/game";
 import { useAppSelector } from "@store/hooks";
 import { useEffect } from "react";
 
-export const metadata: Metadata = generateMetadata("Agents", AGENTS_PATH);
+export const metadata: Metadata = generateMetadata("Home", HOME_PATH);
 
 export default function Home() {
   // const { items,

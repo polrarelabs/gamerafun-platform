@@ -1,6 +1,6 @@
 "use client";
 
-import { Text } from "@components/shared";
+import { Button, Text } from "@components/shared";
 import { RiLayoutGridFill } from "react-icons/ri";
 import { FaListAlt } from "react-icons/fa";
 import {
@@ -28,9 +28,15 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 
 interface PropsLastNew {
   isLayoutMD: boolean;
+  displayLayout: string;
+  setDisplayLayout: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const LastNewsOptions = ({ isLayoutMD }: PropsLastNew) => {
+const LastNewsOptions = ({
+  isLayoutMD,
+  displayLayout,
+  setDisplayLayout,
+}: PropsLastNew) => {
   const theme = useTheme();
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
@@ -50,16 +56,11 @@ const LastNewsOptions = ({ isLayoutMD }: PropsLastNew) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value,
-    );
+    setPersonName(typeof value === "string" ? value.split(",") : value);
   };
 
-  const [selectLayout, setSelectLayout] = useState<string>("layout1");
-
   const handleSetLayout = (value: string) => {
-    setSelectLayout(value);
+    setDisplayLayout(value);
   };
 
   const [showTag, setShowTag] = useState<boolean>(false);
@@ -143,38 +144,38 @@ const LastNewsOptions = ({ isLayoutMD }: PropsLastNew) => {
             <Stack
               sx={{
                 padding: "4px 6px",
-                color: selectLayout === "layout1" ? "#33f57a" : "#9ca3af",
+                color: displayLayout === "no-list" ? "#33f57a" : "#9ca3af",
                 background:
-                  selectLayout === "layout1"
+                  displayLayout === "no-list"
                     ? "color-mix(in srgb,#33f57a,transparent 85%)"
                     : "inherit",
                 borderRadius: "4px",
                 fontSize: 20,
                 "&:hover": {
-                  cursor: selectLayout !== "layout1" ? "pointer" : undefined,
-                  color: selectLayout !== "layout1" ? "#F9FAFB" : undefined,
+                  cursor: displayLayout !== "no-list" ? "pointer" : undefined,
+                  color: displayLayout !== "no-list" ? "#F9FAFB" : undefined,
                 },
               }}
-              onClick={() => handleSetLayout("layout1")}
+              onClick={() => handleSetLayout("no-list")}
             >
               <RiLayoutGridFill />
             </Stack>
             <Stack
               sx={{
                 padding: "4px 6px",
-                color: selectLayout === "layout2" ? "#33f57a" : "#9ca3af",
+                color: displayLayout === "list" ? "#33f57a" : "#9ca3af",
                 background:
-                  selectLayout === "layout2"
+                  displayLayout === "list"
                     ? "color-mix(in srgb,#33f57a,transparent 85%)"
                     : "inherit",
                 borderRadius: "4px",
                 fontSize: 20,
                 "&:hover": {
-                  cursor: selectLayout !== "layout2" ? "pointer" : undefined,
-                  color: selectLayout !== "layout2" ? "#F9FAFB" : undefined,
+                  cursor: displayLayout !== "list" ? "pointer" : undefined,
+                  color: displayLayout !== "list" ? "#F9FAFB" : undefined,
                 },
               }}
-              onClick={() => handleSetLayout("layout2")}
+              onClick={() => handleSetLayout("list")}
             >
               <FaListAlt />
             </Stack>
@@ -306,6 +307,7 @@ const LastNewsOptions = ({ isLayoutMD }: PropsLastNew) => {
                     backgroundColor:
                       item.key === checked ? "#171F2C" : "#171f2cb5",
                   },
+                  borderRadius: "8px",
                 }}
               >
                 <Stack direction={"row"} alignItems={"center"} pl={1} gap={2}>
@@ -344,6 +346,21 @@ const LastNewsOptions = ({ isLayoutMD }: PropsLastNew) => {
               </Stack>
             );
           })}
+          <Stack>
+            <Button
+              variant="contained"
+              sx={{
+                borderRadius: "8px !important",
+                color: "#F9FAFB !important",
+                background: "#6b728026 !important",
+                border: "1px solid #4b556333 !important",
+                mt: 2,
+              }}
+              onClick={() => setChecked("all")}
+            >
+              Clear All
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     </Stack>

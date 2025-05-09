@@ -1,106 +1,188 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Image, Text } from "@components/shared";
-import { Stack } from "@mui/material";
-import React, { memo, useState } from "react";
-import img from "public/images/cover-seo.jpg";
+import { Button, Text } from "@components/shared";
+import { MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
+import { Theme } from "@mui/material/styles";
+import img from "public/images/img-logo.png";
+import React, { memo, useEffect, useState } from "react";
+import LastNewsFull from "./LastNewsFull";
+import LastNewsSmall from "./LastNewsSmall";
 
-const LastNewsLists = () => {
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight: personName.includes(name)
+      ? theme.typography.fontWeightMedium
+      : theme.typography.fontWeightRegular,
+  };
+}
+
+interface Props {
+  isLayoutMD: boolean;
+  theme: any | null;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  displayLayout: string;
+  setDisplayLayout: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const LastNewsLists = ({
+  isLayoutMD,
+  theme,
+  setOpen,
+  displayLayout,
+  setDisplayLayout,
+}: Props) => {
   const [hover, setHover] = useState<boolean>(false);
   const [id, setId] = useState<number | null>(null);
+
+  const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+  const [personName, setPersonName] = useState<string[]>([]);
+
+  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(typeof value === "string" ? value.split(",") : value);
+  };
+
+  useEffect(() => {
+    if (isLayoutMD) setDisplayLayout("no-list");
+    else setDisplayLayout("list");
+  }, [isLayoutMD]);
 
   return (
     <Stack flex={5} direction={"column"} gap={4}>
       <Stack>
         <Text color="#F9FAFB" fontWeight={700} fontSize={"31px"}>
-          News
+          Latest News
         </Text>
       </Stack>
-      <Stack display={"grid"} gridTemplateColumns={"repeat(4,1fr)"} gap={4}>
+      {!isLayoutMD && (
+        <Stack
+          alignItems={"center"}
+          gap={2}
+          height={"100%"}
+          display={"grid"}
+          gridTemplateColumns={"repeat(2,1fr)"}
+        >
+          <Select
+            multiple
+            displayEmpty
+            value={personName}
+            onChange={handleChange}
+            renderValue={(selected) => {
+              if (selected.length === 0) {
+                return (
+                  <Stack direction={"row"} alignItems={"center"} gap={1}>
+                    <Text fontWeight={500} fontSize={"12px"} color="#9CA3AF">
+                      Sort by:
+                    </Text>
+                    <Text fontWeight={500} fontSize={"14px"} color="#F9FAFB">
+                      Any
+                    </Text>
+                  </Stack>
+                );
+              }
+              return `Sort by: ${selected.join(", ")}`;
+            }}
+            MenuProps={MenuProps}
+            inputProps={{ "aria-label": "Without label" }}
+            size="small"
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "1px solid #1f293780",
+              },
+              "& .mui-1hhzsab-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
+                {
+                  backgroundColor: "#111827",
+                },
+              "&:hover": {
+                "& .mui-1hhzsab-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
+                  {
+                    backgroundColor: "#1f2937",
+                  },
+              },
+            }}
+          >
+            {/* <MenuItem disabled value="">
+              <em>Placeholder</em>
+            </MenuItem> */}
+            {names.map((name) => (
+              <MenuItem
+                key={name}
+                value={name}
+                style={getStyles(name, personName, theme)}
+              >
+                <Text fontWeight={500} fontSize={"14px"} color="#9CA3AF">
+                  {name}
+                </Text>
+              </MenuItem>
+            ))}
+          </Select>
+
+          <Button
+            variant="contained"
+            onClick={() => setOpen(true)}
+            sx={{
+              borderRadius: "8px !important",
+              height: "40px !important",
+              color: "#7dffac !important",
+              background:
+                "color-mix(in srgb, #33F57A, transparent 85%) !important",
+              "&:hover": {
+                color: "black !important",
+                background: " #7dffac !important",
+              },
+            }}
+            size={"small"}
+            fullWidth
+          >
+            Fillters
+          </Button>
+        </Stack>
+      )}
+      <Stack
+        display={"grid"}
+        gridTemplateColumns={{
+          xl: displayLayout === "list" ? "repeat(1,1fr)" : "repeat(4,1fr)",
+          lg: displayLayout === "list" ? "repeat(1,1fr)" : "repeat(3,1fr)",
+          md: displayLayout === "list" ? "repeat(1,1fr)" : "repeat(2,1fr)",
+        }}
+        gap={4}
+      >
         {Array.from({ length: 12 }).map((_, index) => {
           return (
-            <Stack
-              key={index}
-              direction={"column"}
-              borderRadius={"16px"}
-              p={"6px"}
-              border={"1px solid grey"}
-              bgcolor={"#111827"}
-              sx={{
-                transition: "translate 0.2s ease-in-out",
-                "&:hover": {
-                  translate: "0 -6px",
-                  cursor: "pointer",
-                },
-              }}
-              onMouseEnter={() => {
-                setHover(true);
-                setId(index);
-              }}
-              onMouseLeave={() => {
-                setHover(false);
-                setId(null);
-              }}
-            >
-              <Stack>
-                <Image
-                  src={img}
-                  alt={`img-${img}`}
-                  size="100%"
-                  // aspectRatio={(hover && id === index) ? 7 / 4 : 7 / 3}
-                  aspectRatio={7 / 3}
-                  sizes="960px"
-                  containerProps={{
-                    sx: {
-                      width: "100%",
-                      height: "100%",
-                      overflow: "hidden",
-                      borderRadius: "16px",
-
-                      border: "1px",
-                      borderColor:
-                        "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
-                      "& img": {
-                        objectFit: hover && id === index ? "cover" : "fill",
-                        objectPosition: "center",
-                        transition: "all 0.5s ease-in-out",
-                      },
-                    },
-                  }}
+            <>
+              {displayLayout !== "list" ? (
+                <LastNewsFull
+                  hover={hover}
+                  setHover={setHover}
+                  img={img}
+                  setId={setId}
+                  index={index}
+                  id={id}
                 />
-              </Stack>
-
-              <Stack direction={"column"} gap={2} p={2}>
-                <Text color="#9CA3AF" fontSize={"12px"} fontWeight={600}>
-                  TIME
-                </Text>
-
-                <Text color="#F9FAFB" fontSize={"18px"} fontWeight={700}>
-                  Name
-                </Text>
-
-                <Text color="#9CA3AF" fontSize={"14px"} fontWeight={400}>
-                  Description
-                </Text>
-
-                <Text
-                  color="#7dffac"
-                  fontSize={"12px"}
-                  fontWeight={600}
-                  textTransform={"uppercase"}
-                  sx={{
-                    backgroundColor:
-                      "color-mix(in srgb, #33F57A, transparent 85%)",
-                    padding: "4px 8px",
-                    borderRadius: "4px",
-                    width: "max-content",
-                    border: "1px solid #0a5d2b80",
-                  }}
-                >
-                  Tag
-                </Text>
-              </Stack>
-            </Stack>
+              ) : (
+                <LastNewsSmall
+                  hover={hover}
+                  setHover={setHover}
+                  img={img}
+                  setId={setId}
+                  index={index}
+                  id={id}
+                />
+              )}
+            </>
           );
         })}
       </Stack>

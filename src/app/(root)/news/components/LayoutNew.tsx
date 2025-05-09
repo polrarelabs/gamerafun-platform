@@ -7,7 +7,11 @@ import img from "public/images/cover-seo.jpg";
 import { useTheme } from "@mui/material/styles";
 import { animate, motion, useMotionValue } from "framer-motion";
 
-const LayoutNew = () => {
+interface Props {
+  handleDetail?: (id: string) => void;
+}
+
+const LayoutNew = ({ handleDetail }: Props) => {
   const theme = useTheme();
   const isLayoutMD = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -40,7 +44,11 @@ const LayoutNew = () => {
       {isLayoutMD ? (
         <Stack direction={"column"} gap={3}>
           <Stack direction={"row"} gap={3}>
-            <Stack flex={2} position={"relative"}>
+            <Stack
+              flex={2}
+              position={"relative"}
+              // onClick={() => handleDetail('321123')}
+            >
               <Image
                 src={img}
                 alt={`img-${img}`}

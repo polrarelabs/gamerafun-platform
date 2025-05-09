@@ -21,6 +21,8 @@ const ChatAI = () => {
 
   const [dataHistorychat, setDataHistorychat] = useState<MessageChat[]>([]);
 
+  const [errors, setError] = useState<string | null>(null);
+
   const { setThreadid, threadId } = useAskAI();
   const [sendBody, setSendBody] = useState<AskAI>({
     threadId: "",
@@ -41,6 +43,7 @@ const ChatAI = () => {
   const handleSetBody = useCallback(
     (message: string) => {
       if (message.length > 0) {
+        setError(null);
         setSendBody({
           threadId: threadId,
           question: message,
@@ -118,6 +121,8 @@ const ChatAI = () => {
     });
 
     if (!response.ok) {
+      const errors = new Error(`HTTP error! status: ${response.status}`);
+      setError(errors.message);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -146,6 +151,25 @@ const ChatAI = () => {
   useEffect(() => {
     scrolltoView();
   }, [dataHistorychat]);
+
+  useEffect(() => {
+    const setErrorsMessage = () => {
+      if (errors !== null) {
+        const arr: MessageChat[] = [...dataHistorychat];
+
+        arr.pop();
+
+        arr.push({
+          id: dataHistorychat.length,
+          content: errors,
+          type: "ai",
+          errors: true,
+        });
+      }
+    };
+
+    setTimeout(setErrorsMessage, 5000);
+  }, [errors]);
 
   return (
     <Stack
@@ -190,10 +214,16 @@ const ChatAI = () => {
               <Text
                 sx={{
                   background:
-                    item.type === "ai"
-                      ? "#9ca3af"
-                      : "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+                    item.errors && item.type === "ai"
+                      ? "none"
+                      : item.type === "ai"
+                        ? "#9ca3af"
+                        : "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
                   width: "max-content",
+                  border:
+                    item.errors && item.type === "ai"
+                      ? "1px solid red"
+                      : "none",
                   padding: "4px 16px",
                   borderTopRightRadius: "20px",
                   borderTopLeftRadius: "20px",
@@ -204,6 +234,12 @@ const ChatAI = () => {
                   wordWrap: "break-word",
                   wordBreak: "break-word",
                   whiteSpace: "pre-wrap",
+                  color:
+                    item.errors && item.type === "ai"
+                      ? "red"
+                      : item.type === "ai"
+                        ? "white"
+                        : "black",
                 }}
               >
                 {item.content}
@@ -228,6 +264,7 @@ const ChatAI = () => {
           onKeyDown={(key) => {
             if (key.key === "Enter") handleSetBody(value);
           }}
+          autoFocus
         />
       </Stack>
     </Stack>

@@ -6,6 +6,7 @@ import bgSlider from "public/images/Riftstorm_banner1_b0eb3c12c2.webp";
 import { Button, Image, Text } from "@components/shared";
 import { motion } from "framer-motion";
 import { useGame } from "@store/game";
+import useBreakpoint from "@hooks/useBreakpoint";
 
 const DATA = [
   {
@@ -35,6 +36,8 @@ const Banner = () => {
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  const { isMdSmaller } = useBreakpoint();
 
   useEffect(() => {
     const handleLoad = () => {
@@ -109,7 +112,10 @@ const Banner = () => {
           aspectRatio={ASPECT_RATIO}
           containerProps={{
             sx: {
-              "& img": { objectFit: "cover", objectPosition: "center" },
+              "& img": {
+                objectFit: "cover",
+                objectPosition: "center",
+              },
             },
             component: motion.div,
             key: currentIndex,
@@ -166,71 +172,79 @@ const Banner = () => {
       </Box>
 
       {isLoaded && (
-        <Stack
-          position={"absolute"}
-          bottom={0}
-          right={0}
-          direction={"row"}
-          gap={2}
-          m={4}
-          // py={2}
-        >
-          {DATA.map((item, index) => {
-            return (
-              <Stack
-                key={index}
-                width={"96px"}
-                height={"auto"}
-                borderRadius={"6px"}
-                border={"1px solid white"}
-                position={"relative"}
-                onClick={() => handleClickImage(index)}
-                sx={{
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                <Image
-                  src={item.img}
-                  alt={`${item.img}+${item.title}`}
-                  aspectRatio={16 / 9}
-                  containerProps={{
-                    sx: {
-                      "& img": {
-                        objectFit: "cover",
-                        objectPosition: "center",
-                        borderRadius: "6px",
-                      },
-                    },
-                  }}
-                />
-                {index === currentIndex && (
+        <>
+          {!isMdSmaller && (
+            <Stack
+              position={"absolute"}
+              bottom={0}
+              right={0}
+              direction={"row"}
+              gap={2}
+              m={4}
+              // py={2}
+            >
+              {DATA.map((item, index) => {
+                return (
                   <Stack
+                    key={index}
+                    width={"96px"}
+                    height={"auto"}
+                    borderRadius={"6px"}
+                    border={"1px solid white"}
+                    position={"relative"}
+                    onClick={() => handleClickImage(index)}
                     sx={{
-                      position: "absolute",
-                      width: "0%",
-                      height: "100%",
-                      bgcolor: "white",
-                      opacity: 0.5,
-                      zIndex: 4,
-                      animationName: "width-size",
-                      animationDuration: "5s",
-                      "@keyframes width-size": {
-                        "0%": {
-                          width: "0%",
-                        },
-                        "100%": {
-                          width: "100%",
-                        },
+                      boxShadow:
+                        index === currentIndex
+                          ? "0 0 0 3px #f9fafb , 0 0 18px 4px #f9fafb"
+                          : undefined,
+                      "&:hover": {
+                        cursor: "pointer",
                       },
                     }}
-                  />
-                )}
-              </Stack>
-            );
-          })}
-        </Stack>
+                  >
+                    <Image
+                      src={item.img}
+                      alt={`${item.img}+${item.title}`}
+                      aspectRatio={16 / 9}
+                      containerProps={{
+                        sx: {
+                          "& img": {
+                            objectFit: "cover",
+                            objectPosition: "center",
+                            borderRadius: "6px",
+                          },
+                        },
+                      }}
+                    />
+                    {index === currentIndex && (
+                      <Stack
+                        sx={{
+                          position: "absolute",
+                          width: "0%",
+                          height: "100%",
+                          bgcolor: "white",
+                          opacity: 0.5,
+                          zIndex: 4,
+                          animationName: "width-size",
+                          animationDuration: "5s",
+                          "@keyframes width-size": {
+                            "0%": {
+                              width: "0%",
+                            },
+                            "100%": {
+                              width: "100%",
+                            },
+                          },
+                        }}
+                      />
+                    )}
+                  </Stack>
+                );
+              })}
+            </Stack>
+          )}
+        </>
       )}
     </Stack>
   );
@@ -238,6 +252,6 @@ const Banner = () => {
 
 export default Banner;
 
-const ASPECT_RATIO = { xs: 5 / 7, sm: 8 / 9, md: 1920 / 600 };
+const ASPECT_RATIO = { xs: 4 / 2, md: 1000 / 600, lg: 1920 / 800 };
 
 /* box-shadow: 0 0 0 3px  #f9fafb, 0 0 18px 4px  #f9fafb; */
