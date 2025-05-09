@@ -15,7 +15,7 @@ import { useSignMessage } from "@store/auth";
 import ChatAI from "@components/AskAI/ChatAI";
 
 const Header = () => {
-  const { isSmSmaller } = useBreakpoint();
+  const { isSmSmaller, isMdSmaller } = useBreakpoint();
   const { connected } = useAptosWallet();
   const { isConnectPetra, isLogin } = useSignMessage();
 
@@ -41,33 +41,52 @@ const Header = () => {
         bgcolor="background.default"
         zIndex={99}
       >
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <Stack direction={"row"} alignItems={"center"} gap={4}>
           <Logo />
-          {!isSmSmaller && <Navigation spacing={{ xs: 2, md: 4 }} />}
-        </Stack>
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Button
-            onClick={toggleDrawer(true)}
-            variant="contained"
-            size={"small"}
-          >
-            Ask AI
-          </Button>
-          <CreateAgent />
-          {(!isSmSmaller || !isConnectPetra) && <Connect />}
-          {!isLogin && (
-            <Button
-              LinkComponent={Link}
-              href={LOGIN_PATH}
-              variant="contained"
-              size="small"
-            >
-              Log In
-            </Button>
+          {!isMdSmaller && (
+            <Navigation
+            // spacing={{ xs: 2, md: 4 }}
+            />
           )}
         </Stack>
+        {isMdSmaller ? (
+          <>
+            {!isLogin && (
+              <Button
+                LinkComponent={Link}
+                href={LOGIN_PATH}
+                variant="contained"
+                size="small"
+              >
+                Log In
+              </Button>
+            )}
+          </>
+        ) : (
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Button
+              onClick={toggleDrawer(true)}
+              variant="contained"
+              size={"small"}
+            >
+              Ask AI
+            </Button>
+            <CreateAgent />
+            {(!isSmSmaller || !isConnectPetra) && <Connect />}
+            {!isLogin && (
+              <Button
+                LinkComponent={Link}
+                href={LOGIN_PATH}
+                variant="contained"
+                size="small"
+              >
+                Log In
+              </Button>
+            )}
+          </Stack>
+        )}
       </Stack>
       <Drawer
         open={open}

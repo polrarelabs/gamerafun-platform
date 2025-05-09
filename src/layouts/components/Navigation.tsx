@@ -1,30 +1,89 @@
-import { memo, useMemo } from "react";
-import { Stack, StackProps } from "@mui/material";
+"use client";
+
 import Link from "@components/Link";
-import { AGENTS_PATH, GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
-import { usePathname } from "next/navigation";
-import { DOCUMENTS_URL, STUDIO_URL } from "@constant/links";
 import { Text } from "@components/shared";
+import { GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
+import useBreakpoint from "@hooks/useBreakpoint";
+import Sidebar from "@layouts/Sidebar";
+import { Stack, StackProps } from "@mui/material";
+import { usePathname } from "next/navigation";
+import { memo, useMemo } from "react";
 
 type ItemProps = {
   label: string;
   href: string;
+  onHide: () => void;
 };
 
-const Navigation = (props: StackProps) => {
+interface Props {
+  onHide?: () => void;
+  directions?: string;
+}
+
+// const Navigation = (props: StackProps) => {
+const Navigation = ({ onHide, directions }: Props) => {
+  const { isMdSmaller } = useBreakpoint();
+
   return (
-    <Stack direction="row" height="100%" spacing={4} {...props}>
-      {DATA.map((item) => (
-        <Item key={item.label} {...item} />
-      ))}
-    </Stack>
+    <>
+      {isMdSmaller ? (
+        <>
+          {directions === "column" ? (
+            <Stack
+              direction="column"
+              height="100%"
+              spacing={4}
+              // {...props}
+            >
+              {DATA.map((item) => (
+                <Item
+                  onHide={onHide || (() => {})}
+                  key={item.label}
+                  {...item}
+                />
+              ))}
+            </Stack>
+          ) : (
+            <Stack
+              height="100%"
+              display={"grid"}
+              gridTemplateColumns={"repeat(4,1fr)"}
+              // {...props}
+            >
+              {DATA.map((item) => (
+                <Stack
+                  key={item.label}
+                  direction={"row"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Item onHide={onHide || (() => {})} {...item} />
+                </Stack>
+              ))}
+              <Sidebar />
+            </Stack>
+          )}
+        </>
+      ) : (
+        <Stack
+          direction="row"
+          height="100%"
+          spacing={4}
+          // {...props}
+        >
+          {DATA.map((item) => (
+            <Item onHide={onHide || (() => {})} key={item.label} {...item} />
+          ))}
+        </Stack>
+      )}
+    </>
   );
 };
 
 export default memo(Navigation);
 
 const Item = (props: ItemProps) => {
-  const { label, href } = props;
+  const { label, href, onHide } = props;
 
   const pathname = usePathname();
 
@@ -42,6 +101,7 @@ const Item = (props: ItemProps) => {
       className={isActive ? "active" : ""}
       sx={sx.item}
       target={href?.startsWith("http") ? "_blank" : undefined}
+      onClick={() => onHide()}
     >
       <Text variant="subtitle2" color="inherit">
         {label}
@@ -57,7 +117,7 @@ const sx = {
     display: "flex",
     justifyContent: "center",
     "&:after": {
-      content: { sm: "''" },
+      content: { md: "''" },
       position: "absolute",
       bottom: 0,
       left: 0,
@@ -65,11 +125,14 @@ const sx = {
       height: 2,
     },
     "&:hover, &.active": {
-      color: { xs: "primary.main", sm: "common.white" },
-      "&:after": {
-        background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
-      },
+      color: "primary.main",
     },
+    // "&:hover, &.active": {
+    //   color: { xs: "primary.main", md: "common.white" },
+    //   "&:after": {
+    //     background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+    //   },
+    // },
   },
 };
 

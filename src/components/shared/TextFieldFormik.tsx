@@ -9,9 +9,15 @@ interface PropsTextFieldFormik {
   formik: any;
   label: string;
   name: string;
+  readonly?: boolean;
 }
 
-const TextFieldFormik = ({ formik, label, name }: PropsTextFieldFormik) => {
+const TextFieldFormik = ({
+  formik,
+  label,
+  name,
+  readonly = false,
+}: PropsTextFieldFormik) => {
   return (
     <Stack flex={2} gap={1}>
       <Text>{label}</Text>
@@ -24,6 +30,11 @@ const TextFieldFormik = ({ formik, label, name }: PropsTextFieldFormik) => {
         onBlur={formik.handleBlur}
         error={formik.touched[name] && Boolean(formik.errors[name])}
         helperText={formik.touched[name] && formik.errors[name]}
+        slotProps={{
+          input: {
+            readOnly: readonly,
+          },
+        }}
       />
     </Stack>
   );

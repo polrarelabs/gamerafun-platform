@@ -25,6 +25,7 @@ export interface MessageChat {
   id: number;
   content: any | null;
   type: string;
+  errors?: boolean;
 }
 
 export interface MessageChatProps {

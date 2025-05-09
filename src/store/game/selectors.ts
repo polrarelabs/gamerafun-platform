@@ -6,8 +6,10 @@ import {
   getGameOwner,
   ParamsProp,
   PropsFormik,
+  upGallery,
 } from "./action";
 import {
+  setGameId,
   setIsCreateGame,
   setValueEditorRating,
   setValueUserRating,
@@ -75,15 +77,21 @@ export const useGameReducers = () => {
     dispatch(setValueUserRating(value));
   };
 
-  const { valueUserRating, valueEditorRating } = useAppSelector(
+  const setGameID = (value: number) => {
+    dispatch(setGameId(value));
+  };
+
+  const { valueUserRating, valueEditorRating, gameId } = useAppSelector(
     (state) => state.gameReducers,
   );
 
   return {
+    gameId,
     setEditorRating,
     setUserRating,
     valueEditorRating,
     valueUserRating,
+    setGameID,
   };
 };
 
@@ -108,5 +116,24 @@ export const useCreateGame = () => {
     errorCreate,
     createGames,
     setIsCreate,
+  };
+};
+
+export const useGallery = () => {
+  const dispatch = useAppDispatch();
+
+  const uploadGallery = (body: FormData) => {
+    dispatch(upGallery(body));
+  };
+
+  const { dataGallery, loadingGallery, errorGallery } = useAppSelector(
+    (state) => state.gallery,
+  );
+
+  return {
+    dataGallery,
+    loadingGallery,
+    errorGallery,
+    uploadGallery,
   };
 };

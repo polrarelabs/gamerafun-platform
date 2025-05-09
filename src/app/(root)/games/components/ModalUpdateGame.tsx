@@ -18,11 +18,16 @@ import {
 import dayjs from "dayjs";
 
 import { useFormik } from "formik";
-import React, { Fragment, memo, useEffect } from "react";
+import React, { Fragment, memo, useEffect, useMemo } from "react";
 import * as yup from "yup";
 import UploadAvarta from "./UploadAvarta";
 import { PropsFormik, PropsMedia } from "@store/game/action";
-import { useCreateGame, useGallery, useGame } from "@store/game";
+import {
+  useCreateGame,
+  useGallery,
+  useGame,
+  useGameReducers,
+} from "@store/game";
 import { setToken } from "@api/helpers";
 
 interface PropsDialog {
@@ -30,7 +35,7 @@ interface PropsDialog {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
+const ModalUpdateGame = ({ open, setOpen }: PropsDialog) => {
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGFkNjY4Yy0yMTliLTRiNDAtYjY0NC0xZjJiM2ZmNTg1YmUiLCJpYXQiOjE3NDY3NzcyNzMsImV4cCI6MTc0NzM4MjA3M30.wmPnBTEL6GSv86cFBMIcBMF9gSzdRlI98EM63Wkq6tU";
 
@@ -56,6 +61,7 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
 
   const { isCreate, setIsCreate, createGames } = useCreateGame();
   const { fetchGetGame } = useGame();
+  const { gameId } = useGameReducers();
 
   const validationSchema = yup.object({
     schedule: yup
@@ -81,6 +87,7 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
   });
 
   const initialValues: PropsFormik = {
+    gameId: 0,
     name: "",
     description: "",
     status: 0,
@@ -115,9 +122,13 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
     media: [],
   };
 
+  useEffect(() => {
+    formik.values.gameId = gameId;
+  }, [gameId]);
+
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSchema,
+    // validationSchema: validationSchema,
     onSubmit: async (values) => {
       const supportOs: string[] = formik.values.support_os;
 
@@ -170,7 +181,7 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
       <DialogLayout open={open} onClose={handleClose} widthDialog={1440}>
         <DialogTitle marginBottom={4}>
           <Text textAlign={"center"} fontSize={"20px"} fontWeight={700}>
-            Create Game
+            Update Game
           </Text>
         </DialogTitle>
         <DialogContent>
@@ -181,6 +192,12 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
                   <UploadAvarta />
                 </Stack>
                 <Stack direction={"column"} gap={3} flex={4}>
+                  <TextFieldFormik
+                    label="Game ID"
+                    name="gameID"
+                    formik={formik}
+                    readonly={true}
+                  />
                   <Stack direction={"row"} gap={3}>
                     <TextFieldFormik label="Name" name="name" formik={formik} />
                     <TextFieldFormik
@@ -320,4 +337,4 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
   );
 };
 
-export default memo(ModalCreateGame);
+export default memo(ModalUpdateGame);

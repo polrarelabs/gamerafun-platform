@@ -1,12 +1,10 @@
+import { Text } from "@components/shared";
+import { SCREEN_PX } from "@constant";
 import { Breadcrumbs, Stack } from "@mui/material";
-import { memo } from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@components/Link";
-import { Text } from "@components/shared";
-import LayoutNew from "./components/LayoutNew";
-import LayoutLastNews from "./components/LayoutLastNews";
-import { SCREEN_PX } from "@constant";
-import Layout from "./components/Layout";
+import { memo } from "react";
+import { NEWS_PATH } from "@constant/paths";
 
 const News = () => {
   return (
@@ -22,19 +20,16 @@ const News = () => {
           <Link underline="hover" color="inherit" href="/">
             <Text sx={{ color: "text.primary" }}>HOME</Text>
           </Link>
-
-          <Text sx={{ color: "text.primary" }}>NEWS</Text>
+          <Link underline="hover" color="inherit" href={NEWS_PATH}>
+            <Text sx={{ color: "text.primary" }}>NEWS</Text>
+          </Link>
+          <Text sx={{ color: "text.primary" }}>id</Text>
         </Breadcrumbs>
         <Stack direction={"column"}>
           <Text color="#F9FAFB" fontWeight={700} fontSize={"31px"}>
-            News
-          </Text>
-          <Text color="#9ca3af" fontWeight={400} fontSize={"16px"}>
-            Stay on top of the latest blockchain gaming news and enjoy exclusive
-            interviews and informative web3 gaming opinion pieces.
+            Details
           </Text>
         </Stack>
-        <Layout />
       </Stack>
     </Stack>
   );

@@ -5,6 +5,7 @@ import {
   getGame as fetchListGame,
   getGameCount,
   getGameOwner,
+  upGallery,
 } from "./action";
 
 export interface ScheduleProps {
@@ -175,11 +176,13 @@ const getGameOwnerSlice = createSlice({
 interface PropsGameReducers {
   valueEditorRating: number;
   valueUserRating: number;
+  gameId: number;
 }
 
 const initialStateGameReducers: PropsGameReducers = {
   valueEditorRating: 0,
   valueUserRating: 0,
+  gameId: 0,
 };
 
 const GameReducers = createSlice({
@@ -191,6 +194,9 @@ const GameReducers = createSlice({
     },
     setValueUserRating: (state, action: PayloadAction<number>) => {
       state.valueUserRating = action.payload;
+    },
+    setGameId: (state, action: PayloadAction<number>) => {
+      state.gameId = action.payload;
     },
   },
 });
@@ -231,14 +237,65 @@ const CreateGameReducer = createSlice({
   },
 });
 
+export interface PropsGalleryReducer {
+  id: string;
+  name: string;
+  description: string;
+  fileName: string;
+  url: string;
+  cdn: string;
+  md5: string;
+  dimension: string;
+  ratio: number;
+  mimetype: string;
+  createdBy: string;
+  createdAt: string;
+}
+
+interface PropsStateGalley {
+  dataGallery: PropsGalleryReducer;
+  loadingGallery: boolean;
+  errorGallery: string;
+}
+
+const initialStateGallery: PropsStateGalley = {
+  dataGallery: {} as PropsGalleryReducer,
+  loadingGallery: false,
+  errorGallery: "",
+};
+
+const GalleryReducer = createSlice({
+  name: "gallery",
+  initialState: initialStateGallery,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(upGallery.pending, (state) => {
+        state.loadingGallery = false;
+      })
+      .addCase(
+        upGallery.fulfilled,
+        (state, action: PayloadAction<PropsGalleryReducer>) => {
+          state.dataGallery = action.payload;
+          state.loadingGallery = false;
+        },
+      )
+      .addCase(upGallery.rejected, (state, action: PayloadAction<any>) => {
+        state.errorGallery = action.payload as string;
+        state.loadingGallery = false;
+      });
+  },
+});
+
 export const reducers = {
   game: getGameSlice.reducer,
   gameCount: gameCountSlice.reducer,
   gameOwner: getGameOwnerSlice.reducer,
   gameReducers: GameReducers.reducer,
   createGame: CreateGameReducer.reducer,
+  gallery: GalleryReducer.reducer,
 };
 
-export const { setValueEditorRating, setValueUserRating } =
+export const { setValueEditorRating, setValueUserRating, setGameId } =
   GameReducers.actions;
 export const { setIsCreateGame } = CreateGameReducer.actions;
