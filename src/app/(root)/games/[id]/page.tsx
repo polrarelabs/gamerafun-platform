@@ -112,6 +112,7 @@ const LayoutGameDetail = () => {
       <Button
         sx={{
           backgroundColor: "white",
+          color: "black",
           "&:hover": {
             backgroundColor: "gray",
           },
