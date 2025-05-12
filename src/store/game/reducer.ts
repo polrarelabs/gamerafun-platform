@@ -224,6 +224,7 @@ interface PropsGameReducers {
   valueUserRating: number;
   gameId: number;
   isGetGameId: boolean;
+  genres: string[];
 }
 
 const initialStateGameReducers: PropsGameReducers = {
@@ -231,6 +232,7 @@ const initialStateGameReducers: PropsGameReducers = {
   valueUserRating: 0,
   gameId: 0,
   isGetGameId: false,
+  genres: [],
 };
 
 const GameReducers = createSlice({
@@ -248,6 +250,9 @@ const GameReducers = createSlice({
     },
     setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
       state.isGetGameId = action.payload;
+    },
+    setGenres: (state, action: PayloadAction<string[]>) => {
+      state.genres = action.payload;
     },
   },
 });
@@ -432,6 +437,7 @@ export const {
   setValueUserRating,
   setGameId,
   setStatusGetGameID,
+  setGenres,
 } = GameReducers.actions;
 export const { setIsCreateGame } = CreateGameReducer.actions;
 export const { setIsUpdateGame } = UpdateGameReducer.actions;

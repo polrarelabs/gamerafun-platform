@@ -24,15 +24,7 @@ interface Props {
   id: number | null;
 }
 
-const LayoutGameFull = ({
-  img,
-  hover,
-  setHover,
-  setId,
-  id,
-  // item,
-  // getIcon,
-}: Props) => {
+const LayoutGameFull = ({ img, hover, setHover, setId, id }: Props) => {
   const { data, fetchGetGame } = useGame();
   const { isGetGameId, setGetGameId } = useGameReducers();
   const [open, setOpen] = useState<boolean>(false);

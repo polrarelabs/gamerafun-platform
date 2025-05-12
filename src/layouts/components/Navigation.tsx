@@ -4,11 +4,12 @@ import Link from "@components/Link";
 import { Text } from "@components/shared";
 import { GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
+import ArrowIcon from "@icons/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
-import { Stack, StackProps } from "@mui/material";
+import { Menu, MenuItem, Stack, StackProps } from "@mui/material";
 import { usePathname } from "next/navigation";
-import { memo, useMemo } from "react";
-
+import { memo, useMemo, useState } from "react";
+import { SlArrowDown } from "react-icons/sl";
 type ItemProps = {
   label: string;
   href: string;
@@ -94,19 +95,60 @@ const Item = (props: ItemProps) => {
     [pathname, props?.href],
   );
 
+  const [hover, setHover] = useState<boolean>(false);
+
+  const handleHover = () => {
+    setHover(true);
+  };
+
+  const handleUnHover = () => {
+    setHover(false);
+  };
+
   return (
-    <Stack
-      component={Link}
-      href={href}
-      className={isActive ? "active" : ""}
-      sx={sx.item}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      onClick={() => onHide()}
-    >
-      <Text variant="subtitle2" color="inherit">
-        {label}
-      </Text>
-    </Stack>
+    <>
+      {label === "Games" ? (
+        <>
+          <Stack
+            component={Link}
+            href={href}
+            className={isActive ? "active" : ""}
+            sx={sx.item}
+            target={href?.startsWith("http") ? "_blank" : undefined}
+            onClick={() => onHide()}
+            gap={1}
+            direction={"row"}
+            alignItems={"center"}
+            onMouseEnter={handleHover}
+            onMouseLeave={handleUnHover}
+          >
+            <Text variant="subtitle2" color="inherit">
+              {label}
+            </Text>
+            <ArrowIcon
+              sx={{
+                transform: hover ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "all 0.3s ease-in-out",
+                fontSize: 12,
+              }}
+            />
+          </Stack>
+        </>
+      ) : (
+        <Stack
+          component={Link}
+          href={href}
+          className={isActive ? "active" : ""}
+          sx={sx.item}
+          target={href?.startsWith("http") ? "_blank" : undefined}
+          onClick={() => onHide()}
+        >
+          <Text variant="subtitle2" color="inherit">
+            {label}
+          </Text>
+        </Stack>
+      )}
+    </>
   );
 };
 
