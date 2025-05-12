@@ -27,6 +27,7 @@ const TextFieldFormik = ({
         name={name}
         value={formik.values[name]}
         onChange={formik.handleChange}
+        defaultValue={formik.values[name]}
         onBlur={formik.handleBlur}
         error={formik.touched[name] && Boolean(formik.errors[name])}
         helperText={formik.touched[name] && formik.errors[name]}
@@ -40,4 +41,4 @@ const TextFieldFormik = ({
   );
 };
 
-export default memo(TextFieldFormik);
+export default TextFieldFormik;

@@ -31,11 +31,6 @@ interface PropsDialog {
 }
 
 const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGFkNjY4Yy0yMTliLTRiNDAtYjY0NC0xZjJiM2ZmNTg1YmUiLCJpYXQiOjE3NDY3NzcyNzMsImV4cCI6MTc0NzM4MjA3M30.wmPnBTEL6GSv86cFBMIcBMF9gSzdRlI98EM63Wkq6tU";
-
-  setToken(token);
-
   const { dataGallery } = useGallery();
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -83,7 +78,7 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
   const initialValues: PropsFormik = {
     name: "",
     description: "",
-    status: 0,
+    status: 1,
     website: "",
     downloadLinks: {
       windows: "",
@@ -114,6 +109,7 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
     chain: [],
     media: [],
   };
+  console.log("create");
 
   const formik = useFormik({
     initialValues,
@@ -166,158 +162,155 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
     formik.touched.schedule && typeof formik.errors.schedule === "string";
 
   return (
-    <Fragment>
-      <DialogLayout open={open} onClose={handleClose} widthDialog={1440}>
-        <DialogTitle marginBottom={4}>
-          <Text textAlign={"center"} fontSize={"20px"} fontWeight={700}>
-            Create Game
-          </Text>
-        </DialogTitle>
-        <DialogContent>
-          <form onSubmit={formik.handleSubmit}>
-            <Stack direction={"column"} gap={3}>
-              <Stack direction={"row"}>
-                <Stack flex={2} position={"relative"}>
-                  <UploadAvarta />
+    <DialogLayout open={open} onClose={handleClose} widthDialog={1440}>
+      <DialogTitle marginBottom={4}>
+        <Text textAlign={"center"} fontSize={"20px"} fontWeight={700}>
+          Create Game
+        </Text>
+      </DialogTitle>
+      <DialogContent>
+        <form onSubmit={formik.handleSubmit}>
+          <Stack direction={"column"} gap={3}>
+            <Stack direction={"row"}>
+              <Stack flex={2} position={"relative"}>
+                <UploadAvarta />
+              </Stack>
+              <Stack direction={"column"} gap={3} flex={4}>
+                <Stack direction={"row"} gap={3}>
+                  <TextFieldFormik label="Name" name="name" formik={formik} />
+                  <TextFieldFormik
+                    label="Description"
+                    name="description"
+                    formik={formik}
+                  />
                 </Stack>
-                <Stack direction={"column"} gap={3} flex={4}>
-                  <Stack direction={"row"} gap={3}>
-                    <TextFieldFormik label="Name" name="name" formik={formik} />
-                    <TextFieldFormik
-                      label="Description"
-                      name="description"
-                      formik={formik}
-                    />
-                  </Stack>
 
-                  <Stack direction={"row"} gap={3}>
-                    <TextFieldFormik
-                      label="Website"
-                      name="website"
-                      formik={formik}
-                    />
-                    <TextFieldFormik
-                      label="Publisher"
-                      name="publisher"
-                      formik={formik}
-                    />
-                  </Stack>
+                <Stack direction={"row"} gap={3}>
+                  <TextFieldFormik
+                    label="Website"
+                    name="website"
+                    formik={formik}
+                  />
+                  <TextFieldFormik
+                    label="Publisher"
+                    name="publisher"
+                    formik={formik}
+                  />
+                </Stack>
 
-                  <Stack direction={"row"} gap={3}>
-                    <TextFieldFormik
-                      label="Developer"
-                      name="developer"
-                      formik={formik}
-                    />
-                    <Stack flex={2} gap={1}>
-                      <Text>Status</Text>
-                      <FormControl
-                        error={
-                          formik.touched.status && Boolean(formik.errors.status)
-                        }
-                        fullWidth
+                <Stack direction={"row"} gap={3}>
+                  <TextFieldFormik
+                    label="Developer"
+                    name="developer"
+                    formik={formik}
+                  />
+                  <Stack flex={2} gap={1}>
+                    <Text>Status</Text>
+                    <FormControl
+                      error={
+                        formik.touched.status && Boolean(formik.errors.status)
+                      }
+                      fullWidth
+                    >
+                      <Select
+                        name="status"
+                        value={formik.values.status}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        defaultValue={1}
                       >
-                        <Select
-                          name="status"
-                          value={formik.values.status}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        >
-                          <MenuItem value={1}>1</MenuItem>
-                          <MenuItem value={2}>2</MenuItem>
-                          <MenuItem value={3}>3</MenuItem>
-                        </Select>
-                        {formik.touched.status && formik.errors.status && (
-                          <FormHelperText>
-                            {formik.errors.status}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Stack>
+                        <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                      </Select>
+                      {formik.touched.status && formik.errors.status && (
+                        <FormHelperText>{formik.errors.status}</FormHelperText>
+                      )}
+                    </FormControl>
                   </Stack>
                 </Stack>
               </Stack>
-
-              <Stack direction={"row"} gap={2}>
-                <SelectFormik
-                  label={"Support Os"}
-                  name={"support_os"}
-                  formik={formik}
-                  MenuProps={MenuProps}
-                  OptionEnum={SupportOs}
-                />
-                <SelectFormik
-                  label={"Platform"}
-                  name={"platform"}
-                  formik={formik}
-                  MenuProps={MenuProps}
-                  OptionEnum={Platform}
-                />
-              </Stack>
-              <Stack direction={"row"} gap={2}>
-                <SelectFormik
-                  label={"Genre"}
-                  name={"genre"}
-                  formik={formik}
-                  MenuProps={MenuProps}
-                  OptionEnum={Genre}
-                />
-                <SelectFormik
-                  label={"Chain"}
-                  name={"chain"}
-                  formik={formik}
-                  MenuProps={MenuProps}
-                  OptionEnum={SupportChain}
-                />
-              </Stack>
-              <FormControl
-                error={
-                  formik.touched.schedule &&
-                  typeof formik.errors.schedule === "string"
-                }
-                fullWidth
-              >
-                <Stack direction="row" gap={2}>
-                  <DatePickerFormik
-                    formik={formik}
-                    label="Alpha"
-                    name="schedule.alpha"
-                    scheduleError={isScheduleError}
-                  />
-                  <DatePickerFormik
-                    formik={formik}
-                    label="Beta"
-                    name="schedule.beta"
-                    scheduleError={isScheduleError}
-                  />
-                  <DatePickerFormik
-                    formik={formik}
-                    label="Release"
-                    name="schedule.release"
-                    scheduleError={isScheduleError}
-                  />
-                </Stack>
-
-                {formik.touched.schedule &&
-                  typeof formik.errors.schedule === "string" && (
-                    <FormHelperText>{formik.errors.schedule}</FormHelperText>
-                  )}
-              </FormControl>
             </Stack>
 
-            <Stack direction={"row"} mt={4} justifyContent={"end"} gap={2}>
-              <Button color="primary" variant="contained" type="submit">
-                Submit
-              </Button>
-              <Button onClick={handleClose} variant="contained" color="warning">
-                Close
-              </Button>
+            <Stack direction={"row"} gap={2}>
+              <SelectFormik
+                label={"Support Os"}
+                name={"support_os"}
+                formik={formik}
+                MenuProps={MenuProps}
+                OptionEnum={SupportOs}
+              />
+              <SelectFormik
+                label={"Platform"}
+                name={"platform"}
+                formik={formik}
+                MenuProps={MenuProps}
+                OptionEnum={Platform}
+              />
             </Stack>
-          </form>
-        </DialogContent>
-      </DialogLayout>
-    </Fragment>
+            <Stack direction={"row"} gap={2}>
+              <SelectFormik
+                label={"Genre"}
+                name={"genre"}
+                formik={formik}
+                MenuProps={MenuProps}
+                OptionEnum={Genre}
+              />
+              <SelectFormik
+                label={"Chain"}
+                name={"chain"}
+                formik={formik}
+                MenuProps={MenuProps}
+                OptionEnum={SupportChain}
+              />
+            </Stack>
+            <FormControl
+              error={
+                formik.touched.schedule &&
+                typeof formik.errors.schedule === "string"
+              }
+              fullWidth
+            >
+              <Stack direction="row" gap={2}>
+                <DatePickerFormik
+                  formik={formik}
+                  label="Alpha"
+                  name="schedule.alpha"
+                  scheduleError={isScheduleError}
+                />
+                <DatePickerFormik
+                  formik={formik}
+                  label="Beta"
+                  name="schedule.beta"
+                  scheduleError={isScheduleError}
+                />
+                <DatePickerFormik
+                  formik={formik}
+                  label="Release"
+                  name="schedule.release"
+                  scheduleError={isScheduleError}
+                />
+              </Stack>
+
+              {formik.touched.schedule &&
+                typeof formik.errors.schedule === "string" && (
+                  <FormHelperText>{formik.errors.schedule}</FormHelperText>
+                )}
+            </FormControl>
+          </Stack>
+
+          <Stack direction={"row"} mt={4} justifyContent={"end"} gap={2}>
+            <Button color="primary" variant="contained" type="submit">
+              Submit
+            </Button>
+            <Button onClick={handleClose} variant="contained" color="warning">
+              Close
+            </Button>
+          </Stack>
+        </form>
+      </DialogContent>
+    </DialogLayout>
   );
 };
 
-export default memo(ModalCreateGame);
+export default ModalCreateGame;

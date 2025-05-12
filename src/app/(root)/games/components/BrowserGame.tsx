@@ -81,18 +81,6 @@ const BrowserGame = ({
     setPersonName(typeof value === "string" ? value.split(",") : value);
   };
 
-  const getIcon = (array: string[]) => {
-    const arrayNew: any[] = [];
-    for (let i = 0; i < array.length; i++) {
-      if (array[i] === "WINDOWS") arrayNew.push(<WindowsIcon />);
-      else if (array[i] === "MAC") arrayNew.push(<MacIcon />);
-      else if (array[i] === "WEB") arrayNew.push(<WebsiteIcon />);
-      else if (array[i] === "ANDROID") arrayNew.push(<AndroidIcon />);
-      else if (array[i] === "IOS") arrayNew.push(<IosIcon />);
-    }
-    return arrayNew;
-  };
-
   useEffect(() => {
     if (isSm) setDisplayLayout("no-list");
     else setDisplayLayout("list");
@@ -305,39 +293,33 @@ const BrowserGame = ({
           }}
           gap={2}
         >
-          {data?.map((item, index) => {
-            return (
-              <Box key={index}>
-                {displayLayout === "no-list" ? (
-                  <LayoutGameFull
-                    index={index}
-                    img={img}
-                    hover={hover}
-                    setHover={setHover}
-                    setId={setId}
-                    id={id}
-                    item={item}
-                    getIcon={getIcon}
-                  />
-                ) : (
-                  <LayoutGameSmall
-                    index={index}
-                    img={img}
-                    hover={hover}
-                    setHover={setHover}
-                    setId={setId}
-                    id={id}
-                    item={item}
-                    getIcon={getIcon}
-                  />
-                )}
-              </Box>
-            );
-          })}
+          {displayLayout === "no-list" ? (
+            <LayoutGameFull
+              img={img}
+              hover={hover}
+              setHover={setHover}
+              setId={setId}
+              id={id}
+              // item={item}
+              // getIcon={getIcon}
+            />
+          ) : (
+            // <LayoutGameSmall
+            //   // index={index}
+            //   img={img}
+            //   hover={hover}
+            //   setHover={setHover}
+            //   setId={setId}
+            //   id={id}
+            // // item={item}
+            // // getIcon={getIcon}
+            // />
+            <></>
+          )}
         </Stack>
       </Stack>
     </>
   );
 };
 
-export default memo(BrowserGame);
+export default BrowserGame;

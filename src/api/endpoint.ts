@@ -14,6 +14,10 @@ export const Endpoint = {
   GET_GAME_COUNT: "/game/count",
 
   CREATE_GAME: "/game/create",
+  UPDATE_GAME: "/game/update",
+  GET_GAME_ID: "/game/{id}",
+  DELETE_GAME: "/game/delete",
+
   GALLERY: "/gallery",
 
   AUTH_SIGNMESSAGEV1: "/auth",

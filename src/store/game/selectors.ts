@@ -1,16 +1,25 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   createGame,
+  deleteGame,
   getGame,
   getGameCount,
+  getGameID,
   getGameOwner,
   ParamsProp,
+  PropsDelete,
   PropsFormik,
+  updateGame,
   upGallery,
 } from "./action";
 import {
+  setDataGallery,
   setGameId,
   setIsCreateGame,
+  setIsDelete,
+  setIsUpdateGame,
+  setStatus,
+  setStatusGetGameID,
   setValueEditorRating,
   setValueUserRating,
 } from "./reducer";
@@ -81,9 +90,12 @@ export const useGameReducers = () => {
     dispatch(setGameId(value));
   };
 
-  const { valueUserRating, valueEditorRating, gameId } = useAppSelector(
-    (state) => state.gameReducers,
-  );
+  const setGetGameId = (value: boolean) => {
+    dispatch(setStatusGetGameID(value));
+  };
+
+  const { valueUserRating, valueEditorRating, gameId, isGetGameId } =
+    useAppSelector((state) => state.gameReducers);
 
   return {
     gameId,
@@ -92,6 +104,8 @@ export const useGameReducers = () => {
     valueEditorRating,
     valueUserRating,
     setGameID,
+    isGetGameId,
+    setGetGameId,
   };
 };
 
@@ -119,11 +133,39 @@ export const useCreateGame = () => {
   };
 };
 
+export const useUpdateGame = () => {
+  const dispatch = useAppDispatch();
+
+  const updateGames = (params: PropsFormik) => {
+    dispatch(updateGame(params));
+  };
+
+  const setIsUpdate = () => {
+    dispatch(setIsUpdateGame());
+  };
+
+  const { isUpdate, loadingUpdate, errorUpdate } = useAppSelector(
+    (state) => state.updateGame,
+  );
+
+  return {
+    isUpdate,
+    loadingUpdate,
+    errorUpdate,
+    updateGames,
+    setIsUpdate,
+  };
+};
+
 export const useGallery = () => {
   const dispatch = useAppDispatch();
 
   const uploadGallery = (body: FormData) => {
     dispatch(upGallery(body));
+  };
+
+  const resetGallery = () => {
+    dispatch(setDataGallery());
   };
 
   const { dataGallery, loadingGallery, errorGallery } = useAppSelector(
@@ -135,5 +177,55 @@ export const useGallery = () => {
     loadingGallery,
     errorGallery,
     uploadGallery,
+    resetGallery,
+  };
+};
+
+export const useGetGameId = () => {
+  const dispatch = useAppDispatch();
+
+  const getGameId = (gameId: number) => {
+    dispatch(getGameID(gameId));
+  };
+
+  const setStatusGet = () => {
+    dispatch(setStatus());
+  };
+
+  const { data, loading, error, status } = useAppSelector(
+    (state) => state.getGameId,
+  );
+
+  return {
+    data,
+    loading,
+    error,
+    getGameId,
+    setStatusGet,
+    status,
+  };
+};
+
+export const useDeleteGame = () => {
+  const dispatch = useAppDispatch();
+
+  const DeleteGame = (body: PropsDelete) => {
+    dispatch(deleteGame(body));
+  };
+
+  const setIsDeletes = () => {
+    dispatch(setIsDelete());
+  };
+
+  const { isDelete, loadingDelete, errorDelete } = useAppSelector(
+    (state) => state.deleteGame,
+  );
+
+  return {
+    isDelete,
+    loadingDelete,
+    errorDelete,
+    DeleteGame,
+    setIsDeletes,
   };
 };
