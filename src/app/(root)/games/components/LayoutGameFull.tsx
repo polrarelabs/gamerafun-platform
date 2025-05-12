@@ -15,6 +15,7 @@ import ModalUpdateGame from "./ModalUpdateGame";
 import { setToken } from "@api/helpers";
 import axios from "axios";
 import GetIcon from "./GetIcon";
+import { useRouter } from "next/navigation";
 
 interface Props {
   img: any | null;
@@ -40,17 +41,19 @@ const LayoutGameFull = ({ img, hover, setHover, setId, id }: Props) => {
   //   const arr = getIcon(item.support_os) ?? [];
   //   setDataSupportOs(arr);
   // }, [item]);
-
+  const route = useRouter();
   const handleClick = (value: number) => {
     getGameId(value);
+    console.log(value);
+    route.push(`/games/${value}`);
     // setOpen(true);
   };
-  useEffect(() => {
-    if (status) {
-      setOpen(true);
-    }
-    console.log("status of status", status);
-  }, [status]);
+  // useEffect(() => {
+  //   if (status) {
+  //     setOpen(true);
+  //   }
+  //   console.log("status of status", status);
+  // }, [status]);
 
   return (
     <>
@@ -148,7 +151,7 @@ const LayoutGameFull = ({ img, hover, setHover, setId, id }: Props) => {
           </Stack>
         );
       })}
-      <ModalUpdateGame open={open} setOpen={setOpen} onClose={onClose} />
+      {/* <ModalUpdateGame open={open} setOpen={setOpen} onClose={onClose} /> */}
     </>
   );
 };
