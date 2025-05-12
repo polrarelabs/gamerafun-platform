@@ -15,6 +15,7 @@ import {
 import {
   setDataGallery,
   setGameId,
+  setGenres,
   setIsCreateGame,
   setIsDelete,
   setIsUpdateGame,
@@ -94,7 +95,11 @@ export const useGameReducers = () => {
     dispatch(setStatusGetGameID(value));
   };
 
-  const { valueUserRating, valueEditorRating, gameId, isGetGameId } =
+  const SetGenres = (value: string[]) => {
+    dispatch(setGenres(value));
+  };
+
+  const { valueUserRating, valueEditorRating, gameId, isGetGameId, genres } =
     useAppSelector((state) => state.gameReducers);
 
   return {
@@ -106,6 +111,8 @@ export const useGameReducers = () => {
     setGameID,
     isGetGameId,
     setGetGameId,
+    genres,
+    SetGenres,
   };
 };
 

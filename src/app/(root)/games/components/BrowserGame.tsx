@@ -304,17 +304,16 @@ const BrowserGame = ({
               // getIcon={getIcon}
             />
           ) : (
-            // <LayoutGameSmall
-            //   // index={index}
-            //   img={img}
-            //   hover={hover}
-            //   setHover={setHover}
-            //   setId={setId}
-            //   id={id}
-            // // item={item}
-            // // getIcon={getIcon}
-            // />
-            <></>
+            <LayoutGameSmall
+              // index={index}
+              img={img}
+              hover={hover}
+              setHover={setHover}
+              setId={setId}
+              id={id}
+              // item={item}
+              // getIcon={getIcon}
+            />
           )}
         </Stack>
       </Stack>

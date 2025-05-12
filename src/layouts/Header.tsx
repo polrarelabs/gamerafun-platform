@@ -31,7 +31,7 @@ const Header = () => {
         component="header"
         direction="row"
         alignItems="center"
-        px={SCREEN_PX}
+        px={2}
         spacing={{ xs: 3, md: 6 }}
         justifyContent="space-between"
         width="100%"
@@ -54,14 +54,23 @@ const Header = () => {
         {isMdSmaller ? (
           <>
             {!isLogin && (
-              <Button
-                LinkComponent={Link}
-                href={LOGIN_PATH}
-                variant="contained"
-                size="small"
-              >
-                Log In
-              </Button>
+              <Stack direction={"row"} gap={2}>
+                <Button
+                  onClick={toggleDrawer(true)}
+                  variant="contained"
+                  size={"small"}
+                >
+                  Ask AI
+                </Button>
+                <Button
+                  LinkComponent={Link}
+                  href={LOGIN_PATH}
+                  variant="contained"
+                  size="small"
+                >
+                  Log In
+                </Button>
+              </Stack>
             )}
           </>
         ) : (
@@ -94,7 +103,8 @@ const Header = () => {
         anchor="right"
         sx={{
           "& .MuiDrawer-paper": {
-            width: "500px",
+            width: "100%",
+            maxWidth: "400px",
           },
         }}
       >

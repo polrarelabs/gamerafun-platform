@@ -187,6 +187,7 @@ const ChatAI = () => {
           background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
           borderTopRightRadius: "8px",
           borderTopLeftRadius: "8px",
+          mb: 2,
         }}
       >
         <Text color="black" fontSize={"20px"} fontWeight={700}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, ReactNode } from "react";
+import { memo, ReactNode, useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { usePathname } from "next/navigation";
@@ -8,25 +8,52 @@ import { Stack } from "@mui/material";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Navigation } from "./components";
 import { SCREEN_PX } from "@constant";
-
+import { Button } from "@components/shared";
+import { SlArrowUp } from "react-icons/sl";
 type MainLayoutProps = {
   children: ReactNode;
 };
 
 const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
-
   const pathName = usePathname();
 
   const { isMdSmaller } = useBreakpoint();
 
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const [show, setShow] = useState<boolean>(false);
+
+  const handleScroll = (ref) => {
+    window.scrollTo({
+      left: 0,
+      top: ref.offsetTop,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const useScroll = () => {
+      if (window.scrollY > window.innerHeight / 2) setShow(true);
+      else setShow(false);
+    };
+
+    window.addEventListener("scroll", useScroll);
+
+    return () => window.removeEventListener("scroll", useScroll);
+  }, []);
+
   return (
-    <>
+    <Stack position={"relative"}>
       {pathName === "/login" ? (
-        <>{children}</>
+        <>
+          <Stack ref={ref}></Stack>
+          {children}
+        </>
       ) : (
         <>
           <Header />
+          <Stack ref={ref}></Stack>
           {children}
           <Footer />
         </>
@@ -43,7 +70,28 @@ const MainLayout = (props: MainLayoutProps) => {
           <Navigation />
         </Stack>
       )}
-    </>
+
+      {show && (
+        <Button
+          variant="outlined"
+          onClick={() => {
+            handleScroll(ref.current);
+          }}
+          sx={{
+            position: "fixed !important",
+            bottom: 100,
+            right: 20,
+            zIndex: 4,
+            borderRadius: "1000px",
+            p: "10px !important",
+            height: 40,
+            width: 40,
+          }}
+        >
+          <SlArrowUp />
+        </Button>
+      )}
+    </Stack>
   );
 };
 
