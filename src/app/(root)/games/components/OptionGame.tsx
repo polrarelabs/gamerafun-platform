@@ -297,4 +297,4 @@ const OptionGame = () => {
   );
 };
 
-export default memo(OptionGame);
+export default OptionGame;

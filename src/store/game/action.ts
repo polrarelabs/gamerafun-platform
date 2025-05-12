@@ -1,7 +1,7 @@
 import { client, Endpoint } from "@api";
 import { Genre, Platform, SupportChain, SupportOs } from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { HttpStatusCode } from "axios";
+import axios, { HttpStatusCode } from "axios";
 
 export interface ParamsProp {
   search?: string;
@@ -48,7 +48,7 @@ export interface PropsFormik {
   gameId?: number;
   name: string;
   description: string;
-  status: number | 1 | 2 | 3;
+  status: number;
   website: string;
   downloadLinks: PropsDownloading;
   publisher: string;
@@ -98,11 +98,51 @@ export const getGameOwner = createAsyncThunk(
 );
 
 export const createGame = createAsyncThunk(
-  "game/createGame",
+  "game/create",
   async (params: PropsFormik) => {
     try {
       const response = await client.post(Endpoint.CREATE_GAME, params);
       if (response?.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export const updateGame = createAsyncThunk(
+  "game/update",
+  async (body: PropsFormik) => {
+    try {
+      const response = await client.put(Endpoint.UPDATE_GAME, body);
+      if (response.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export const getGameID = createAsyncThunk(
+  "game/getById",
+  async (gameId: number) => {
+    try {
+      const response = await client.get(`${Endpoint.GET_GAME}/${gameId}`);
+      if (response.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export interface PropsDelete {
+  gameId: number;
+}
+
+export const deleteGame = createAsyncThunk(
+  "game/delete",
+  async (body: PropsDelete) => {
+    try {
+      const response = await client.delete(Endpoint.DELETE_GAME, body);
+      if (response.status === HttpStatusCode.Ok) return response.data;
     } catch (error) {
       throw error;
     }

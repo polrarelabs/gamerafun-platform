@@ -8,32 +8,32 @@ import { ListGame } from "@store/game";
 import React, { memo, useEffect, useRef, useState } from "react";
 
 interface Props {
-  index: number;
+  // index: number;
   img: any | null;
   hover: boolean;
   setHover: React.Dispatch<React.SetStateAction<boolean>>;
   setId: React.Dispatch<React.SetStateAction<number | null>>;
   id: number | null;
-  item: ListGame;
-  getIcon: (array: string[]) => void;
+  // item: ListGame;
+  // getIcon: (array: string[]) => void;
 }
 
 const LayoutGameSmall = ({
-  index,
+  // index,
   img,
   hover,
   setHover,
   setId,
   id,
-  item,
-  getIcon,
+  // item,
+  // getIcon,
 }: Props) => {
   const [dataSupportOs, setDataSupportOs] = useState<string[]>([]);
 
-  useEffect(() => {
-    const arr = getIcon(item.support_os) ?? [];
-    setDataSupportOs(arr);
-  }, [item]);
+  // useEffect(() => {
+  //   const arr = getIcon(item.support_os) ?? [];
+  //   setDataSupportOs(arr);
+  // }, [item]);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { width } = useWindowSize();
@@ -50,7 +50,7 @@ const LayoutGameSmall = ({
 
   return (
     <Stack
-      key={index}
+      // key={index}
       position={"relative"}
       borderRadius={"16px"}
       bgcolor={"#2456"}
@@ -68,7 +68,7 @@ const LayoutGameSmall = ({
       // justifyContent={"space-between"}
       onMouseEnter={() => {
         setHover(true);
-        setId(index);
+        // setId(index);
       }}
       onMouseLeave={() => {
         setHover(false);
@@ -76,7 +76,7 @@ const LayoutGameSmall = ({
       }}
     >
       <Stack height={"100%"} ref={containerRef} p={"6px"}>
-        <Image
+        {/* <Image
           src={img}
           alt={`img-${img}`}
           size="100%"
@@ -98,11 +98,11 @@ const LayoutGameSmall = ({
                 transition: "all 0.5s ease-in-out",
               },
             },
-          }}
-        />
+          }} 
+        />*/}
       </Stack>
       <Stack gap={1} width={"100%"}>
-        <Text
+        {/* <Text
           fontSize={"18px"}
           color="white"
           textAlign={"center"}
@@ -119,7 +119,7 @@ const LayoutGameSmall = ({
         </Text>
         <Text color="#9CA3AF" fontSize={"12px"} textAlign={"center"}>
           {item.description ? item.description : "description"}
-        </Text>
+        </Text> */}
         <Stack
           direction={"row"}
           alignItems={"center"}
@@ -159,4 +159,4 @@ const LayoutGameSmall = ({
   );
 };
 
-export default memo(LayoutGameSmall);
+export default LayoutGameSmall;

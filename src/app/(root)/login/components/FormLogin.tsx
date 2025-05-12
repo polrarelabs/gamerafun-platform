@@ -33,14 +33,13 @@ const FormLogin = () => {
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const [id, setId] = useState<string>();
-  const [sessionId, setSessionId] = useState<string>();
-  const { LoginX, dataAuthLogin, loadingAuthLogin, errorAuthLogin } =
-    useAuthLoginX();
+  // const [id, setId] = useState<string>();
+  // const [sessionId, setSessionId] = useState<string>();
+  const { LoginX, dataAuthLogin } = useAuthLoginX();
   const {
     dataAuthLoginGoogle,
-    loadingAuthLoginGoogle,
-    errorAuthLoginGoogle,
+    // loadingAuthLoginGoogle,
+    // errorAuthLoginGoogle,
     LoginGoogle,
   } = useLoginGoogle();
 
@@ -92,7 +91,7 @@ const FormLogin = () => {
   }, [pathName]);
 
   useEffect(() => {
-    console.log("dataa đâyyayyy", dataAuthLogin);
+    console.log(dataAuthLogin);
     if (dataAuthLogin?.accessToken) {
       Cookies.set("accessToken", dataAuthLogin.accessToken, {
         expires: 7,
@@ -107,8 +106,6 @@ const FormLogin = () => {
     signIn("google");
   };
 
-  // const handleLoginDiscord = () => {
-  // }
   const handleLoginX = async () => {
     // window.location.href = 'https://web3-common-service.polrare.co/api/auth/twitter/callback';
 

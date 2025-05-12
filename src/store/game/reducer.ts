@@ -2,11 +2,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   createGame,
+  deleteGame,
   getGame as fetchListGame,
   getGameCount,
+  getGameID,
   getGameOwner,
+  PropsDownloading,
+  PropsMedia,
+  PropsSchedule,
+  PropsSocials,
+  updateGame,
   upGallery,
 } from "./action";
+import { Genre, Platform, SupportChain, SupportOs } from "@constant/enum";
 
 export interface ScheduleProps {
   beta: string;
@@ -59,25 +67,63 @@ export interface ListGame {
   name: string;
   description: string;
   status: number;
-  downloadLink: string;
+  downloadLink: PropsDownloading;
   publisher: string;
   developer: string;
   website: string;
-  socials: any | null;
-  schedule: ScheduleProps;
-  support_os: string[];
-  platform: string[];
-  genre: string[];
-  chain: string[];
+  socials: PropsSocials;
+  schedule: PropsSchedule;
+  support_os: SupportOs[];
+  platform: Platform[];
+  genre: Genre[];
+  chain: SupportChain[];
+  media: PropsMedia[];
   rating: number;
-  media: string[];
 }
 
 export interface AsyncState<T> {
   loading: boolean;
   data: T;
   error: string;
+  status?: boolean;
 }
+
+const initialStateGetGameID: AsyncState<ListGame> = {
+  loading: false,
+  data: {} as ListGame,
+  error: "",
+  status: false,
+};
+
+const getGameIdSlice = createSlice({
+  name: "game/getByIdReducer",
+  initialState: initialStateGetGameID,
+  reducers: {
+    setStatus: (state) => {
+      state.status = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getGameID.pending, (state) => {
+        state.loading = true;
+        state.status = false;
+      })
+      .addCase(
+        getGameID.fulfilled,
+        (state, action: PayloadAction<ListGame>) => {
+          state.loading = false;
+          state.data = action.payload;
+          state.status = true;
+        },
+      )
+      .addCase(getGameID.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+        state.status = false;
+      });
+  },
+});
 
 const initialStateGame: AsyncState<ListGame[]> = {
   loading: false,
@@ -177,12 +223,14 @@ interface PropsGameReducers {
   valueEditorRating: number;
   valueUserRating: number;
   gameId: number;
+  isGetGameId: boolean;
 }
 
 const initialStateGameReducers: PropsGameReducers = {
   valueEditorRating: 0,
   valueUserRating: 0,
   gameId: 0,
+  isGetGameId: false,
 };
 
 const GameReducers = createSlice({
@@ -197,6 +245,9 @@ const GameReducers = createSlice({
     },
     setGameId: (state, action: PayloadAction<number>) => {
       state.gameId = action.payload;
+    },
+    setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
+      state.isGetGameId = action.payload;
     },
   },
 });
@@ -237,6 +288,42 @@ const CreateGameReducer = createSlice({
   },
 });
 
+interface PropsUpdateGame {
+  isUpdate: boolean;
+  loadingUpdate: boolean;
+  errorUpdate: string;
+}
+
+const initialStateUpdateGame: PropsUpdateGame = {
+  isUpdate: false,
+  loadingUpdate: false,
+  errorUpdate: "",
+};
+
+const UpdateGameReducer = createSlice({
+  name: "game/updateGameReducers",
+  initialState: initialStateUpdateGame,
+  reducers: {
+    setIsUpdateGame: (state) => {
+      state.isUpdate = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(updateGame.pending, (state) => {
+        state.loadingUpdate = true;
+      })
+      .addCase(updateGame.fulfilled, (state) => {
+        state.isUpdate = true;
+        state.loadingUpdate = false;
+      })
+      .addCase(updateGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loadingUpdate = false;
+        state.errorUpdate = action.payload as string;
+      });
+  },
+});
+
 export interface PropsGalleryReducer {
   id: string;
   name: string;
@@ -267,7 +354,11 @@ const initialStateGallery: PropsStateGalley = {
 const GalleryReducer = createSlice({
   name: "gallery",
   initialState: initialStateGallery,
-  reducers: {},
+  reducers: {
+    setDataGallery: (state) => {
+      state.dataGallery = {} as PropsGalleryReducer;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(upGallery.pending, (state) => {
@@ -287,6 +378,43 @@ const GalleryReducer = createSlice({
   },
 });
 
+export interface PropsDeleteReducer {
+  isDelete: boolean;
+  loadingDelete: boolean;
+  errorDelete: string;
+}
+
+const initialStateDelete: PropsDeleteReducer = {
+  isDelete: false,
+  loadingDelete: false,
+  errorDelete: "",
+};
+
+const DeleteGameReducer = createSlice({
+  name: "game/delete",
+  initialState: initialStateDelete,
+  reducers: {
+    setIsDelete: (state) => {
+      state.isDelete = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(deleteGame.pending, (state) => {
+        state.loadingDelete = true;
+        state.isDelete = false;
+      })
+      .addCase(deleteGame.fulfilled, (state) => {
+        state.isDelete = true;
+        state.loadingDelete = false;
+      })
+      .addCase(deleteGame.rejected, (state, action: PayloadAction<any>) => {
+        state.isDelete = false;
+        state.errorDelete = action.payload as string;
+      });
+  },
+});
+
 export const reducers = {
   game: getGameSlice.reducer,
   gameCount: gameCountSlice.reducer,
@@ -294,8 +422,21 @@ export const reducers = {
   gameReducers: GameReducers.reducer,
   createGame: CreateGameReducer.reducer,
   gallery: GalleryReducer.reducer,
+  updateGame: UpdateGameReducer.reducer,
+  getGameId: getGameIdSlice.reducer,
+  deleteGame: DeleteGameReducer.reducer,
 };
 
-export const { setValueEditorRating, setValueUserRating, setGameId } =
-  GameReducers.actions;
+export const {
+  setValueEditorRating,
+  setValueUserRating,
+  setGameId,
+  setStatusGetGameID,
+} = GameReducers.actions;
 export const { setIsCreateGame } = CreateGameReducer.actions;
+export const { setIsUpdateGame } = UpdateGameReducer.actions;
+export const { setStatus } = getGameIdSlice.actions;
+
+export const { setDataGallery } = GalleryReducer.actions;
+
+export const { setIsDelete } = DeleteGameReducer.actions;

@@ -53,7 +53,7 @@ const RequestClient = class {
     }
   }
 
-  async post(endpoint: string, body: {}, configs = {}) {
+  async post(endpoint: string, body?: {}, configs = {}) {
     try {
       const response = await axios.post(endpoint, body, configs);
 

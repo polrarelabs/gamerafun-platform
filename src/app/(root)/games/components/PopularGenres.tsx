@@ -146,4 +146,4 @@ const PopularGenres = () => {
   );
 };
 
-export default memo(PopularGenres);
+export default PopularGenres;

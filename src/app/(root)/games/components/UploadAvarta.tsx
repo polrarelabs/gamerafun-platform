@@ -110,4 +110,4 @@ const UploadAvarta = () => {
   );
 };
 
-export default memo(UploadAvarta);
+export default UploadAvarta;
