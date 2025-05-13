@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import GetIcon from "@app/(root)/games/components/GetIcon";
 import { Image, Text } from "@components/shared";
 import useWindowSize from "@hooks/useWindowSize";
 import { Stack } from "@mui/material";
 import { useGame, useGameReducers, useGetGameId } from "@store/game";
-import React, { memo, useEffect, useRef, useState } from "react";
-import GetIcon from "./GetIcon";
 import { useGallery } from "@store/media";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 interface Props {
   img: any | null;
@@ -17,7 +17,7 @@ interface Props {
   id: number | null;
 }
 
-const LayoutGameSmall = ({ img, hover, setHover, setId, id }: Props) => {
+const LayoutGenresSmall = ({ img, hover, setHover, setId, id }: Props) => {
   const [dataSupportOs, setDataSupportOs] = useState<string[]>([]);
 
   // useEffect(() => {
@@ -155,4 +155,4 @@ const LayoutGameSmall = ({ img, hover, setHover, setId, id }: Props) => {
   );
 };
 
-export default memo(LayoutGameSmall);
+export default memo(LayoutGenresSmall);

@@ -2,7 +2,7 @@
 
 import { Button } from "@components/shared";
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import ModalCreateGame from "./ModalCreateGame";
 
 const FormCreateGame = () => {
@@ -22,4 +22,4 @@ const FormCreateGame = () => {
   );
 };
 
-export default FormCreateGame;
+export default memo(FormCreateGame);

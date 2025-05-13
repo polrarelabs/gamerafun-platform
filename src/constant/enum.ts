@@ -5,6 +5,12 @@ export enum DataStatus {
   FAILED,
 }
 
+export enum PlatformType {
+  DESKTOP = 1,
+  MOBILE = 2,
+  WEB = 3,
+}
+
 export enum AgentType {
   DEFI = "DEFI",
   ECOMMERCE = "ECOMMERCE",
@@ -82,4 +88,15 @@ export enum SupportChain {
   FantomMainnet = "FANTOM_MAINNET",
   AuroraMainnet = "AURORA_MAINNET",
   BaseMainnet = "BASE_MAINNET",
+}
+
+export enum MediaPosition {
+  COVER = "cover",
+  TRAILER = "trailer",
+  SCREENSHOT = "screenshot",
+}
+
+export enum MediaType {
+  IMAGE = "image",
+  VIDEO = "video",
 }

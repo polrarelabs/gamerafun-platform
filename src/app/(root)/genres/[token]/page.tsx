@@ -10,9 +10,7 @@ import LayoutGenresDetail from "./components/LayoutGenresDetail";
 import { useGameReducers } from "@store/game";
 
 const GenresDetail = () => {
-  const { genres } = useGameReducers();
-
-  console.log("genres", genres);
+  const { genresTitle } = useGameReducers();
 
   return (
     <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
@@ -36,7 +34,7 @@ const GenresDetail = () => {
               textTransform: "uppercase",
             }}
           >
-            {genres[0]}
+            {genresTitle}
           </Text>
         </Breadcrumbs>
 
@@ -47,10 +45,10 @@ const GenresDetail = () => {
             fontSize={"74px"}
             textTransform={"uppercase"}
           >
-            {genres[0]}
+            {genresTitle}
           </Text>
           <Text color="#9CA3AF" fontWeight={500} fontSize={"20px"} mb={4}>
-            title of {genres[0]}
+            title of {genresTitle}
           </Text>
         </Stack>
         <LayoutGenresDetail />

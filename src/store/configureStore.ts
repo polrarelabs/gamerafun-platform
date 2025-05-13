@@ -10,7 +10,7 @@ import {
 import { SignMessageProps, reducers as AuthReducers } from "./auth/reducer";
 import { reducers as ChatAIReducer } from "./chatAI";
 // import { DataState, DataStateOwner, PropGameCount } from "./game";
-
+import { reducers as MediaReducer } from "./media";
 export interface State {
   app: AppState;
   token: TokenState;
@@ -27,6 +27,7 @@ export const store = configureStore({
     ...AuthReducers,
     ...GameReducers,
     ...ChatAIReducer,
+    ...MediaReducer,
   },
 });
 

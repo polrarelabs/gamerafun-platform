@@ -12,7 +12,6 @@ import {
   PropsSchedule,
   PropsSocials,
   updateGame,
-  upGallery,
 } from "./action";
 import { Genre, Platform, SupportChain, SupportOs } from "@constant/enum";
 
@@ -21,7 +20,7 @@ export interface ScheduleProps {
   alpha: string;
   release: string;
 }
-interface SupportOsProps {
+export interface SupportOsProps {
   WINDOWS: number;
   MAC: number;
   WEB: number;
@@ -29,19 +28,19 @@ interface SupportOsProps {
   IOS: number;
 }
 
-interface FlatformProps {
+export interface PlatformProps {
   EPIC: number;
   STEAM: number;
 }
 
-interface ScheduleStatusProps {
+export interface ScheduleStatusProps {
   PLAYABLE: number;
   BETA: number;
   ALPHA: number;
   INDEVELOPMENT: number;
 }
 
-interface GenreProps {
+export interface GenreProps {
   ACTION: number;
   ADVENTURE: number;
   RPG: number;
@@ -155,7 +154,7 @@ const getGameSlice = createSlice({
 });
 
 export interface GameCount {
-  platform: FlatformProps;
+  platform: PlatformProps;
   genre: GenreProps;
   support_os: SupportOsProps;
   schedule_status: ScheduleStatusProps;
@@ -216,44 +215,6 @@ const getGameOwnerSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "Errors";
       });
-  },
-});
-
-interface PropsGameReducers {
-  valueEditorRating: number;
-  valueUserRating: number;
-  gameId: number;
-  isGetGameId: boolean;
-  genres: string[];
-}
-
-const initialStateGameReducers: PropsGameReducers = {
-  valueEditorRating: 0,
-  valueUserRating: 0,
-  gameId: 0,
-  isGetGameId: false,
-  genres: [],
-};
-
-const GameReducers = createSlice({
-  name: "game/reducers",
-  initialState: initialStateGameReducers,
-  reducers: {
-    setValueEditorRating: (state, action: PayloadAction<number>) => {
-      state.valueEditorRating = action.payload;
-    },
-    setValueUserRating: (state, action: PayloadAction<number>) => {
-      state.valueUserRating = action.payload;
-    },
-    setGameId: (state, action: PayloadAction<number>) => {
-      state.gameId = action.payload;
-    },
-    setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
-      state.isGetGameId = action.payload;
-    },
-    setGenres: (state, action: PayloadAction<string[]>) => {
-      state.genres = action.payload;
-    },
   },
 });
 
@@ -329,60 +290,6 @@ const UpdateGameReducer = createSlice({
   },
 });
 
-export interface PropsGalleryReducer {
-  id: string;
-  name: string;
-  description: string;
-  fileName: string;
-  url: string;
-  cdn: string;
-  md5: string;
-  dimension: string;
-  ratio: number;
-  mimetype: string;
-  createdBy: string;
-  createdAt: string;
-}
-
-interface PropsStateGalley {
-  dataGallery: PropsGalleryReducer;
-  loadingGallery: boolean;
-  errorGallery: string;
-}
-
-const initialStateGallery: PropsStateGalley = {
-  dataGallery: {} as PropsGalleryReducer,
-  loadingGallery: false,
-  errorGallery: "",
-};
-
-const GalleryReducer = createSlice({
-  name: "gallery",
-  initialState: initialStateGallery,
-  reducers: {
-    setDataGallery: (state) => {
-      state.dataGallery = {} as PropsGalleryReducer;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(upGallery.pending, (state) => {
-        state.loadingGallery = false;
-      })
-      .addCase(
-        upGallery.fulfilled,
-        (state, action: PayloadAction<PropsGalleryReducer>) => {
-          state.dataGallery = action.payload;
-          state.loadingGallery = false;
-        },
-      )
-      .addCase(upGallery.rejected, (state, action: PayloadAction<any>) => {
-        state.errorGallery = action.payload as string;
-        state.loadingGallery = false;
-      });
-  },
-});
-
 export interface PropsDeleteReducer {
   isDelete: boolean;
   loadingDelete: boolean;
@@ -420,13 +327,90 @@ const DeleteGameReducer = createSlice({
   },
 });
 
+interface PropsGameReducers {
+  valueEditorRating: number;
+  valueUserRating: number;
+  gameId: number;
+  isGetGameId: boolean;
+  genres: string[];
+  platforms: string[];
+  errorsSizeImage: string | null;
+  playNow: boolean;
+  freeToPlay: boolean;
+  awardWinners: boolean;
+  favorites: boolean;
+  genresTitle: string;
+  // status: string[],
+}
+
+const initialStateGameReducers: PropsGameReducers = {
+  valueEditorRating: 0,
+  valueUserRating: 0,
+  gameId: 0,
+  isGetGameId: false,
+  genres: [],
+  errorsSizeImage: null,
+  platforms: [],
+  playNow: false,
+  freeToPlay: false,
+  awardWinners: false,
+  favorites: false,
+  genresTitle: "",
+  // status: [],
+};
+
+const GameReducers = createSlice({
+  name: "game/reducers",
+  initialState: initialStateGameReducers,
+  reducers: {
+    setValueEditorRating: (state, action: PayloadAction<number>) => {
+      state.valueEditorRating = action.payload;
+    },
+    setValueUserRating: (state, action: PayloadAction<number>) => {
+      state.valueUserRating = action.payload;
+    },
+    setGameId: (state, action: PayloadAction<number>) => {
+      state.gameId = action.payload;
+    },
+    setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
+      state.isGetGameId = action.payload;
+    },
+    setGenres: (state, action: PayloadAction<string[]>) => {
+      state.genres = action.payload;
+    },
+    setPlatforms: (state, action: PayloadAction<string[]>) => {
+      state.platforms = action.payload;
+    },
+    setErrorsSizeImage: (state, action: PayloadAction<string | null>) => {
+      state.errorsSizeImage = action.payload;
+    },
+    setPlayNow: (state, action: PayloadAction<boolean>) => {
+      state.playNow = action.payload;
+    },
+    setFreeToPlay: (state, action: PayloadAction<boolean>) => {
+      state.freeToPlay = action.payload;
+    },
+    setAwardWinners: (state, action: PayloadAction<boolean>) => {
+      state.awardWinners = action.payload;
+    },
+    setFavorites: (state, action: PayloadAction<boolean>) => {
+      state.favorites = action.payload;
+    },
+    setGenresTitle: (state, action: PayloadAction<string>) => {
+      state.genresTitle = action.payload;
+    },
+    // setStatus: (state, action: PayloadAction<string[]>) => {
+    //   state.status = action.payload;
+    // },
+  },
+});
+
 export const reducers = {
   game: getGameSlice.reducer,
   gameCount: gameCountSlice.reducer,
   gameOwner: getGameOwnerSlice.reducer,
   gameReducers: GameReducers.reducer,
   createGame: CreateGameReducer.reducer,
-  gallery: GalleryReducer.reducer,
   updateGame: UpdateGameReducer.reducer,
   getGameId: getGameIdSlice.reducer,
   deleteGame: DeleteGameReducer.reducer,
@@ -438,11 +422,17 @@ export const {
   setGameId,
   setStatusGetGameID,
   setGenres,
+  setPlatforms,
+  setErrorsSizeImage,
+  setPlayNow,
+  setAwardWinners,
+  setFavorites,
+  setFreeToPlay,
+  setGenresTitle,
+  // setStatus
 } = GameReducers.actions;
 export const { setIsCreateGame } = CreateGameReducer.actions;
 export const { setIsUpdateGame } = UpdateGameReducer.actions;
 export const { setStatus } = getGameIdSlice.actions;
-
-export const { setDataGallery } = GalleryReducer.actions;
 
 export const { setIsDelete } = DeleteGameReducer.actions;
