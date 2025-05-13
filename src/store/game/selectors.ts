@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   createGame,
+  createGameReview,
   deleteGame,
   getGame,
   getGameCount,
@@ -9,6 +10,7 @@ import {
   ParamsProp,
   PropsDelete,
   PropsFormik,
+  PropsGameReview,
   updateGame,
   upGallery,
 } from "./action";
@@ -17,6 +19,7 @@ import {
   setGameId,
   setGenres,
   setIsCreateGame,
+  setIsCreateGameReview,
   setIsDelete,
   setIsUpdateGame,
   setStatus,
@@ -234,5 +237,29 @@ export const useDeleteGame = () => {
     errorDelete,
     DeleteGame,
     setIsDeletes,
+  };
+};
+
+export const useCreateGameReview = () => {
+  const dispatch = useAppDispatch();
+
+  const createGameReviews = (body: PropsGameReview) => {
+    dispatch(createGameReview(body));
+  };
+
+  const setIsCreateReview = () => {
+    dispatch(setIsCreateGameReview());
+  };
+
+  const { isCreate, loadingCreate, errorCreate } = useAppSelector(
+    (state) => state.createGameReview,
+  );
+
+  return {
+    isCreate,
+    loadingCreate,
+    errorCreate,
+    createGameReviews,
+    setIsCreateReview,
   };
 };

@@ -62,6 +62,12 @@ export interface PropsFormik {
   media: PropsMedia[];
 }
 
+export interface PropsGameReview {
+  gameId: number;
+  scroce: number;
+  review: string;
+}
+
 export const getGame = createAsyncThunk(
   "game/getList",
   async (params: ParamsProp = {}) => {
@@ -142,6 +148,18 @@ export const deleteGame = createAsyncThunk(
   async (body: PropsDelete) => {
     try {
       const response = await client.delete(Endpoint.DELETE_GAME, body);
+      if (response.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export const createGameReview = createAsyncThunk(
+  "game/review",
+  async (body: PropsGameReview) => {
+    try {
+      const response = await client.post(Endpoint.CREATE_GAME_REVIEW, body);
       if (response.status === HttpStatusCode.Ok) return response.data;
     } catch (error) {
       throw error;
