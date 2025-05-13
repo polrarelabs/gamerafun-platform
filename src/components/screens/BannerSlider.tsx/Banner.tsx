@@ -2,7 +2,7 @@
 
 import { Box, Stack } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import bgSlider from "public/images/Riftstorm_banner1_b0eb3c12c2.webp";
+import bgSlider from "public/images/riftstorm_banner1_b0eb3c12c2.webp";
 import { Button, Image, Text } from "@components/shared";
 import { motion } from "framer-motion";
 import { useGame } from "@store/game";

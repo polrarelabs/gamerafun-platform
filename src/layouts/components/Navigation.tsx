@@ -2,7 +2,7 @@
 
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import { GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
+import { GAME_PATH, GENRES, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import ArrowIcon from "@icons/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
@@ -121,6 +121,7 @@ const Item = (props: ItemProps) => {
             alignItems={"center"}
             onMouseEnter={handleHover}
             onMouseLeave={handleUnHover}
+            position={"relative"}
           >
             <Text variant="subtitle2" color="inherit">
               {label}
@@ -132,6 +133,28 @@ const Item = (props: ItemProps) => {
                 fontSize: 12,
               }}
             />
+            {/* {hover && (
+              <Stack
+                position="absolute"
+                bottom={'-90px'}
+                left={0}
+                bgcolor="background.paper"
+                boxShadow={3}
+                borderRadius={1}
+                zIndex={10}
+                onMouseEnter={handleHover}
+                onMouseLeave={handleUnHover}
+                sx={{
+                  minWidth: 200,
+                  py: 1
+                }}
+              >
+                <MenuItem component={Link} href={GENRES}>
+                  Genres
+                </MenuItem>
+
+              </Stack>
+            )} */}
           </Stack>
         </>
       ) : (

@@ -1,5 +1,11 @@
 import { client, Endpoint } from "@api";
-import { Genre, Platform, SupportChain, SupportOs } from "@constant/enum";
+import {
+  Genre,
+  MediaPosition,
+  Platform,
+  SupportChain,
+  SupportOs,
+} from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { HttpStatusCode } from "axios";
 
@@ -38,10 +44,10 @@ export interface PropsDownloading {
 }
 
 export interface PropsMedia {
-  id: string;
+  // id: string;
   url: string;
   type: string;
-  position: number;
+  position: MediaPosition;
 }
 
 export interface PropsFormik {
@@ -171,19 +177,3 @@ export const deleteGame = createAsyncThunk(
 //     }
 //   }
 // )
-
-export const upGallery = createAsyncThunk(
-  "upload/gallery",
-  async (formData: FormData) => {
-    try {
-      const response = await client.post(Endpoint.GALLERY, formData, {
-        headers: {
-          "Content-Type": undefined,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-);

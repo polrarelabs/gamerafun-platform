@@ -593,3 +593,12 @@ export const shortDistance = (
 };
 
 export const getTicker = (symbol?: string) => `$${symbol}`;
+
+export const parsedRatioString = (ratio: string) => {
+  const arrValue = ratio
+    .split(ratio.includes("x") ? "x" : ":")
+    .map((item) => Number(item.trim()));
+  const result = arrValue[0] / arrValue[1];
+  if (isNaN(result)) throw new Error('Ratio is invalid, VD: ratio="16x9"');
+  return result;
+};

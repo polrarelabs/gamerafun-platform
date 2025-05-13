@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs, { Dayjs } from "dayjs";
 import { get } from "lodash";
 import Text from "./Text";
+import { memo } from "react";
 
 interface PropsDatePickerFormik {
   formik: any | null;
@@ -49,4 +50,4 @@ const DatePickerFormik = ({
   );
 };
 
-export default DatePickerFormik;
+export default memo(DatePickerFormik);

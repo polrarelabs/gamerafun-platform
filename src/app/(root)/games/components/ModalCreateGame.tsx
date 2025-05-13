@@ -5,7 +5,14 @@ import { Button, Text } from "@components/shared";
 import DatePickerFormik from "@components/shared/DatePickerFormik";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
-import { Genre, Platform, SupportChain, SupportOs } from "@constant/enum";
+import {
+  Genre,
+  MediaPosition,
+  MediaType,
+  Platform,
+  SupportChain,
+  SupportOs,
+} from "@constant/enum";
 import {
   DialogContent,
   DialogTitle,
@@ -15,15 +22,15 @@ import {
   Select,
   Stack,
 } from "@mui/material";
-import dayjs from "dayjs";
 
 import { useFormik } from "formik";
 import React, { Fragment, memo, useEffect } from "react";
-import * as yup from "yup";
 import UploadAvarta from "./UploadAvarta";
 import { PropsFormik, PropsMedia } from "@store/game/action";
-import { useCreateGame, useGallery, useGame } from "@store/game";
+import { useCreateGame, useGame } from "@store/game";
 import { setToken } from "@api/helpers";
+import { validationSchema } from "./ValidationSchema";
+import { useGallery } from "@store/media";
 
 interface PropsDialog {
   open: boolean;
@@ -51,29 +58,6 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
 
   const { isCreate, setIsCreate, createGames } = useCreateGame();
   const { fetchGetGame } = useGame();
-
-  const validationSchema = yup.object({
-    schedule: yup
-      .object({
-        alpha: yup.string().required("Alpha là bắt buộc"),
-        beta: yup.string().required("Beta là bắt buộc"),
-        release: yup.string().required("Release là bắt buộc"),
-      })
-      .required("Lịch phát hành không được để trống")
-      .test(
-        "alpha-beta-release",
-        "Alpha Beta Release theo thứ tự Alpha < Beta < Release",
-        function (value) {
-          const { alpha, beta, release } = value || {};
-          if (!alpha || !beta || !release) return true;
-          return (
-            dayjs(alpha).isBefore(dayjs(beta)) &&
-            dayjs(beta).isBefore(dayjs(release))
-          );
-        },
-      ),
-    name: yup.string().required("Name là bắt buộc"),
-  });
 
   const initialValues: PropsFormik = {
     name: "",
@@ -109,7 +93,6 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
     chain: [],
     media: [],
   };
-  console.log("create");
 
   const formik = useFormik({
     initialValues,
@@ -120,10 +103,13 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
       if (dataGallery.url) {
         const arr: PropsMedia[] = [];
         arr.push({
-          id: dataGallery.id,
+          // id: dataGallery.id,
           url: dataGallery.url,
-          type: dataGallery.mimetype,
-          position: 0,
+          type:
+            dataGallery.mimetype === "image/png"
+              ? MediaType.IMAGE
+              : MediaType.VIDEO,
+          position: MediaPosition.COVER,
         });
         formik.values.media = arr;
       }
@@ -138,9 +124,6 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
           // formik.setFieldValue(`downloadLinks.${osKey}`, DownloadLinks[osKey]);
         }
       });
-
-      console.log("values", values);
-
       await createGames(values);
     },
   });
@@ -173,7 +156,7 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
           <Stack direction={"column"} gap={3}>
             <Stack direction={"row"}>
               <Stack flex={2} position={"relative"}>
-                <UploadAvarta />
+                <UploadAvarta ratioWidth={3} ratioHeight={2} />
               </Stack>
               <Stack direction={"column"} gap={3} flex={4}>
                 <Stack direction={"row"} gap={3}>
@@ -313,4 +296,4 @@ const ModalCreateGame = ({ open, setOpen }: PropsDialog) => {
   );
 };
 
-export default ModalCreateGame;
+export default memo(ModalCreateGame);

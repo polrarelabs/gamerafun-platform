@@ -10,15 +10,20 @@ import {
   PropsDelete,
   PropsFormik,
   updateGame,
-  upGallery,
 } from "./action";
 import {
-  setDataGallery,
+  setAwardWinners,
+  setErrorsSizeImage,
+  setFavorites,
+  setFreeToPlay,
   setGameId,
   setGenres,
+  setGenresTitle,
   setIsCreateGame,
   setIsDelete,
   setIsUpdateGame,
+  setPlatforms,
+  setPlayNow,
   setStatus,
   setStatusGetGameID,
   setValueEditorRating,
@@ -99,8 +104,43 @@ export const useGameReducers = () => {
     dispatch(setGenres(value));
   };
 
-  const { valueUserRating, valueEditorRating, gameId, isGetGameId, genres } =
-    useAppSelector((state) => state.gameReducers);
+  const SetErrorsSizeImage = (value: string | null) => {
+    dispatch(setErrorsSizeImage(value));
+  };
+  const SetPlatforms = (value: string[]) => {
+    dispatch(setPlatforms(value));
+  };
+
+  const SetPlayNow = (value: boolean) => {
+    dispatch(setPlayNow(value));
+  };
+  const SetFreeToPlay = (value: boolean) => {
+    dispatch(setFreeToPlay(value));
+  };
+  const SetAwardWinners = (value: boolean) => {
+    dispatch(setAwardWinners(value));
+  };
+  const SetFavorites = (value: boolean) => {
+    dispatch(setFavorites(value));
+  };
+  const SetGenresTitle = (value: string) => {
+    dispatch(setGenresTitle(value));
+  };
+
+  const {
+    valueUserRating,
+    valueEditorRating,
+    gameId,
+    isGetGameId,
+    genres,
+    errorsSizeImage,
+    platforms,
+    playNow,
+    awardWinners,
+    freeToPlay,
+    favorites,
+    genresTitle,
+  } = useAppSelector((state) => state.gameReducers);
 
   return {
     gameId,
@@ -113,6 +153,20 @@ export const useGameReducers = () => {
     setGetGameId,
     genres,
     SetGenres,
+    errorsSizeImage,
+    SetErrorsSizeImage,
+    SetPlatforms,
+    SetAwardWinners,
+    SetFavorites,
+    SetFreeToPlay,
+    SetPlayNow,
+    platforms,
+    playNow,
+    awardWinners,
+    freeToPlay,
+    favorites,
+    genresTitle,
+    SetGenresTitle,
   };
 };
 
@@ -161,30 +215,6 @@ export const useUpdateGame = () => {
     errorUpdate,
     updateGames,
     setIsUpdate,
-  };
-};
-
-export const useGallery = () => {
-  const dispatch = useAppDispatch();
-
-  const uploadGallery = (body: FormData) => {
-    dispatch(upGallery(body));
-  };
-
-  const resetGallery = () => {
-    dispatch(setDataGallery());
-  };
-
-  const { dataGallery, loadingGallery, errorGallery } = useAppSelector(
-    (state) => state.gallery,
-  );
-
-  return {
-    dataGallery,
-    loadingGallery,
-    errorGallery,
-    uploadGallery,
-    resetGallery,
   };
 };
 

@@ -19,12 +19,13 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 
-import { useGallery, useGame, useGetGameId, useUpdateGame } from "@store/game";
+import { useGame, useGetGameId, useUpdateGame } from "@store/game";
 import { PropsFormik } from "@store/game/action";
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import * as yup from "yup";
 import UploadAvarta from "./UploadAvarta";
+import { useGallery } from "@store/media";
 
 interface PropsDialog {
   open: boolean;
@@ -206,7 +207,7 @@ const ModalUpdateGame = ({ open, setOpen, onClose }: PropsDialog) => {
           <Stack direction={"column"} gap={3}>
             <Stack direction={"row"}>
               <Stack flex={2} position={"relative"}>
-                <UploadAvarta />
+                <UploadAvarta ratioWidth={3} ratioHeight={2} />
               </Stack>
               <Stack direction={"column"} gap={3} flex={4}>
                 <TextFieldFormik
@@ -354,4 +355,4 @@ const ModalUpdateGame = ({ open, setOpen, onClose }: PropsDialog) => {
   );
 };
 
-export default ModalUpdateGame;
+export default memo(ModalUpdateGame);

@@ -93,3 +93,6 @@ export const AGENT_CATEGORIES_OPTIONS = [
   { label: "Trading", value: AgentType.TRADING },
   { label: "NFT", value: AgentType.NFT },
 ];
+export const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
+export const AUDIO_EXTENSIONS = [".mp3", ".aac", ".m4a", ".wav"];
+export const WRONG_RATIO_IMAGE = 0.05;

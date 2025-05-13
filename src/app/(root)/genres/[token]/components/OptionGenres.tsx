@@ -1,17 +1,20 @@
 "use client";
 
+import { GetColor } from "@app/(root)/games/components/GetColor";
 import { Button, Text, Tooltip } from "@components/shared";
+import CircleCheckIcon from "@icons/CircleCheckIcon";
 import SearchIcon from "@icons/SearchIcon";
 import { Checkbox, InputBase, Slider, Stack } from "@mui/material";
 import { useGameCount, useGameReducers } from "@store/game";
 import React, { memo, useEffect, useMemo, useState } from "react";
 import { BsFillHexagonFill } from "react-icons/bs";
-import { GetColor } from "./GetColor";
-import FormListOption from "@app/(root)/genres/[token]/components/FormListOption";
+import { HandleClickOption } from "./HandleClickOption";
+import FormListOption from "./FormListOption";
 import LensIcon from "@mui/icons-material/Lens";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-const OptionGame = () => {
+
+const OptionGenres = () => {
   const {
     setEditorRating,
     setUserRating,
@@ -24,7 +27,6 @@ const OptionGame = () => {
   } = useGameReducers();
 
   const { data } = useGameCount();
-
   const [checked, setChecked] = useState<string>("all");
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -43,6 +45,14 @@ const OptionGame = () => {
     return color;
   }, [valueUserRating]);
 
+  const handleClear = () => {
+    setChecked("all");
+    SetPlatforms([]);
+    setUserRating(0);
+    setEditorRating(0);
+    SetGenres([]);
+  };
+
   const handleSliderChange = (_event: Event, newValue: number | number[]) => {
     setEditorRating(newValue as number);
   };
@@ -51,13 +61,6 @@ const OptionGame = () => {
     newValue: number | number[],
   ) => {
     setUserRating(newValue as number);
-  };
-  const handleClear = () => {
-    setChecked("all");
-    SetPlatforms([]);
-    setUserRating(0);
-    setEditorRating(0);
-    SetGenres([]);
   };
 
   return (
@@ -87,7 +90,9 @@ const OptionGame = () => {
           setArray={SetPlatforms}
           arrayKey={platforms}
         />
-        <Stack direction={"column"} gap={2}>
+
+        {/* 2 thanh slider */}
+        <Stack direction={"column"} gap={2} px={2}>
           <Text color="white" fontSize={"16px"} fontWeight={500}>
             Min Rating
           </Text>
@@ -273,7 +278,6 @@ const OptionGame = () => {
           setArray={SetGenres}
           arrayKey={genres}
         />
-
         <Stack direction={"column"} gap={2}>
           <Stack>
             <Text color="white" fontSize={"16px"} fontWeight={500}>
@@ -357,7 +361,8 @@ const OptionGame = () => {
   );
 };
 
-export default memo(OptionGame);
+export default memo(OptionGenres);
+
 const DATAADDED = [
   {
     key: "all",
