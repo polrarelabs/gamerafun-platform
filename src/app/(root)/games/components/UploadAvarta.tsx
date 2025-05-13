@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Image } from "@components/shared";
+import { Button, Image, Text } from "@components/shared";
 import { Stack, styled } from "@mui/material";
-import { useGallery } from "@store/game";
-// import { PropsGallery } from "@store/game/action";
-import React, { memo, useEffect } from "react";
+import { useGameReducers } from "@store/game";
+import { useGallery } from "@store/media";
+import React, { memo, useRef } from "react";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -18,24 +18,51 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const UploadAvarta = () => {
-  const { dataGallery, errorGallery, loadingGallery, uploadGallery } =
-    useGallery();
+interface PropsUpload {
+  ratioWidth: number;
+  ratioHeight: number;
+}
 
-  const handleChange = (e) => {
-    const file = e.target.files[0] as File;
-    console.log("file", file);
+const UploadAvarta = ({ ratioWidth, ratioHeight }: PropsUpload) => {
+  const { uploadGallery, dataGallery } = useGallery();
+  const { errorsSizeImage, SetErrorsSizeImage } = useGameReducers();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const files = e.target.files;
+    if (!file || !files?.length) return;
 
-    const data = new FormData();
-    data.append("file", file);
-    data.append("name", file.name);
-    data.append("description", file.type);
-    uploadGallery(data);
+    const message = getMessageCheckFile(files[0]);
+    if (message) {
+      SetErrorsSizeImage(message);
+      if (inputRef?.current?.value) {
+        inputRef.current.value = "";
+      }
+    } else {
+      const imageUrl = URL.createObjectURL(file);
+      const img = new window.Image();
+      img.src = imageUrl;
+
+      img.onload = () => {
+        const actualRatio = img.width / img.height;
+        const expectedRatio = ratioWidth / ratioHeight;
+        const isValidRatio = Math.abs(actualRatio - expectedRatio) < 0.5;
+
+        if (isValidRatio) {
+          SetErrorsSizeImage(null);
+          const data = new FormData();
+          data.append("file", file);
+          data.append("name", file.name);
+          data.append("description", file.type);
+          uploadGallery(data);
+        } else {
+          SetErrorsSizeImage(
+            `The image must follow a ${ratioWidth}:${ratioHeight} aspect ratio`,
+          );
+        }
+      };
+    }
   };
-
-  useEffect(() => {
-    console.log("dataGallery", dataGallery);
-  }, [dataGallery]);
 
   return (
     <>
@@ -44,10 +71,9 @@ const UploadAvarta = () => {
           component="label"
           sx={{
             position: "absolute",
-            borderRadius: "1000px",
-            // p: 10,
+            borderRadius: "8px",
             width: 300,
-            height: 300,
+            height: 200,
             top: "50%",
             left: "50%",
             translate: "-50% -50%",
@@ -58,16 +84,16 @@ const UploadAvarta = () => {
         >
           <Image
             src={dataGallery.url}
-            alt={`data.url-${dataGallery.url}`}
+            alt="preview"
             size="100%"
-            aspectRatio={1 / 1}
+            aspectRatio={3 / 2}
             sizes="960px"
             containerProps={{
               sx: {
                 width: "100%",
                 height: "100%",
                 overflow: "hidden",
-                borderRadius: "1000px",
+                borderRadius: "8px",
                 "& img": {
                   objectFit: "cover",
                   objectPosition: "center",
@@ -76,38 +102,84 @@ const UploadAvarta = () => {
             }}
           />
           <VisuallyHiddenInput
+            ref={inputRef}
             type="file"
-            onChange={(event) => handleChange(event)}
-            multiple
+            onChange={handleChange}
+            accept="image/png,image/jpeg,image/jpg"
           />
         </Stack>
       ) : (
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          sx={{
-            position: "absolute",
-            borderRadius: "1000px",
-            p: 10,
-            width: 300,
-            height: 300,
-            top: "50%",
-            left: "50%",
-            translate: "-50% -50%",
-          }}
+        <Stack
+          position="relative"
+          direction="column"
+          height="100%"
+          width="100%"
         >
-          Upload Image
-          <VisuallyHiddenInput
-            type="file"
-            onChange={(event) => handleChange(event)}
-            multiple
-          />
-        </Button>
+          <Button
+            component="label"
+            variant="outlined"
+            tabIndex={-1}
+            sx={{
+              position: "absolute",
+              borderRadius: "8px",
+              p: 10,
+              width: 300,
+              height: 200,
+              top: "50%",
+              left: "50%",
+              translate: "-50% -50%",
+            }}
+          >
+            Upload image ({ratioWidth}:{ratioHeight})
+            <VisuallyHiddenInput
+              ref={inputRef}
+              type="file"
+              onChange={handleChange}
+              accept="image/png,image/jpeg,image/jpg"
+            />
+          </Button>
+
+          {errorsSizeImage && (
+            <Text
+              color="red"
+              sx={{
+                position: "absolute",
+                bottom: "10px",
+                left: "50%",
+                translate: "-50% -50%",
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              {errorsSizeImage}
+            </Text>
+          )}
+        </Stack>
       )}
     </>
   );
 };
 
-export default UploadAvarta;
+export default memo(UploadAvarta);
+
+const MAX_SIZE = 10 * 1024 * 1024;
+
+export const IMAGES_ACCEPT_INPUT = [
+  "image/png",
+  "image/jpg",
+  "image/jpeg",
+  "image/svg+xml",
+  "image/webp",
+];
+
+const getMessageCheckFile = (file: File) => {
+  const { type, size } = file;
+  switch (true) {
+    case !IMAGES_ACCEPT_INPUT.includes(type):
+      return "Image is invalid";
+    case size > MAX_SIZE:
+      return "Image exceed 10MB";
+    default:
+      return undefined;
+  }
+};

@@ -9,6 +9,7 @@ import LayoutGame from "./components/LayoutGame";
 import FormAddGame from "./components/FormCreateGame";
 import { setToken } from "@api/helpers";
 import { SCREEN_PX } from "@constant";
+import { memo } from "react";
 
 const GameHome = () => {
   // const token =
@@ -70,4 +71,4 @@ const GameHome = () => {
   );
 };
 
-export default GameHome;
+export default memo(GameHome);

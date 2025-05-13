@@ -41,4 +41,4 @@ const TextFieldFormik = ({
   );
 };
 
-export default TextFieldFormik;
+export default memo(TextFieldFormik);

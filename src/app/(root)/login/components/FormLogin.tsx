@@ -1,24 +1,19 @@
 "use client";
 
+import { setToken } from "@api/helpers";
+import WalletModal from "@components/Connect/WalletModal";
 import { Button, Text } from "@components/shared";
-import DiscordIcons from "@icons/DiscordIcons";
+import useToggle from "@hooks/useToggle";
 import GoogleIcon from "@icons/GoogleIcon";
-import ImmutableIcon from "@icons/ImmutableIcon";
-import SteamIcon from "@icons/SteamIcon";
-import TwitchIcon from "@icons/TwitchIcon";
+import WalletIcon from "@icons/WalletIcon";
 import XIcon from "@icons/XIcon";
 import { Stack } from "@mui/material";
 import { useAuthLoginX, useLoginGoogle, useSignMessage } from "@store/auth";
 import { PropsLoginX } from "@store/auth/action";
-import { useRouter, useSearchParams } from "next/navigation";
-import { MouseEvent, useEffect, useMemo, useState } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import WalletIcon from "@icons/WalletIcon";
-import { CREATE_AGENT_PATH } from "@constant/paths";
-import Link from "@components/Link";
-import useToggle from "@hooks/useToggle";
-import WalletModal from "@components/Connect/WalletModal";
 import Cookies from "js-cookie";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { MouseEvent, useEffect, useState } from "react";
 
 const FormLogin = () => {
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
@@ -64,7 +59,14 @@ const FormLogin = () => {
   // test local
 
   useEffect(() => {
-    console.log("dataAuthLoginGoogle", dataAuthLoginGoogle);
+    if (dataAuthLoginGoogle) {
+      setToken(dataAuthLoginGoogle.accessToken);
+      Cookies.set("accessToken", dataAuthLogin.accessToken, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+    }
   }, [dataAuthLoginGoogle]);
 
   useEffect(() => {

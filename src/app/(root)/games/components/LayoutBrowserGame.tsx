@@ -39,4 +39,4 @@ const LayoutBrowserGame = () => {
   );
 };
 
-export default LayoutBrowserGame;
+export default memo(LayoutBrowserGame);

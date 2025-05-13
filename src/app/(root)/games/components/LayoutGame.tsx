@@ -42,4 +42,4 @@ const LayoutGame = () => {
   );
 };
 
-export default LayoutGame;
+export default memo(LayoutGame);

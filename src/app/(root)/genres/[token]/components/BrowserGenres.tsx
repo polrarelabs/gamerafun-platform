@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Button, Text } from "@components/shared";
+import { Button, Text, Image } from "@components/shared";
 import CloseIcon from "@icons/CloseIcon";
 import GameIcon from "@icons/GameIcon";
 import {
@@ -16,9 +16,9 @@ import { Theme } from "@mui/material/styles";
 import { useGame, useGameReducers } from "@store/game";
 import img from "public/images/img-logo.png";
 import { memo, useEffect, useState } from "react";
-import LayoutGameFull from "./LayoutGameFull";
-import LayoutGameSmall from "./LayoutGameSmall";
-import Selected from "@app/(root)/genres/[token]/components/Selected";
+import LayoutGenresFull from "./LayoutGenresFull";
+import LayoutGenresSmall from "./LayoutGenresSmall";
+import Selected from "./Selected";
 
 interface Props {
   isLayoutMD: boolean;
@@ -36,16 +36,13 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-const BrowserGame = ({
+const BrowserGenres = ({
   isLayoutMD,
   theme,
   setOpen,
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const { setEditorRating, setUserRating, valueEditorRating, valueUserRating } =
-    useGameReducers();
-
   const { error, loading, data, fetchGetGame } = useGame();
   const [hover, setHover] = useState<boolean>(false);
   const [id, setId] = useState<number | null>(null);
@@ -88,7 +85,7 @@ const BrowserGame = ({
           <GameIcon sx={{ color: "#9CA3AF" }} />
           <Stack direction={"row"} alignItems={"end"} gap={2}>
             <Text color="white" fontSize={"20px"} fontWeight={700}>
-              Browse Games
+              Browse Auto Battler Games
             </Text>
             <Text color="#9CA3AF" fontSize={"14px"} fontWeight={400}>
               {data.length} results
@@ -180,32 +177,27 @@ const BrowserGame = ({
         <Stack
           display={"grid"}
           gridTemplateColumns={{
-            xl: "repeat(6, 1fr)",
+            xl: "repeat(5, 1fr)",
             lg: "repeat(4, 1fr)",
             sm: "repeat(2, 1fr)",
           }}
           gap={2}
         >
-          {displayLayout === "no-list" ? (
-            <LayoutGameFull
+          {isSm ? (
+            <LayoutGenresFull
+              id={id}
               img={img}
               hover={hover}
               setHover={setHover}
               setId={setId}
-              id={id}
-              // item={item}
-              // getIcon={getIcon}
             />
           ) : (
-            <LayoutGameSmall
-              // index={index}
+            <LayoutGenresSmall
+              id={id}
               img={img}
               hover={hover}
               setHover={setHover}
               setId={setId}
-              id={id}
-              // item={item}
-              // getIcon={getIcon}
             />
           )}
         </Stack>
@@ -214,4 +206,4 @@ const BrowserGame = ({
   );
 };
 
-export default memo(BrowserGame);
+export default memo(BrowserGenres);

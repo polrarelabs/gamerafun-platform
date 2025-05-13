@@ -4,13 +4,13 @@ import { Image, Text } from "@components/shared";
 import { Box, Stack } from "@mui/material";
 import { useGameCount, useGameReducers } from "@store/game";
 import React, { useEffect, useState } from "react";
-import img from "public/images/anh.png";
+import img from "public/images/img-local.png";
 import { useRouter } from "next/navigation";
 
 const LayoutGenres = () => {
   const router = useRouter();
   const { data, loading, error, fetchGameCount } = useGameCount();
-  const { SetGenres } = useGameReducers();
+  const { SetGenres, SetGenresTitle } = useGameReducers();
   useEffect(() => {
     fetchGameCount();
   }, []);
@@ -40,8 +40,9 @@ const LayoutGenres = () => {
   const handleClick = (item: string) => {
     const text = item.toLowerCase();
     const arr: string[] = [];
-    arr.push(text);
+    arr.push(text.toUpperCase());
     SetGenres(arr);
+    SetGenresTitle(text);
     router.push(`/genres/${text}`);
   };
 
@@ -58,6 +59,11 @@ const LayoutGenres = () => {
             width={"100%"}
             height={"100%"}
             onClick={() => handleClick(item)}
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
           >
             <Image
               src={img}
