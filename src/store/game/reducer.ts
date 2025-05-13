@@ -85,7 +85,7 @@ export interface ListGame {
   chain: SupportChain[];
   media: PropsMedia[];
   rating: number;
-  rates: Rate[];
+  rates?: Rate[];
 }
 
 export interface AsyncState<T> {
@@ -369,6 +369,9 @@ const CreateGameReviewReducer = createSlice({
           state.errorCreate = action.payload as string;
         },
       );
+  },
+});
+
 interface PropsGameReducers {
   valueEditorRating: number;
   valueUserRating: number;

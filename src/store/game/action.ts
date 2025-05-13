@@ -7,7 +7,7 @@ import {
   SupportOs,
 } from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { HttpStatusCode } from "axios";
+import { HttpStatusCode } from "axios";
 
 export interface ParamsProp {
   search?: string;
