@@ -17,6 +17,7 @@ export const Endpoint = {
   UPDATE_GAME: "/game/update",
   GET_GAME_ID: "/game/{id}",
   DELETE_GAME: "/game/delete",
+  CREATE_GAME_REVIEW: "game/rate",
 
   GALLERY: "/gallery",
 

@@ -2,6 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   createGame,
+  createGameReview,
   deleteGame,
   getGame as fetchListGame,
   getGameCount,
@@ -61,6 +62,12 @@ export interface GenreProps {
   AUTOBATTLER: number;
 }
 
+interface Rate {
+  gameId: number;
+  score: number;
+  review: string;
+}
+
 export interface ListGame {
   id: number;
   name: string;
@@ -78,6 +85,7 @@ export interface ListGame {
   chain: SupportChain[];
   media: PropsMedia[];
   rating: number;
+  rates?: Rate[];
 }
 
 export interface AsyncState<T> {
@@ -326,6 +334,43 @@ const DeleteGameReducer = createSlice({
       });
   },
 });
+export interface PropsCreateGameReview {
+  isCreate: boolean;
+  loadingCreate: boolean;
+  errorCreate: string;
+}
+const initialStateCreateGameReview: PropsCreateGameReview = {
+  isCreate: false,
+  loadingCreate: false,
+  errorCreate: "",
+};
+
+const CreateGameReviewReducer = createSlice({
+  name: "game/createGameReview",
+  initialState: initialStateCreateGameReview,
+  reducers: {
+    setIsCreateGameReview: (state) => {
+      state.isCreate = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createGameReview.pending, (state) => {
+        state.loadingCreate = true;
+      })
+      .addCase(createGameReview.fulfilled, (state) => {
+        state.isCreate = true;
+        state.loadingCreate = false;
+      })
+      .addCase(
+        createGameReview.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loadingCreate = false;
+          state.errorCreate = action.payload as string;
+        },
+      );
+  },
+});
 
 interface PropsGameReducers {
   valueEditorRating: number;
@@ -414,6 +459,7 @@ export const reducers = {
   updateGame: UpdateGameReducer.reducer,
   getGameId: getGameIdSlice.reducer,
   deleteGame: DeleteGameReducer.reducer,
+  createGameReview: CreateGameReviewReducer.reducer,
 };
 
 export const {
@@ -436,3 +482,5 @@ export const { setIsUpdateGame } = UpdateGameReducer.actions;
 export const { setStatus } = getGameIdSlice.actions;
 
 export const { setIsDelete } = DeleteGameReducer.actions;
+
+export const { setIsCreateGameReview } = CreateGameReviewReducer.actions;
