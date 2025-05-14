@@ -70,5 +70,6 @@
   },
   "overrides": {
     "@aptos-labs/aptos-client": "^1.0.0"
-  }
+  },
+  "packageManager": "yarn@4.9.1"
 }
