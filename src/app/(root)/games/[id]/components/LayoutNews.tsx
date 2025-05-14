@@ -2,6 +2,7 @@ import { Stack } from "@mui/material";
 import LayoutModalReview from "./LayoutModalReview";
 import { Button, Image, Text } from "@components/shared";
 import bgSlider from "public/images/banner.webp";
+import LayoutAbout from "./LayoutAbout";
 
 const LayoutNews = () => {
   return (
@@ -53,6 +54,7 @@ const LayoutNews = () => {
           </Button>
         </Stack>
       </Stack>
+      <LayoutAbout />
     </>
   );
 };
