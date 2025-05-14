@@ -1,8 +1,8 @@
 import { Avatar, Stack } from "@mui/material";
 import LayoutModalReview from "./LayoutModalReview";
 import { Image, Text } from "@components/shared";
-import iconLogo from "public/images/img-logo.png";
 import bgSlider from "public/images/Riftstorm_banner1_b0eb3c12c2.webp";
+import LayoutAbout from "./LayoutAbout";
 const LayoutGuides = () => {
   return (
     <>
@@ -63,6 +63,7 @@ const LayoutGuides = () => {
           </Stack>
         </Stack>
       </Stack>
+      <LayoutAbout />
     </>
   );
 };
