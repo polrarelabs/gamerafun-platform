@@ -10,7 +10,7 @@ import LayoutOverview from "./components/LayoutOverview";
 import LayoutReview from "./components/LayoutReview";
 import LayoutGuides from "./components/LayoutGuides";
 import LayoutNews from "./components/LayoutNews";
-import bgSlider from "public/images/Riftstorm_banner1_b0eb3c12c2.webp";
+import bgSlider from "public/images/banner.webp";
 const LayoutGameDetail = () => {
   const { id } = useParams();
   const { getGameId, data, error, loading } = useGetGameId();

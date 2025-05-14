@@ -43,7 +43,7 @@ const LayoutReview = () => {
         GamePlay
       </Typography>
       <Image
-        src="/images/Riftstorm_banner1_b0eb3c12c2.webp"
+        src="/images/banner.webp"
         alt="Riftstorm game banner"
         size="100%"
         containerProps={{
