@@ -16,7 +16,7 @@ const LayoutAbout = () => {
   const { data } = useGetGameId();
   return (
     <>
-      <Stack>
+      <Stack my={4}>
         <Divider textAlign="left">ABOUT {data.name}</Divider>
       </Stack>
       <Stack

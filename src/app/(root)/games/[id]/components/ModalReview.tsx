@@ -1,7 +1,14 @@
 import DialogLayout from "@components/DialogLayout";
 import { Button, Text } from "@components/shared";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
-import { Box, DialogContent, DialogTitle, Typography } from "@mui/material";
+import {
+  Box,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  Typography,
+  Select,
+} from "@mui/material";
 import { useCreateGameReview, useGetGameId } from "@store/game";
 import { useFormik } from "formik";
 import { useParams } from "next/navigation";
@@ -50,11 +57,15 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
     }
   }, [isCreate]);
 
+  const handleCloseModalReview = () => {
+    setOpen(false);
+  };
+
   return (
     <DialogLayout
       open={open}
-      onClose={() => setOpen(false)}
-      sx={{ width: "50%", mx: "auto" }}
+      onClose={handleCloseModalReview}
+      sx={{ width: "70%", mx: "auto" }}
     >
       <DialogTitle marginBottom={4}>
         <Text textAlign={"left"} fontSize={"20px"} fontWeight={700}>
@@ -77,7 +88,13 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
         <form onSubmit={formik.handleSubmit}>
           <TextFieldFormik label="Your Review" name="review" formik={formik} />
           <Box display="flex" alignItems="center" gap={2} mt={2} mb={2}>
-            <Typography>Choose a rating:</Typography>
+            <Typography
+              sx={{
+                minWidth: "100px",
+              }}
+            >
+              Choose a rating:
+            </Typography>
             <Box display="flex" gap={1}>
               {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
                 <Button
@@ -88,7 +105,7 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
                     minWidth: 40,
                     height: 40,
                     backgroundColor:
-                      formik.values.scroce === num ? "green" : "transparent",
+                      formik.values.scroce === num ? "green" : "#333",
                     color: formik.values.scroce === num ? "#fff" : "#ccc",
                     border: "1px solid #555",
                     "&:hover": {
@@ -111,6 +128,60 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
             Submit
           </Button>
         </form>
+        <Stack direction={"row"} gap={2} mt={2}>
+          <Stack direction={"column"} gap={2}>
+            <Text>Language</Text>
+            <Select
+              defaultValue="English"
+              sx={{
+                width: "100%",
+                backgroundColor: "#333",
+                borderRadius: "8px",
+                "& .MuiSelect-select": {
+                  padding: "10px",
+                  color: "#fff",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#555",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#777",
+                },
+              }}
+            >
+              <option value="English">English</option>
+              <option value="Spanish">Spanish</option>
+              <option value="Portuguese">Portuguese</option>
+            </Select>
+          </Stack>
+          <Stack direction={"column"} gap={2}>
+            <Text>I played this game for</Text>
+            <Select
+              defaultValue="0-1 hour"
+              sx={{
+                width: "100%",
+                backgroundColor: "#333",
+                borderRadius: "8px",
+                "& .MuiSelect-select": {
+                  padding: "10px",
+                  color: "#fff",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#555",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#777",
+                },
+              }}
+            >
+              <option value="0-1 hour">0-1 hour</option>
+              <option value="1-5 hour">1-5 hour</option>
+              <option value="5-20 hour">5-20 hour</option>
+              <option value="20-50 hour">20-50 hour</option>
+              <option value="50-100 hour">50-100 hour</option>
+            </Select>
+          </Stack>
+        </Stack>
       </DialogContent>
     </DialogLayout>
   );

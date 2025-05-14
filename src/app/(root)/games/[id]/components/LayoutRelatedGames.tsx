@@ -1,16 +1,22 @@
 import { Stack } from "@mui/material";
-import { useGame } from "@store/game";
+import { useGame, useGetGameId } from "@store/game";
 import GetIcon from "../../components/GetIcon";
 import { Image, Text } from "@components/shared";
 import img from "public/images/img-logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LayoutRelatedGames = () => {
-  const { data } = useGame();
+  const { data, fetchGetGame } = useGame();
+  const { data: dataGameById } = useGetGameId();
   const [hover, setHover] = useState<boolean>(false);
+  useEffect(() => {
+    if (dataGameById?.genre && dataGameById.genre.length > 0) {
+      fetchGetGame({ genre: dataGameById.genre });
+    }
+  }, []);
   return (
     <>
-      {data.map((item, index) => {
+      {data?.map((item, index) => {
         return (
           <Stack
             key={index}
@@ -27,7 +33,7 @@ const LayoutRelatedGames = () => {
                 cursor: "pointer",
               },
             }}
-            direction={"column"}
+            direction={"row"}
             justifyContent={"space-between"}
             onMouseEnter={() => {
               setHover(true);
@@ -55,7 +61,6 @@ const LayoutRelatedGames = () => {
                       borderColor:
                         "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
                       "& img": {
-                        // objectFit: hover && id === index ? "cover" : "fill",
                         objectFit: "cover",
                         objectPosition: "center",
                         transition: "all 0.5s ease-in-out",
