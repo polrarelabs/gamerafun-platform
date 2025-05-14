@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Box, Stack, StackProps } from "@mui/material";
 import { Container, Label, Message } from "./components";
 import { Text } from "components/shared";
-import PlaceholderImage from "public/images/riftstorm_banner1_b0eb3c12c2.webp";
+import PlaceholderImage from "public/images/banner.webp";
 import Image from "next/image";
 import useElementSize from "hooks/useElementSize";
 import useToggle from "hooks/useToggle";
