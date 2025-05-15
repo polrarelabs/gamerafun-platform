@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Drawer, Stack } from "@mui/material";
 import { Button } from "@components/shared";
 import useBreakpoint from "@hooks/useBreakpoint";
@@ -9,12 +9,23 @@ import Link from "@components/Link";
 import { CREATE_AGENT_PATH, LOGIN_PATH } from "@constant/paths";
 import Connect from "@components/Connect";
 import useAptosWallet from "@hooks/useAptosWallet";
-import { HEADER_HEIGHT, SCREEN_PX } from "@constant";
+import { ACCESSTOKEN_COOKIE, HEADER_HEIGHT, SCREEN_PX } from "@constant";
 import Sidebar from "./Sidebar";
 import { useSignMessage } from "@store/auth";
 import ChatAI from "@components/AskAI/ChatAI";
+import Cookies from "js-cookie";
 
 const Header = () => {
+  const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
+
+  const [showLogin, setShowLogin] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (cookies !== "undefined" && cookies !== undefined) {
+      setShowLogin(false);
+    } else setShowLogin(true);
+  }, [cookies]);
+
   const { isSmSmaller, isMdSmaller } = useBreakpoint();
   const { connected } = useAptosWallet();
   const { isConnectPetra, isLogin } = useSignMessage();
@@ -62,14 +73,16 @@ const Header = () => {
                 >
                   Ask AI
                 </Button>
-                <Button
-                  LinkComponent={Link}
-                  href={LOGIN_PATH}
-                  variant="contained"
-                  size="small"
-                >
-                  Log In
-                </Button>
+                {showLogin && (
+                  <Button
+                    LinkComponent={Link}
+                    href={LOGIN_PATH}
+                    variant="contained"
+                    size="small"
+                  >
+                    Log In
+                  </Button>
+                )}
               </Stack>
             )}
           </>
@@ -84,7 +97,7 @@ const Header = () => {
             </Button>
             <CreateAgent />
             {(!isSmSmaller || !isConnectPetra) && <Connect />}
-            {!isLogin && (
+            {showLogin && (
               <Button
                 LinkComponent={Link}
                 href={LOGIN_PATH}

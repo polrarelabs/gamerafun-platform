@@ -10,10 +10,14 @@ import XIcon from "@icons/XIcon";
 import { Stack } from "@mui/material";
 import { useAuthLoginX, useLoginGoogle, useSignMessage } from "@store/auth";
 import { PropsLoginX } from "@store/auth/action";
+import { setCookie } from "@utils";
 import Cookies from "js-cookie";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MouseEvent, useEffect, useState } from "react";
+import { ACCESSTOKEN_COOKIE } from "../../../../constant/index";
+import { HOME_PATH } from "@constant/paths";
+import LoginAccount from "./LoginAccount";
 
 const FormLogin = () => {
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
@@ -24,7 +28,7 @@ const FormLogin = () => {
   };
 
   const paramsTestLocal =
-    "?sessionId=o_4OibOSB4DlvF07TN637DRTqYlL22mT&xId=1688586721917796352";
+    "?sessionId=HS6qdJBbasUWUja5zQYddt_Y4tRXst6X&xId=1688586721917796352";
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -60,18 +64,19 @@ const FormLogin = () => {
 
   useEffect(() => {
     if (dataAuthLoginGoogle) {
-      setToken(dataAuthLoginGoogle.accessToken);
-      Cookies.set("accessToken", dataAuthLogin.accessToken, {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
+      // setToken(dataAuthLoginGoogle.accessToken);
+      // Cookies.set("accessToken", dataAuthLoginGoogle.accessToken, {
+      //   expires: 7,
+      //   secure: true,
+      //   sameSite: "Strict",
+      // });
+      // setCookie(ACCESSTOKEN_COOKIE, dataAuthLoginGoogle.accessToken)
     }
+    console.log("dataAuthLoginGoogle", dataAuthLoginGoogle);
   }, [dataAuthLoginGoogle]);
 
   useEffect(() => {
     if (session?.user?.email) {
-      console.log("login", session?.user?.email);
       LoginGoogle({ email: session.user.email });
     }
   }, [session]);
@@ -100,12 +105,14 @@ const FormLogin = () => {
         secure: true,
         sameSite: "Strict",
       });
+      // setCookie(ACCESSTOKEN_COOKIE, dataAuthLogin.accessToken)
+      router.push(HOME_PATH);
     }
   }, [dataAuthLogin]);
 
   const handleLoginGoogle = () => {
-    // signIn("google", { callbackUrl: "/" })
-    signIn("google");
+    signIn("google", { callbackUrl: "/" });
+    // signIn("google");
   };
 
   const handleLoginX = async () => {
@@ -189,6 +196,9 @@ const FormLogin = () => {
           );
         })}
       </Stack>
+
+      <LoginAccount />
+
       <Stack width={"100%"} direction={"row"} alignItems={"center"} gap={2}>
         <hr style={{ width: "100%", margin: "0 auto", color: "" }} />
         <Text>Or</Text>

@@ -2,6 +2,7 @@ import { Carousel } from "@components/screens/Carousel";
 import { Typography } from "@mui/material";
 import Iframe from "react-iframe";
 import LayoutModalReview from "./LayoutModalReview";
+import LayoutAbout from "./LayoutAbout";
 const LayoutOverview = () => {
   return (
     <>
@@ -24,6 +25,7 @@ const LayoutOverview = () => {
         <Typography variant="h2" component="h2" gutterBottom sx={{ my: 2 }}>
           How to Get Started
         </Typography>
+        <LayoutAbout />
       </div>
     </>
   );

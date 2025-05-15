@@ -17,7 +17,7 @@ interface Props {
   id: number | null;
 }
 
-const LayoutGameSmall = ({ img, hover, setHover, setId, id }: Props) => {
+const ItemGameRow = ({ img, hover, setHover, setId, id }: Props) => {
   const [dataSupportOs, setDataSupportOs] = useState<string[]>([]);
 
   // useEffect(() => {
@@ -155,4 +155,4 @@ const LayoutGameSmall = ({ img, hover, setHover, setId, id }: Props) => {
   );
 };
 
-export default memo(LayoutGameSmall);
+export default memo(ItemGameRow);

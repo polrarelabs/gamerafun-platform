@@ -2,6 +2,8 @@ import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   AuthSignMessage,
   authSignMessage,
+  loginAccount,
+  LoginAccount,
   loginGoogle,
   LoginGoogle,
   loginX,
@@ -77,6 +79,27 @@ export const useAuthLoginX = () => {
     dataAuthLogin,
     loadingAuthLogin,
     errorAuthLogin,
+  };
+};
+
+export const useLoginAccount = () => {
+  const dispatch = useAppDispatch();
+
+  const LoginAccount = (body: LoginAccount) => {
+    dispatch(loginAccount(body));
+  };
+
+  const {
+    dataAuthLoginAccount,
+    loadingAuthLoginAccount,
+    errorAuthLoginAccount,
+  } = useAppSelector((state) => state.LoginAccount);
+
+  return {
+    dataAuthLoginAccount,
+    loadingAuthLoginAccount,
+    errorAuthLoginAccount,
+    LoginAccount,
   };
 };
 

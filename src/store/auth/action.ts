@@ -1,6 +1,6 @@
 import { client, Endpoint } from "@api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { HttpStatusCode } from "axios";
+import axios, { HttpStatusCode } from "axios";
 
 export interface PropsSignMessage {
   nonce: string;
@@ -67,7 +67,26 @@ export const loginGoogle = createAsyncThunk(
     try {
       const response = await client.post(Endpoint.LOGIN_GOOGLE, body);
 
-      if (response.status === HttpStatusCode.Ok) return response.data;
+      if (response.status === HttpStatusCode.Ok) {
+        return response.data;
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export interface LoginAccount {
+  userName: string;
+  password: string;
+}
+
+export const loginAccount = createAsyncThunk(
+  "post/loginAccount",
+  async (body: LoginAccount) => {
+    try {
+      const response = await axios.post(Endpoint.LOGIN_ACCOUNT, body);
+      return response.data;
     } catch (error) {
       throw error;
     }

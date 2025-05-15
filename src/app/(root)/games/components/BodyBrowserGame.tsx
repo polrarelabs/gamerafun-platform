@@ -5,7 +5,7 @@ import { memo, useState } from "react";
 import OptionGame from "./OptionGame";
 import BrowserGame from "./BrowserGame";
 
-const LayoutBrowserGame = () => {
+const BodyBrowserGame = () => {
   const theme = useTheme();
   const isLayoutMD = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -39,4 +39,4 @@ const LayoutBrowserGame = () => {
   );
 };
 
-export default memo(LayoutBrowserGame);
+export default memo(BodyBrowserGame);

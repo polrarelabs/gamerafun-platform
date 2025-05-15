@@ -5,6 +5,7 @@ import {
   authSignMessage,
   loginX,
   loginGoogle,
+  loginAccount,
 } from "./action";
 
 export interface SignMessageProps {
@@ -119,6 +120,54 @@ export interface PropsAuth {
   user: PropsUser;
 }
 
+interface PropsUserLoginAccount {
+  id: string;
+  email: string;
+  displayName: string;
+  userName: string;
+  isDefaultAdmin: boolean;
+}
+export interface PropsLoginAccountAuth {
+  accessToken: string;
+  refreshToken: string;
+  user: PropsUserLoginAccount;
+}
+
+export interface PropsAuthAccountReducers {
+  dataAuthLoginAccount: PropsLoginAccountAuth;
+  loadingAuthLoginAccount: boolean;
+  errorAuthLoginAccount: string;
+}
+
+const initialStateAuthLoginAccount: PropsAuthAccountReducers = {
+  dataAuthLoginAccount: {} as PropsLoginAccountAuth,
+  loadingAuthLoginAccount: false,
+  errorAuthLoginAccount: "",
+};
+
+const LoginAccountReducer = createSlice({
+  name: "LoginAccount",
+  initialState: initialStateAuthLoginAccount,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginAccount.pending, (state) => {
+        state.loadingAuthLoginAccount = true;
+      })
+      .addCase(
+        loginAccount.fulfilled,
+        (state, action: PayloadAction<PropsLoginAccountAuth>) => {
+          state.loadingAuthLoginAccount = false;
+          state.dataAuthLoginAccount = action.payload;
+        },
+      )
+      .addCase(loginAccount.rejected, (state, action: PayloadAction<any>) => {
+        state.loadingAuthLoginAccount = false;
+        state.errorAuthLoginAccount = action.payload as string;
+      });
+  },
+});
+
 export interface PropsAuthXReducers {
   dataAuthLogin: PropsAuth;
   loadingAuthLogin: boolean;
@@ -191,6 +240,7 @@ export const reducers = {
   signmessage: SignMessageReducer.reducer,
   loginX: LoginXReducer.reducer,
   loginGoogle: LoginGoogleReducer.reducer,
+  LoginAccount: LoginAccountReducer.reducer,
 };
 
 export const { setIsConnectPetra, setIsLogin } = SignMessageReducer.actions;

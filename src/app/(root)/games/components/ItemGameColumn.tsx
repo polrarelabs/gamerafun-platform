@@ -3,14 +3,11 @@
 
 import { Image, Text } from "@components/shared";
 import { Stack } from "@mui/material";
-import { ListGame, useGame, useGameReducers, useGetGameId } from "@store/game";
-import React, { memo, useEffect, useState } from "react";
-import ModalUpdateGame from "./ModalUpdateGame";
-import { setToken } from "@api/helpers";
-import axios from "axios";
-import GetIcon from "./GetIcon";
-import { useRouter } from "next/navigation";
+import { useGame, useGameReducers, useGetGameId } from "@store/game";
 import { useGallery } from "@store/media";
+import { useRouter } from "next/navigation";
+import React, { memo, useState } from "react";
+import GetIcon from "./GetIcon";
 
 interface Props {
   img: any | null;
@@ -20,7 +17,7 @@ interface Props {
   id: number | null;
 }
 
-const LayoutGameFull = ({ img, hover, setHover, setId, id }: Props) => {
+const ItemGameColumn = ({ img, hover, setHover, setId, id }: Props) => {
   const { data, fetchGetGame } = useGame();
   const { isGetGameId, setGetGameId } = useGameReducers();
   const [open, setOpen] = useState<boolean>(false);
@@ -152,4 +149,4 @@ const LayoutGameFull = ({ img, hover, setHover, setId, id }: Props) => {
   );
 };
 
-export default memo(LayoutGameFull);
+export default memo(ItemGameColumn);

@@ -1,6 +1,7 @@
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import { useGetGameId } from "@store/game";
 import LayoutModalReview from "./LayoutModalReview";
+import LayoutAbout from "./LayoutAbout";
 import { Image, Text } from "@components/shared";
 const LayoutReview = () => {
   const { data, error, loading } = useGetGameId();
@@ -63,6 +64,7 @@ const LayoutReview = () => {
           },
         }}
       />
+      <LayoutAbout />
     </>
   );
 };

@@ -44,7 +44,6 @@ export interface PropsDownloading {
 }
 
 export interface PropsMedia {
-  // id: string;
   url: string;
   type: string;
   position: MediaPosition;

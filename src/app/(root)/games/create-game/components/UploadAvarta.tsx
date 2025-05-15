@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Image, Text } from "@components/shared";
+import { Button, Text } from "@components/shared";
 import { Stack, styled } from "@mui/material";
 import { useGameReducers } from "@store/game";
-import { useGallery } from "@store/media";
-import React, { memo, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
+import InfoImage from "./InfoImage";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -21,12 +21,28 @@ const VisuallyHiddenInput = styled("input")({
 interface PropsUpload {
   ratioWidth: number;
   ratioHeight: number;
+  dataListImage: PropsInfo[];
+  setDataListImage: React.Dispatch<React.SetStateAction<PropsInfo[]>>;
 }
 
-const UploadAvarta = ({ ratioWidth, ratioHeight }: PropsUpload) => {
-  const { uploadGallery, dataGallery } = useGallery();
+export interface PropsInfo {
+  file: File;
+  name: string;
+  description?: string;
+  position: string;
+  widthImg: number;
+  heightImg: number;
+}
+
+const UploadAvarta = ({
+  ratioWidth,
+  ratioHeight,
+  setDataListImage,
+  dataListImage,
+}: PropsUpload) => {
   const { errorsSizeImage, SetErrorsSizeImage } = useGameReducers();
   const inputRef = useRef<HTMLInputElement | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const files = e.target.files;
@@ -50,11 +66,17 @@ const UploadAvarta = ({ ratioWidth, ratioHeight }: PropsUpload) => {
 
         if (isValidRatio) {
           SetErrorsSizeImage(null);
-          const data = new FormData();
-          data.append("file", file);
-          data.append("name", file.name);
-          data.append("description", file.type);
-          uploadGallery(data);
+
+          const array: PropsInfo[] = [...dataListImage];
+          array.push({
+            file: file,
+            name: "",
+            description: "",
+            position: "",
+            heightImg: img.height,
+            widthImg: img.width,
+          });
+          setDataListImage(array);
         } else {
           SetErrorsSizeImage(
             `The image must follow a ${ratioWidth}:${ratioHeight} aspect ratio`,
@@ -64,89 +86,44 @@ const UploadAvarta = ({ ratioWidth, ratioHeight }: PropsUpload) => {
     }
   };
 
+  useEffect(() => {
+    console.log(dataListImage);
+  }, [dataListImage]);
+
   return (
     <>
-      {dataGallery.url ? (
-        <Stack
-          component="label"
-          sx={{
-            position: "absolute",
-            borderRadius: "8px",
-            width: 300,
-            height: 200,
-            top: "50%",
-            left: "50%",
-            translate: "-50% -50%",
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
-        >
-          <Image
-            src={dataGallery.url}
-            alt="preview"
-            size="100%"
-            aspectRatio={3 / 2}
-            sizes="960px"
-            containerProps={{
-              sx: {
-                width: "100%",
-                height: "100%",
-                overflow: "hidden",
-                borderRadius: "8px",
-                "& img": {
-                  objectFit: "cover",
-                  objectPosition: "center",
-                },
-              },
-            }}
-          />
-          <VisuallyHiddenInput
-            ref={inputRef}
-            type="file"
-            onChange={handleChange}
-            accept="image/png,image/jpeg,image/jpg"
-          />
-        </Stack>
-      ) : (
-        <Stack
-          position="relative"
-          direction="column"
-          height="100%"
-          width="100%"
-        >
+      <Stack position="relative" direction="row" height="100%" width="100%">
+        <Stack flex={1} alignItems={"center"} gap={2} mt={2}>
           <Button
             component="label"
             variant="outlined"
             tabIndex={-1}
             sx={{
-              position: "absolute",
+              // position: "absolute",
               borderRadius: "8px",
-              p: 10,
-              width: 300,
-              height: 200,
-              top: "50%",
-              left: "50%",
-              translate: "-50% -50%",
+              p: 2,
+              width: "max-content",
+              // top: "50%",
+              // left: "50%",
+              // translate: "-50% -50%",
             }}
           >
-            Upload image ({ratioWidth}:{ratioHeight})
+            Upload image
             <VisuallyHiddenInput
               ref={inputRef}
               type="file"
               onChange={handleChange}
-              accept="image/png,image/jpeg,image/jpg"
+              accept="image/png"
             />
           </Button>
-
           {errorsSizeImage && (
             <Text
               color="red"
               sx={{
-                position: "absolute",
-                bottom: "10px",
-                left: "50%",
-                translate: "-50% -50%",
+                // position: "absolute",
+                // bottom: "10px",
+                // left: "50%",
+                // translate: "-50% -50%",
                 width: "100%",
                 textAlign: "center",
               }}
@@ -155,7 +132,22 @@ const UploadAvarta = ({ ratioWidth, ratioHeight }: PropsUpload) => {
             </Text>
           )}
         </Stack>
-      )}
+        {dataListImage.length > 0 && (
+          <Stack flex={4} direction={"column"} gap={2}>
+            {dataListImage.map((item, index) => {
+              return (
+                <InfoImage
+                  key={index}
+                  data={item}
+                  id={index}
+                  setDataList={setDataListImage}
+                  dataList={dataListImage}
+                />
+              );
+            })}
+          </Stack>
+        )}
+      </Stack>
     </>
   );
 };
