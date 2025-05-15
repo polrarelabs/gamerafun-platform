@@ -22,13 +22,15 @@ const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
   const pathName = usePathname();
   const router = useRouter();
-  const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
   useEffect(() => {
+    const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
+    console.log("cookies1", cookies);
+
     if (cookies !== "undefined" && cookies !== undefined) {
       setToken(cookies);
       router.push(HOME_PATH);
     } else router.push(LOGIN_PATH);
-  }, [cookies]);
+  }, []);
 
   const { isMdSmaller } = useBreakpoint();
 
