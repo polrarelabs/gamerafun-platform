@@ -1,21 +1,24 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { upGallery } from "./action";
-import { setDataGallery } from "./reducer";
+import { setDataGallery, setIsUpload } from "./reducer";
 
 export const useGallery = () => {
   const dispatch = useAppDispatch();
 
   const uploadGallery = (body: FormData) => {
-    dispatch(upGallery(body));
+    dispatch(upGallery(body)).unwrap();
   };
 
   const resetGallery = () => {
     dispatch(setDataGallery());
   };
 
-  const { dataGallery, loadingGallery, errorGallery } = useAppSelector(
-    (state) => state.gallery,
-  );
+  const SetIsUpload = (value: boolean) => {
+    dispatch(setIsUpload(value));
+  };
+
+  const { dataGallery, loadingGallery, errorGallery, isUpload } =
+    useAppSelector((state) => state.gallery);
 
   return {
     dataGallery,
@@ -23,5 +26,7 @@ export const useGallery = () => {
     errorGallery,
     uploadGallery,
     resetGallery,
+    isUpload,
+    SetIsUpload,
   };
 };

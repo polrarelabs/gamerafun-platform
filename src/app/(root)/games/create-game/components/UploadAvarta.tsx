@@ -1,10 +1,9 @@
 "use client";
 
-import { Button, Image, Text } from "@components/shared";
+import { Button, Text } from "@components/shared";
 import { Stack, styled } from "@mui/material";
 import { useGameReducers } from "@store/game";
-import { useGallery } from "@store/media";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import InfoImage from "./InfoImage";
 
 const VisuallyHiddenInput = styled("input")({
@@ -94,7 +93,7 @@ const UploadAvarta = ({
   return (
     <>
       <Stack position="relative" direction="row" height="100%" width="100%">
-        <Stack flex={1}>
+        <Stack flex={1} alignItems={"center"} gap={2} mt={2}>
           <Button
             component="label"
             variant="outlined"
@@ -117,6 +116,21 @@ const UploadAvarta = ({
               accept="image/png"
             />
           </Button>
+          {errorsSizeImage && (
+            <Text
+              color="red"
+              sx={{
+                // position: "absolute",
+                // bottom: "10px",
+                // left: "50%",
+                // translate: "-50% -50%",
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              {errorsSizeImage}
+            </Text>
+          )}
         </Stack>
         {dataListImage.length > 0 && (
           <Stack flex={4} direction={"column"} gap={2}>
@@ -132,22 +146,6 @@ const UploadAvarta = ({
               );
             })}
           </Stack>
-        )}
-
-        {errorsSizeImage && (
-          <Text
-            color="red"
-            sx={{
-              position: "absolute",
-              bottom: "10px",
-              left: "50%",
-              translate: "-50% -50%",
-              width: "100%",
-              textAlign: "center",
-            }}
-          >
-            {errorsSizeImage}
-          </Text>
         )}
       </Stack>
     </>

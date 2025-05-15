@@ -92,7 +92,7 @@ const CreateGame = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSchema,
+    // validationSchema: validationSchema,
     onSubmit: async () => {
       try {
         const supportOs: string[] = formik.values.support_os;
@@ -107,7 +107,6 @@ const CreateGame = () => {
             // formik.setFieldValue(`downloadLinks.${osKey}`, DownloadLinks[osKey]);
           }
         });
-        console.log("da click");
 
         for (let i = 0; i < dataListImage.length; i++) {
           const data = new FormData();
@@ -142,10 +141,12 @@ const CreateGame = () => {
   useEffect(() => {
     const lenMedia = media.length;
     const lenDataList = dataListImage.length;
+
     if (lenMedia === lenDataList && lenMedia > 0) {
-      formik.setFieldValue("media", media);
+      formik.values.media = media;
       createGames(formik.values);
-      // console.log('call api');
+      // console.log('call api', media);
+      // console.log('formik.values', formik.values);
     }
   }, [media]);
 

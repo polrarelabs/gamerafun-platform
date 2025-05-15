@@ -26,6 +26,7 @@ export const Endpoint = {
   GET_URL_X: "/auth/twitter/callback",
   LOGIN_X: "/auth/auth-x",
   LOGIN_GOOGLE: "/auth/auth-google",
+  LOGIN_ACCOUNT: "/auth/auth",
 
   ASK_HISTORIES: "/{threadId}/histories",
 };

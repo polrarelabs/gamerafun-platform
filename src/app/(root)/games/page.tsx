@@ -3,18 +3,14 @@
 import Link from "@components/Link";
 import { Text } from "@components/shared";
 // import { SCREEN_PX } from '@constant'
+import { SCREEN_PX } from "@constant";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Breadcrumbs, Stack } from "@mui/material";
-import LayoutGame from "./components/LayoutGame";
-import FormAddGame from "./components/FormCreateGame";
-import { setToken } from "@api/helpers";
-import { SCREEN_PX } from "@constant";
 import { memo } from "react";
+import FormAddGame from "./components/FormCreateGame";
+import LayoutGame from "./components/LayoutGame";
 
 const GameHome = () => {
-  // const token =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGFkNjY4Yy0yMTliLTRiNDAtYjY0NC0xZjJiM2ZmNTg1YmUiLCJpYXQiOjE3NDY1MDUyNjQsImV4cCI6MTc0NzExMDA2NH0.Y3LogNWRXBHqmSf2V8mVKQorsbNCyEtRIcdmFA1D4aU";
-  // setToken(token);
   return (
     <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
       <Stack direction={"column"} gap={2}>

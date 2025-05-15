@@ -18,6 +18,7 @@ interface PropsSelectFormik {
   OptionEnum: any;
   label: string;
   name: string;
+  isDisable?: boolean;
 }
 
 const SelectFormik = ({
@@ -26,6 +27,7 @@ const SelectFormik = ({
   OptionEnum,
   label,
   name,
+  isDisable = false,
 }: PropsSelectFormik) => {
   return (
     <Stack flex={1} gap={1}>
@@ -49,6 +51,7 @@ const SelectFormik = ({
             </Box>
           )}
           MenuProps={MenuProps}
+          disabled={isDisable}
         >
           {Object.keys(OptionEnum).map((item, index) => (
             <MenuItem key={index} value={OptionEnum[item]}>

@@ -3,13 +3,17 @@
 import { memo, ReactNode, useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Stack } from "@mui/material";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Navigation } from "./components";
-import { SCREEN_PX } from "@constant";
+import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
 import { Button } from "@components/shared";
 import { SlArrowUp } from "react-icons/sl";
+import Cookies from "js-cookie";
+import { setToken } from "@api/helpers";
+import { LOGIN_PATH } from "@constant/paths";
+
 type MainLayoutProps = {
   children: ReactNode;
 };
@@ -17,6 +21,13 @@ type MainLayoutProps = {
 const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
   const pathName = usePathname();
+  const router = useRouter();
+  const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
+  useEffect(() => {
+    if (cookies !== "undefined" && cookies !== undefined) {
+      setToken(cookies);
+    } else router.push(LOGIN_PATH);
+  }, [cookies]);
 
   const { isMdSmaller } = useBreakpoint();
 

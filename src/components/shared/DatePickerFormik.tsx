@@ -13,6 +13,7 @@ interface PropsDatePickerFormik {
   label: string;
   name: string;
   scheduleError?: boolean;
+  isDisable?: boolean;
 }
 
 const DatePickerFormik = ({
@@ -20,6 +21,7 @@ const DatePickerFormik = ({
   label,
   name,
   scheduleError = false,
+  isDisable = false,
 }: PropsDatePickerFormik) => {
   const error = get(formik.errors, name);
   const touched = get(formik.touched, name);
@@ -37,6 +39,7 @@ const DatePickerFormik = ({
           onChange={(newValue: Dayjs | null) => {
             formik.setFieldValue(name, newValue?.format("YYYY-MM-DD") || "");
           }}
+          disabled={isDisable}
           slotProps={{
             textField: {
               error: showError,
