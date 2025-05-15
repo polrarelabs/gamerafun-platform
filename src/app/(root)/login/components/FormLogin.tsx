@@ -2,7 +2,7 @@
 
 import { setToken } from "@api/helpers";
 import WalletModal from "@components/Connect/WalletModal";
-import { Button, Text } from "@components/shared";
+import { Button, Image, Text } from "@components/shared";
 import useToggle from "@hooks/useToggle";
 import GoogleIcon from "@icons/GoogleIcon";
 import WalletIcon from "@icons/WalletIcon";
@@ -13,11 +13,12 @@ import { PropsLoginX } from "@store/auth/action";
 import { setCookie } from "@utils";
 import Cookies from "js-cookie";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MouseEvent, useEffect, useState } from "react";
 import { ACCESSTOKEN_COOKIE } from "../../../../constant/index";
 import { HOME_PATH } from "@constant/paths";
 import LoginAccount from "./LoginAccount";
+import wave from "public/images/wave.gif";
 
 const FormLogin = () => {
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
@@ -27,13 +28,7 @@ const FormLogin = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const paramsTestLocal =
-    "?sessionId=HS6qdJBbasUWUja5zQYddt_Y4tRXst6X&xId=1688586721917796352";
-  const router = useRouter();
-
   const searchParams = useSearchParams();
-  // const [id, setId] = useState<string>();
-  // const [sessionId, setSessionId] = useState<string>();
   const { LoginX, dataAuthLogin } = useAuthLoginX();
   const {
     dataAuthLoginGoogle,
@@ -43,12 +38,20 @@ const FormLogin = () => {
   } = useLoginGoogle();
 
   const { data: session } = useSession();
-  // const pathName = usePathname()
+  const pathName = usePathname();
 
-  // useEffect(() => {
-  //     setId(searchParams.get('xId') || undefined);
-  //     setSessionId(searchParams.get('sessionId') || undefined);
-  // }, [pathName, searchParams]);
+  useEffect(() => {
+    const id = searchParams.get("xId") || undefined;
+    const sessionId = searchParams.get("sessionId") || undefined;
+
+    if (id !== undefined && sessionId !== undefined) {
+      const param: PropsLoginX = {
+        id: id,
+        sessionId: sessionId,
+      };
+      LoginX(param);
+    }
+  }, [pathName]);
 
   // useEffect(() => {
   //     if (id && sessionId) {
@@ -71,8 +74,9 @@ const FormLogin = () => {
       //   sameSite: "Strict",
       // });
       // setCookie(ACCESSTOKEN_COOKIE, dataAuthLoginGoogle.accessToken)
+
+      console.log("dataAuthLoginGoogle", dataAuthLoginGoogle);
     }
-    console.log("dataAuthLoginGoogle", dataAuthLoginGoogle);
   }, [dataAuthLoginGoogle]);
 
   useEffect(() => {
@@ -81,32 +85,34 @@ const FormLogin = () => {
     }
   }, [session]);
 
-  const [pathName, setPathName] = useState(false);
+  // const [pathName, setPathName] = useState(false);
+
+  // useEffect(() => {
+  //   if (pathName) {
+  //     const param: PropsLoginX = {
+  //       id: searchParams.get("xId") || "",
+  //       sessionId: searchParams.get("sessionId") || "",
+  //     };
+
+  //     console.log(param);
+
+  //     LoginX(param);
+  //     setPathName(false);
+  //   }
+  // }, [pathName]);
 
   useEffect(() => {
-    if (pathName) {
-      const param: PropsLoginX = {
-        id: searchParams.get("xId") || "",
-        sessionId: searchParams.get("sessionId") || "",
-      };
-
-      console.log(param);
-
-      LoginX(param);
-      setPathName(false);
-    }
-  }, [pathName]);
-
-  useEffect(() => {
-    console.log(dataAuthLogin);
-    if (dataAuthLogin?.accessToken) {
+    if (dataAuthLogin && dataAuthLogin.accessToken) {
+      setToken(dataAuthLogin.accessToken);
       Cookies.set("accessToken", dataAuthLogin.accessToken, {
         expires: 7,
         secure: true,
         sameSite: "Strict",
       });
+
       // setCookie(ACCESSTOKEN_COOKIE, dataAuthLogin.accessToken)
-      router.push(HOME_PATH);
+      // router.push(HOME_PATH);
+      console.log("x duoc r", dataAuthLogin);
     }
   }, [dataAuthLogin]);
 
@@ -116,18 +122,13 @@ const FormLogin = () => {
   };
 
   const handleLoginX = async () => {
-    // window.location.href = 'https://web3-common-service.polrare.co/api/auth/twitter/callback';
+    window.location.href =
+      "https://web3-common-service.polrare.co/api/auth/twitter/callback";
 
     // test local
-    router.push(paramsTestLocal);
-    setTimeout(() => setPathName(true), 1000);
+    // router.push(paramsTestLocal);
+    // setTimeout(() => setPathName(true), 1000);
   };
-  // const handleLogiTwitch = () => {
-  // }
-  // const handleLoginSteam = () => {
-  // }
-  // const handleLoginImmutable = () => {
-  // }
 
   const OptionLogin = [
     {
@@ -161,18 +162,50 @@ const FormLogin = () => {
     //     functions: handleLoginImmutable,
     // },
   ];
+
   return (
     <Stack
-      width={{ md: "50%", xs: "90%" }}
+      width={{ md: "40%", xs: "90%" }}
       height={"auto"}
       direction={"column"}
-      gap={4}
+      gap={3}
     >
-      {session?.user?.email && (
+      {/* {session?.user?.email && (
         <Button variant="contained" onClick={() => signOut()}>
           Log out
         </Button>
-      )}
+      )} */}
+      <Stack
+        direction={"row"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        gap={2}
+      >
+        <Text fontSize={"28px"} fontWeight={700}>
+          Hello Gamer
+        </Text>
+        <Stack height={30} width={30}>
+          <Image
+            src={wave}
+            alt="preview"
+            size="100%"
+            aspectRatio={1 / 1}
+            sizes="14px"
+            containerProps={{
+              sx: {
+                width: "100%",
+                height: "100%",
+                overflow: "hidden",
+                borderRadius: "8px",
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center",
+                },
+              },
+            }}
+          />
+        </Stack>
+      </Stack>
       <Stack display={"grid"} gridTemplateColumns={"repeat(2,1fr)"} gap={2}>
         {OptionLogin.map(({ Icon, name, functions }) => {
           return (
@@ -213,7 +246,7 @@ const FormLogin = () => {
             width: "100%",
             borderRadius: "8px !important",
             border: "none !important",
-            height: "70px !important",
+            height: "50px !important",
             fontSize: "16px",
             fontWeight: 700,
             "&:hover": {

@@ -12,7 +12,7 @@ import { Button } from "@components/shared";
 import { SlArrowUp } from "react-icons/sl";
 import Cookies from "js-cookie";
 import { setToken } from "@api/helpers";
-import { LOGIN_PATH } from "@constant/paths";
+import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -26,6 +26,7 @@ const MainLayout = (props: MainLayoutProps) => {
   useEffect(() => {
     if (cookies !== "undefined" && cookies !== undefined) {
       setToken(cookies);
+      router.push(HOME_PATH);
     } else router.push(LOGIN_PATH);
   }, [cookies]);
 

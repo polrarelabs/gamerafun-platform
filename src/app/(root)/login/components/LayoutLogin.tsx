@@ -10,40 +10,71 @@ import Cookies from "js-cookie";
 import cookieCutter from "cookie-cutter";
 import { useRouter } from "next/navigation";
 import { HOME_PATH } from "@constant/paths";
+import { Image } from "@components/shared";
+import img from "public/images/img-login.png";
+import logo from "public/images/img-logo-text.png";
 const LayoutLogin = () => {
   const [height, setHeight] = useState<number>(0);
-  const router = useRouter();
-  const { isMdSmaller } = useBreakpoint();
-  const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
-  console.log("cookies", typeof cookies);
 
+  const { isMdSmaller } = useBreakpoint();
   useEffect(() => {
     const heightVail = typeof window !== "undefined" ? screen.availHeight : 0;
     setHeight(heightVail);
   }, []);
 
-  if (cookies !== "undefined" && cookies !== undefined) {
-    router.push(HOME_PATH);
-  }
-
   return (
     <Stack direction={"row"} height={`calc(${height - 87}px)`}>
-      {/* {!isMdSmaller && (
-        <Stack
-          flex={1.5}
-          sx={{
-            background:
-              "linear-gradient(160deg, rgba(122, 165, 196, 1) 1%, rgba(38, 36, 9, 1) 98%)",
-          }}
-        ></Stack>
-      )} */}
+      {!isMdSmaller && (
+        <Stack flex={1} height={"100%"}>
+          <Image
+            src={img}
+            alt="preview"
+            size="100%"
+            aspectRatio={2 / 3}
+            sizes="960px"
+            containerProps={{
+              sx: {
+                width: "100%",
+                height: "100%",
+                overflow: "hidden",
+                borderRadius: "8px",
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center",
+                },
+              },
+            }}
+          />
+        </Stack>
+      )}
       <Stack
         direction={"row"}
-        flex={4}
+        flex={5}
         justifyContent={"center"}
         alignItems={isMdSmaller ? "center" : "start"}
         pt={"10%"}
       >
+        <Stack height={30} width={30}>
+          <Image
+            src={logo}
+            alt="preview"
+            size="100%"
+            aspectRatio={1 / 1}
+            sizes="14px"
+            containerProps={{
+              sx: {
+                width: "100%",
+                height: "100%",
+                overflow: "hidden",
+                borderRadius: "8px",
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center",
+                },
+              },
+            }}
+          />
+        </Stack>
         <SessionLogin />
       </Stack>
     </Stack>
