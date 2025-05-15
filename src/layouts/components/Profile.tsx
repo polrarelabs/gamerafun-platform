@@ -1,0 +1,187 @@
+"use client";
+
+import { Image, Text } from "@components/shared";
+import DropDownIcon from "@icons/DropDownIcon";
+import { Fade, Popper, Stack } from "@mui/material";
+import React, { memo, useEffect, useState } from "react";
+import login_token from "public/images/login-token.svg";
+import LogOutIcon from "@icons/LogOutIcon";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { LOGIN_PATH } from "@constant/paths";
+import {
+  PropsAuth,
+  PropsLoginAccountAuth,
+  PropsUser,
+  PropsUserLoginAccount,
+  useAuthLoginX,
+  useLoginAccount,
+  useLoginGoogle,
+  useLogOut,
+} from "@store/auth";
+
+const Profile = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const { logOut } = useLogOut();
+
+  const { dataAuthLoginAccount: dataAccount } = useLoginAccount();
+  const { dataAuthLoginGoogle: dataGoogle } = useLoginGoogle();
+  const { dataAuthLogin: dataX } = useAuthLoginX();
+  // const [data, setData] = useState<PropsAuth | PropsLoginAccountAuth>()
+
+  // useEffect(() => {
+  //     console.log('dataX', dataX);
+  //     console.log('dataAccount', dataAccount);
+  //     console.log('dataGoogle', dataGoogle);
+  //     if (dataAccount) {
+  //         setData(dataAccount as PropsLoginAccountAuth)
+  //     } else if (dataGoogle) {
+  //         setData(dataGoogle as PropsAuth)
+  //     } else if (dataX) {
+  //         setData(dataX as PropsAuth)
+  //     }
+  // }, [dataX, dataAccount, dataGoogle])
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((previousOpen) => !previousOpen);
+  };
+
+  const handleLogOut = () => {
+    console.log("click");
+    logOut();
+    // Cookies.remove("accessToken", { path: "" })
+    router.push(LOGIN_PATH);
+  };
+
+  const GetUseName = () => {
+    if (dataAccount) {
+      return dataAccount?.user?.displayName
+        ? dataAccount?.user?.displayName
+        : `User ${dataAccount?.user?.id}`;
+    } else if (dataGoogle) {
+      return dataGoogle?.user?.displayName
+        ? dataGoogle?.user?.displayName
+        : `User ${dataGoogle?.user?.id}`;
+    } else if (dataX) {
+      return dataX?.user?.displayName
+        ? dataX?.user?.displayName
+        : `User ${dataX?.user?.id}`;
+    }
+  };
+
+  const GetEmail = () => {
+    if (dataAccount) {
+      return dataAccount?.user?.email && dataAccount?.user?.email;
+    } else if (dataGoogle) {
+      return dataGoogle?.user?.username;
+    }
+  };
+
+  return (
+    <>
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        gap={"8px"}
+        color={"white"}
+        onClick={handleClick}
+        sx={{
+          "&:hover": {
+            cursor: "pointer",
+          },
+        }}
+      >
+        <Image src={login_token} alt="LoginToken" />
+        <DropDownIcon
+          sx={{
+            height: "14px",
+            width: "14px",
+          }}
+        />
+      </Stack>
+      <Popper
+        sx={{
+          zIndex: 1200,
+          mt: "19.5px !important",
+          backgroundColor: "#181A20",
+          borderRadius: "8px",
+          padding: "24px",
+          border: "1px solid #FFFFFF1A",
+          width: "100%",
+          maxWidth: "320px",
+        }}
+        open={open}
+        anchorEl={anchorEl}
+        placement={"bottom-end"}
+        transition
+      >
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <Stack direction={"column"} gap={"16px"}>
+              <Stack
+                sx={{
+                  borderBottom: "1px solid #FFFFFF1A",
+                  paddingBottom: "16px",
+                }}
+                direction={"row"}
+                gap="16px"
+              >
+                <Stack height={"48px"} width={"48px"}>
+                  <Image src={login_token} alt="LoginToken" />
+                </Stack>
+                <Stack direction={"column"} justifyContent={"center"}>
+                  <Text
+                    color="white"
+                    lineHeight={"150%"}
+                    fontSize="16px"
+                    fontWeight={500}
+                  >
+                    {GetUseName()}
+                  </Text>
+
+                  <Text
+                    color="#FFFFFF80"
+                    lineHeight={"150%"}
+                    fontSize="14px"
+                    fontWeight={400}
+                  >
+                    {GetEmail()}
+                  </Text>
+                </Stack>
+              </Stack>
+
+              <Stack
+                color="white"
+                direction={"row"}
+                gap="8px"
+                alignItems={"center"}
+                onClick={handleLogOut}
+                sx={{
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                <LogOutIcon />
+                <Text
+                  color="white"
+                  lineHeight={"150%"}
+                  fontSize="16px"
+                  fontWeight={500}
+                >
+                  Log out
+                </Text>
+              </Stack>
+            </Stack>
+          </Fade>
+        )}
+      </Popper>
+    </>
+  );
+};
+
+export default memo(Profile);

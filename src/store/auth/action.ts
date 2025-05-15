@@ -62,14 +62,12 @@ export interface LoginGoogle {
 }
 
 export const loginGoogle = createAsyncThunk(
-  "post/loginGoogle",
+  "post/loginGoogles",
   async (body: LoginGoogle) => {
     try {
       const response = await client.post(Endpoint.LOGIN_GOOGLE, body);
 
-      if (response.status === HttpStatusCode.Ok) {
-        return response.data;
-      }
+      return response.data;
     } catch (error) {
       throw error;
     }

@@ -19,6 +19,7 @@ import Sidebar from "./Sidebar";
 import { useSignMessage } from "@store/auth";
 import ChatAI from "@components/AskAI/ChatAI";
 import Cookies from "js-cookie";
+import Profile from "./components/Profile";
 
 const Header = () => {
   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
@@ -71,13 +72,13 @@ const Header = () => {
           <>
             {!isLogin && (
               <Stack direction={"row"} gap={2}>
-                <Button
+                {/* <Button
                   onClick={toggleDrawer(true)}
                   variant="contained"
                   size={"small"}
                 >
                   Ask AI
-                </Button>
+                </Button> */}
                 {showLogin && (
                   <Button
                     LinkComponent={Link}
@@ -93,13 +94,17 @@ const Header = () => {
           </>
         ) : (
           <Stack direction="row" spacing={2} alignItems="center">
-            <Button
+            {/* <Button
               onClick={toggleDrawer(true)}
               variant="contained"
               size={"small"}
+              sx={{
+                borderRadius: '8px !important'
+
+              }}
             >
               Ask AI
-            </Button>
+            </Button> */}
             <CreateAgent />
             {showLogin ? (
               <>
@@ -115,20 +120,21 @@ const Header = () => {
                 </Button>
               </>
             ) : (
-              <Button
-                LinkComponent={Link}
-                href={LOGIN_PATH}
-                variant="contained"
-                size="small"
-                onClick={() => Cookies.remove("accessToken", { path: "" })}
-              >
-                Log Out
-              </Button>
+              // <Button
+              //   LinkComponent={Link}
+              //   href={LOGIN_PATH}
+              //   variant="contained"
+              //   size="small"
+              //   onClick={() => Cookies.remove("accessToken", { path: "" })}
+              // >
+              //   Log Out
+              // </Button>
+              <Profile />
             )}
           </Stack>
         )}
       </Stack>
-      <Drawer
+      {/* <Drawer
         open={open}
         onClose={toggleDrawer(false)}
         anchor="right"
@@ -140,7 +146,7 @@ const Header = () => {
         }}
       >
         <ChatAI />
-      </Drawer>
+      </Drawer> */}
     </>
   );
 };

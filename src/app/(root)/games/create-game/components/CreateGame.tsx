@@ -28,6 +28,7 @@ import { useGallery } from "@store/media";
 import { validationSchema } from "./ValidationSchema";
 import UploadAvarta, { PropsInfo } from "./UploadAvarta";
 import { SCREEN_PX } from "@constant";
+import InputEditor from "@components/shared/InputEditor";
 
 const CreateGame = () => {
   const { dataGallery, uploadGallery, isUpload, SetIsUpload } = useGallery();
@@ -88,11 +89,12 @@ const CreateGame = () => {
     genre: [],
     chain: [],
     media: [],
+    content: "",
   };
 
   const formik = useFormik({
     initialValues,
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
     onSubmit: async () => {
       try {
         const supportOs: string[] = formik.values.support_os;
@@ -101,10 +103,8 @@ const CreateGame = () => {
           const osKey = item.toLowerCase();
           if (osKey === "mac") {
             formik.values.downloadLinks.macos = DownloadLinks.macos;
-            // formik.setFieldValue('downloadLinks.macos', DownloadLinks.macos);
           } else {
             formik.values.downloadLinks[osKey] = DownloadLinks[osKey];
-            // formik.setFieldValue(`downloadLinks.${osKey}`, DownloadLinks[osKey]);
           }
         });
 
@@ -296,6 +296,7 @@ const CreateGame = () => {
                 <FormHelperText>{formik.errors.schedule}</FormHelperText>
               )}
           </FormControl>
+          <InputEditor name="content" label="Content" formik={formik} />
         </Stack>
 
         <Stack direction={"row"} mt={4} justifyContent={"end"} gap={2}>

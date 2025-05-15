@@ -100,7 +100,7 @@ interface PropsUserConnects {
   account: string;
   displayName: string | null;
 }
-interface PropsUser {
+export interface PropsUser {
   id: string;
   username: string;
   displayName: string;
@@ -120,7 +120,7 @@ export interface PropsAuth {
   user: PropsUser;
 }
 
-interface PropsUserLoginAccount {
+export interface PropsUserLoginAccount {
   id: string;
   email: string;
   displayName: string;
@@ -213,7 +213,7 @@ const initialStateAuthLoginGoogle: PropsAuthGoogleReducers = {
 };
 
 const LoginGoogleReducer = createSlice({
-  name: "loginGoogle",
+  name: "loginGoogles",
   initialState: initialStateAuthLoginGoogle,
   reducers: {},
   extraReducers: (builder) => {
