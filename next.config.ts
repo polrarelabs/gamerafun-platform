@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   env: {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     API_URL: process.env.API_URL,
