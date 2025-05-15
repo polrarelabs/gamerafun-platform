@@ -19,6 +19,7 @@ import { ACCESSTOKEN_COOKIE } from "../../../../constant/index";
 import { HOME_PATH } from "@constant/paths";
 import LoginAccount from "./LoginAccount";
 import wave from "public/images/wave.gif";
+import axios from "axios";
 
 const FormLogin = () => {
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
@@ -28,8 +29,10 @@ const FormLogin = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const router = useRouter();
+
   const searchParams = useSearchParams();
-  const { LoginX, dataAuthLogin } = useAuthLoginX();
+  const { LoginX, dataAuthLogin: dataX } = useAuthLoginX();
   const {
     dataAuthLoginGoogle,
     // loadingAuthLoginGoogle,
@@ -52,6 +55,19 @@ const FormLogin = () => {
       LoginX(param);
     }
   }, [pathName]);
+  useEffect(() => {
+    if (dataX && dataX.accessToken) {
+      setToken(dataX.accessToken);
+      Cookies.set("accessToken", dataX.accessToken, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+
+      // setCookie(ACCESSTOKEN_COOKIE, dataX.accessToken)
+      router.push(HOME_PATH);
+    }
+  }, [dataX]);
 
   // useEffect(() => {
   //     if (id && sessionId) {
@@ -67,67 +83,33 @@ const FormLogin = () => {
 
   useEffect(() => {
     if (dataAuthLoginGoogle) {
-      // setToken(dataAuthLoginGoogle.accessToken);
-      // Cookies.set("accessToken", dataAuthLoginGoogle.accessToken, {
-      //   expires: 7,
-      //   secure: true,
-      //   sameSite: "Strict",
-      // });
+      setToken(dataAuthLoginGoogle.accessToken);
+      Cookies.set("accessToken", dataAuthLoginGoogle.accessToken, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
       // setCookie(ACCESSTOKEN_COOKIE, dataAuthLoginGoogle.accessToken)
-
-      console.log("dataAuthLoginGoogle", dataAuthLoginGoogle);
+      // router.push(HOME_PATH);
     }
   }, [dataAuthLoginGoogle]);
 
   useEffect(() => {
     if (session?.user?.email) {
+      console.log("sess", session?.user?.email);
+
       LoginGoogle({ email: session.user.email });
     }
   }, [session]);
 
-  // const [pathName, setPathName] = useState(false);
-
-  // useEffect(() => {
-  //   if (pathName) {
-  //     const param: PropsLoginX = {
-  //       id: searchParams.get("xId") || "",
-  //       sessionId: searchParams.get("sessionId") || "",
-  //     };
-
-  //     console.log(param);
-
-  //     LoginX(param);
-  //     setPathName(false);
-  //   }
-  // }, [pathName]);
-
-  useEffect(() => {
-    if (dataAuthLogin && dataAuthLogin.accessToken) {
-      setToken(dataAuthLogin.accessToken);
-      Cookies.set("accessToken", dataAuthLogin.accessToken, {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
-
-      // setCookie(ACCESSTOKEN_COOKIE, dataAuthLogin.accessToken)
-      // router.push(HOME_PATH);
-      console.log("x duoc r", dataAuthLogin);
-    }
-  }, [dataAuthLogin]);
-
   const handleLoginGoogle = () => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: HOME_PATH });
     // signIn("google");
   };
 
-  const handleLoginX = async () => {
+  const handleLoginX = () => {
     window.location.href =
       "https://web3-common-service.polrare.co/api/auth/twitter/callback";
-
-    // test local
-    // router.push(paramsTestLocal);
-    // setTimeout(() => setPathName(true), 1000);
   };
 
   const OptionLogin = [

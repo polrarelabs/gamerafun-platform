@@ -20,14 +20,14 @@ const LoginAccount = () => {
   };
 
   useEffect(() => {
-    if (dataAuthLoginAccount) {
+    if (dataAuthLoginAccount && dataAuthLoginAccount.accessToken) {
       setToken(dataAuthLoginAccount.accessToken);
       Cookies.set("accessToken", dataAuthLoginAccount.accessToken, {
         expires: 7,
         secure: true,
         sameSite: "Strict",
       });
-      // router.push(HOME_PATH);
+      router.push(HOME_PATH);
     }
   }, [dataAuthLoginAccount]);
 

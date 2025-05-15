@@ -12,6 +12,8 @@ import {
   PropsSignMessage,
 } from "./action";
 import { setIsConnectPetra, setIsLogin } from "./reducer";
+import { store } from "@store/configureStore";
+import Cookies from "js-cookie";
 
 export const useSignMessage = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +50,8 @@ export const useAuthSignMessage = () => {
   const dispatch = useAppDispatch();
 
   const AuthSignMessage = (body: AuthSignMessage) => {
-    return dispatch(authSignMessage(body));
+    store.dispatch({ type: "" });
+    dispatch(authSignMessage(body));
   };
 
   const { dataAuth, loadingAuth, errorAuth } = useAppSelector(
@@ -67,6 +70,7 @@ export const useAuthLoginX = () => {
   const dispatch = useAppDispatch();
 
   const LoginX = (param: PropsLoginX) => {
+    store.dispatch({ type: "" });
     dispatch(loginX(param));
   };
 
@@ -86,6 +90,7 @@ export const useLoginAccount = () => {
   const dispatch = useAppDispatch();
 
   const LoginAccount = (body: LoginAccount) => {
+    store.dispatch({ type: "" });
     dispatch(loginAccount(body));
   };
 
@@ -108,6 +113,7 @@ export const useLoginGoogle = () => {
 
   const LoginGoogle = (body: LoginGoogle) => {
     dispatch(loginGoogle(body));
+    store.dispatch({ type: "" });
   };
 
   const { dataAuthLoginGoogle, loadingAuthLoginGoogle, errorAuthLoginGoogle } =
@@ -118,5 +124,15 @@ export const useLoginGoogle = () => {
     dataAuthLoginGoogle,
     loadingAuthLoginGoogle,
     errorAuthLoginGoogle,
+  };
+};
+
+export const useLogOut = () => {
+  const logOut = () => {
+    store.dispatch({ type: "RESET_STORE" });
+    Cookies.remove("accessToken", { path: "" });
+  };
+  return {
+    logOut,
   };
 };

@@ -89,8 +89,8 @@ const WalletModal = (props: WalletModalProps) => {
         }
 
         const response = await signMessage({
-          // message: data.payload,
-          message: "loginId: 9cef1dbb-f77a-436a-9d7e-598c9e83aec0",
+          message: data.payload,
+          // message: "loginId: 9cef1dbb-f77a-436a-9d7e-598c9e83aec0",
           nonce: nonce,
           address: true,
           chainId: true,
@@ -156,9 +156,7 @@ const WalletModal = (props: WalletModalProps) => {
     >
       <Stack flex={1}>
         <Text variant="h3">Connect your wallet</Text>
-        <Text variant="subtitle2">
-          Connect a wallet to your Noctra Protocol account
-        </Text>
+        <Text variant="subtitle2">Connect a wallet to your Gamera account</Text>
         <Stack flex={1} spacing={1.5} my={3}>
           {Object.values(walletGrouped)
             .flat()

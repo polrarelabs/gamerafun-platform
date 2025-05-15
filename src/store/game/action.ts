@@ -65,6 +65,7 @@ export interface PropsFormik {
   genre: Genre[];
   chain: SupportChain[];
   media: PropsMedia[];
+  content?: string;
 }
 
 export interface PropsGameReview {

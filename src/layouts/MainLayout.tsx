@@ -4,7 +4,7 @@ import { memo, ReactNode, useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { usePathname, useRouter } from "next/navigation";
-import { Stack } from "@mui/material";
+import { Dialog, Stack } from "@mui/material";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Navigation } from "./components";
 import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
@@ -13,6 +13,7 @@ import { SlArrowUp } from "react-icons/sl";
 import Cookies from "js-cookie";
 import { setToken } from "@api/helpers";
 import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
+import ChatAI from "@components/AskAI/ChatAI";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -22,19 +23,31 @@ const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
   const pathName = usePathname();
   const router = useRouter();
-  const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
   useEffect(() => {
+    const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
+    console.log("cookies1", cookies);
+
     if (cookies !== "undefined" && cookies !== undefined) {
       setToken(cookies);
       router.push(HOME_PATH);
     } else router.push(LOGIN_PATH);
-  }, [cookies]);
+  }, []);
 
   const { isMdSmaller } = useBreakpoint();
 
   const ref = useRef<HTMLDivElement | null>(null);
 
   const [show, setShow] = useState<boolean>(false);
+
+  const [open, setOpen] = useState<boolean>(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleScroll = (ref) => {
     window.scrollTo({
@@ -103,6 +116,30 @@ const MainLayout = (props: MainLayoutProps) => {
           <SlArrowUp />
         </Button>
       )}
+      <Button
+        onClick={toggleDrawer(true)}
+        variant="contained"
+        size={"small"}
+        sx={{
+          position: "fixed !important",
+          bottom: 40,
+          right: 20,
+          zIndex: 4,
+          background: "black !important",
+          boxShadow:
+            " 0px 0px 4px rgba(106, 246, 96, 0.6), 0px 0px 8px rgba(105,246,96, 0.6) !important",
+          color: "white !important",
+          "&:hover": {
+            boxShadow: "0px 0px 4px #69F660, 0px 0px 8px #69F660 !important",
+          },
+        }}
+      >
+        Ask AI
+      </Button>
+
+      <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"md"}>
+        <ChatAI />
+      </Dialog>
     </Stack>
   );
 };
