@@ -12,3 +12,4 @@ export const LOGIN_PATH = "/login";
 export const AGENT_DETAIL_PATH = "/agent";
 export const GENRES_DETAIL = "/genres/{token}";
 export const GENRES = "/genres";
+export const CREATE_GAME_PATH = "/games/create-game";

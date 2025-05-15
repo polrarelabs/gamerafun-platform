@@ -16,8 +16,8 @@ import { Theme } from "@mui/material/styles";
 import { useGame, useGameReducers } from "@store/game";
 import img from "public/images/img-logo.png";
 import { memo, useEffect, useState } from "react";
-import LayoutGameFull from "./LayoutGameFull";
-import LayoutGameSmall from "./LayoutGameSmall";
+import ItemGameColumn from "./ItemGameColumn";
+import ItemGameRow from "./ItemGameRow";
 import Selected from "@app/(root)/genres/[token]/components/Selected";
 
 interface Props {
@@ -187,7 +187,7 @@ const BrowserGame = ({
           gap={2}
         >
           {displayLayout === "no-list" ? (
-            <LayoutGameFull
+            <ItemGameColumn
               img={img}
               hover={hover}
               setHover={setHover}
@@ -197,7 +197,7 @@ const BrowserGame = ({
               // getIcon={getIcon}
             />
           ) : (
-            <LayoutGameSmall
+            <ItemGameRow
               // index={index}
               img={img}
               hover={hover}

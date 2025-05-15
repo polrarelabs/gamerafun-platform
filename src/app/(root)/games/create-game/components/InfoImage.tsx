@@ -1,10 +1,10 @@
-import { Image } from "@components/shared";
-import { Dialog, DialogContent, Stack } from "@mui/material";
-import React, { useRef, useState } from "react";
-import { PropsInfo } from "./UploadAvarta";
 import InputText from "@components/Media/InputText";
 import SelectPosition from "@components/Media/SelectPosition";
+import { Image } from "@components/shared";
 import EyeIcon from "@icons/EyeIcon";
+import { Dialog, Stack } from "@mui/material";
+import React, { useState } from "react";
+import { PropsInfo } from "./UploadAvarta";
 
 interface PropsInfoInmage {
   data: PropsInfo;

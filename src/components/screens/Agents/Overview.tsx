@@ -1,16 +1,14 @@
 "use client";
 
-import { Stack } from "@mui/material";
-import { Button, Text } from "@components/shared";
-import AptosTextImg from "public/images/agents/img-aptos-text.png";
-import Image from "next/image";
-import { SearchAgents, TrendingTopic } from "./components";
 import Link from "@components/Link";
-import { CREATE_AGENT_PATH } from "@constant/paths";
+import { Button, Text } from "@components/shared";
 import { STUDIO_URL } from "@constant/links";
-import { memo, useEffect } from "react";
-import { useGame, useGameCount, useGameOwner } from "@store/game";
-import { setToken } from "@api/helpers";
+import { CREATE_AGENT_PATH } from "@constant/paths";
+import { Stack } from "@mui/material";
+import Image from "next/image";
+import AptosTextImg from "public/images/agents/img-aptos-text.png";
+import { memo } from "react";
+import { SearchAgents, TrendingTopic } from "./components";
 
 type OverviewProps = {};
 
