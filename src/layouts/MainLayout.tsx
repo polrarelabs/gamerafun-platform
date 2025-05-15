@@ -24,7 +24,7 @@ const MainLayout = (props: MainLayoutProps) => {
   const pathName = usePathname();
   const router = useRouter();
 
-  console.log("node_env", process.env.NODE_ENV);
+  // console.log("node_env", process.env.NODE_ENV);
 
   useEffect(() => {
     const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
