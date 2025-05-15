@@ -173,83 +173,88 @@ const ChatAI = () => {
 
   return (
     <Stack
-      border={"1px solid #9ca3af"}
+      // border={"1px solid #9ca3af"}
       borderRadius={"8px"}
       height={"100%"}
       width={"100%"}
+      minHeight={400}
+      maxHeight={400}
     >
-      <Stack
+      {/* <Stack
         direction={"row"}
         justifyContent={"center"}
         alignItems={"center"}
         py={2}
         sx={{
-          background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+          // background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
           borderTopRightRadius: "8px",
-          borderTopLeftRadius: "8px",
+          // borderTopLeftRadius: "8px",
           mb: 2,
         }}
-      >
-        <Text color="black" fontSize={"20px"} fontWeight={700}>
-          Ask AI
+      > 
+        </Stack> */}
+      <Stack gap={2} minWidth={"90%"}>
+        <Text color="#8B8B8B8B" fontSize={"16px"} fontWeight={500}>
+          Ask Gamera AI
         </Text>
-      </Stack>
-      <Stack
-        direction={"column"}
-        gap={2}
-        overflow={"auto"}
-        px={2}
-        mb={2}
-        height={"100%"}
-        width={"100%"}
-      >
-        {dataHistorychat.map((item, index) => {
-          return (
-            <Stack
-              key={item.id}
-              direction={"row"}
-              justifyContent={item.type === "ai" ? "start" : "end"}
-              alignItems={"center"}
-              ref={index === dataHistorychat.length - 1 ? ref : null}
-            >
-              <Text
-                sx={{
-                  background:
-                    item.errors && item.type === "ai"
-                      ? "none"
-                      : item.type === "ai"
-                        ? "#9ca3af"
-                        : "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
-                  width: "max-content",
-                  border:
-                    item.errors && item.type === "ai"
-                      ? "1px solid red"
-                      : "none",
-                  padding: "4px 16px",
-                  borderTopRightRadius: "20px",
-                  borderTopLeftRadius: "20px",
-                  borderBottomLeftRadius: item.type === "ai" ? "4px" : "20px",
-                  borderBottomRightRadius: item.type === "ai" ? "20px" : "4px",
-                  maxWidth: "70%",
-                  display: "block",
-                  wordWrap: "break-word",
-                  wordBreak: "break-word",
-                  whiteSpace: "pre-wrap",
-                  color:
-                    item.errors && item.type === "ai"
-                      ? "red"
-                      : item.type === "ai"
-                        ? "white"
-                        : "black",
-                }}
+        <Stack
+          direction={"column"}
+          gap={2}
+          overflow={"auto"}
+          px={2}
+          mb={2}
+          height={"100%"}
+          width={"100%"}
+        >
+          {dataHistorychat.map((item, index) => {
+            return (
+              <Stack
+                key={item.id}
+                direction={"row"}
+                justifyContent={item.type === "ai" ? "start" : "end"}
+                alignItems={"center"}
+                ref={index === dataHistorychat.length - 1 ? ref : null}
               >
-                {item.content}
-              </Text>
-            </Stack>
-          );
-        })}
+                <Text
+                  sx={{
+                    background:
+                      item.errors && item.type === "ai"
+                        ? "none"
+                        : item.type === "ai"
+                          ? "#9ca3af"
+                          : "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+                    width: "max-content",
+                    border:
+                      item.errors && item.type === "ai"
+                        ? "1px solid red"
+                        : "none",
+                    padding: "4px 16px",
+                    borderTopRightRadius: "20px",
+                    borderTopLeftRadius: "20px",
+                    borderBottomLeftRadius: item.type === "ai" ? "4px" : "20px",
+                    borderBottomRightRadius:
+                      item.type === "ai" ? "20px" : "4px",
+                    maxWidth: "70%",
+                    display: "block",
+                    wordWrap: "break-word",
+                    wordBreak: "break-word",
+                    whiteSpace: "pre-wrap",
+                    color:
+                      item.errors && item.type === "ai"
+                        ? "red"
+                        : item.type === "ai"
+                          ? "white"
+                          : "black",
+                  }}
+                >
+                  {item.content}
+                </Text>
+              </Stack>
+            );
+          })}
+        </Stack>
       </Stack>
-      <Stack p={2} borderTop={"1px solid"}>
+      <Stack p={2} borderTop={"1px solid"} maxHeight={50}>
         <InputBase
           placeholder="Chat with AI"
           value={value}
