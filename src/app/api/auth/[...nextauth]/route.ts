@@ -1,5 +1,6 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+export const runtime = 'nodejs';
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -20,4 +21,3 @@ const handler = NextAuth({
 });
 
 export { handler as GET, handler as POST };
-export const runtime = 'edge';
