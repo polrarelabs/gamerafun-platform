@@ -1,6 +1,5 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-export const runtime = 'nodejs';
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
