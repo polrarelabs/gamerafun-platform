@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    // NODE_ENV: process.env.NODE_ENV
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
