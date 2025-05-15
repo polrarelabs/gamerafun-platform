@@ -9,7 +9,12 @@ import Link from "@components/Link";
 import { CREATE_AGENT_PATH, LOGIN_PATH } from "@constant/paths";
 import Connect from "@components/Connect";
 import useAptosWallet from "@hooks/useAptosWallet";
-import { ACCESSTOKEN_COOKIE, HEADER_HEIGHT, SCREEN_PX } from "@constant";
+import {
+  ACCESSTOKEN_COOKIE,
+  DOMAIN,
+  HEADER_HEIGHT,
+  SCREEN_PX,
+} from "@constant";
 import Sidebar from "./Sidebar";
 import { useSignMessage } from "@store/auth";
 import ChatAI from "@components/AskAI/ChatAI";
@@ -96,15 +101,28 @@ const Header = () => {
               Ask AI
             </Button>
             <CreateAgent />
-            {(!isSmSmaller || !isConnectPetra) && <Connect />}
-            {showLogin && (
+            {showLogin ? (
+              <>
+                {(!isSmSmaller || !isConnectPetra) && <Connect />}
+
+                <Button
+                  LinkComponent={Link}
+                  href={LOGIN_PATH}
+                  variant="contained"
+                  size="small"
+                >
+                  Log In
+                </Button>
+              </>
+            ) : (
               <Button
                 LinkComponent={Link}
                 href={LOGIN_PATH}
                 variant="contained"
                 size="small"
+                onClick={() => Cookies.remove("accessToken", { path: "" })}
               >
-                Log In
+                Log Out
               </Button>
             )}
           </Stack>

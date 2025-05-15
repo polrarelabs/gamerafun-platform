@@ -5,6 +5,7 @@ import EyeIcon from "@icons/EyeIcon";
 import { Dialog, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { PropsInfo } from "./UploadAvarta";
+import TrashIcon from "@icons/TrashIcon";
 
 interface PropsInfoInmage {
   data: PropsInfo;
@@ -24,6 +25,9 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
     setOpen(false);
   };
   const [hover, setHover] = useState<boolean>(false);
+  const handleDelete = () => {
+    dataList.splice(id, 1);
+  };
 
   return (
     <Stack direction={"row"} alignItems={"center"} gap={2} width={"100%"}>
@@ -66,13 +70,33 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
             translate: "-50% -50%",
           }}
           bottom={-2}
+          direction={"row"}
+          gap={2}
+          alignItems={"center"}
         >
           <EyeIcon
             sx={{
-              color: hover ? "black" : "gray",
+              color: hover ? "#989898" : "#A8A8A8",
               fontSize: 20,
+              height: 20,
+              width: 20,
+              borderRadius: 1000,
+              "&:hover": {
+                color: "black",
+                backgroundColor: "#DCDCDC",
+              },
             }}
             onClick={handleClickOpen}
+          />
+          <TrashIcon
+            sx={{
+              color: hover ? "#989898" : "#A8A8A8",
+              fontSize: 20,
+              "&:hover": {
+                color: "black",
+              },
+            }}
+            onClick={handleDelete}
           />
         </Stack>
       </Stack>
