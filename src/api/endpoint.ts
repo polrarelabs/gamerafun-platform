@@ -21,7 +21,7 @@ export const Endpoint = {
 
   GALLERY: "/gallery",
 
-  AUTH_SIGNMESSAGEV1: "/auth",
+  AUTH_WALLET: "/auth",
 
   GET_URL_X: "/auth/twitter/callback",
   LOGIN_X: "/auth/auth-x",

@@ -30,7 +30,7 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
 
 export default memo(WalletProvider);
 
-const NETWORK_SUPPORTED =
+export const NETWORK_SUPPORTED =
   APP_ENVIRONMENT === "production" ? Network.MAINNET : Network.TESTNET;
 
 export const aptosClient = new Aptos(

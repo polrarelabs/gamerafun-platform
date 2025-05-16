@@ -9,6 +9,20 @@ axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.timeout = API_TIMEOUT;
 
+axios.interceptors.request.use(
+  (config) => {
+    if (config?.url?.includes("aptoslabs.com")) {
+      delete config.headers["Authorization"];
+    }
+
+    return config;
+  },
+  (error) => {
+    // Do something with request error
+    return Promise.reject(error);
+  },
+);
+
 axios.interceptors.response.use(
   (response) => response,
   (error) => {

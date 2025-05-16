@@ -1,129 +1,75 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
-  AuthSignMessage,
-  authSignMessage,
+  authAptos,
+  AuthAptos,
   loginAccount,
   LoginAccount,
   loginGoogle,
   LoginGoogle,
   loginX,
-  petraSignMessage,
   PropsLoginX,
-  PropsSignMessage,
 } from "./action";
-import { setIsConnectPetra, setIsLogin } from "./reducer";
+import { setIsConnectAptos, setIsLogin } from "./reducer";
 import { store } from "@store/configureStore";
 import Cookies from "js-cookie";
 
-export const useSignMessage = () => {
+export const useAptos = () => {
   const dispatch = useAppDispatch();
-
-  const petraMessage = (body: PropsSignMessage) => {
-    return dispatch(petraSignMessage(body));
-  };
 
   const IsLogin = (value: boolean) => {
     return dispatch(setIsLogin(value));
   };
 
-  const IsConnectPetra = (value: boolean) => {
-    return dispatch(setIsConnectPetra(value));
+  const IsConnectAptos = (value: boolean) => {
+    return dispatch(setIsConnectAptos(value));
   };
 
-  const { data, loading, error, isConnectPetra, isLogin } = useAppSelector(
-    (state) => state.signmessage,
+  const { data, loading, error, isConnectAptos, isLogin } = useAppSelector(
+    (state) => state.aptos_reducers,
   );
 
   return {
     data,
     loading,
     error,
-    petraMessage,
-    IsConnectPetra,
-    isConnectPetra,
     IsLogin,
     isLogin,
+    IsConnectAptos,
+    isConnectAptos,
   };
 };
 
-export const useAuthSignMessage = () => {
+export const useAuthLogin = () => {
   const dispatch = useAppDispatch();
 
-  const AuthSignMessage = (body: AuthSignMessage) => {
+  const LoginGoogle = (body: LoginGoogle) => {
     store.dispatch({ type: "" });
-    dispatch(authSignMessage(body));
+    dispatch(loginGoogle(body));
   };
-
-  const { dataAuth, loadingAuth, errorAuth } = useAppSelector(
-    (state) => state.auth,
-  );
-
-  return {
-    dataAuth,
-    loadingAuth,
-    errorAuth,
-    AuthSignMessage,
-  };
-};
-
-export const useAuthLoginX = () => {
-  const dispatch = useAppDispatch();
-
   const LoginX = (param: PropsLoginX) => {
     store.dispatch({ type: "" });
     dispatch(loginX(param));
   };
 
-  const { dataAuthLogin, loadingAuthLogin, errorAuthLogin } = useAppSelector(
-    (state) => state.loginX,
-  );
-
-  return {
-    LoginX,
-    dataAuthLogin,
-    loadingAuthLogin,
-    errorAuthLogin,
-  };
-};
-
-export const useLoginAccount = () => {
-  const dispatch = useAppDispatch();
-
   const LoginAccount = (body: LoginAccount) => {
     store.dispatch({ type: "" });
     dispatch(loginAccount(body));
   };
-
-  const {
-    dataAuthLoginAccount,
-    loadingAuthLoginAccount,
-    errorAuthLoginAccount,
-  } = useAppSelector((state) => state.LoginAccount);
-
-  return {
-    dataAuthLoginAccount,
-    loadingAuthLoginAccount,
-    errorAuthLoginAccount,
-    LoginAccount,
-  };
-};
-
-export const useLoginGoogle = () => {
-  const dispatch = useAppDispatch();
-
-  const LoginGoogle = (body: LoginGoogle) => {
-    dispatch(loginGoogle(body));
+  const AuthAptos = (body: AuthAptos) => {
     store.dispatch({ type: "" });
+    dispatch(authAptos(body));
   };
 
-  const { dataAuthLoginGoogle, loadingAuthLoginGoogle, errorAuthLoginGoogle } =
-    useAppSelector((state) => state.loginGoogle);
+  const { data, loading, error } = useAppSelector((state) => state.auth_login);
 
   return {
+    data,
+    loading,
+    error,
     LoginGoogle,
-    dataAuthLoginGoogle,
-    loadingAuthLoginGoogle,
-    errorAuthLoginGoogle,
+    LoginX,
+    LoginAccount,
+    AuthAptos,
   };
 };
 

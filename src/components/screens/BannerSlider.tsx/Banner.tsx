@@ -1,12 +1,11 @@
 "use client";
 
-import { Box, Stack } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import bgSlider from "public/images/banner.webp";
 import { Button, Image, Text } from "@components/shared";
-import { motion } from "framer-motion";
-import { useGame } from "@store/game";
 import useBreakpoint from "@hooks/useBreakpoint";
+import { Box, Stack } from "@mui/material";
+import { motion } from "framer-motion";
+import bgSlider from "public/images/banner.webp";
+import { useEffect, useRef, useState } from "react";
 
 const DATA = [
   {
@@ -36,7 +35,6 @@ const Banner = () => {
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
   const { isMdSmaller } = useBreakpoint();
 
   useEffect(() => {

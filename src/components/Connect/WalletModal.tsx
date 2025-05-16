@@ -1,23 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { memo, useEffect, useMemo, useState } from "react";
-import { Box, ButtonBase, Stack } from "@mui/material";
-import DialogLayout, { DialogLayoutProps } from "@components/DialogLayout";
-import { IconButton, Text } from "@components/shared";
-import CloseIcon from "@icons/CloseIcon";
+import { client, Endpoint } from "@api";
+import { setToken } from "@api/helpers";
 import {
   AdapterNotDetectedWallet,
   AdapterWallet,
   groupAndSortWallets,
   WalletReadyState,
 } from "@aptos-labs/wallet-adapter-react";
+import DialogLayout, { DialogLayoutProps } from "@components/DialogLayout";
+import { IconButton, Text } from "@components/shared";
 import useAptosWallet from "@hooks/useAptosWallet";
-import { AuthSignMessage, PropsSignMessage } from "@store/auth/action";
-import {
-  AuthSignMessageProps,
-  useAuthSignMessage,
-  useSignMessage,
-} from "@store/auth";
+import CloseIcon from "@icons/CloseIcon";
+import { Box, ButtonBase, Stack } from "@mui/material";
+import { useAptos, useAuthLogin } from "@store/auth";
+import { memo, useEffect, useMemo, useState } from "react";
+import Cookies from "js-cookie";
+import { HOME_PATH } from "@constant/paths";
+import { useRouter } from "next/navigation";
 
 type WalletModalProps = {} & Omit<DialogLayoutProps, "children">;
 
@@ -28,13 +29,16 @@ type ItemProps = {
 
 const WalletModal = (props: WalletModalProps) => {
   const { onClose, ...rest } = props;
-  const { petraMessage, IsConnectPetra } = useSignMessage();
 
-  const { AuthSignMessage } = useAuthSignMessage();
+  const { IsConnectAptos } = useAptos();
+
+  const router = useRouter();
 
   const [selectedWallet, setSelectedWallet] = useState<
     AdapterWallet | AdapterNotDetectedWallet | null
   >(null);
+
+  const { data, AuthAptos, error } = useAuthLogin();
 
   const {
     wallets = [],
@@ -44,13 +48,16 @@ const WalletModal = (props: WalletModalProps) => {
     address,
     disconnect,
     account,
+    // connected,
+    // wallet,
+    // network
   } = useAptosWallet();
 
   const handleClose = () => {
     if (selectedWallet) {
       disconnect();
       setSelectedWallet(null);
-      IsConnectPetra(false);
+      IsConnectAptos(false);
     }
     onClose();
   };
@@ -58,10 +65,7 @@ const WalletModal = (props: WalletModalProps) => {
   const walletGrouped = useMemo(() => {
     return groupAndSortWallets(
       [...wallets, ...notDetectedWallets].filter(
-        (item) =>
-          item?.["isOkxWallet"] ||
-          // item.name.startsWith("Continue") ||
-          item.name === "Petra",
+        (item) => item?.["isOkxWallet"] || item.name === "Petra",
       ),
     );
   }, [wallets, notDetectedWallets]);
@@ -69,58 +73,65 @@ const WalletModal = (props: WalletModalProps) => {
   const onOpenURL = (url: string) => () => {
     window.open(url, "_blank");
   };
+
+  const nonce = Date.now().toString();
+
   useEffect(() => {
+    if (error.length > 0) {
+      disconnect();
+      IsConnectAptos(false);
+      setSelectedWallet(null);
+      return;
+    } else if (data && Object.keys(data).length > 0) {
+      onClose();
+      setSelectedWallet(null);
+      IsConnectAptos(true);
+      setToken(data.accessToken);
+      Cookies.set("accessToken", data.accessToken, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+      router.push(HOME_PATH);
+    }
+  }, [data, error]);
+
+  useEffect(() => {
+    console.log("log sign wall", selectedWallet, address);
+
     const signAfterConnect = async () => {
       if (!selectedWallet || !address) return;
-      const nonce = Date.now().toString();
       try {
-        const requestBody: PropsSignMessage = {
+        const data = await client.post(Endpoint.AUTH_SIGNMESSAGE, {
           wallet: address,
           nonce: nonce,
-        };
-
-        const data = await petraMessage(requestBody);
-
+        });
         if (!data) {
           disconnect();
-          IsConnectPetra(false);
+          IsConnectAptos(false);
           setSelectedWallet(null);
           return;
         }
 
         const response = await signMessage({
-          message: data.payload,
-          // message: "loginId: 9cef1dbb-f77a-436a-9d7e-598c9e83aec0",
+          message: data.data,
           nonce: nonce,
-          address: true,
-          chainId: true,
         });
 
-        if (response) {
-          // const publicKey1 = account?.publicKey.toString
-          console.log("publicKey", String(account?.publicKey));
-
-          console.log("signature", String(response.signature));
-
-          const valueAuth: AuthSignMessage = {
+        if (response && account) {
+          AuthAptos({
             wallet: address,
-            signature: String(response.signature),
-            publicKey: String(account?.publicKey),
-          };
-
-          await AuthSignMessage(valueAuth);
-
-          onClose();
-          setSelectedWallet(null);
-          IsConnectPetra(true);
+            signature: response.signature?.toString(),
+            publicKey: account?.publicKey?.toString(),
+          });
         } else {
-          IsConnectPetra(false);
+          IsConnectAptos(false);
           disconnect();
           setSelectedWallet(null);
         }
       } catch (error) {
-        console.error("Lỗi trong quá trình sign:", error);
-        IsConnectPetra(false);
+        console.error("Sign Errors:", error);
+        IsConnectAptos(false);
         disconnect();
         setSelectedWallet(null);
       }
@@ -134,9 +145,9 @@ const WalletModal = (props: WalletModalProps) => {
   ) => {
     try {
       await connect(wallet.name);
-      // setSelectedWallet(wallet);
+      setSelectedWallet(wallet);
     } catch (error) {
-      console.log("Lỗi trong quá trình kết nối ví:", error);
+      throw error;
     }
   };
 
