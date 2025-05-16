@@ -1,94 +1,145 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { petraSignMessage, AuthSignMessage, authSignMessage } from "./action";
+import { loginX, loginGoogle, loginAccount, authAptos } from "./action";
 
 export interface SignMessageProps {
   loading: boolean;
   data: string;
   error: string;
-  isConnectPetra: boolean;
-}
-
-export interface AuthSignMessageProps {
-  loading: boolean;
-  data: any | null;
-  error: string;
+  isConnectAptos: boolean;
+  isLogin: boolean;
 }
 
 const initialState: SignMessageProps = {
   data: "",
   loading: false,
   error: "",
-  isConnectPetra: false,
+  isConnectAptos: false,
+  isLogin: false,
 };
 
-const initialStateAuth = {
-  loadingAuth: false,
-  errorAuth: "",
-  dataAuth: "",
-};
-
-const SignMessageReducer = createSlice({
-  name: "signmessage",
+const AptosReducer = createSlice({
+  name: "aptos_reducer",
   initialState,
   reducers: {
-    setIsConnectPetra: (state, action: PayloadAction<boolean>) => {
-      state.isConnectPetra = action.payload;
+    setIsConnectAptos: (state, action: PayloadAction<boolean>) => {
+      state.isConnectAptos = action.payload;
+    },
+    setIsLogin: (state, action: PayloadAction<boolean>) => {
+      state.isLogin = action.payload;
     },
   },
+});
+
+interface PropsUserConnectsAuth {
+  connectType?: string;
+  account?: string;
+  displayName?: string | null;
+}
+
+export interface PropsUserAuth {
+  id: string;
+  username: string;
+  displayName: string;
+  refCode?: string;
+  point?: number;
+  energy?: number;
+  earnedCommissions?: number;
+  refCount?: number;
+  isSetupAA?: boolean;
+  createdAt?: string;
+  userConnects?: PropsUserConnectsAuth[];
+  lastLogin?: number;
+  isDefaultAdmin?: boolean;
+  email?: string;
+}
+export interface PropsAuths {
+  accessToken: string;
+  refreshToken: string;
+  user: PropsUserAuth;
+}
+
+export interface PropsAuthsState {
+  data: PropsAuths;
+  loading: boolean;
+  error: string;
+}
+
+const initialStateAuthLogins: PropsAuthsState = {
+  data: {} as PropsAuths,
+  loading: false,
+  error: "",
+};
+
+const Auth_Login = createSlice({
+  name: "auth_login",
+  initialState: initialStateAuthLogins,
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(petraSignMessage.pending, (state) => {
+      // google
+      .addCase(loginGoogle.pending, (state) => {
         state.loading = true;
       })
       .addCase(
-        petraSignMessage.fulfilled,
-        (state, action: PayloadAction<any | null>) => {
+        loginGoogle.fulfilled,
+        (state, action: PayloadAction<PropsAuths>) => {
           state.data = action.payload;
           state.loading = false;
         },
       )
-      .addCase(
-        petraSignMessage.rejected,
-        (state, action: PayloadAction<any | null>) => {
-          state.loading = false;
-          state.error = action.payload as string;
-        },
-      );
-  },
-});
-
-const AuthSignMessageReducer = createSlice({
-  name: "auth/signmessage",
-  initialState: initialStateAuth,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(authSignMessage.pending, (state) => {
-        state.loadingAuth = true;
+      .addCase(loginGoogle.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // x
+      .addCase(loginX.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loginX.fulfilled, (state, action: PayloadAction<PropsAuths>) => {
+        state.data = action.payload;
+        state.loading = false;
+      })
+      .addCase(loginX.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // username/password
+      .addCase(loginAccount.pending, (state) => {
+        state.loading = true;
       })
       .addCase(
-        authSignMessage.fulfilled,
-        (state, action: PayloadAction<any | null>) => {
-          state.dataAuth = action.payload;
-          state.loadingAuth = false;
+        loginAccount.fulfilled,
+        (state, action: PayloadAction<PropsAuths>) => {
+          state.data = action.payload;
+          state.loading = false;
         },
       )
+      .addCase(loginAccount.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // aptos
+      .addCase(authAptos.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(
-        authSignMessage.rejected,
-        (state, action: PayloadAction<any | null>) => {
-          state.loadingAuth = false;
-          state.errorAuth = action.payload as string;
+        authAptos.fulfilled,
+        (state, action: PayloadAction<PropsAuths>) => {
+          state.data = action.payload;
+          state.loading = false;
         },
-      );
+      )
+      .addCase(authAptos.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
 export const reducers = {
-  auth: AuthSignMessageReducer.reducer,
-  signmessage: SignMessageReducer.reducer,
+  aptos_reducers: AptosReducer.reducer,
+  auth_login: Auth_Login.reducer,
 };
 
-export const { setIsConnectPetra } = SignMessageReducer.actions;
-
-// export default SignMessageReducer.reducer;
+export const { setIsConnectAptos, setIsLogin } = AptosReducer.actions;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { poppins } from "public/fonts";
+import { space_grotesk } from "public/fonts";
 import HashProvider from "@/contexts/HashProvider";
 import InitializeProvider from "@/contexts/InitializeProvider";
 import ThemeProvider from "@/contexts/ThemeProvider";
@@ -49,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable}`} id="body">
+      <body className={`${space_grotesk.variable}`} id="body">
         <ThemeProvider>
           <SocketProvider>
             <InitializeProvider>

@@ -13,7 +13,7 @@ export const USDC_COIN_TYPE = process.env.USDC_COIN_TYPE as CoinType;
 export const APTOS_API_KEY = process.env.APTOS_API_KEY as string;
 export const APP_ENVIRONMENT = process.env
   .APP_ENVIRONMENT as typeof process.env.NODE_ENV;
-
+// export const APP_ENVIRONMENT = process.env.APP_ENVIRONMENT;
 export const APTOS_COIN_TYPE = "0x1::aptos_coin::AptosCoin" as CoinType;
 
 export const DEFAULT_PAGE_INDEX = 1;
@@ -28,6 +28,8 @@ export const API_TIMEOUT = 30_000;
 
 export const EMPTY_TEXT = "N/A";
 export const AUTH_COOKIE = "aI";
+export const ACCESSTOKEN_COOKIE = "accessToken";
+
 export const CONNECT_BUTTON_ID = "cB";
 
 export const TIME_FORMAT = "HH:mm";
@@ -45,7 +47,7 @@ export const FORM_DATA_HEADER = {
 };
 
 export const HEADER_HEIGHT = 76;
-export const SCREEN_PX = { xs: 1.5, sm: 2, md: 6, xl: 12.5 };
+export const SCREEN_PX = { xs: 1.5, sm: 2, md: 6, xl: 8 };
 export const MIN_HEIGHT_SCREEN = `calc(100svh - ${HEADER_HEIGHT}px - 188px)`;
 
 export const APP_TOKEN_NAME = "NOCTRA";
@@ -93,3 +95,6 @@ export const AGENT_CATEGORIES_OPTIONS = [
   { label: "Trading", value: AgentType.TRADING },
   { label: "NFT", value: AgentType.NFT },
 ];
+export const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
+export const AUDIO_EXTENSIONS = [".mp3", ".aac", ".m4a", ".wav"];
+export const WRONG_RATIO_IMAGE = 0.05;

@@ -1,5 +1,11 @@
 import { client, Endpoint } from "@api";
-import { Genre, Platform, SupportChain, SupportOs } from "@constant/enum";
+import {
+  Genre,
+  MediaPosition,
+  Platform,
+  SupportChain,
+  SupportOs,
+} from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { HttpStatusCode } from "axios";
 
@@ -37,10 +43,17 @@ export interface PropsDownloading {
   ios: string;
 }
 
+export interface PropsMedia {
+  url: string;
+  type: string;
+  position: MediaPosition;
+}
+
 export interface PropsFormik {
+  gameId?: number;
   name: string;
   description: string;
-  status: number | 1 | 2 | 3;
+  status: number;
   website: string;
   downloadLinks: PropsDownloading;
   publisher: string;
@@ -51,7 +64,14 @@ export interface PropsFormik {
   platform: Platform[];
   genre: Genre[];
   chain: SupportChain[];
-  media: string[];
+  media: PropsMedia[];
+  content?: string;
+}
+
+export interface PropsGameReview {
+  gameId: number;
+  scroce: number;
+  review: string;
 }
 
 export const getGame = createAsyncThunk(
@@ -90,7 +110,7 @@ export const getGameOwner = createAsyncThunk(
 );
 
 export const createGame = createAsyncThunk(
-  "game/createGame",
+  "game/create",
   async (params: PropsFormik) => {
     try {
       const response = await client.post(Endpoint.CREATE_GAME, params);
@@ -100,3 +120,78 @@ export const createGame = createAsyncThunk(
     }
   },
 );
+
+export const updateGame = createAsyncThunk(
+  "game/update",
+  async (body: PropsFormik) => {
+    try {
+      const response = await client.put(Endpoint.UPDATE_GAME, body);
+      if (response.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export const getGameID = createAsyncThunk(
+  "game/getById",
+  async (gameId: number) => {
+    try {
+      const response = await client.get(`${Endpoint.GET_GAME}/${gameId}`);
+      if (response.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export interface PropsDelete {
+  gameId: number;
+}
+
+export const deleteGame = createAsyncThunk(
+  "game/delete",
+  async (body: PropsDelete) => {
+    try {
+      const response = await client.delete(Endpoint.DELETE_GAME, body);
+      if (response.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export const createGameReview = createAsyncThunk(
+  "game/review",
+  async (body: PropsGameReview) => {
+    try {
+      const response = await client.post(Endpoint.CREATE_GAME_REVIEW, body);
+      if (response.status === HttpStatusCode.Ok) return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+// export interface PropsGallery {
+//   file: File,
+//   name: string,
+//   description: string
+// }
+
+// export const upGallery = createAsyncThunk(
+//   "upload/gallery", async (body: PropsGallery) => {
+//     try {
+//       const response = await client.post(Endpoint.GALLERY, {
+//         body: body,
+//         'Content-Type': 'multipart/form-data'
+//       })
+//       if (response.status === HttpStatusCode.Ok) {
+//         console.log('upload gallery', response.data);
+//         return response.data
+//       }
+//     } catch (error) {
+//       throw error
+//     }
+//   }
+// )

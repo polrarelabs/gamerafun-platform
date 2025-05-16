@@ -3,8 +3,8 @@ import { DOMAIN } from "constant/index";
 const SEO_IMAGE = `${DOMAIN}/images/cover-seo.jpg`;
 
 const TITLE = {
-  template: "%s | Noctra AI",
-  default: "Noctra AI",
+  template: "%s | Gamera",
+  default: "Gamera",
 };
 
 export const GENERAL_CONFIG = {

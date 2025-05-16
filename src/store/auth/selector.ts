@@ -1,52 +1,84 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
-  AuthSignMessage,
-  authSignMessage,
-  petraSignMessage,
-  PropsSignMessage,
+  authAptos,
+  AuthAptos,
+  loginAccount,
+  LoginAccount,
+  loginGoogle,
+  LoginGoogle,
+  loginX,
+  PropsLoginX,
 } from "./action";
-import { setIsConnectPetra } from "./reducer";
+import { setIsConnectAptos, setIsLogin } from "./reducer";
+import { store } from "@store/configureStore";
+import Cookies from "js-cookie";
 
-export const useSignMessage = () => {
+export const useAptos = () => {
   const dispatch = useAppDispatch();
 
-  const petraMessage = (body: PropsSignMessage) => {
-    return dispatch(petraSignMessage(body));
+  const IsLogin = (value: boolean) => {
+    return dispatch(setIsLogin(value));
   };
 
-  const IsConnectPetra = (value: boolean) => {
-    return dispatch(setIsConnectPetra(value));
+  const IsConnectAptos = (value: boolean) => {
+    return dispatch(setIsConnectAptos(value));
   };
 
-  const { data, loading, error, isConnectPetra } = useAppSelector(
-    (state) => state.signmessage,
+  const { data, loading, error, isConnectAptos, isLogin } = useAppSelector(
+    (state) => state.aptos_reducers,
   );
 
   return {
     data,
     loading,
     error,
-    petraMessage,
-    IsConnectPetra,
-    isConnectPetra,
+    IsLogin,
+    isLogin,
+    IsConnectAptos,
+    isConnectAptos,
   };
 };
 
-export const useAuthSignMessage = () => {
+export const useAuthLogin = () => {
   const dispatch = useAppDispatch();
 
-  const AuthSignMessage = (body: AuthSignMessage) => {
-    return dispatch(authSignMessage(body));
+  const LoginGoogle = (body: LoginGoogle) => {
+    store.dispatch({ type: "" });
+    dispatch(loginGoogle(body));
+  };
+  const LoginX = (param: PropsLoginX) => {
+    store.dispatch({ type: "" });
+    dispatch(loginX(param));
   };
 
-  const { dataAuth, loadingAuth, errorAuth } = useAppSelector(
-    (state) => state.auth,
-  );
+  const LoginAccount = (body: LoginAccount) => {
+    store.dispatch({ type: "" });
+    dispatch(loginAccount(body));
+  };
+  const AuthAptos = (body: AuthAptos) => {
+    store.dispatch({ type: "" });
+    dispatch(authAptos(body));
+  };
+
+  const { data, loading, error } = useAppSelector((state) => state.auth_login);
 
   return {
-    dataAuth,
-    loadingAuth,
-    errorAuth,
-    AuthSignMessage,
+    data,
+    loading,
+    error,
+    LoginGoogle,
+    LoginX,
+    LoginAccount,
+    AuthAptos,
+  };
+};
+
+export const useLogOut = () => {
+  const logOut = () => {
+    store.dispatch({ type: "RESET_STORE" });
+    Cookies.remove("accessToken", { path: "" });
+  };
+  return {
+    logOut,
   };
 };

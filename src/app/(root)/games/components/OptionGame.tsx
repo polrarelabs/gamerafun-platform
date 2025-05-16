@@ -1,21 +1,32 @@
 "use client";
 
-import { Text, Tooltip } from "@components/shared";
+import { Button, Text, Tooltip } from "@components/shared";
 import SearchIcon from "@icons/SearchIcon";
-import { InputBase, Slider, Stack } from "@mui/material";
+import { Checkbox, InputBase, Slider, Stack } from "@mui/material";
 import { useGameCount, useGameReducers } from "@store/game";
 import React, { memo, useEffect, useMemo, useState } from "react";
 import { BsFillHexagonFill } from "react-icons/bs";
 import { GetColor } from "./GetColor";
-
+import FormListOption from "@app/(root)/genres/[token]/components/FormListOption";
+import LensIcon from "@mui/icons-material/Lens";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 const OptionGame = () => {
-  const { setEditorRating, setUserRating, valueEditorRating, valueUserRating } =
-    useGameReducers();
+  const {
+    setEditorRating,
+    setUserRating,
+    valueEditorRating,
+    valueUserRating,
+    platforms,
+    SetPlatforms,
+    genres,
+    SetGenres,
+  } = useGameReducers();
 
   const { data } = useGameCount();
 
-  const [arrKeys, setArrKeys] = useState<string[]>([]);
-  const [arrValues, setArrValues] = useState<number[]>([]);
+  const [checked, setChecked] = useState<string>("all");
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const thumbColorEditorRating = useMemo(() => {
     if (typeof valueEditorRating !== "number" || valueEditorRating === 0)
@@ -32,15 +43,6 @@ const OptionGame = () => {
     return color;
   }, [valueUserRating]);
 
-  useEffect(() => {
-    const arrKeys: string[] =
-      data && data.platform ? Object.keys(data.platform) : [];
-    const arrValues: number[] =
-      data && data.platform ? Object.values(data.platform) : [];
-    setArrKeys(arrKeys);
-    setArrValues(arrValues);
-  }, [data]);
-
   const handleSliderChange = (_event: Event, newValue: number | number[]) => {
     setEditorRating(newValue as number);
   };
@@ -50,11 +52,18 @@ const OptionGame = () => {
   ) => {
     setUserRating(newValue as number);
   };
+  const handleClear = () => {
+    setChecked("all");
+    SetPlatforms([]);
+    setUserRating(0);
+    setEditorRating(0);
+    SetGenres([]);
+  };
 
   return (
-    <Stack direction={"column"} gap={2} flex={1}>
+    <Stack direction={"column"} gap={2} flex={{ lg: 1, xs: 2 }}>
       <InputBase
-        placeholder="Please enter text"
+        placeholder="Search for games"
         startAdornment={
           <SearchIcon
             sx={{
@@ -72,47 +81,12 @@ const OptionGame = () => {
         }}
       />
       <Stack direction={"column"} gap={2}>
-        <Stack
-          direction={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
-          <Text color="white" fontSize={"16px"} fontWeight={500}>
-            Platform
-          </Text>
-          {/* <Text
-                        color="#33F57A"
-                        fontSize={"16px"}
-                        fontWeight={500}
-                        sx={{
-                            '&:hover': {
-                                cursor: 'pointer',
-                                textDecoration: 'underline'
-                            }
-                        }}
-                    >
-                        Show More
-                    </Text> */}
-        </Stack>
-        <Stack direction={"column"} gap={2}>
-          {arrKeys.map((_, index) => {
-            return (
-              <Stack
-                key={index}
-                direction={"row"}
-                alignItems={"center"}
-                gap={2}
-              >
-                <Text color="#9CA3AF" fontSize={"14px"}>
-                  {arrKeys[index]}
-                </Text>
-                <Text color="#9CA3AF" fontSize={"14px"}>
-                  {arrValues[index]}
-                </Text>
-              </Stack>
-            );
-          })}
-        </Stack>
+        <FormListOption
+          name={"Platform"}
+          data={data.platform!}
+          setArray={SetPlatforms}
+          arrayKey={platforms}
+        />
         <Stack direction={"column"} gap={2}>
           <Text color="white" fontSize={"16px"} fontWeight={500}>
             Min Rating
@@ -292,9 +266,117 @@ const OptionGame = () => {
             </Stack>
           </Stack>
         </Stack>
+
+        <FormListOption
+          name={"Genres"}
+          data={data.genre!}
+          setArray={SetGenres}
+          arrayKey={genres}
+        />
+
+        <Stack direction={"column"} gap={2}>
+          <Stack>
+            <Text color="white" fontSize={"16px"} fontWeight={500}>
+              Data Added
+            </Text>
+          </Stack>
+          <Stack direction={"column"}>
+            {DATAADDED.map((item, index) => {
+              return (
+                <Stack
+                  key={index}
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  onClick={() => setChecked(item.key)}
+                  sx={{
+                    backgroundColor:
+                      item.key === checked ? "#171F2C" : undefined,
+                    "&:hover": {
+                      backgroundColor:
+                        item.key === checked ? "#171F2C" : "#171f2cb5",
+                    },
+                    borderRadius: "8px",
+                  }}
+                >
+                  <Stack direction={"row"} alignItems={"center"} pl={1} gap={2}>
+                    <CalendarMonthIcon
+                      sx={{
+                        color: "#9CA3AF",
+                        fontSize: 18,
+                      }}
+                    />
+                    <Text
+                      color={item.key === checked ? "white" : "#9CA3AF"}
+                      fontSize={"14px"}
+                      fontWeight={500}
+                    >
+                      {item.title}
+                    </Text>
+                  </Stack>
+                  <Checkbox
+                    checked={checked === item.key}
+                    {...label}
+                    icon={
+                      <LensIcon
+                        sx={{
+                          color: "#1F2937",
+                        }}
+                      />
+                    }
+                    checkedIcon={
+                      <RadioButtonCheckedIcon
+                        sx={{
+                          color: "#33F57A",
+                        }}
+                      />
+                    }
+                  />
+                </Stack>
+              );
+            })}
+            <Stack>
+              <Button
+                variant="contained"
+                sx={{
+                  borderRadius: "8px !important",
+                  color: "#F9FAFB !important",
+                  background: "#6b728026 !important",
+                  border: "1px solid #4b556333 !important",
+                  mt: 2,
+                }}
+                onClick={() => handleClear()}
+              >
+                Clear All
+              </Button>
+            </Stack>
+          </Stack>
+        </Stack>
       </Stack>
     </Stack>
   );
 };
 
 export default memo(OptionGame);
+const DATAADDED = [
+  {
+    key: "all",
+    title: "All Time",
+  },
+  {
+    key: "7days",
+    title: "Last 7 days",
+  },
+  {
+    key: "30days",
+    title: "Last 30 days",
+  },
+  {
+    key: "6months",
+    title: "Last 6 months",
+  },
+  {
+    key: "12months",
+    title: "Last 12 months",
+  },
+];

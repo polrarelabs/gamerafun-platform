@@ -1,7 +1,7 @@
-import { poppins } from "public/fonts";
+import { space_grotesk } from "public/fonts";
 
 const typography = {
-  fontFamily: poppins.style.fontFamily,
+  fontFamily: space_grotesk.style.fontFamily,
   h1: {
     fontWeight: 600,
     fontSize: 32,

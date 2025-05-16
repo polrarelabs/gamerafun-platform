@@ -4,12 +4,11 @@
 import { Stack } from "@mui/material";
 import React, { memo, useEffect } from "react";
 import PopularGenres from "./PopularGenres";
-import LayoutBrowserGame from "./LayoutBrowserGame";
+import BodyBrowserGame from "./BodyBrowserGame";
 import { useGameCount } from "@store/game";
 
 const LayoutGame = () => {
   const { fetchGameCount } = useGameCount();
-
   useEffect(() => {
     fetchGameCount();
   }, []);
@@ -17,7 +16,7 @@ const LayoutGame = () => {
   return (
     <Stack direction={"column"} gap={8}>
       <PopularGenres />
-      <LayoutBrowserGame />
+      <BodyBrowserGame />
     </Stack>
   );
 };

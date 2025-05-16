@@ -10,10 +10,13 @@ type WalletProviderProps = {
 };
 
 const WalletProvider = ({ children }: WalletProviderProps) => {
+  console.log(APTOS_API_KEY, NETWORK_SUPPORTED);
+
   return (
     <AptosWalletAdapterProvider
       autoConnect
       dappConfig={{
+        // aptosConnectDappId: "aptos_api_dev",
         network: NETWORK_SUPPORTED,
         aptosApiKeys: {
           [NETWORK_SUPPORTED]: APTOS_API_KEY,
@@ -27,7 +30,7 @@ const WalletProvider = ({ children }: WalletProviderProps) => {
 
 export default memo(WalletProvider);
 
-const NETWORK_SUPPORTED =
+export const NETWORK_SUPPORTED =
   APP_ENVIRONMENT === "production" ? Network.MAINNET : Network.TESTNET;
 
 export const aptosClient = new Aptos(

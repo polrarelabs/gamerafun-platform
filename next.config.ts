@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
     USDC_COIN_TYPE: process.env.USDC_COIN_TYPE,
     SOCKET_URL: process.env.SOCKET_URL,
     APTOS_API_KEY: process.env.APTOS_API_KEY,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",

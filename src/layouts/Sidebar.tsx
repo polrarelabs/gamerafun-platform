@@ -11,15 +11,15 @@ import BarsIcon from "@icons/BarsIcon";
 import useToggle from "@hooks/useToggle";
 
 const Sidebar = () => {
-  const { isSmSmaller } = useBreakpoint();
+  const { isMdSmaller } = useBreakpoint();
 
   const [isShow, onShow, onHide] = useToggle();
 
-  if (!isSmSmaller) return null;
+  if (!isMdSmaller) return null;
 
   return (
-    <>
-      <IconButton onClick={onShow} sx={{ display: { sm: "none" } }}>
+    <Stack direction={"row"} justifyContent={"center"} alignItems={"center"}>
+      <IconButton onClick={onShow} sx={{ display: { md: "none" } }}>
         <BarsIcon />
       </IconButton>
       <Drawer
@@ -47,11 +47,11 @@ const Sidebar = () => {
             <PanelIcon sx={{ fontSize: 16 }} />
           </IconButton>
         </Stack>
-        <Navigation direction="column" />
+        <Navigation directions="column" onHide={onHide} />
 
         <Connect size="large" />
       </Drawer>
-    </>
+    </Stack>
   );
 };
 

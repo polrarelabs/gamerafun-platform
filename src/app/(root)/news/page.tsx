@@ -5,10 +5,12 @@ import Link from "@components/Link";
 import { Text } from "@components/shared";
 import LayoutNew from "./components/LayoutNew";
 import LayoutLastNews from "./components/LayoutLastNews";
+import { SCREEN_PX } from "@constant";
+import Layout from "./components/Layout";
 
 const News = () => {
   return (
-    <Stack px={8} py={4} direction={"column"} gap={4}>
+    <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
       <Stack direction={"column"} gap={2}>
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}
@@ -32,8 +34,7 @@ const News = () => {
             interviews and informative web3 gaming opinion pieces.
           </Text>
         </Stack>
-        <LayoutNew />
-        <LayoutLastNews />
+        <Layout />
       </Stack>
     </Stack>
   );

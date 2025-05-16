@@ -1,15 +1,12 @@
 import { Metadata } from "next";
-import { AGENT_DETAIL_PATH } from "@constant/paths";
+import { HOME_DETAIL_PATH } from "@constant/paths";
 import { generateMetadata } from "@utils/seo";
 import { Stack } from "@mui/material";
 import { InfoApp, Tabs, TradingView } from "@components/screens/AgentDetail";
 import Wrapper from "@components/screens/AgentDetail/Wrapper";
 import { MIN_HEIGHT_SCREEN, SCREEN_PX } from "@constant";
 
-export const metadata: Metadata = generateMetadata(
-  "Agent Detail",
-  AGENT_DETAIL_PATH,
-);
+export const metadata: Metadata = generateMetadata("Home", HOME_DETAIL_PATH);
 
 export default function Home() {
   return (
