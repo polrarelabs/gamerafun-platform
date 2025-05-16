@@ -70,6 +70,8 @@ const WalletModal = (props: WalletModalProps) => {
     window.open(url, "_blank");
   };
   useEffect(() => {
+    console.log("log sign wall", selectedWallet, address);
+
     const signAfterConnect = async () => {
       if (!selectedWallet || !address) return;
       const nonce = Date.now().toString();
@@ -134,7 +136,7 @@ const WalletModal = (props: WalletModalProps) => {
   ) => {
     try {
       await connect(wallet.name);
-      // setSelectedWallet(wallet);
+      setSelectedWallet(wallet);
     } catch (error) {
       console.log("Lỗi trong quá trình kết nối ví:", error);
     }

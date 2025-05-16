@@ -20,6 +20,19 @@ import { HOME_PATH } from "@constant/paths";
 import LoginAccount from "./LoginAccount";
 import wave from "public/images/wave.gif";
 import axios from "axios";
+import useAptosWallet from "@hooks/useAptosWallet";
+import {
+  GoogleLogin,
+  CredentialResponse,
+  useGoogleLogin,
+} from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+
+type GoogleUser = {
+  email: string;
+  name: string;
+  picture: string;
+};
 
 const FormLogin = () => {
   const { isConnectPetra, IsConnectPetra } = useSignMessage();
@@ -40,13 +53,12 @@ const FormLogin = () => {
     LoginGoogle,
   } = useLoginGoogle();
 
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const pathName = usePathname();
 
   useEffect(() => {
     const id = searchParams.get("xId") || undefined;
     const sessionId = searchParams.get("sessionId") || undefined;
-
     if (id !== undefined && sessionId !== undefined) {
       const param: PropsLoginX = {
         id: id,
@@ -55,8 +67,9 @@ const FormLogin = () => {
       LoginX(param);
     }
   }, [pathName]);
+
   useEffect(() => {
-    if (dataX && dataX.accessToken) {
+    if (dataX && Object.keys(dataX).length > 0) {
       setToken(dataX.accessToken);
       Cookies.set("accessToken", dataX.accessToken, {
         expires: 7,
@@ -69,20 +82,10 @@ const FormLogin = () => {
     }
   }, [dataX]);
 
-  // useEffect(() => {
-  //     if (id && sessionId) {
-  //         const param: PropsLoginX = {
-  //             id: id,
-  //             sessionId: sessionId
-  //         };
-  //         LoginX(param);
-  //     }
-  // }, [id, sessionId]);
-
-  // test local
-
   useEffect(() => {
-    if (dataAuthLoginGoogle) {
+    if (dataAuthLoginGoogle && Object.keys(dataAuthLoginGoogle).length > 0) {
+      console.log("dataauth", dataAuthLoginGoogle);
+
       setToken(dataAuthLoginGoogle.accessToken);
       Cookies.set("accessToken", dataAuthLoginGoogle.accessToken, {
         expires: 7,
@@ -90,22 +93,41 @@ const FormLogin = () => {
         sameSite: "Strict",
       });
       // setCookie(ACCESSTOKEN_COOKIE, dataAuthLoginGoogle.accessToken)
-      // router.push(HOME_PATH);
+      router.push(HOME_PATH);
     }
   }, [dataAuthLoginGoogle]);
 
-  useEffect(() => {
-    if (session?.user?.email) {
-      console.log("sess", session?.user?.email);
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const { access_token } = tokenResponse;
 
-      LoginGoogle({ email: session.user.email });
-    }
-  }, [session]);
+        const { data } = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          },
+        );
 
-  const handleLoginGoogle = () => {
-    signIn("google", { callbackUrl: HOME_PATH });
-    // signIn("google");
-  };
+        const googleUser: GoogleUser = {
+          email: data.email,
+          name: data.name,
+          picture: data.picture,
+        };
+
+        console.log("Google user info:", googleUser);
+
+        await LoginGoogle({ email: googleUser.email });
+      } catch (error) {
+        console.error("Failed to fetch Google user", error);
+      }
+    },
+    onError: () => {
+      console.error("Login Failed");
+    },
+  });
 
   const handleLoginX = () => {
     window.location.href =
@@ -116,7 +138,7 @@ const FormLogin = () => {
     {
       name: "Google",
       Icon: GoogleIcon,
-      functions: handleLoginGoogle,
+      functions: login,
     },
     // {
     //     name: 'Discord',
@@ -125,7 +147,7 @@ const FormLogin = () => {
     // },
     {
       name: "X (Twitter)",
-      Icon: XIcon,
+      Icon: () => <XIcon />, // Ensure Icon is a valid JSX component
       functions: handleLoginX,
     },
     // {
@@ -145,6 +167,8 @@ const FormLogin = () => {
     // },
   ];
 
+  const { disconnect } = useAptosWallet();
+
   return (
     <Stack
       width={{ md: "40%", xs: "90%" }}
@@ -157,6 +181,7 @@ const FormLogin = () => {
           Log out
         </Button>
       )} */}
+      <Button onClick={() => disconnect()}>out</Button>
       <Stack
         direction={"row"}
         justifyContent={"center"}
@@ -202,12 +227,45 @@ const FormLogin = () => {
                 background: "inherit !important",
                 height: "52px !important",
               }}
-              onClick={() => functions()}
+              onClick={() => functions?.()}
             >
               <Stack direction={"row"} alignItems={"center"} gap={2}>
-                <Icon /> {name}
+                {Icon && <Icon />} {name}
               </Stack>
             </Button>
+            // <>
+            //   {name === 'Google' ?
+            //     <Stack>
+            //       <GoogleLogin
+            //         onSuccess={handleLoginGoogleSuccess}
+            //         onError={handleLoginGoogleError}
+            //         useOneTap
+            //         theme="filled_black"
+            //         size="large"
+            //         width="100%"
+
+            //       />
+            //     </Stack>
+            //     :
+            // <Button
+            //   key={name}
+            //   variant="outlined"
+            //   sx={{
+            //     width: "100%",
+            //     borderRadius: "8px !important",
+            //     borderColor: "#94A7C4 !important",
+            //     color: "white !important",
+            //     background: "inherit !important",
+            //     height: "52px !important",
+            //   }}
+            //   onClick={() => functions?.()}
+            // >
+            //   <Stack direction={"row"} alignItems={"center"} gap={2}>
+            //     {Icon && <Icon />} {name}
+            //   </Stack>
+            // </Button>
+            //   }
+            // </>
           );
         })}
       </Stack>

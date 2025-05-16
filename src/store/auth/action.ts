@@ -15,12 +15,13 @@ export interface AuthSignMessage {
 }
 
 export const petraSignMessage = createAsyncThunk(
-  "post/signmessage",
+  "post/signmessages",
   async (body: PropsSignMessage) => {
     try {
       const response = await client.post(Endpoint.AUTH_SIGNMESSAGE, body);
       // const loginId = response.data.split("loginId:")[1]?.trim();
-      if ((response.status = HttpStatusCode.Ok)) return response.data;
+      // if ((response.status = HttpStatusCode.Ok))
+      return response.data;
     } catch (error) {
       throw error;
     }

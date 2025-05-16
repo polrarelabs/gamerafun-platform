@@ -21,32 +21,38 @@ const LayoutLogin = () => {
     <Stack
       position={"relative"}
       direction={"row"}
-      height={`calc(${height - 87}px)`}
+      height="100vh"
+      overflow={"hidden"}
+      // height={`calc(${height - 87}px)`}
     >
       {!isMdSmaller && (
         <>
           <Stack
-            position={"absolute"}
-            width={1328}
-            height={947}
-            left={"-25%"}
-            bottom={"-15%"}
+            position="absolute"
+            left="-24%"
+            bottom="-17%"
             zIndex={8}
+            sx={{
+              width: { xl: 1328, lg: 1000, md: 700 },
+              height: "auto",
+            }}
           >
             <Image
               src={gameDevice}
               alt="preview"
               size="100%"
               aspectRatio={1428 / 1047}
-              sizes="960px"
+              sizes="(max-width: 768px) 80vw, 960px"
               containerProps={{
                 sx: {
                   width: "100%",
-                  height: "100%",
+                  height: "auto",
                   overflow: "hidden",
                   "& img": {
-                    objectFit: "cover",
+                    objectFit: "contain",
                     objectPosition: "center",
+                    width: "100%",
+                    height: "auto",
                   },
                 },
               }}
@@ -62,7 +68,7 @@ const LayoutLogin = () => {
           >
             <Image
               src={imgBgLogin}
-              alt="preview"
+              alt="login background"
               size="100%"
               aspectRatio={2 / 3}
               sizes="960px"
@@ -75,6 +81,8 @@ const LayoutLogin = () => {
                   "& img": {
                     objectFit: "cover",
                     objectPosition: "center",
+                    width: "100%",
+                    height: "100%",
                   },
                 },
               }}
@@ -82,27 +90,25 @@ const LayoutLogin = () => {
 
             {/* logo */}
             <Stack
-              position={"absolute"}
-              height={47}
-              left={"50%"}
-              top={"10%"}
-              sx={{
-                translate: "-50% -50%",
-              }}
+              position="absolute"
+              width={{ md: 250, lg: 350, xl: 400 }}
+              height="auto"
+              left="50%"
+              top="10%"
+              sx={{ transform: "translate(-50%, -50%)" }}
             >
               <Image
                 src={logo}
-                alt="preview"
+                alt="logo"
                 size="100%"
                 aspectRatio={720 / 100}
-                sizes="1960px"
                 containerProps={{
                   sx: {
                     width: "100%",
-                    height: "100%",
+                    height: "auto",
                     overflow: "hidden",
                     "& img": {
-                      objectFit: "cover",
+                      objectFit: "contain",
                       objectPosition: "center",
                     },
                   },
