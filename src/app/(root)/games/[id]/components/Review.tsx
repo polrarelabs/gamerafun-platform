@@ -9,6 +9,7 @@ import { useState } from "react";
 import ModalShare from "./ModalShare";
 import { useGetGameId } from "@store/game";
 import SimilarGameReviews from "./SimilarGameReviews";
+import Share from "./Share";
 const Review = () => {
   const { data } = useGetGameId();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -146,6 +147,7 @@ const Review = () => {
       </Box>
       <ModalShare open={isOpen} setOpen={setIsOpen} />
       <About />
+      <Share />
       <SimilarGameReviews />
     </>
   );

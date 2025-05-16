@@ -7,7 +7,6 @@ import WebsiteIcon from "@icons/WebsiteIcon";
 import YoutubeIcon from "@icons/YoutubeIcon";
 import { Stack, Divider, Box } from "@mui/material";
 import { useGetGameId } from "@store/game";
-import RelatedGames from "./RelatedGames";
 import Share from "./Share";
 import logoGame from "/public/images/img-logo.png";
 
@@ -64,7 +63,6 @@ const About = () => {
           }}
         />
       </Stack>
-      <Share />
     </>
   );
 };
