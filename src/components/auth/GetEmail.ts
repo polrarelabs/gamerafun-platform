@@ -6,6 +6,9 @@ export const GetEmail = (data: PropsAuths) => {
     const email = data?.user?.email
       ? data?.user?.email
       : data?.user?.userConnects && data?.user?.userConnects[0]?.account;
-    return shortAddress(email, 8);
+    if (email && email.length > 24) {
+      return shortAddress(email, 8);
+    }
+    return email;
   }
 };

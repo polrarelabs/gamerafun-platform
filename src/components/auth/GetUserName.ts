@@ -7,6 +7,9 @@ export const GetUserName = (data: PropsAuths) => {
       ? data?.user?.displayName
       : `User ${data?.user?.id}`;
 
-    return shortAddress(name, 8);
+    if (name && name.length > 16) {
+      return shortAddress(name, 8);
+    }
+    return name;
   }
 };
