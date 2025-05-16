@@ -33,7 +33,10 @@ const MainLayout = (props: MainLayoutProps) => {
     if (cookies !== "undefined" && cookies !== undefined) {
       setToken(cookies);
       router.push(HOME_PATH);
-    } else router.push(LOGIN_PATH);
+    } else {
+      if (pathName !== HOME_PATH && pathName !== LOGIN_PATH)
+        router.push(LOGIN_PATH);
+    }
   }, []);
 
   const { isMdSmaller } = useBreakpoint();
@@ -73,7 +76,7 @@ const MainLayout = (props: MainLayoutProps) => {
 
   return (
     <Stack position={"relative"}>
-      {pathName === "/login" ? (
+      {pathName === LOGIN_PATH ? (
         <>
           <Stack ref={ref}></Stack>
           {children}

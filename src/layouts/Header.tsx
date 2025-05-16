@@ -26,7 +26,6 @@ const Header = () => {
   }, [cookies]);
 
   const { isSmSmaller, isMdSmaller } = useBreakpoint();
-  const { connected } = useAptosWallet();
   const { isConnectAptos, isLogin } = useAptos();
 
   return (
@@ -74,7 +73,7 @@ const Header = () => {
           </>
         ) : (
           <Stack direction="row" spacing={2} alignItems="center">
-            <CreateAgent />
+            {/* <CreateAgent /> */}
             {showLogin ? (
               <>
                 {(!isSmSmaller || !isConnectAptos) && <Connect />}

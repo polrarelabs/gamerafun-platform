@@ -77,7 +77,7 @@ const WalletModal = (props: WalletModalProps) => {
   const nonce = Date.now().toString();
 
   useEffect(() => {
-    if (error.length > 0) {
+    if (error) {
       disconnect();
       IsConnectAptos(false);
       setSelectedWallet(null);

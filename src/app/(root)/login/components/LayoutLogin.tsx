@@ -1,6 +1,6 @@
 "use client";
 
-import { Image } from "@components/shared";
+import { Button, Image } from "@components/shared";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
 import gameDevice from "public/images/game-device.png";
@@ -8,6 +8,7 @@ import imgBgLogin from "public/images/img-bg-login.png";
 import logo from "public/images/img-logo-text-big.png";
 // import { useEffect, useState } from "react";
 import SessionLogin from "./SessionLogin";
+import CloseIcon from "@icons/CloseIcon";
 const LayoutLogin = () => {
   // const [height, setHeight] = useState<number>(0);
   // useEffect(() => {
@@ -125,6 +126,27 @@ const LayoutLogin = () => {
         pt={"10%"}
         position={"relative"}
       >
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          position={"absolute"}
+          top={20}
+          right={40}
+          gap={2}
+        >
+          <Button
+            variant="outlined"
+            size={"small"}
+            sx={{
+              borderColor: "#FFFFFF40 !important",
+              color: "white !important",
+              background: "inherit !important",
+            }}
+          >
+            Contact Us
+          </Button>
+          <CloseIcon height={14} width={14} />
+        </Stack>
         <SessionLogin />
       </Stack>
     </Stack>

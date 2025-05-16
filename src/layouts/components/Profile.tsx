@@ -9,6 +9,7 @@ import DropDownIcon from "@icons/DropDownIcon";
 import LogOutIcon from "@icons/LogOutIcon";
 import { Fade, Popper, Stack } from "@mui/material";
 import { useAuthLogin, useLogOut } from "@store/auth";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import login_token from "public/images/login-token.svg";
 import React, { memo, useState } from "react";
@@ -44,6 +45,7 @@ const Profile = () => {
       window.google.accounts.id.disableAutoSelect();
     }
     disconnect();
+    signOut();
     logOut();
     router.push(LOGIN_PATH);
   };

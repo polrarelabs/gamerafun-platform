@@ -7,7 +7,7 @@ import { Variant } from "@mui/material/styles/createTypography";
 import useBreakpoint from "hooks/useBreakpoint";
 import { getActiveBreakpoint } from "@utils";
 import { motion, MotionProps } from "framer-motion";
-import { poppins } from "public/fonts";
+import { space_grotesk } from "public/fonts";
 
 type CoreTextProps = Omit<TypographyProps, "variant"> & {
   // variant?: Variant | { [key in Breakpoint]: Variant };
@@ -59,7 +59,7 @@ const CoreText = forwardRef((props: CoreTextProps, ref: ForwardedRef<any>) => {
       ref={ref}
       variant={variant}
       color="text.primary"
-      fontFamily={poppins.style.fontFamily}
+      fontFamily={space_grotesk.style.fontFamily}
       component={motionComponent ? motion[motionComponent] : component}
       {...rest}
     >
