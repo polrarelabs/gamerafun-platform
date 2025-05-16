@@ -7,9 +7,9 @@ import { HOME_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
 import useToggle from "@hooks/useToggle";
 import GoogleIcon from "@icons/GoogleIcon";
-import WalletIcon from "@icons/WalletIcon";
 import XIcon from "@icons/XIcon";
 import { Stack } from "@mui/material";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useAptos, useAuthLogin } from "@store/auth";
 import { PropsLoginX } from "@store/auth/action";
 import axios from "axios";
@@ -18,12 +18,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import wave from "public/images/wave.gif";
 import { MouseEvent, useEffect, useState } from "react";
 import LoginAccount from "./LoginAccount";
-import {
-  GoogleLogin,
-  CredentialResponse,
-  useGoogleLogin,
-} from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+import aptos from "public/images/aptos-seeklogo.svg";
 
 type GoogleUser = {
   email: string;
@@ -260,19 +255,46 @@ const FormLogin = () => {
           variant="outlined"
           sx={{
             width: "100%",
-            borderRadius: "8px !important",
+            borderRadius: "10008px !important",
             border: "none !important",
             height: "50px !important",
             fontSize: "16px",
             fontWeight: 700,
+            background: "white !important",
             "&:hover": {
               color: "black",
-              background: "#00CE6B",
+              // background: "#00CE6B",
             },
           }}
         >
           <Stack direction={"row"} alignItems={"center"} gap={2}>
-            <WalletIcon /> Login With Wallet
+            <Text color="black" fontSize={"18px"} fontWeight={700}>
+              Connect
+            </Text>
+            <Stack height={24} width={24}>
+              <Image
+                src={aptos}
+                alt="preview"
+                size="100%"
+                aspectRatio={1 / 1}
+                sizes="14px"
+                containerProps={{
+                  sx: {
+                    width: "100%",
+                    height: "100%",
+                    overflow: "hidden",
+                    borderRadius: "8px",
+                    "& img": {
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    },
+                  },
+                }}
+              />
+            </Stack>
+            <Text color="black" fontSize={"18px"} fontWeight={700}>
+              Aptos Wallet
+            </Text>
           </Stack>
         </Button>
         <WalletModal onClose={onHide} open={isShow} />

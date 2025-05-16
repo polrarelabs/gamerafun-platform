@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
     APTOS_API_KEY: process.env.APTOS_API_KEY,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN,
-    NEXT_PUBLIC_APP_ENVIRONMENT: process.env.NEXT_PUBLIC_APP_ENVIRONMENT,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
