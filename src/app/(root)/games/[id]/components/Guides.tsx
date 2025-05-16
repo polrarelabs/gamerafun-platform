@@ -1,12 +1,12 @@
-import { Avatar, Stack } from "@mui/material";
-import LayoutModalReview from "./LayoutModalReview";
+import { Avatar, Box, Stack } from "@mui/material";
+import CreateReview from "./CreateReview";
 import { Image, Text } from "@components/shared";
 import bgSlider from "public/images/banner.webp";
-import LayoutAbout from "./LayoutAbout";
-const LayoutGuides = () => {
+import About from "./About";
+const Guides = () => {
   return (
     <>
-      <LayoutModalReview />
+      <CreateReview />
       <Stack
         direction={"row"}
         spacing={2}
@@ -16,26 +16,36 @@ const LayoutGuides = () => {
           my: 2,
         }}
       >
-        <Image
-          src={bgSlider}
-          alt={`img - ${bgSlider}`}
-          containerProps={{
-            sx: {
-              height: "auto",
-              width: "200px",
-              overflow: "hidden",
-              borderRadius: "16px",
-              border: "1px",
-              borderColor:
-                "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
-              "& img": {
-                objectFit: "cover",
-                objectPosition: "center",
-                transition: "all 0.5s ease-in-out",
-              },
-            },
+        <Box
+          sx={{
+            width: "200px",
+            height: "200px",
+            overflow: "hidden",
+            borderRadius: "16px",
+            border: "1px",
+            borderColor:
+              "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
           }}
-        />
+        >
+          <Image
+            src={bgSlider}
+            alt={`img - ${bgSlider}`}
+            containerProps={{
+              sx: {
+                overflow: "hidden",
+                borderRadius: "16px",
+                border: "1px",
+                borderColor:
+                  "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  transition: "all 0.5s ease-in-out",
+                },
+              },
+            }}
+          />
+        </Box>
         <Stack direction={"column"} spacing={1}>
           <Text fontSize={18} fontWeight={600}>
             Mostafa Salem
@@ -63,8 +73,8 @@ const LayoutGuides = () => {
           </Stack>
         </Stack>
       </Stack>
-      <LayoutAbout />
+      <About />
     </>
   );
 };
-export default LayoutGuides;
+export default Guides;

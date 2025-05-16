@@ -124,64 +124,64 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
               {formik.errors.scroce}
             </Typography>
           )}
+          <Stack direction={"row"} gap={2} mt={2}>
+            <Stack direction={"column"} gap={2}>
+              <Text>Language</Text>
+              <Select
+                defaultValue="English"
+                sx={{
+                  width: "100%",
+                  backgroundColor: "#333",
+                  borderRadius: "8px",
+                  "& .MuiSelect-select": {
+                    padding: "10px",
+                    color: "#fff",
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#555",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#777",
+                  },
+                }}
+              >
+                <option value="English">English</option>
+                <option value="Spanish">Spanish</option>
+                <option value="Portuguese">Portuguese</option>
+              </Select>
+            </Stack>
+            <Stack direction={"column"} gap={2}>
+              <Text>I played this game for</Text>
+              <Select
+                defaultValue="0-1 hour"
+                sx={{
+                  width: "100%",
+                  backgroundColor: "#333",
+                  borderRadius: "8px",
+                  "& .MuiSelect-select": {
+                    padding: "10px",
+                    color: "#fff",
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#555",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#777",
+                  },
+                }}
+              >
+                <option value="0-1 hour">0-1 hour</option>
+                <option value="1-5 hour">1-5 hour</option>
+                <option value="5-20 hour">5-20 hour</option>
+                <option value="20-50 hour">20-50 hour</option>
+                <option value="50-100 hour">50-100 hour</option>
+              </Select>
+            </Stack>
+          </Stack>
           <Button color="primary" variant="contained" type="submit" fullWidth>
             Submit
           </Button>
         </form>
-        <Stack direction={"row"} gap={2} mt={2}>
-          <Stack direction={"column"} gap={2}>
-            <Text>Language</Text>
-            <Select
-              defaultValue="English"
-              sx={{
-                width: "100%",
-                backgroundColor: "#333",
-                borderRadius: "8px",
-                "& .MuiSelect-select": {
-                  padding: "10px",
-                  color: "#fff",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#555",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#777",
-                },
-              }}
-            >
-              <option value="English">English</option>
-              <option value="Spanish">Spanish</option>
-              <option value="Portuguese">Portuguese</option>
-            </Select>
-          </Stack>
-          <Stack direction={"column"} gap={2}>
-            <Text>I played this game for</Text>
-            <Select
-              defaultValue="0-1 hour"
-              sx={{
-                width: "100%",
-                backgroundColor: "#333",
-                borderRadius: "8px",
-                "& .MuiSelect-select": {
-                  padding: "10px",
-                  color: "#fff",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#555",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#777",
-                },
-              }}
-            >
-              <option value="0-1 hour">0-1 hour</option>
-              <option value="1-5 hour">1-5 hour</option>
-              <option value="5-20 hour">5-20 hour</option>
-              <option value="20-50 hour">20-50 hour</option>
-              <option value="50-100 hour">50-100 hour</option>
-            </Select>
-          </Stack>
-        </Stack>
       </DialogContent>
     </DialogLayout>
   );

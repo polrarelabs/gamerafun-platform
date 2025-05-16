@@ -1,13 +1,14 @@
 import { Carousel } from "@components/screens/Carousel";
 import { Typography } from "@mui/material";
 import Iframe from "react-iframe";
-import LayoutModalReview from "./LayoutModalReview";
-import LayoutAbout from "./LayoutAbout";
-const LayoutOverview = () => {
+import CreateReview from "./CreateReview";
+import RelatedGames from "./RelatedGames";
+import About from "./About";
+const Overview = () => {
   return (
     <>
       <div>
-        <LayoutModalReview />
+        <CreateReview />
         <Typography variant="h2" component="h2" gutterBottom sx={{ my: 2 }}>
           Introduce
         </Typography>
@@ -15,20 +16,20 @@ const LayoutOverview = () => {
         <Typography variant="h2" component="h2" gutterBottom sx={{ my: 2 }}>
           OverView
         </Typography>
-        <Iframe
+        <iframe
           width="100%"
           height="100%"
-          url="https://www.sdrive.app/embed/1ptBQD"
-          display="block"
-          position="relative"
+          src="https://www.youtube.com/watch?v=pA31rxn3hYM&ab_channel=EndlessClouds"
+          style={{ display: "block", position: "relative" }}
         />
         <Typography variant="h2" component="h2" gutterBottom sx={{ my: 2 }}>
           How to Get Started
         </Typography>
-        <LayoutAbout />
+        <About />
+        <RelatedGames />
       </div>
     </>
   );
 };
 
-export default LayoutOverview;
+export default Overview;

@@ -1,14 +1,14 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import ModalReview from "./ModalReview";
-import { setToken } from "@api/helpers";
 import { useRouter } from "next/navigation";
-
-const LayoutModalReview = () => {
+import Cookies from "js-cookie";
+const CreateReview = () => {
   const [open, setOpen] = useState<boolean>(false);
   const route = useRouter();
   const handleCreate = () => {
-    if (setToken === null) {
+    const accessToken = Cookies.get("accessToken");
+    if (!accessToken) {
       route.push("/login");
       return;
     } else {
@@ -37,4 +37,4 @@ const LayoutModalReview = () => {
   );
 };
 
-export default LayoutModalReview;
+export default CreateReview;

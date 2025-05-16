@@ -1,11 +1,13 @@
-import { Button, Text } from "@components/shared";
 import { Box, IconButton, Modal, Stack } from "@mui/material";
 import logoGame from "public/images/img-logo.png";
-import { Image } from "@components/shared";
+import { Image, Text } from "@components/shared";
 import XIcon from "@icons/XIcon";
 import TelegramIcon from "@icons/TelegramIcon";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Link from "next/link";
+import FacebookIcon from "@icons/FacebookIcon";
+import RedditIcon from "@icons/RedditIcon";
+import WhatsAppIcon from "@icons/WhatsAppIcon";
 interface PropsModalShare {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,6 +24,58 @@ const ModalShare = ({ open, setOpen }: PropsModalShare) => {
       console.error("Error copying to clipboard: ", error);
     }
   };
+  interface IconShare {
+    label: string;
+    url: string;
+    icon: React.ReactNode;
+  }
+
+  const listIconShare: IconShare[] = [
+    {
+      label: "X",
+      url: `https://t.me/share/url?url=${encodeURIComponent(YOUR_URL)}`,
+      icon: <XIcon sx={{ width: "32px", height: "32px", p: "0 !important" }} />,
+    },
+    {
+      label: "Telegram",
+      url: `https://t.me/share/url?url=${encodeURIComponent(YOUR_URL)}`,
+      icon: (
+        <TelegramIcon
+          sx={{ width: "32px", height: "32px", p: "0 !important" }}
+        />
+      ),
+    },
+    {
+      label: "Reddit",
+      url: `https://www.reddit.com/submit?url=${YOUR_URL}`,
+      icon: (
+        <RedditIcon sx={{ width: "32px", height: "32px", p: "0 !important" }} />
+      ),
+    },
+    {
+      label: "Facebook",
+      url: `https://www.facebook.com/sharer/sharer.php?u=${YOUR_URL}`,
+      icon: (
+        <FacebookIcon
+          sx={{
+            width: "32px",
+            height: "32px",
+            p: "0 !important",
+            color: "#1877f2",
+          }}
+        />
+      ),
+    },
+    {
+      label: "WhatsApp",
+      url: `https://wa.me/?text=${YOUR_URL}`,
+      icon: (
+        <WhatsAppIcon
+          sx={{ width: "32px", height: "32px", p: "0 !important" }}
+        />
+      ),
+    },
+  ];
   return (
     <Modal
       open={open}
@@ -74,48 +128,40 @@ const ModalShare = ({ open, setOpen }: PropsModalShare) => {
               my: 2,
             }}
           >
-            <Stack
-              direction={"column"}
-              sx={{
-                borderRadius: "50%",
-                backgroundColor: "rgb(27, 35, 50)",
-                width: "56px",
-                height: "56px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Link
-                href={`https://t.me/share/url?url=${encodeURIComponent(YOUR_URL)}`}
-                target="_blank"
-                rel="noopener noreferrer"
+            {listIconShare.map((item, index) => (
+              <Stack
+                key={index}
+                direction={"column"}
+                gap={1}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                <XIcon sx={{ width: "32px", height: "32px", p: 0 }} />
-              </Link>
-              <Text variant={"subtitle2"}>X</Text>
-            </Stack>
-            <Stack
-              direction={"column"}
-              sx={{
-                borderRadius: "50%",
-                backgroundColor: "rgb(27, 35, 50)",
-                width: "56px",
-                height: "56px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Link
-                href={`https://t.me/share/url?url=${encodeURIComponent(YOUR_URL)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <TelegramIcon sx={{ width: "32px", height: "32px", p: 0 }} />
-              </Link>
-              <Text variant={"subtitle2"}>Telegram</Text>
-            </Stack>
+                <Stack
+                  sx={{
+                    borderRadius: "50%",
+                    backgroundColor: "rgb(27, 35, 50)",
+                    width: "56px",
+                    height: "56px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Link
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ height: "32px" }}
+                  >
+                    {item.icon}
+                  </Link>
+                </Stack>
+                <Text variant={"subtitle2"}>{item.label}</Text>
+              </Stack>
+            ))}
           </Stack>
           <Stack
             direction={"row"}
