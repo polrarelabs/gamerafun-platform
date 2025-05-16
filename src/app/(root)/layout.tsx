@@ -6,8 +6,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID!}>
-      <MainLayout>{children}</MainLayout>
-    </GoogleOAuthProvider>
+    // <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID!}>
+    <MainLayout>{children}</MainLayout>
+    // </GoogleOAuthProvider>
   );
 }
