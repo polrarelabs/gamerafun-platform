@@ -1,4 +1,3 @@
-
 html,
 body {
   max-width: 100vw;
@@ -13,8 +12,7 @@ body {
   overflow-x: hidden;
 }
 
-
-button > .MuiTouchRipple-root {
+button>.MuiTouchRipple-root {
   margin-left: 0 !important;
   margin-top: 0 !important;
 }
@@ -25,7 +23,7 @@ a {
 }
 
 input:-internal-autofill-selected {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,10 +45,12 @@ input:-internal-autofill-selected {
 
 
 .wkit-dialog__content * {
-  font-family: var(--font-darker-grotesque)!important;
+  font-family: var(--font-darker-grotesque) !important;
 }
 
-.wkit-new-to-sui, .wkit-select__scroll + div, .wkit-select__title {
+.wkit-new-to-sui,
+.wkit-select__scroll+div,
+.wkit-select__title {
   display: none;
 }
 
@@ -67,8 +67,13 @@ input:-internal-autofill-selected {
 }
 
 @keyframes marquee {
-  0% { left: 0; }
-  100% { left: -100%; }
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -100%;
+  }
 }
 
 
@@ -92,6 +97,7 @@ input:-internal-autofill-selected {
   0% {
     box-shadow: 0 0 0 0px rgba(97, 160, 253, 0.2);
   }
+
   100% {
     box-shadow: 0 0 0 4px rgba(97, 160, 253, 0.5);
   }

@@ -19,6 +19,21 @@ import {
   useLoginGoogle,
   useLogOut,
 } from "@store/auth";
+import { GetUserName } from "@components/auth/GetUserName";
+import { GetEmail } from "@components/auth/GetEmail";
+
+// Extend the Window interface to include the 'google' property
+declare global {
+  interface Window {
+    google?: {
+      accounts?: {
+        id?: {
+          disableAutoSelect: () => void;
+        };
+      };
+    };
+  }
+}
 
 const Profile = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,20 +45,6 @@ const Profile = () => {
   const { dataAuthLoginAccount: dataAccount } = useLoginAccount();
   const { dataAuthLoginGoogle: dataGoogle } = useLoginGoogle();
   const { dataAuthLogin: dataX } = useAuthLoginX();
-  // const [data, setData] = useState<PropsAuth | PropsLoginAccountAuth>()
-
-  // useEffect(() => {
-  //     console.log('dataX', dataX);
-  //     console.log('dataAccount', dataAccount);
-  //     console.log('dataGoogle', dataGoogle);
-  //     if (dataAccount) {
-  //         setData(dataAccount as PropsLoginAccountAuth)
-  //     } else if (dataGoogle) {
-  //         setData(dataGoogle as PropsAuth)
-  //     } else if (dataX) {
-  //         setData(dataX as PropsAuth)
-  //     }
-  // }, [dataX, dataAccount, dataGoogle])
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -51,34 +52,12 @@ const Profile = () => {
   };
 
   const handleLogOut = () => {
-    console.log("click");
+    if (window.google?.accounts?.id) {
+      window.google.accounts.id.disableAutoSelect();
+    }
     logOut();
     // Cookies.remove("accessToken", { path: "" })
     router.push(LOGIN_PATH);
-  };
-
-  const GetUseName = () => {
-    if (dataAccount) {
-      return dataAccount?.user?.displayName
-        ? dataAccount?.user?.displayName
-        : `User ${dataAccount?.user?.id}`;
-    } else if (dataGoogle) {
-      return dataGoogle?.user?.displayName
-        ? dataGoogle?.user?.displayName
-        : `User ${dataGoogle?.user?.id}`;
-    } else if (dataX) {
-      return dataX?.user?.displayName
-        ? dataX?.user?.displayName
-        : `User ${dataX?.user?.id}`;
-    }
-  };
-
-  const GetEmail = () => {
-    if (dataAccount) {
-      return dataAccount?.user?.email && dataAccount?.user?.email;
-    } else if (dataGoogle) {
-      return dataGoogle?.user?.username;
-    }
   };
 
   return (
@@ -140,7 +119,7 @@ const Profile = () => {
                     fontSize="16px"
                     fontWeight={500}
                   >
-                    {GetUseName()}
+                    {GetUserName(dataAccount, dataGoogle, dataX)}
                   </Text>
 
                   <Text
@@ -149,7 +128,7 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight={400}
                   >
-                    {GetEmail()}
+                    {GetEmail(dataAccount, dataGoogle)}
                   </Text>
                 </Stack>
               </Stack>
