@@ -9,8 +9,7 @@ import { shortAddress } from "@utils";
 import { Box } from "@mui/material";
 import { CONNECT_BUTTON_ID } from "@constant";
 import useAptosWallet from "@hooks/useAptosWallet";
-import { useSignMessage } from "@store/auth";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useAptos } from "@store/auth";
 
 enum Option {
   COPY_ADDRESS,
@@ -21,7 +20,7 @@ const Connect = (props: ButtonProps) => {
   const { connected, disconnect, address, wallet } = useAptosWallet();
   const { push } = useRouter();
 
-  const { isConnectPetra, IsConnectPetra } = useSignMessage();
+  const { isConnectAptos, IsConnectAptos } = useAptos();
 
   const [isShow, onShow, onHide] = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -29,8 +28,8 @@ const Connect = (props: ButtonProps) => {
   const open = useMemo(() => !!anchorEl, [anchorEl]);
 
   useEffect(() => {
-    if (!isConnectPetra) disconnect();
-  }, [isConnectPetra]);
+    if (!isConnectAptos) disconnect();
+  }, [isConnectAptos]);
 
   const onAnchor = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -56,7 +55,7 @@ const Connect = (props: ButtonProps) => {
           break;
         case Option.SIGN_OUT:
           disconnect();
-          IsConnectPetra(false);
+          IsConnectAptos(false);
           break;
         default:
           break;
@@ -69,9 +68,9 @@ const Connect = (props: ButtonProps) => {
     <>
       <Button
         id={CONNECT_BUTTON_ID}
-        onClick={isConnectPetra ? onAnchor : onShow}
+        onClick={isConnectAptos ? onAnchor : onShow}
         startIcon={
-          wallet && isConnectPetra ? (
+          wallet && isConnectAptos ? (
             <Box
               component="img"
               src={wallet?.icon}
@@ -84,7 +83,7 @@ const Connect = (props: ButtonProps) => {
         size="small"
         {...props}
       >
-        {isConnectPetra && address
+        {isConnectAptos && address
           ? shortAddress(address.toString(), 6)
           : "Connect Wallet"}
       </Button>

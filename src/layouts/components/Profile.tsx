@@ -1,28 +1,18 @@
 "use client";
 
-import { Image, Text } from "@components/shared";
-import DropDownIcon from "@icons/DropDownIcon";
-import { Fade, Popper, Stack } from "@mui/material";
-import React, { memo, useEffect, useState } from "react";
-import login_token from "public/images/login-token.svg";
-import LogOutIcon from "@icons/LogOutIcon";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-import { LOGIN_PATH } from "@constant/paths";
-import {
-  PropsAuth,
-  PropsLoginAccountAuth,
-  PropsUser,
-  PropsUserLoginAccount,
-  useAuthLoginX,
-  useLoginAccount,
-  useLoginGoogle,
-  useLogOut,
-} from "@store/auth";
-import { GetUserName } from "@components/auth/GetUserName";
 import { GetEmail } from "@components/auth/GetEmail";
+import { GetUserName } from "@components/auth/GetUserName";
+import { Image, Text } from "@components/shared";
+import { LOGIN_PATH } from "@constant/paths";
+import useAptosWallet from "@hooks/useAptosWallet";
+import DropDownIcon from "@icons/DropDownIcon";
+import LogOutIcon from "@icons/LogOutIcon";
+import { Fade, Popper, Stack } from "@mui/material";
+import { useAuthLogin, useLogOut } from "@store/auth";
+import { useRouter } from "next/navigation";
+import login_token from "public/images/login-token.svg";
+import React, { memo, useState } from "react";
 
-// Extend the Window interface to include the 'google' property
 declare global {
   interface Window {
     google?: {
@@ -39,12 +29,10 @@ const Profile = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
+  const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
 
-  const { dataAuthLoginAccount: dataAccount } = useLoginAccount();
-  const { dataAuthLoginGoogle: dataGoogle } = useLoginGoogle();
-  const { dataAuthLogin: dataX } = useAuthLoginX();
+  const { data } = useAuthLogin();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -55,8 +43,8 @@ const Profile = () => {
     if (window.google?.accounts?.id) {
       window.google.accounts.id.disableAutoSelect();
     }
+    disconnect();
     logOut();
-    // Cookies.remove("accessToken", { path: "" })
     router.push(LOGIN_PATH);
   };
 
@@ -119,7 +107,7 @@ const Profile = () => {
                     fontSize="16px"
                     fontWeight={500}
                   >
-                    {GetUserName(dataAccount, dataGoogle, dataX)}
+                    {GetUserName(data)}
                   </Text>
 
                   <Text
@@ -128,7 +116,7 @@ const Profile = () => {
                     fontSize="14px"
                     fontWeight={400}
                   >
-                    {GetEmail(dataAccount, dataGoogle)}
+                    {GetEmail(data)}
                   </Text>
                 </Stack>
               </Stack>

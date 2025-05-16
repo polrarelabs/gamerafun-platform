@@ -3,30 +3,22 @@
 import { setToken } from "@api/helpers";
 import WalletModal from "@components/Connect/WalletModal";
 import { Button, Image, Text } from "@components/shared";
+import { HOME_PATH } from "@constant/paths";
+import useAptosWallet from "@hooks/useAptosWallet";
 import useToggle from "@hooks/useToggle";
 import GoogleIcon from "@icons/GoogleIcon";
 import WalletIcon from "@icons/WalletIcon";
 import XIcon from "@icons/XIcon";
 import { Stack } from "@mui/material";
-import { useAuthLoginX, useLoginGoogle, useSignMessage } from "@store/auth";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useAptos, useAuthLogin } from "@store/auth";
 import { PropsLoginX } from "@store/auth/action";
-import { setCookie } from "@utils";
-import Cookies from "js-cookie";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { MouseEvent, useEffect, useState } from "react";
-import { ACCESSTOKEN_COOKIE } from "../../../../constant/index";
-import { HOME_PATH } from "@constant/paths";
-import LoginAccount from "./LoginAccount";
-import wave from "public/images/wave.gif";
 import axios from "axios";
-import useAptosWallet from "@hooks/useAptosWallet";
-import {
-  GoogleLogin,
-  CredentialResponse,
-  useGoogleLogin,
-} from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import wave from "public/images/wave.gif";
+import { MouseEvent, useEffect, useState } from "react";
+import LoginAccount from "./LoginAccount";
 
 type GoogleUser = {
   email: string;
@@ -35,7 +27,7 @@ type GoogleUser = {
 };
 
 const FormLogin = () => {
-  const { isConnectPetra, IsConnectPetra } = useSignMessage();
+  const { isConnectAptos, IsConnectAptos } = useAptos();
   const [isShow, onShow, onHide] = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const onAnchor = (event: MouseEvent<HTMLButtonElement>) => {
@@ -45,14 +37,8 @@ const FormLogin = () => {
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const { LoginX, dataAuthLogin: dataX } = useAuthLoginX();
-  const {
-    dataAuthLoginGoogle,
-    // loadingAuthLoginGoogle,
-    // errorAuthLoginGoogle,
-    LoginGoogle,
-  } = useLoginGoogle();
 
+  const { data, LoginGoogle, LoginX } = useAuthLogin();
   // const { data: session } = useSession();
   const pathName = usePathname();
 
@@ -69,33 +55,18 @@ const FormLogin = () => {
   }, [pathName]);
 
   useEffect(() => {
-    if (dataX && Object.keys(dataX).length > 0) {
-      setToken(dataX.accessToken);
-      Cookies.set("accessToken", dataX.accessToken, {
+    if (data && Object.keys(data).length > 0) {
+      console.log("dataLogin", data);
+
+      setToken(data.accessToken);
+      Cookies.set("accessToken", data.accessToken, {
         expires: 7,
         secure: true,
         sameSite: "Strict",
       });
-
-      // setCookie(ACCESSTOKEN_COOKIE, dataX.accessToken)
       router.push(HOME_PATH);
     }
-  }, [dataX]);
-
-  useEffect(() => {
-    if (dataAuthLoginGoogle && Object.keys(dataAuthLoginGoogle).length > 0) {
-      console.log("dataauth", dataAuthLoginGoogle);
-
-      setToken(dataAuthLoginGoogle.accessToken);
-      Cookies.set("accessToken", dataAuthLoginGoogle.accessToken, {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
-      // setCookie(ACCESSTOKEN_COOKIE, dataAuthLoginGoogle.accessToken)
-      router.push(HOME_PATH);
-    }
-  }, [dataAuthLoginGoogle]);
+  }, [data]);
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -147,7 +118,7 @@ const FormLogin = () => {
     // },
     {
       name: "X (Twitter)",
-      Icon: () => <XIcon />, // Ensure Icon is a valid JSX component
+      Icon: () => <XIcon />,
       functions: handleLoginX,
     },
     // {
@@ -167,21 +138,19 @@ const FormLogin = () => {
     // },
   ];
 
-  const { disconnect } = useAptosWallet();
-
   return (
     <Stack
       width={{ md: "40%", xs: "90%" }}
       height={"auto"}
       direction={"column"}
-      gap={3}
+      gap={{ md: 3, xs: 2 }}
     >
       {/* {session?.user?.email && (
         <Button variant="contained" onClick={() => signOut()}>
           Log out
         </Button>
       )} */}
-      <Button onClick={() => disconnect()}>out</Button>
+      {/* <Button onClick={() => disconnect()}>out</Button> */}
       <Stack
         direction={"row"}
         justifyContent={"center"}
@@ -280,7 +249,7 @@ const FormLogin = () => {
 
       <Stack width={"100%"}>
         <Button
-          onClick={isConnectPetra ? onAnchor : onShow}
+          onClick={isConnectAptos ? onAnchor : onShow}
           variant="outlined"
           sx={{
             width: "100%",

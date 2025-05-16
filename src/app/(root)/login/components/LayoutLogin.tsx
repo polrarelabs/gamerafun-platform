@@ -21,9 +21,9 @@ const LayoutLogin = () => {
     <Stack
       position={"relative"}
       direction={"row"}
-      height="100vh"
+      // height="100vh"
+      height={`calc(${height - 87}px)`}
       overflow={"hidden"}
-      // height={`calc(${height - 87}px)`}
     >
       {!isMdSmaller && (
         <>
