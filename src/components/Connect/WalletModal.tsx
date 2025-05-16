@@ -97,6 +97,8 @@ const WalletModal = (props: WalletModalProps) => {
   }, [data, error]);
 
   useEffect(() => {
+    console.log("log sign wall", selectedWallet, address);
+
     const signAfterConnect = async () => {
       if (!selectedWallet || !address) return;
       try {

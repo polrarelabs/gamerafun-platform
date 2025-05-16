@@ -6,24 +6,23 @@ import { Stack } from "@mui/material";
 import gameDevice from "public/images/game-device.png";
 import imgBgLogin from "public/images/img-bg-login.png";
 import logo from "public/images/img-logo-text-big.png";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import SessionLogin from "./SessionLogin";
 const LayoutLogin = () => {
-  const [height, setHeight] = useState<number>(0);
-
+  // const [height, setHeight] = useState<number>(0);
+  // useEffect(() => {
+  //   const heightVail = typeof window !== "undefined" ? screen.availHeight : 0;
+  //   setHeight(heightVail);
+  // }, []);
   const { isMdSmaller } = useBreakpoint();
-  useEffect(() => {
-    const heightVail = typeof window !== "undefined" ? screen.availHeight : 0;
-    setHeight(heightVail);
-  }, []);
 
   return (
     <Stack
       position={"relative"}
       direction={"row"}
-      // height="100vh"
-      height={`calc(${height - 87}px)`}
+      height="100vh"
       overflow={"hidden"}
+      // height={`calc(${height - 87}px)`}
     >
       {!isMdSmaller && (
         <>

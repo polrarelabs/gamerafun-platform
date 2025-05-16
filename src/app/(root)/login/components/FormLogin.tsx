@@ -10,7 +10,6 @@ import GoogleIcon from "@icons/GoogleIcon";
 import WalletIcon from "@icons/WalletIcon";
 import XIcon from "@icons/XIcon";
 import { Stack } from "@mui/material";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useAptos, useAuthLogin } from "@store/auth";
 import { PropsLoginX } from "@store/auth/action";
 import axios from "axios";
@@ -19,6 +18,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import wave from "public/images/wave.gif";
 import { MouseEvent, useEffect, useState } from "react";
 import LoginAccount from "./LoginAccount";
+import {
+  GoogleLogin,
+  CredentialResponse,
+  useGoogleLogin,
+} from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 type GoogleUser = {
   email: string;
@@ -137,6 +142,8 @@ const FormLogin = () => {
     //     functions: handleLoginImmutable,
     // },
   ];
+
+  const { disconnect } = useAptosWallet();
 
   return (
     <Stack
