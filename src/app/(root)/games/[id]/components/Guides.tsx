@@ -3,6 +3,7 @@ import CreateReview from "./CreateReview";
 import { Image, Text } from "@components/shared";
 import bgSlider from "public/images/banner.webp";
 import About from "./About";
+import Share from "./Share";
 const Guides = () => {
   return (
     <>
@@ -74,6 +75,7 @@ const Guides = () => {
         </Stack>
       </Stack>
       <About />
+      <Share />
     </>
   );
 };

@@ -3,6 +3,7 @@ import CreateReview from "./CreateReview";
 import { Button, Image, Text } from "@components/shared";
 import bgSlider from "public/images/banner.webp";
 import About from "./About";
+import Share from "./Share";
 
 const News = () => {
   return (
@@ -82,6 +83,7 @@ const News = () => {
         </Stack>
       </Stack>
       <About />
+      <Share />
     </>
   );
 };
