@@ -33,6 +33,7 @@ const Navigation = ({ onHide, directions }: Props) => {
               direction="column"
               height="100%"
               spacing={4}
+              justifyContent={"start"}
               // {...props}
             >
               {DATA.map((item) => (
@@ -47,7 +48,7 @@ const Navigation = ({ onHide, directions }: Props) => {
             <Stack
               height="100%"
               display={"grid"}
-              gridTemplateColumns={"repeat(4,1fr)"}
+              gridTemplateColumns={`repeat(${DATA.length + 1},1fr)`}
               // {...props}
             >
               {DATA.map((item) => (
@@ -179,7 +180,7 @@ const sx = {
     position: "relative",
     color: "common.white",
     display: "flex",
-    justifyContent: "center",
+    // justifyContent: "center",
     "&:after": {
       content: { md: "''" },
       position: "absolute",

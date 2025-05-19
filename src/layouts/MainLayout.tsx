@@ -30,23 +30,40 @@ const MainLayout = (props: MainLayoutProps) => {
   // console.log("node_env", process.env.NODE_ENV);
   const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
+
   useEffect(() => {
     const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
-    if (Object.keys(data || {}).length === 0 && cookies && cookies.length > 0) {
-      if (window.google?.accounts?.id) {
-        window.google.accounts.id.disableAutoSelect();
-      }
+    if (data === undefined) return;
+
+    if (Object.keys(data || {}).length === 0 && cookies) {
       disconnect();
       signOut();
       logOut();
       router.push(LOGIN_PATH);
-    } else if (cookies !== "undefined" && cookies !== undefined) {
+    } else if (cookies && cookies !== "undefined") {
       setToken(cookies);
       router.push(HOME_PATH);
-    } else router.push(LOGIN_PATH);
-    // if (pathName !== HOME_PATH && pathName !== LOGIN_PATH)
-    // router.push(LOGIN_PATH);
-  }, []);
+    } else {
+      router.push(LOGIN_PATH);
+    }
+  }, [data]);
+  // useEffect(() => {
+  //   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
+  //   if (Object.keys(data || {}).length === 0 && cookies && cookies.length > 0) {
+  //     if (window.google?.accounts?.id) {
+  //       window.google.accounts.id.disableAutoSelect();
+  //     }
+  //     disconnect();
+  //     signOut();
+  //     logOut();
+  //     router.push(LOGIN_PATH);
+  //   } else if (cookies !== "undefined" && cookies !== undefined) {
+  //     setToken(cookies);
+  //     router.push(HOME_PATH);
+  //   } else router.push(LOGIN_PATH);
+  //   // if (pathName !== HOME_PATH && pathName !== LOGIN_PATH)
+  //   // router.push(LOGIN_PATH);
+  // }, []);
 
   const { isMdSmaller } = useBreakpoint();
 
@@ -119,7 +136,7 @@ const MainLayout = (props: MainLayoutProps) => {
           }}
           sx={{
             position: "fixed !important",
-            bottom: 100,
+            bottom: isMdSmaller ? 130 : 100,
             right: 20,
             zIndex: 4,
             borderRadius: "1000px",
@@ -137,7 +154,7 @@ const MainLayout = (props: MainLayoutProps) => {
         size={"small"}
         sx={{
           position: "fixed !important",
-          bottom: 40,
+          bottom: isMdSmaller ? 80 : 40,
           right: 20,
           zIndex: 4,
           background: "black !important",
