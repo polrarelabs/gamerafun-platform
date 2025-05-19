@@ -115,7 +115,7 @@ const MainLayout = (props: MainLayoutProps) => {
           <Footer />
         </>
       )}
-      {isMdSmaller && (
+      {isMdSmaller && pathName !== LOGIN_PATH && (
         <Stack
           width={"100%"}
           position={"fixed"}

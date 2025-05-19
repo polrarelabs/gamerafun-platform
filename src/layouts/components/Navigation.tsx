@@ -23,7 +23,7 @@ interface Props {
 // const Navigation = (props: StackProps) => {
 const Navigation = ({ onHide, directions }: Props) => {
   const { isMdSmaller } = useBreakpoint();
-
+  const pathname = usePathname();
   return (
     <>
       {isMdSmaller ? (
