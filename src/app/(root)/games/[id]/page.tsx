@@ -6,14 +6,11 @@ import { Image } from "@components/shared";
 import { useParams } from "next/navigation";
 import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
 import { useEffect } from "react";
-import Overview from "./components/Overview";
-import Review from "./components/Review";
-import Guides from "./components/Guides";
-import News from "./components/News";
 import bgSlider from "public/images/banner.webp";
+import { Guides, News, Overview, Review } from "@components/Games";
 const LayoutGameDetail = () => {
   const { id } = useParams();
-  const { getGameId, data, error, loading } = useGetGameId();
+  const { getGameId, data } = useGetGameId();
   useEffect(() => {
     if (id) {
       const gameId = Array.isArray(id) ? Number(id[0]) : Number(id);

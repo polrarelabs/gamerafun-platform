@@ -14,6 +14,9 @@ import Cookies from "js-cookie";
 import { setToken } from "@api/helpers";
 import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
 import ChatAI from "@components/AskAI/ChatAI";
+import { useAuthLogin, useLogOut } from "@store/auth";
+import useAptosWallet from "@hooks/useAptosWallet";
+import { signOut } from "next-auth/react";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -23,20 +26,26 @@ const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
   const pathName = usePathname();
   const router = useRouter();
-
+  const { data } = useAuthLogin();
   // console.log("node_env", process.env.NODE_ENV);
-
+  const { disconnect } = useAptosWallet();
+  const { logOut } = useLogOut();
   useEffect(() => {
     const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
-    console.log("cookies1", cookies);
-
-    if (cookies !== "undefined" && cookies !== undefined) {
+    if (Object.keys(data || {}).length === 0 && cookies && cookies.length > 0) {
+      if (window.google?.accounts?.id) {
+        window.google.accounts.id.disableAutoSelect();
+      }
+      disconnect();
+      signOut();
+      logOut();
+      router.push(LOGIN_PATH);
+    } else if (cookies !== "undefined" && cookies !== undefined) {
       setToken(cookies);
       router.push(HOME_PATH);
-    } else {
-      if (pathName !== HOME_PATH && pathName !== LOGIN_PATH)
-        router.push(LOGIN_PATH);
-    }
+    } else router.push(LOGIN_PATH);
+    // if (pathName !== HOME_PATH && pathName !== LOGIN_PATH)
+    // router.push(LOGIN_PATH);
   }, []);
 
   const { isMdSmaller } = useBreakpoint();
@@ -143,9 +152,7 @@ const MainLayout = (props: MainLayoutProps) => {
         Ask AI
       </Button>
 
-      <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"md"}>
-        <ChatAI />
-      </Dialog>
+      <ChatAI open={open} handleClose={handleClose} />
     </Stack>
   );
 };

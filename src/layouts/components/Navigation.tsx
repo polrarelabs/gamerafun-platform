@@ -2,14 +2,13 @@
 
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import { GAME_PATH, GENRES, HOME_PATH, NEWS_PATH } from "@constant/paths";
+import { GAME_PATH, GENRES_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import ArrowIcon from "@icons/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
-import { Menu, MenuItem, Stack, StackProps } from "@mui/material";
+import { Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { memo, useMemo, useState } from "react";
-import { SlArrowDown } from "react-icons/sl";
 type ItemProps = {
   label: string;
   href: string;
@@ -208,6 +207,7 @@ const DATA = [
   },
   { label: "Games", href: GAME_PATH },
   { label: "News", href: NEWS_PATH },
+  { label: "Genres", href: GENRES_PATH },
   // {
   //   label: "Research",
   //   href: "https://research.noctra.ai",

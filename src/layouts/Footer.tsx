@@ -6,6 +6,7 @@ import TwitterIcon from "@icons/TwitterIcon";
 import TelegramIcon from "@icons/TelegramIcon";
 import DiscordIcon from "@icons/DiscordIcon";
 import Link from "@components/Link";
+import { TELE_URL, X_URL } from "./helper";
 
 type FooterProps = {};
 
@@ -51,7 +52,7 @@ const Footer = (props: FooterProps) => {
 export default memo(Footer);
 
 const DATA = [
-  { Icon: TwitterIcon, href: "https://x.com/Noctra_AI" },
-  { Icon: TelegramIcon, href: "https://t.me/NoctraPortal" },
+  { Icon: TwitterIcon, href: X_URL },
+  { Icon: TelegramIcon, href: TELE_URL },
   // { Icon: DiscordIcon, href: "https://noctra.ai" },
 ];

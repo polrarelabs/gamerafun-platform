@@ -1,7 +1,7 @@
 import { Stack, TextField } from "@mui/material";
 import React, { memo } from "react";
 import Text from "../shared/Text";
-import { PropsInfo } from "@app/(root)/games/create-game/components/UploadAvarta";
+import { PropsInfo } from "@components/Games/UploadAvatar";
 
 interface PropsIndexText {
   setData: React.Dispatch<React.SetStateAction<PropsInfo[]>>;
