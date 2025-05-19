@@ -110,6 +110,7 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
           minHeight: 400,
           height: "100%",
           overflow: "auto",
+          px: 0,
         }}
       >
         <Stack
@@ -134,8 +135,8 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
                 <Stack
                   direction={"row"}
                   alignItems={"start"}
-                  gap={2}
-                  maxWidth="70%"
+                  // gap={1}
+                  maxWidth={{ md: "70%", xs: "95%" }}
                 >
                   {item.type === TypeChat.AI && (
                     <Avatar

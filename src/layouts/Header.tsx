@@ -61,20 +61,20 @@ const Header = () => {
         </Stack>
         {isMdSmaller ? (
           <>
-            {!isLogin && (
-              <Stack direction={"row"} gap={2}>
-                {showLogin && (
-                  <Button
-                    LinkComponent={Link}
-                    href={LOGIN_PATH}
-                    variant="contained"
-                    size="small"
-                  >
-                    Log In
-                  </Button>
-                )}
-              </Stack>
-            )}
+            <Stack direction={"row"} gap={2}>
+              {showLogin ? (
+                <Button
+                  LinkComponent={Link}
+                  href={LOGIN_PATH}
+                  variant="contained"
+                  size="small"
+                >
+                  Log In
+                </Button>
+              ) : (
+                <Profile />
+              )}
+            </Stack>
           </>
         ) : (
           <Stack direction="row" spacing={2} alignItems="center">
