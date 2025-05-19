@@ -7,11 +7,14 @@ import { Text } from "@components/shared";
 // import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Breadcrumbs, Stack } from "@mui/material";
+import { Breadcrumbs, Stack, useTheme } from "@mui/material";
 import { palette } from "public/material";
 import { memo } from "react";
 
 const GameHome = () => {
+  const theme = useTheme();
+  const { palette } = theme;
+
   return (
     <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
       <Stack direction={"column"} gap={2}>
