@@ -80,7 +80,7 @@ const ItemGame = ({
               setHover(false);
               setId(null);
             }}
-            onClick={() => handleClick(item.id)}
+            // onClick={() => handleClick(item.id)}
           >
             <Stack
               height={isSmSmaller ? "100%" : undefined}

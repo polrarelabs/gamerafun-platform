@@ -258,4 +258,4 @@ export default {
   colorRelate: {
     bgColor: "#2456",
   },
-} as PaletteOptions;
+} as unknown as PaletteOptions;
