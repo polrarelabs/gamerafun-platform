@@ -8,7 +8,7 @@ import { CREATE_AGENT_PATH, LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
-import { useAptos } from "@store/auth";
+import { useAptos, useAuthLogin } from "@store/auth";
 import Cookies from "js-cookie";
 import { memo, useEffect, useState } from "react";
 import { Logo, Navigation } from "./components";
@@ -18,8 +18,13 @@ const Header = () => {
   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
 
   const [showLogin, setShowLogin] = useState<boolean>(true);
+  const { data } = useAuthLogin();
 
   useEffect(() => {
+    // if (Object.keys(data).length === 0 && cookies && cookies.lenght > 0) {
+    //   setShowLogin(true);
+    // }
+    // else
     if (cookies !== "undefined" && cookies !== undefined) {
       setShowLogin(false);
     } else setShowLogin(true);

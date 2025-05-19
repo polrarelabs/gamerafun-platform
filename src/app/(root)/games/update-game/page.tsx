@@ -1,5 +1,5 @@
+import { UpdateGame } from "@components/Games";
 import { memo } from "react";
-import UpdateGame from "./components/UpdateGame";
 
 const UpdateGames = () => {
   return <UpdateGame />;

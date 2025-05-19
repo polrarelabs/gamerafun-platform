@@ -6,7 +6,7 @@ import Image, { ImageProps } from "./Image";
 import Dropdown from "./Dropdown";
 import TextField, { TextFieldProps } from "./TextField";
 import Select, { SelectProps } from "./Select";
-
+import SliderCustom from "./SliderCustom";
 export {
   Tooltip,
   Text,
@@ -16,6 +16,7 @@ export {
   Dropdown,
   TextField,
   Select,
+  SliderCustom,
 };
 
 export type {

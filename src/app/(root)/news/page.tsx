@@ -3,8 +3,8 @@ import { memo } from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import LayoutNew from "./components/LayoutNew";
-import LayoutLastNews from "./components/LayoutLastNews";
+import LayoutNew from "./components/New";
+import LayoutLastNews from "./components/LastNews";
 import { SCREEN_PX } from "@constant";
 import Layout from "./components/Layout";
 

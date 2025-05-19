@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React, { memo } from "react";
 import Text from "../shared/Text";
-import { PropsInfo } from "@app/(root)/games/create-game/components/UploadAvarta";
+import { PropsInfo } from "@components/Games/UploadAvatar";
 import { MediaPosition } from "@constant/enum";
 
 interface PropsIndexText {

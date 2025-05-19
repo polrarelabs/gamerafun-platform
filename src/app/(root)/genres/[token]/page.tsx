@@ -6,7 +6,7 @@ import React from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import LayoutGenresDetail from "./components/LayoutGenresDetail";
+import LayoutGenresDetail from "../../../../components/Genres/components/GenresDetail";
 import { useGameReducers } from "@store/game";
 
 const GenresDetail = () => {

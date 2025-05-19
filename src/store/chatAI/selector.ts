@@ -1,35 +1,59 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { setThreadId } from "./reducer";
-import { GetChatAI } from "./action";
+import { GetHistory, SendMessage, SendMessageProps } from "./action";
+import { setIsCall } from "./reducer";
 
-export const useAskAI = () => {
+// export const useAskAI = () => {
+//   const dispatch = useAppDispatch();
+
+//   const setThreadid = (id: string) => {
+//     dispatch(setThreadId(id));
+//   };
+
+//   const { threadId } = useAppSelector((state) => state.askAI);
+
+//   return {
+//     threadId,
+//     setThreadid,
+//   };
+// };
+
+export const useSendMessage = () => {
   const dispatch = useAppDispatch();
 
-  const setThreadid = (id: string) => {
-    dispatch(setThreadId(id));
+  const sendMessage = (message: SendMessageProps) => {
+    dispatch(SendMessage(message));
   };
 
-  const { threadId } = useAppSelector((state) => state.askAI);
+  const getHistory = (params: string) => {
+    dispatch(GetHistory(params));
+  };
+
+  const SetIsCall = (value: boolean) => {
+    dispatch(setIsCall(value));
+  };
+
+  const {
+    data: threadId,
+    loading: loadingThreadId,
+    error: errorThreadId,
+    isCall,
+  } = useAppSelector((state) => state.sendMessage);
+  const {
+    data: history,
+    loading: loadingHistory,
+    error: errorHistory,
+  } = useAppSelector((state) => state.history);
 
   return {
     threadId,
-    setThreadid,
-  };
-};
-
-export const useMessageChat = () => {
-  const dispatch = useAppDispatch();
-
-  const getMessage = (id: string) => {
-    dispatch(GetChatAI(id));
-  };
-
-  const { data, loading, error } = useAppSelector((state) => state.messageChat);
-
-  return {
-    data,
-    loading,
-    error,
-    getMessage,
+    loadingThreadId,
+    errorThreadId,
+    sendMessage,
+    getHistory,
+    history,
+    loadingHistory,
+    errorHistory,
+    SetIsCall,
+    isCall,
   };
 };
