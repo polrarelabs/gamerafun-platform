@@ -1,3 +1,4 @@
+"use client";
 import { Text } from "@components/shared";
 import { SCREEN_PX } from "@constant";
 import { Breadcrumbs, Stack } from "@mui/material";

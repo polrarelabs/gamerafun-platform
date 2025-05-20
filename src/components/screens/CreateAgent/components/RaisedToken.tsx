@@ -76,7 +76,7 @@ const DATA: {
   icon: StaticImageData;
   isComingSoon?: boolean;
 }[] = [
-  { name: Currency.NOCTRA, icon: LogoImg },
+  { name: Currency.GAMERA, icon: LogoImg },
   { name: Currency.APT, icon: AptosImg },
   { name: Currency.USDC, icon: UsdcImg },
 ];

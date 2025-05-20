@@ -1,17 +1,11 @@
 // 'use client'
 
-import { Metadata } from "next";
-import { AGENTS_PATH, HOME_PATH } from "@constant/paths";
-import { generateMetadata } from "@utils/seo";
-import { Stack } from "@mui/material";
-import { Overview, Filters, AgentList } from "@components/screens/Agents";
-import { MIN_HEIGHT_SCREEN, SCREEN_PX } from "@constant";
 import { Banner } from "@components/screens/BannerSlider.tsx";
-import { setToken } from "@api/helpers";
-import { useRecommendTokens } from "@store/token";
-import { useGame } from "@store/game";
-import { useAppSelector } from "@store/hooks";
-import { useEffect } from "react";
+import { MIN_HEIGHT_SCREEN } from "@constant";
+import { HOME_PATH } from "@constant/paths";
+import { Stack } from "@mui/material";
+import { generateMetadata } from "@utils/seo";
+import { Metadata } from "next";
 
 export const metadata: Metadata = generateMetadata("Home", HOME_PATH);
 

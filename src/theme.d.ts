@@ -26,7 +26,7 @@ declare module "@mui/material/styles/createPalette" {
     bgColorLinearOrigin?: string;
     bgColorProfile?: string;
     greenColor?: string;
-
+    colorBorderTag?: string;
     colorItemGame?: Record<string, string>;
     colorReview?: Record<string, string>;
     colorModalShare?: Record<string, string>;

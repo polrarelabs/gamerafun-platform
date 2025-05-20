@@ -210,6 +210,7 @@ export default {
     "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
   greenColorText: "#7dffac",
   greenColor: "#33F57A",
+  colorBorderTag: "#0a5d2b80",
   greenColorButton: "color-mix(in srgb, #33F57A, transparent 85%)",
   backgroundReview: "#121926",
   colorTextRed: "#f87171",

@@ -427,7 +427,7 @@ const HEADER_LIST = [
 ];
 
 const AMOUNT_QUICK_BUY = {
-  [Currency.NOCTRA]: 5000,
+  [Currency.GAMERA]: 5000,
   [Currency.APT]: 3,
   [Currency.USDC]: 15,
 };

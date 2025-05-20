@@ -23,13 +23,13 @@ const Footer = (props: FooterProps) => {
         Disclaimer: Digital assets are highly speculative and involve
         significant risk of loss. The value of meme coins is extremely volatile,
         and any one who wishes to trade in any meme coin should be prepared for
-        the possibility of losing their entire investment. Noctra makes no
+        the possibility of losing their entire investment. Gamera makes no
         representations or warranties regarding the success or profitability of
-        any meme coin developed on the platform. Noctra is a public,
+        any meme coin developed on the platform. Gamera is a public,
         decentralized, and permissionless platform. Participation by any project
-        should not be seen as an endorsement or recommendation by Noctra. Users
+        should not be seen as an endorsement or recommendation by Gamera. Users
         should assess their financial situation, risk tolerance, and do their
-        own research before trading in any meme coins on the platform. Noctra
+        own research before trading in any meme coins on the platform. Gamera
         will not be held liable for any losses, damages, or issues that may
         arise from trading in any meme coins developed on the platform.
       </Text>
@@ -54,5 +54,5 @@ export default memo(Footer);
 const DATA = [
   { Icon: TwitterIcon, href: X_URL },
   { Icon: TelegramIcon, href: TELE_URL },
-  // { Icon: DiscordIcon, href: "https://noctra.ai" },
+  // { Icon: DiscordIcon, href: "https://Gamera.ai" },
 ];

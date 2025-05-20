@@ -6,8 +6,8 @@ import React from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import LayoutGenresDetail from "../../../../components/Genres/components/GenresDetail";
 import { useGameReducers } from "@store/game";
+import { LayoutGenres } from "@components/screens/Genres";
 
 const GenresDetail = () => {
   const { genresTitle } = useGameReducers();
@@ -51,7 +51,7 @@ const GenresDetail = () => {
             title of {genresTitle}
           </Text>
         </Stack>
-        <LayoutGenresDetail />
+        <LayoutGenres />
       </Stack>
     </Stack>
   );
