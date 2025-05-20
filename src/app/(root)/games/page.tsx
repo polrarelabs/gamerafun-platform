@@ -1,18 +1,26 @@
 "use client";
 
-import Link from "@components/Link";
 import { LayoutGame } from "@components/screens/Games";
 import { FormCreateGame } from "@components/screens/Games/components";
 import { Text } from "@components/shared";
+import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 // import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Breadcrumbs, Stack, useTheme } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import { memo } from "react";
 
 const GameHome = () => {
   const theme = useTheme();
   const { palette } = theme;
+  const breadcrumbs: BreadcumbsItem[] = [
+    {
+      href: "/",
+      title: "HOME",
+    },
+    {
+      title: "GAMES",
+    },
+  ];
 
   return (
     <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
@@ -22,19 +30,7 @@ const GameHome = () => {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Breadcrumbs
-            separator={<NavigateNextIcon fontSize="small" />}
-            aria-label="breadcrumb"
-            sx={{
-              color: palette.textBreadcrumb,
-            }}
-          >
-            <Link underline="hover" color="inherit" href="/">
-              <Text sx={{ color: "text.primary" }}>HOME</Text>
-            </Link>
-
-            <Text sx={{ color: "text.primary" }}>GAMES</Text>
-          </Breadcrumbs>
+          <Breadcumbs breadcumbs={breadcrumbs} />
           <FormCreateGame />
         </Stack>
 

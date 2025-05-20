@@ -2,15 +2,19 @@
 
 import { Image, Text } from "@components/shared";
 import { Box, Stack } from "@mui/material";
-import { useGameCount, useGameReducers } from "@store/game";
+import { useGame } from "@store/game";
 import React, { useEffect, useState } from "react";
 import img from "public/images/img-local.png";
 import { useRouter } from "next/navigation";
 
 const LayoutGenres = () => {
   const router = useRouter();
-  const { data, loading, error, fetchGameCount } = useGameCount();
-  const { SetGenres, SetGenresTitle } = useGameReducers();
+  const {
+    SetGenres,
+    SetGenresTitle,
+    fetchGameCount,
+    dataGameCount: data,
+  } = useGame();
   useEffect(() => {
     fetchGameCount();
   }, []);

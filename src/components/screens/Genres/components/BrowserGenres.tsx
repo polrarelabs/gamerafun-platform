@@ -1,24 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
-
-import { Button, SelectOptions, Text } from "@components/shared";
+import { Selected, SelectOptions, Text } from "@components/shared";
+import ButtonFillters from "@components/shared/ButtonFillters";
+import CardItem from "@components/shared/CardItem";
 import GameIcon from "@icons/GameIcon";
-import {
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  useMediaQuery,
-} from "@mui/material";
-import { Theme } from "@mui/material/styles";
+import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
-import img from "public/images/img-logo.png";
-import { memo, useEffect, useState } from "react";
-import Selected from "../../../shared/Selected";
-import GenresItem from "./GenresItem";
 import { palette } from "public/material";
-
+import { memo, useEffect, useState } from "react";
 interface Props {
   isLayoutMD: boolean;
   theme: any | null;
@@ -27,14 +17,6 @@ interface Props {
   setDisplayLayout: React.Dispatch<React.SetStateAction<string>>;
 }
 
-// function getStyles(name: string, personName: readonly string[], theme: Theme) {
-//   return {
-//     fontWeight: personName.includes(name)
-//       ? theme.typography.fontWeightMedium
-//       : theme.typography.fontWeightRegular,
-//   };
-// }
-
 const BrowserGenres = ({
   isLayoutMD,
   theme,
@@ -42,9 +24,7 @@ const BrowserGenres = ({
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const { data, fetchGetGame } = useGame();
-  const [hover, setHover] = useState<boolean>(false);
-  const [id, setId] = useState<number | null>(null);
+  const { dataListGame: data, fetchGetGame } = useGame();
 
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -53,16 +33,6 @@ const BrowserGenres = ({
   }, []);
 
   const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        // width: 250,
-      },
-    },
-  };
   const [selected, setSelected] = useState<string>("");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -73,6 +43,10 @@ const BrowserGenres = ({
     if (isSm) setDisplayLayout("no-list");
     else setDisplayLayout("list");
   }, [isSm]);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   return (
     <>
@@ -101,24 +75,7 @@ const BrowserGenres = ({
               handleChange={handleChange}
               options={names}
             />
-            <Button
-              variant="contained"
-              onClick={() => setOpen(true)}
-              sx={{
-                borderRadius: "8px !important",
-                height: "40px !important",
-                color: `${palette.greenColorText} !important`,
-                background: `${palette.greenColorButton} !important`,
-                "&:hover": {
-                  color: "black !important",
-                  background: `${palette.greenColorText} !important`,
-                },
-              }}
-              size={"small"}
-              fullWidth
-            >
-              Fillters
-            </Button>
+            <ButtonFillters handleOpen={handleOpen} />
           </Stack>
         )}
         <Selected />
@@ -131,13 +88,11 @@ const BrowserGenres = ({
           }}
           gap={2}
         >
-          <GenresItem
-            id={id}
-            img={img}
-            hover={hover}
-            setHover={setHover}
-            setId={setId}
-          />
+          {data.map((item, index) => {
+            return (
+              <CardItem key={index} index={index} data={item} title={"Title"} />
+            );
+          })}
         </Stack>
       </Stack>
     </>

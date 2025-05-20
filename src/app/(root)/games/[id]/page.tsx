@@ -1,16 +1,18 @@
 "use client";
 
 import { Breadcrumbs, Link, Stack, Typography, Box } from "@mui/material";
-import { useGetGameId } from "@store/game";
 import { Image } from "@components/shared";
 import { useParams } from "next/navigation";
 import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
 import { useEffect } from "react";
 import bgSlider from "public/images/banner.webp";
 import { Guides, News, Overview, Review } from "@components/screens/Games";
+import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
+import { GAME_PATH } from "@constant/paths";
+import { useGame } from "@store/game";
 const LayoutGameDetail = () => {
   const { id } = useParams();
-  const { getGameId, data } = useGetGameId();
+  const { getGameId, dataGetGameId: data } = useGame();
   useEffect(() => {
     if (id) {
       const gameId = Array.isArray(id) ? Number(id[0]) : Number(id);
@@ -28,6 +30,21 @@ const LayoutGameDetail = () => {
     { label: "User Reviews", content: <div>User Reviews</div> },
   ];
   const { value, handleChange } = useCustomTabs();
+
+  const breadcrumbs: BreadcumbsItem[] = [
+    {
+      href: "/",
+      title: "HOME",
+    },
+    {
+      href: GAME_PATH,
+      title: "Games",
+    },
+    {
+      title: data.name,
+    },
+  ];
+
   return (
     <>
       <Stack>
@@ -46,15 +63,8 @@ const LayoutGameDetail = () => {
             }}
           />
           <Stack p={8} position="absolute" top={"275px"} left={0}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="white" href="/games">
-                Games
-              </Link>
-              <Link underline="hover" color="white" href="/games/${data.id}">
-                {data.name}
-              </Link>
-              <Typography color="text.while">OverView</Typography>
-            </Breadcrumbs>
+            <Breadcumbs breadcumbs={breadcrumbs} />
+            <Typography color="text.while">OverView</Typography>
             <h1>{data.name}</h1>
             <TabHeaders
               tabs={tabItems}

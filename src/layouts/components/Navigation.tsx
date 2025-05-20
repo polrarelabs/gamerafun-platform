@@ -6,7 +6,7 @@ import { GAME_PATH, GENRES_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import ArrowIcon from "@icons/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
-import { Stack } from "@mui/material";
+import { Popover, Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { memo, useMemo, useState } from "react";
 type ItemProps = {
@@ -23,7 +23,6 @@ interface Props {
 // const Navigation = (props: StackProps) => {
 const Navigation = ({ onHide, directions }: Props) => {
   const { isMdSmaller } = useBreakpoint();
-  const pathname = usePathname();
   return (
     <>
       {isMdSmaller ? (
@@ -85,7 +84,10 @@ export default memo(Navigation);
 
 const Item = (props: ItemProps) => {
   const { label, href, onHide } = props;
+  const [anchorEl, setAnchorEl] = useState<HTMLAnchorElement | null>(null);
 
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   const pathname = usePathname();
 
   const isActive = useMemo(
@@ -97,12 +99,14 @@ const Item = (props: ItemProps) => {
 
   const [hover, setHover] = useState<boolean>(false);
 
-  const handleHover = () => {
+  const handleHover = (event: React.MouseEvent<HTMLAnchorElement>) => {
     setHover(true);
+    setAnchorEl(event.currentTarget);
   };
 
   const handleUnHover = () => {
     setHover(false);
+    setAnchorEl(null);
   };
 
   return (
@@ -133,28 +137,6 @@ const Item = (props: ItemProps) => {
                 fontSize: 12,
               }}
             />
-            {/* {hover && (
-              <Stack
-                position="absolute"
-                bottom={'-90px'}
-                left={0}
-                bgcolor="background.paper"
-                boxShadow={3}
-                borderRadius={1}
-                zIndex={10}
-                onMouseEnter={handleHover}
-                onMouseLeave={handleUnHover}
-                sx={{
-                  minWidth: 200,
-                  py: 1
-                }}
-              >
-                <MenuItem component={Link} href={GENRES}>
-                  Genres
-                </MenuItem>
-
-              </Stack>
-            )} */}
           </Stack>
         </>
       ) : (

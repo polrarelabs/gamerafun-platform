@@ -1,33 +1,31 @@
-import { Breadcrumbs, Stack } from "@mui/material";
-import { memo } from "react";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import Link from "@components/Link";
+import Layout from "@components/screens/News/Layout";
 import { Text } from "@components/shared";
+import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { SCREEN_PX } from "@constant";
-import Layout from "@components/News/Layout";
+import { Stack } from "@mui/material";
+import { palette } from "public/material";
+import { memo } from "react";
 
 const News = () => {
+  const breadcrumbs: BreadcumbsItem[] = [
+    {
+      href: "/",
+      title: "HOME",
+    },
+    {
+      title: "NEWS",
+    },
+  ];
+
   return (
     <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
       <Stack direction={"column"} gap={2}>
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-          sx={{
-            color: "#FFFFFFA5",
-          }}
-        >
-          <Link underline="hover" color="inherit" href="/">
-            <Text sx={{ color: "text.primary" }}>HOME</Text>
-          </Link>
-
-          <Text sx={{ color: "text.primary" }}>NEWS</Text>
-        </Breadcrumbs>
+        <Breadcumbs breadcumbs={breadcrumbs} />
         <Stack direction={"column"}>
-          <Text color="#F9FAFB" fontWeight={700} fontSize={"31px"}>
+          <Text color={palette.textWhite} fontWeight={700} fontSize={"31px"}>
             News
           </Text>
-          <Text color="#9ca3af" fontWeight={400} fontSize={"16px"}>
+          <Text color={palette.colorGray} fontWeight={400} fontSize={"16px"}>
             Stay on top of the latest blockchain gaming news and enjoy exclusive
             interviews and informative web3 gaming opinion pieces.
           </Text>

@@ -2,21 +2,6 @@ import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { GetHistory, SendMessage, SendMessageProps } from "./action";
 import { setIsCall } from "./reducer";
 
-// export const useAskAI = () => {
-//   const dispatch = useAppDispatch();
-
-//   const setThreadid = (id: string) => {
-//     dispatch(setThreadId(id));
-//   };
-
-//   const { threadId } = useAppSelector((state) => state.askAI);
-
-//   return {
-//     threadId,
-//     setThreadid,
-//   };
-// };
-
 export const useSendMessage = () => {
   const dispatch = useAppDispatch();
 
@@ -33,26 +18,20 @@ export const useSendMessage = () => {
   };
 
   const {
-    data: threadId,
-    loading: loadingThreadId,
-    error: errorThreadId,
+    dataSendMessage: threadId,
+    loading,
+    error,
     isCall,
-  } = useAppSelector((state) => state.sendMessage);
-  const {
-    data: history,
-    loading: loadingHistory,
-    error: errorHistory,
-  } = useAppSelector((state) => state.history);
+    dataHistory: history,
+  } = useAppSelector((state) => state.chatai);
 
   return {
     threadId,
-    loadingThreadId,
-    errorThreadId,
+    loading,
+    error,
     sendMessage,
     getHistory,
     history,
-    loadingHistory,
-    errorHistory,
     SetIsCall,
     isCall,
   };

@@ -1,7 +1,7 @@
 "use client";
 
 import { IconButton, Stack } from "@mui/material";
-import { useGame, useGetGameId } from "@store/game";
+import { useGame } from "@store/game";
 import GetIcon from "./GetIcon";
 import { Image, Text } from "@components/shared";
 import { motion, useMotionValue, animate } from "framer-motion";
@@ -11,12 +11,11 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { palette } from "public/material";
 
 const RelatedGames = () => {
-  const { data, fetchGetGame } = useGame();
-  const { data: dataGameById } = useGetGameId();
+  const { dataListGame: data, fetchGetGame, dataGetGameId } = useGame();
   // const [hover, setHover] = useState<boolean>(false);
   useEffect(() => {
-    if (dataGameById?.genre && dataGameById.genre.length > 0) {
-      fetchGetGame({ genre: dataGameById.genre });
+    if (dataGetGameId?.genre && dataGetGameId.genre.length > 0) {
+      fetchGetGame({ genre: dataGetGameId.genre });
     }
   }, []);
   const containerRef = useRef<HTMLDivElement | null>(null);

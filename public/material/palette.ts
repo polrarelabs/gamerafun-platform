@@ -258,5 +258,8 @@ export default {
   },
   colorRelate: {
     bgColor: "#2456",
+    borderColor: "#FFFFFF40",
+    bgColorHover: "#FFFFFF1A",
+    bgColorLogin: "#6D45FC",
   },
 } as unknown as PaletteOptions;
