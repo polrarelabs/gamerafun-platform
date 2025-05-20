@@ -543,7 +543,7 @@ const INITIAL_VALUES = {
     telegram: "",
     website: "",
   },
-  currency: Currency.NOCTRA,
+  currency: Currency.GAMERA,
   properties: {
     knowledge: "",
     lore: "",

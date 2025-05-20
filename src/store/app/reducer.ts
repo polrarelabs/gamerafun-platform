@@ -32,7 +32,7 @@ const initialState: AppState = {
 
   tokensBalance: {
     [Currency.APT]: 0,
-    [Currency.NOCTRA]: 0,
+    [Currency.GAMERA]: 0,
     [Currency.USDC]: 0,
   },
 
@@ -43,7 +43,7 @@ const initialState: AppState = {
       usd_24h_vol: 0,
       usd_24h_change: 0,
     },
-    [Currency.NOCTRA]: {
+    [Currency.GAMERA]: {
       usd: 0,
       usd_market_cap: 0,
       usd_24h_vol: 0,

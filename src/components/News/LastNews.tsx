@@ -3,8 +3,8 @@
 import { Drawer, Stack, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { memo, useState } from "react";
-import LastNewsLists from "./LastNewsLists";
 import LastNewsOptions from "./LastNewsOptions";
+import LastNewsLists from "./LastNewsLists";
 
 const LayoutLastNews = () => {
   const theme = useTheme();

@@ -1,4 +1,4 @@
-import { GetColor } from "@components/Games/components/helper";
+import { GetColor } from "@components/screens/Games/components/helper";
 import { Text, Tooltip } from "@components/shared";
 import { Slider, Stack } from "@mui/material";
 import { palette } from "public/material";

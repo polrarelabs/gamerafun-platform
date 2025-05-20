@@ -31,7 +31,7 @@ export enum TradeMode {
 }
 
 export enum Currency {
-  NOCTRA = "NOCTRA",
+  GAMERA = "GAMERA",
   APT = "APT",
   USDC = "USDC",
 }
