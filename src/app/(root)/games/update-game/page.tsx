@@ -1,4 +1,4 @@
-import { UpdateGame } from "@components/Games";
+import { UpdateGame } from "@components/screens/Games";
 import { memo } from "react";
 
 const UpdateGames = () => {

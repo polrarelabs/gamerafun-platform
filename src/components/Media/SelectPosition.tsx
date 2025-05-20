@@ -1,14 +1,7 @@
-import {
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-  SelectChangeEvent,
-} from "@mui/material";
+import { MenuItem, Select, Stack, SelectChangeEvent } from "@mui/material";
 import React, { memo } from "react";
 import Text from "../shared/Text";
-import { PropsInfo } from "@components/Games/UploadAvatar";
-import { MediaPosition } from "@constant/enum";
+import { PropsInfo } from "@components/screens/Games/UploadAvatar";
 
 interface PropsIndexText {
   setData: React.Dispatch<React.SetStateAction<PropsInfo[]>>;

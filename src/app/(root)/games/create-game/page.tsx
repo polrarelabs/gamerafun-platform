@@ -1,4 +1,4 @@
-import { CreateGame } from "@components/Games";
+import { CreateGame } from "@components/screens/Games";
 import { memo } from "react";
 
 const CreateGames = () => {

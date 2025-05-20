@@ -1,6 +1,6 @@
 "use client";
 
-import FormListOption from "@components/Genres/components/FormListOption";
+import FormListOption from "@components/screens/Genres/components/FormListOption";
 import { Button, SliderCustom, Text } from "@components/shared";
 import SearchIcon from "@icons/SearchIcon";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";

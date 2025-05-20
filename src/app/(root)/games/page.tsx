@@ -1,14 +1,13 @@
 "use client";
 
-import { LayoutGame } from "@components/Games";
-import { FormCreateGame } from "@components/Games/components";
 import Link from "@components/Link";
+import { LayoutGame } from "@components/screens/Games";
+import { FormCreateGame } from "@components/screens/Games/components";
 import { Text } from "@components/shared";
 // import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Breadcrumbs, Stack, useTheme } from "@mui/material";
-import { palette } from "public/material";
 import { memo } from "react";
 
 const GameHome = () => {

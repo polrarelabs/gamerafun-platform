@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
 import { useEffect } from "react";
 import bgSlider from "public/images/banner.webp";
-import { Guides, News, Overview, Review } from "@components/Games";
+import { Guides, News, Overview, Review } from "@components/screens/Games";
 const LayoutGameDetail = () => {
   const { id } = useParams();
   const { getGameId, data } = useGetGameId();
@@ -17,8 +17,6 @@ const LayoutGameDetail = () => {
       getGameId(gameId);
     }
   }, [id]);
-  console.log("data of game detail", data);
-  console.log("id game", id);
   const tabItems = [
     { label: "Overview", content: <Overview /> },
     { label: "Review", content: <Review /> },

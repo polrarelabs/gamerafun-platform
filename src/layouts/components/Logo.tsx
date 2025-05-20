@@ -26,7 +26,7 @@ const Logo = (props: LogoProps) => {
     >
       <Image
         src={type === "short" ? LogoImg : LogoTextImg}
-        alt="Noctra logo"
+        alt="Gamera logo"
         height={type === "short" ? size : ""}
         priority
         {...rest}

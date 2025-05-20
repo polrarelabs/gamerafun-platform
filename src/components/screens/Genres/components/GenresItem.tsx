@@ -8,11 +8,11 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import { setToken } from "@api/helpers";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import GetIcon from "@components/Games/components/GetIcon";
 import { useGallery } from "@store/media";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useWindowSize from "@hooks/useWindowSize";
 import { palette } from "public/material";
+import { GetIcon } from "@components/screens/Games/components";
 
 interface Props {
   img: any | null;

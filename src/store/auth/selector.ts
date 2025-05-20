@@ -75,8 +75,8 @@ export const useAuthLogin = () => {
 
 export const useLogOut = () => {
   const logOut = () => {
+    Cookies.remove("accessToken", { path: "/" });
     store.dispatch({ type: "RESET_STORE" });
-    Cookies.remove("accessToken", { path: "" });
   };
   return {
     logOut,

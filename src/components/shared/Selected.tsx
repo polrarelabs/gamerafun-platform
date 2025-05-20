@@ -5,7 +5,7 @@ import CloseIcon from "@icons/CloseIcon";
 import { Stack } from "@mui/material";
 import { useGameReducers } from "@store/game";
 import React, { memo } from "react";
-import BoxSelected from "../Genres/components/BoxSelected";
+import BoxSelected from "../screens/Genres/components/BoxSelected";
 
 const Selected = () => {
   const {

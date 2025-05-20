@@ -47,7 +47,15 @@ const LayoutGenres = () => {
   };
 
   return (
-    <Stack gap={2} display={"grid"} gridTemplateColumns={"repeat(5, 1fr)"}>
+    <Stack
+      gap={2}
+      display={"grid"}
+      gridTemplateColumns={{
+        md: "repeat(5, 1fr)",
+        sm: "repeat(3, 1fr)",
+        xs: "repeat(2, 1fr)",
+      }}
+    >
       {genres.map((item, index) => {
         return (
           <Stack

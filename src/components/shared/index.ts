@@ -7,6 +7,7 @@ import Dropdown from "./Dropdown";
 import TextField, { TextFieldProps } from "./TextField";
 import Select, { SelectProps } from "./Select";
 import SliderCustom from "./SliderCustom";
+import SelectOptions from "./SelectOptions";
 export {
   Tooltip,
   Text,
@@ -17,6 +18,7 @@ export {
   TextField,
   Select,
   SliderCustom,
+  SelectOptions,
 };
 
 export type {

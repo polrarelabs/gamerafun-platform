@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Button, Text } from "@components/shared";
+import { Button, SelectOptions, Text } from "@components/shared";
 import GameIcon from "@icons/GameIcon";
 import {
   MenuItem,
@@ -15,7 +15,7 @@ import { Theme } from "@mui/material/styles";
 import { useGame } from "@store/game";
 import img from "public/images/img-logo.png";
 import { memo, useEffect, useState } from "react";
-import Selected from "../../shared/Selected";
+import Selected from "../../../shared/Selected";
 import GenresItem from "./GenresItem";
 import { palette } from "public/material";
 
@@ -27,13 +27,13 @@ interface Props {
   setDisplayLayout: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return {
-    fontWeight: personName.includes(name)
-      ? theme.typography.fontWeightMedium
-      : theme.typography.fontWeightRegular,
-  };
-}
+// function getStyles(name: string, personName: readonly string[], theme: Theme) {
+//   return {
+//     fontWeight: personName.includes(name)
+//       ? theme.typography.fontWeightMedium
+//       : theme.typography.fontWeightRegular,
+//   };
+// }
 
 const BrowserGenres = ({
   isLayoutMD,
@@ -63,13 +63,10 @@ const BrowserGenres = ({
       },
     },
   };
-  const [personName, setPersonName] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string>("");
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(typeof value === "string" ? value.split(",") : value);
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelected(event.target.value as string);
   };
 
   useEffect(() => {
@@ -99,70 +96,11 @@ const BrowserGenres = ({
             display={"grid"}
             gridTemplateColumns={"repeat(2,1fr)"}
           >
-            <Select
-              multiple
-              displayEmpty
-              value={personName}
-              onChange={handleChange}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return (
-                    <Stack direction={"row"} alignItems={"center"} gap={1}>
-                      <Text
-                        fontWeight={500}
-                        fontSize={"12px"}
-                        color={palette.colorGray}
-                      >
-                        Sort by:
-                      </Text>
-                      <Text
-                        fontWeight={500}
-                        fontSize={"14px"}
-                        color={palette.textWhite}
-                      >
-                        Any
-                      </Text>
-                    </Stack>
-                  );
-                }
-                return `Sort by: ${selected.join(", ")}`;
-              }}
-              MenuProps={MenuProps}
-              inputProps={{ "aria-label": "Without label" }}
-              size="small"
-              sx={{
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: `1px solid ${palette.borderMenu}`,
-                },
-                "& .mui-1hhzsab-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
-                  {
-                    backgroundColor: palette.bgMenu,
-                  },
-                "&:hover": {
-                  "& .mui-1hhzsab-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
-                    {
-                      backgroundColor: palette.bgMenuHover,
-                    },
-                },
-              }}
-            >
-              {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, personName, theme)}
-                >
-                  <Text
-                    fontWeight={500}
-                    fontSize={"14px"}
-                    color={palette.colorGray}
-                  >
-                    {name}
-                  </Text>
-                </MenuItem>
-              ))}
-            </Select>
-
+            <SelectOptions
+              selected={selected}
+              handleChange={handleChange}
+              options={names}
+            />
             <Button
               variant="contained"
               onClick={() => setOpen(true)}
@@ -170,7 +108,7 @@ const BrowserGenres = ({
                 borderRadius: "8px !important",
                 height: "40px !important",
                 color: `${palette.greenColorText} !important`,
-                background: palette.greenColorButton,
+                background: `${palette.greenColorButton} !important`,
                 "&:hover": {
                   color: "black !important",
                   background: `${palette.greenColorText} !important`,
