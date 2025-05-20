@@ -129,7 +129,7 @@ const tokenSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getRecommendTokens.pending, (state, action) => {
+      .addCase(getRecommendTokens.pending, (state, _action) => {
         state.recommendItemsStatus = DataStatus.LOADING;
         state.recommendItems = [];
       })
@@ -180,7 +180,7 @@ const tokenSlice = createSlice({
           state.token = action.payload;
         },
       )
-      .addCase(getHoldersOfToken.pending, (state, action) => {
+      .addCase(getHoldersOfToken.pending, (state, _action) => {
         state.tokenHolderItemsStatus = DataStatus.LOADING;
         state.tokenHolderItems = [];
       })

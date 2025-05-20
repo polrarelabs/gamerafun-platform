@@ -1,7 +1,7 @@
 "use client";
 import React, { memo, useEffect } from "react";
 import { useFormik } from "formik";
-import { type LoginAccount, useLoginAccount } from "@store/auth";
+import { type LoginAccount, useAuthLogin } from "@store/auth";
 import { Stack } from "@mui/material";
 import { Button } from "@components/shared";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { HOME_PATH } from "@constant/paths";
 const LoginAccount = () => {
   const router = useRouter();
-  const { LoginAccount, dataAuthLoginAccount } = useLoginAccount();
+  const { data, LoginAccount } = useAuthLogin();
 
   const initialValues: LoginAccount = {
     userName: "",
@@ -20,16 +20,16 @@ const LoginAccount = () => {
   };
 
   useEffect(() => {
-    if (dataAuthLoginAccount && dataAuthLoginAccount.accessToken) {
-      setToken(dataAuthLoginAccount.accessToken);
-      Cookies.set("accessToken", dataAuthLoginAccount.accessToken, {
+    if (data && Object.keys(data).length > 0) {
+      setToken(data.accessToken);
+      Cookies.set("accessToken", data.accessToken, {
         expires: 7,
         secure: true,
         sameSite: "Strict",
       });
       router.push(HOME_PATH);
     }
-  }, [dataAuthLoginAccount]);
+  }, [data]);
 
   const formik = useFormik({
     initialValues,

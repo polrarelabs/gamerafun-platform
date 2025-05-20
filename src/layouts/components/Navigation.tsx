@@ -2,14 +2,13 @@
 
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import { GAME_PATH, GENRES, HOME_PATH, NEWS_PATH } from "@constant/paths";
+import { GAME_PATH, GENRES_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import ArrowIcon from "@icons/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
-import { Menu, MenuItem, Stack, StackProps } from "@mui/material";
+import { Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { memo, useMemo, useState } from "react";
-import { SlArrowDown } from "react-icons/sl";
 type ItemProps = {
   label: string;
   href: string;
@@ -24,7 +23,7 @@ interface Props {
 // const Navigation = (props: StackProps) => {
 const Navigation = ({ onHide, directions }: Props) => {
   const { isMdSmaller } = useBreakpoint();
-
+  const pathname = usePathname();
   return (
     <>
       {isMdSmaller ? (
@@ -34,6 +33,7 @@ const Navigation = ({ onHide, directions }: Props) => {
               direction="column"
               height="100%"
               spacing={4}
+              justifyContent={"start"}
               // {...props}
             >
               {DATA.map((item) => (
@@ -48,7 +48,7 @@ const Navigation = ({ onHide, directions }: Props) => {
             <Stack
               height="100%"
               display={"grid"}
-              gridTemplateColumns={"repeat(4,1fr)"}
+              gridTemplateColumns={`repeat(${DATA.length + 1},1fr)`}
               // {...props}
             >
               {DATA.map((item) => (
@@ -180,7 +180,7 @@ const sx = {
     position: "relative",
     color: "common.white",
     display: "flex",
-    justifyContent: "center",
+    // justifyContent: "center",
     "&:after": {
       content: { md: "''" },
       position: "absolute",
@@ -208,6 +208,7 @@ const DATA = [
   },
   { label: "Games", href: GAME_PATH },
   { label: "News", href: NEWS_PATH },
+  { label: "Genres", href: GENRES_PATH },
   // {
   //   label: "Research",
   //   href: "https://research.noctra.ai",

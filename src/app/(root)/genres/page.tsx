@@ -4,7 +4,7 @@ import React from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import LayoutGenres from "./components/LayoutGenres";
+import LayoutGenres from "../../../components/Genres/LayoutGenres";
 
 const Genres = () => {
   return (

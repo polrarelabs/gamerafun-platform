@@ -1,185 +1,172 @@
 "use client";
 
-import { Image, Text } from "@components/shared";
-import DropDownIcon from "@icons/DropDownIcon";
-import { Fade, Popper, Stack } from "@mui/material";
-import React, { memo, useEffect, useState } from "react";
-import login_token from "public/images/login-token.svg";
-import LogOutIcon from "@icons/LogOutIcon";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { GetEmail } from "@components/auth/GetEmail";
+import { GetUserName } from "@components/auth/GetUserName";
+import { Button, Image, Text } from "@components/shared";
 import { LOGIN_PATH } from "@constant/paths";
-import {
-  PropsAuth,
-  PropsLoginAccountAuth,
-  PropsUser,
-  PropsUserLoginAccount,
-  useAuthLoginX,
-  useLoginAccount,
-  useLoginGoogle,
-  useLogOut,
-} from "@store/auth";
+import useAptosWallet from "@hooks/useAptosWallet";
+import DropDownIcon from "@icons/DropDownIcon";
+import LogOutIcon from "@icons/LogOutIcon";
+import { Popover, Stack } from "@mui/material";
+import { useAuthLogin, useLogOut } from "@store/auth";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import login_token from "public/images/login-token.svg";
+import { palette } from "public/material";
+import React, { memo } from "react";
+
+declare global {
+  interface Window {
+    google?: {
+      accounts?: {
+        id?: {
+          disableAutoSelect: () => void;
+        };
+      };
+    };
+  }
+}
 
 const Profile = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [open, setOpen] = useState(false);
   const router = useRouter();
-
+  const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
+  const { data } = useAuthLogin();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null,
+  );
 
-  const { dataAuthLoginAccount: dataAccount } = useLoginAccount();
-  const { dataAuthLoginGoogle: dataGoogle } = useLoginGoogle();
-  const { dataAuthLogin: dataX } = useAuthLoginX();
-  // const [data, setData] = useState<PropsAuth | PropsLoginAccountAuth>()
-
-  // useEffect(() => {
-  //     console.log('dataX', dataX);
-  //     console.log('dataAccount', dataAccount);
-  //     console.log('dataGoogle', dataGoogle);
-  //     if (dataAccount) {
-  //         setData(dataAccount as PropsLoginAccountAuth)
-  //     } else if (dataGoogle) {
-  //         setData(dataGoogle as PropsAuth)
-  //     } else if (dataX) {
-  //         setData(dataX as PropsAuth)
-  //     }
-  // }, [dataX, dataAccount, dataGoogle])
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    setOpen((previousOpen) => !previousOpen);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   const handleLogOut = () => {
-    console.log("click");
+    if (window.google?.accounts?.id) {
+      window.google.accounts.id.disableAutoSelect();
+    }
+    disconnect();
+    signOut();
     logOut();
-    // Cookies.remove("accessToken", { path: "" })
     router.push(LOGIN_PATH);
-  };
-
-  const GetUseName = () => {
-    if (dataAccount) {
-      return dataAccount?.user?.displayName
-        ? dataAccount?.user?.displayName
-        : `User ${dataAccount?.user?.id}`;
-    } else if (dataGoogle) {
-      return dataGoogle?.user?.displayName
-        ? dataGoogle?.user?.displayName
-        : `User ${dataGoogle?.user?.id}`;
-    } else if (dataX) {
-      return dataX?.user?.displayName
-        ? dataX?.user?.displayName
-        : `User ${dataX?.user?.id}`;
-    }
-  };
-
-  const GetEmail = () => {
-    if (dataAccount) {
-      return dataAccount?.user?.email && dataAccount?.user?.email;
-    } else if (dataGoogle) {
-      return dataGoogle?.user?.username;
-    }
   };
 
   return (
     <>
-      <Stack
-        direction={"row"}
-        alignItems={"center"}
-        gap={"8px"}
-        color={"white"}
+      <Button
+        aria-describedby={id}
+        variant="contained"
         onClick={handleClick}
         sx={{
-          "&:hover": {
-            cursor: "pointer",
-          },
+          background: "inherit !important",
         }}
       >
-        <Image src={login_token} alt="LoginToken" />
-        <DropDownIcon
-          sx={{
-            height: "14px",
-            width: "14px",
-          }}
-        />
-      </Stack>
-      <Popper
-        sx={{
-          zIndex: 1200,
-          mt: "19.5px !important",
-          backgroundColor: "#181A20",
-          borderRadius: "8px",
-          padding: "24px",
-          border: "1px solid #FFFFFF1A",
-          width: "100%",
-          maxWidth: "320px",
-        }}
+        <Stack gap={1} direction={"row"} alignItems={"center"}>
+          <Image src={login_token} alt="LoginToken" />
+          <DropDownIcon
+            sx={{
+              height: "14px",
+              width: "14px",
+            }}
+          />
+        </Stack>
+      </Button>
+      <Popover
+        id={id}
         open={open}
         anchorEl={anchorEl}
-        placement={"bottom-end"}
-        transition
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
       >
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Stack direction={"column"} gap={"16px"}>
-              <Stack
-                sx={{
-                  borderBottom: "1px solid #FFFFFF1A",
-                  paddingBottom: "16px",
-                }}
-                direction={"row"}
-                gap="16px"
-              >
-                <Stack height={"48px"} width={"48px"}>
-                  <Image src={login_token} alt="LoginToken" />
-                </Stack>
-                <Stack direction={"column"} justifyContent={"center"}>
-                  <Text
-                    color="white"
-                    lineHeight={"150%"}
-                    fontSize="16px"
-                    fontWeight={500}
-                  >
-                    {GetUseName()}
-                  </Text>
-
-                  <Text
-                    color="#FFFFFF80"
-                    lineHeight={"150%"}
-                    fontSize="14px"
-                    fontWeight={400}
-                  >
-                    {GetEmail()}
-                  </Text>
-                </Stack>
-              </Stack>
-
-              <Stack
-                color="white"
-                direction={"row"}
-                gap="8px"
-                alignItems={"center"}
-                onClick={handleLogOut}
-                sx={{
-                  "&:hover": {
-                    cursor: "pointer",
+        <Stack direction={"column"} gap={"16px"} p={"16px"}>
+          <Stack
+            sx={{
+              borderBottom: `1px solid ${palette.colorBorderBlack}`,
+              paddingBottom: "16px",
+            }}
+            direction={"row"}
+            gap="8px"
+            alignItems={"center"}
+          >
+            <Stack
+              height={50}
+              width={50}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Image
+                src={login_token}
+                alt="LoginToken"
+                size="100%"
+                aspectRatio={1 / 1}
+                sizes="14px"
+                containerProps={{
+                  sx: {
+                    width: "100%",
+                    height: "100%",
+                    overflow: "hidden",
+                    borderRadius: "8px",
+                    "& img": {
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    },
                   },
                 }}
-              >
-                <LogOutIcon />
-                <Text
-                  color="white"
-                  lineHeight={"150%"}
-                  fontSize="16px"
-                  fontWeight={500}
-                >
-                  Log out
-                </Text>
-              </Stack>
+              />
             </Stack>
-          </Fade>
-        )}
-      </Popper>
+            <Stack direction={"column"} justifyContent={"center"}>
+              <Text
+                color="white"
+                lineHeight={"150%"}
+                fontSize="16px"
+                fontWeight={500}
+              >
+                {GetUserName(data)}
+              </Text>
+
+              <Text
+                color={palette.text80}
+                lineHeight={"150%"}
+                fontSize="14px"
+                fontWeight={400}
+              >
+                {GetEmail(data)}
+              </Text>
+            </Stack>
+          </Stack>
+
+          <Stack
+            color="white"
+            direction={"row"}
+            gap="8px"
+            alignItems={"center"}
+            onClick={handleLogOut}
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          >
+            <LogOutIcon />
+            <Text
+              color="white"
+              lineHeight={"150%"}
+              fontSize="16px"
+              fontWeight={500}
+            >
+              Log out
+            </Text>
+          </Stack>
+        </Stack>
+      </Popover>
     </>
   );
 };

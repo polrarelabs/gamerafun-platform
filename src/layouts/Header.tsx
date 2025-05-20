@@ -1,46 +1,37 @@
 "use client";
 
-import { memo, useEffect, useState } from "react";
-import { Drawer, Stack } from "@mui/material";
-import { Button } from "@components/shared";
-import useBreakpoint from "@hooks/useBreakpoint";
-import { Logo, Navigation } from "./components";
-import Link from "@components/Link";
-import { CREATE_AGENT_PATH, LOGIN_PATH } from "@constant/paths";
 import Connect from "@components/Connect";
+import Link from "@components/Link";
+import { Button } from "@components/shared";
+import { ACCESSTOKEN_COOKIE, HEADER_HEIGHT } from "@constant";
+import { CREATE_AGENT_PATH, LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
-import {
-  ACCESSTOKEN_COOKIE,
-  DOMAIN,
-  HEADER_HEIGHT,
-  SCREEN_PX,
-} from "@constant";
-import Sidebar from "./Sidebar";
-import { useSignMessage } from "@store/auth";
-import ChatAI from "@components/AskAI/ChatAI";
+import useBreakpoint from "@hooks/useBreakpoint";
+import { Stack } from "@mui/material";
+import { useAptos, useAuthLogin } from "@store/auth";
 import Cookies from "js-cookie";
+import { memo, useEffect, useState } from "react";
+import { Logo, Navigation } from "./components";
 import Profile from "./components/Profile";
 
 const Header = () => {
   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
 
   const [showLogin, setShowLogin] = useState<boolean>(true);
+  const { data } = useAuthLogin();
 
   useEffect(() => {
+    // if (Object.keys(data).length === 0 && cookies && cookies.lenght > 0) {
+    //   setShowLogin(true);
+    // }
+    // else
     if (cookies !== "undefined" && cookies !== undefined) {
       setShowLogin(false);
     } else setShowLogin(true);
   }, [cookies]);
 
   const { isSmSmaller, isMdSmaller } = useBreakpoint();
-  const { connected } = useAptosWallet();
-  const { isConnectPetra, isLogin } = useSignMessage();
-
-  const [open, setOpen] = useState<boolean>(false);
-
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
+  const { isConnectAptos, isLogin } = useAptos();
 
   return (
     <>
@@ -70,45 +61,27 @@ const Header = () => {
         </Stack>
         {isMdSmaller ? (
           <>
-            {!isLogin && (
-              <Stack direction={"row"} gap={2}>
-                {/* <Button
-                  onClick={toggleDrawer(true)}
+            <Stack direction={"row"} gap={2}>
+              {showLogin ? (
+                <Button
+                  LinkComponent={Link}
+                  href={LOGIN_PATH}
                   variant="contained"
-                  size={"small"}
+                  size="small"
                 >
-                  Ask AI
-                </Button> */}
-                {showLogin && (
-                  <Button
-                    LinkComponent={Link}
-                    href={LOGIN_PATH}
-                    variant="contained"
-                    size="small"
-                  >
-                    Log In
-                  </Button>
-                )}
-              </Stack>
-            )}
+                  Log In
+                </Button>
+              ) : (
+                <Profile />
+              )}
+            </Stack>
           </>
         ) : (
           <Stack direction="row" spacing={2} alignItems="center">
-            {/* <Button
-              onClick={toggleDrawer(true)}
-              variant="contained"
-              size={"small"}
-              sx={{
-                borderRadius: '8px !important'
-
-              }}
-            >
-              Ask AI
-            </Button> */}
-            <CreateAgent />
+            {/* <CreateAgent /> */}
             {showLogin ? (
               <>
-                {(!isSmSmaller || !isConnectPetra) && <Connect />}
+                {(!isSmSmaller || !isConnectAptos) && <Connect />}
 
                 <Button
                   LinkComponent={Link}
@@ -120,33 +93,11 @@ const Header = () => {
                 </Button>
               </>
             ) : (
-              // <Button
-              //   LinkComponent={Link}
-              //   href={LOGIN_PATH}
-              //   variant="contained"
-              //   size="small"
-              //   onClick={() => Cookies.remove("accessToken", { path: "" })}
-              // >
-              //   Log Out
-              // </Button>
               <Profile />
             )}
           </Stack>
         )}
       </Stack>
-      {/* <Drawer
-        open={open}
-        onClose={toggleDrawer(false)}
-        anchor="right"
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: "100%",
-            maxWidth: "400px",
-          },
-        }}
-      >
-        <ChatAI />
-      </Drawer> */}
     </>
   );
 };
@@ -154,8 +105,8 @@ const Header = () => {
 export default memo(Header);
 
 const CreateAgent = () => {
-  const { isConnectPetra } = useSignMessage();
-  if (!isConnectPetra) return null;
+  const { isConnectAptos } = useAptos();
+  if (!isConnectAptos) return null;
 
   return (
     <Button

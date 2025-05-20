@@ -1,62 +1,85 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GetChatAI } from "./action";
+import { GetHistory, SendMessage } from "./action";
+import { TypeChat } from "./helper";
 
-export interface DataAskAI {
-  threadId: string;
+export interface SendMessageState {
+  data: any | null;
+  loading: boolean;
+  error: string;
+  isCall: boolean;
 }
 
-const initialState: DataAskAI = {
-  threadId: "",
+const initialStateSendMessage: SendMessageState = {
+  data: null,
+  loading: false,
+  error: "",
+  isCall: false,
 };
 
-const AskAIReducer = createSlice({
-  name: "ask/ai",
-  initialState,
+const SendMessageReducer = createSlice({
+  name: "post/sendMessage",
+  initialState: initialStateSendMessage,
   reducers: {
-    setThreadId: (state, action: PayloadAction<string>) => {
-      state.threadId = action.payload;
+    setIsCall: (state, action: PayloadAction<boolean>) => {
+      state.isCall = action.payload;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(SendMessage.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        SendMessage.fulfilled,
+        (state, action: PayloadAction<any | null>) => {
+          state.data = action.payload;
+          state.loading = false;
+          state.isCall = true;
+        },
+      )
+      .addCase(SendMessage.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
-export interface MessageChat {
+export interface GetHistoryProps {
   id: number;
-  content: any | null;
-  type: string;
-  errors?: boolean;
+  content: string | any;
+  type: TypeChat;
 }
-
-export interface MessageChatProps {
-  data: MessageChat[];
+interface GetHistoryState {
+  data: GetHistoryProps[];
   loading: boolean;
   error: string;
 }
 
-const initialStateMessage: MessageChatProps = {
+const initialStateHistory: GetHistoryState = {
   data: [],
   loading: false,
   error: "",
 };
 
-const GetMessageReducer = createSlice({
-  name: "get/message",
-  initialState: initialStateMessage,
+const GetHisToryReducer = createSlice({
+  name: "get/history",
+  initialState: initialStateHistory,
   reducers: {},
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
-      .addCase(GetChatAI.pending, (state) => {
+      .addCase(GetHistory.pending, (state) => {
         state.loading = true;
       })
       .addCase(
-        GetChatAI.fulfilled,
-        (state, action: PayloadAction<MessageChat[]>) => {
+        GetHistory.fulfilled,
+        (state, action: PayloadAction<GetHistoryProps[]>) => {
           state.data = action.payload;
           state.loading = false;
         },
       )
-      .addCase(GetChatAI.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(GetHistory.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload as string;
       });
@@ -64,8 +87,8 @@ const GetMessageReducer = createSlice({
 });
 
 export const reducers = {
-  askAI: AskAIReducer.reducer,
-  messageChat: GetMessageReducer.reducer,
+  sendMessage: SendMessageReducer.reducer,
+  history: GetHisToryReducer.reducer,
 };
 
-export const { setThreadId } = AskAIReducer.actions;
+export const { setIsCall } = SendMessageReducer.actions;

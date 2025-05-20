@@ -49,7 +49,7 @@ const Sidebar = () => {
         </Stack>
         <Navigation directions="column" onHide={onHide} />
 
-        <Connect size="large" />
+        {/* <Connect size="large" /> */}
       </Drawer>
     </Stack>
   );

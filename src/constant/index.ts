@@ -11,9 +11,9 @@ export const BONDING_PACKAGE_ID = process.env.BONDING_PACKAGE_ID as string;
 export const NOCTRA_COIN_TYPE = process.env.NOCTRA_COIN_TYPE as CoinType;
 export const USDC_COIN_TYPE = process.env.USDC_COIN_TYPE as CoinType;
 export const APTOS_API_KEY = process.env.APTOS_API_KEY as string;
-// export const APP_ENVIRONMENT = process.env
-//   .APP_ENVIRONMENT as typeof process.env.NODE_ENV;
-export const APP_ENVIRONMENT = process.env.APP_ENVIRONMENT;
+export const APP_ENVIRONMENT = process.env
+  .APP_ENVIRONMENT as typeof process.env.NODE_ENV;
+// export const APP_ENVIRONMENT = process.env.APP_ENVIRONMENT;
 export const APTOS_COIN_TYPE = "0x1::aptos_coin::AptosCoin" as CoinType;
 
 export const DEFAULT_PAGE_INDEX = 1;

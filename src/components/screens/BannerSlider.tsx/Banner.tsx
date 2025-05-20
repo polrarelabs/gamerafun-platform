@@ -1,12 +1,12 @@
 "use client";
 
-import { Box, Stack } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import bgSlider from "public/images/banner.webp";
 import { Button, Image, Text } from "@components/shared";
-import { motion } from "framer-motion";
-import { useGame } from "@store/game";
 import useBreakpoint from "@hooks/useBreakpoint";
+import { Box, Stack } from "@mui/material";
+import { motion } from "framer-motion";
+import bgSlider from "public/images/banner.webp";
+import { palette } from "public/material";
+import { useEffect, useRef, useState } from "react";
 
 const DATA = [
   {
@@ -36,7 +36,6 @@ const Banner = () => {
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
   const { isMdSmaller } = useBreakpoint();
 
   useEffect(() => {
@@ -138,7 +137,11 @@ const Banner = () => {
             <Text color="white" fontWeight={700} fontSize={"36px"}>
               {DATA[currentIndex].title}
             </Text>
-            <Text color="#FFFFFFB2" fontWeight={400} fontSize={"16px"}>
+            <Text
+              color={palette.colorBanner?.bgColorWhite}
+              fontWeight={400}
+              fontSize={"16px"}
+            >
               {DATA[currentIndex].title}
             </Text>
             <Stack direction={"row"} gap={2}>
@@ -148,6 +151,9 @@ const Banner = () => {
                   background: "white !important",
                   borderRadius: "0.75rem !important",
                   padding: "8px 16px !important",
+                  "&:hover": {
+                    background: `${palette.colorGray} !important`,
+                  },
                 }}
               >
                 <Text color="black" fontSize={"16px"} fontWeight={400}>
@@ -157,9 +163,12 @@ const Banner = () => {
               <Button
                 variant="contained"
                 sx={{
-                  background: "#374151F2 !important",
+                  background: `${palette.colorBanner?.bgColor} !important`,
                   borderRadius: "0.75rem !important",
                   padding: "8px 16px !important",
+                  "&:hover": {
+                    background: `${palette.colorBanner?.bgColorHover} !important`,
+                  },
                 }}
               >
                 <Text color="white" fontSize={"16px"} fontWeight={400}>
@@ -196,7 +205,7 @@ const Banner = () => {
                     sx={{
                       boxShadow:
                         index === currentIndex
-                          ? "0 0 0 3px #f9fafb , 0 0 18px 4px #f9fafb"
+                          ? `0 0 0 3px ${palette.textWhite} , 0 0 18px 4px ${palette.textWhite}`
                           : undefined,
                       "&:hover": {
                         cursor: "pointer",

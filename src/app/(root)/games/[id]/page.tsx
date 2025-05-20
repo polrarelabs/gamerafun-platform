@@ -2,18 +2,15 @@
 
 import { Breadcrumbs, Link, Stack, Typography, Box } from "@mui/material";
 import { useGetGameId } from "@store/game";
-import { Button, Image } from "@components/shared";
+import { Image } from "@components/shared";
 import { useParams } from "next/navigation";
 import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
 import { useEffect } from "react";
-import LayoutOverview from "./components/LayoutOverview";
-import LayoutReview from "./components/LayoutReview";
-import LayoutGuides from "./components/LayoutGuides";
-import LayoutNews from "./components/LayoutNews";
 import bgSlider from "public/images/banner.webp";
+import { Guides, News, Overview, Review } from "@components/Games";
 const LayoutGameDetail = () => {
   const { id } = useParams();
-  const { getGameId, data, error, loading } = useGetGameId();
+  const { getGameId, data } = useGetGameId();
   useEffect(() => {
     if (id) {
       const gameId = Array.isArray(id) ? Number(id[0]) : Number(id);
@@ -23,10 +20,10 @@ const LayoutGameDetail = () => {
   console.log("data of game detail", data);
   console.log("id game", id);
   const tabItems = [
-    { label: "Overview", content: <LayoutOverview /> },
-    { label: "Review", content: <LayoutReview /> },
-    { label: "Guides", content: <LayoutGuides /> },
-    { label: "News", content: <LayoutNews /> },
+    { label: "Overview", content: <Overview /> },
+    { label: "Review", content: <Review /> },
+    { label: "Guides", content: <Guides /> },
+    { label: "News", content: <News /> },
     { label: "Analysis", content: <div>Analysis</div>, disabled: true },
     { label: "Live Stream", content: <div>Live Stream</div> },
     { label: "Community", content: <div>Community</div> },
@@ -41,10 +38,10 @@ const LayoutGameDetail = () => {
             src={bgSlider}
             alt={`img - ${bgSlider}`}
             size="100%"
+            width={"100%"}
+            height={"300px"}
             containerProps={{
               sx: {
-                height: "300px",
-                width: "100%",
                 borderRadius: "10px",
                 overflow: "hidden",
               },

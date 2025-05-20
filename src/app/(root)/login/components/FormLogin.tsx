@@ -3,26 +3,38 @@
 import { setToken } from "@api/helpers";
 import WalletModal from "@components/Connect/WalletModal";
 import { Button, Image, Text } from "@components/shared";
+import { HOME_PATH } from "@constant/paths";
+import useAptosWallet from "@hooks/useAptosWallet";
 import useToggle from "@hooks/useToggle";
 import GoogleIcon from "@icons/GoogleIcon";
-import WalletIcon from "@icons/WalletIcon";
 import XIcon from "@icons/XIcon";
-import { Stack } from "@mui/material";
-import { useAuthLoginX, useLoginGoogle, useSignMessage } from "@store/auth";
+import { Box, Stack } from "@mui/material";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useAptos, useAuthLogin } from "@store/auth";
 import { PropsLoginX } from "@store/auth/action";
-import { setCookie } from "@utils";
-import Cookies from "js-cookie";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { MouseEvent, useEffect, useState } from "react";
-import { ACCESSTOKEN_COOKIE } from "../../../../constant/index";
-import { HOME_PATH } from "@constant/paths";
-import LoginAccount from "./LoginAccount";
-import wave from "public/images/wave.gif";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import wave from "public/images/wave.gif";
+import { MouseEvent, useEffect, useState } from "react";
+import LoginAccount from "./LoginAccount";
+import aptos from "public/images/aptos-seeklogo.svg";
+import ImmutableIcon from "@icons/ImmutableIcon";
+import SteamIcon from "@icons/SteamIcon";
+import TwitchIcon from "@icons/TwitchIcon";
+import DiscordIcons from "@icons/DiscordIcons";
+import { signIn, useSession } from "next-auth/react";
+import ArrowLongIcon from "@icons/ArrowLongIcon";
+import ArrowRightCircleIcon from "@icons/ArrowRightCircleIcon";
+
+type GoogleUser = {
+  email: string;
+  name: string;
+  picture: string;
+};
 
 const FormLogin = () => {
-  const { isConnectPetra, IsConnectPetra } = useSignMessage();
+  const { isConnectAptos, IsConnectAptos } = useAptos();
   const [isShow, onShow, onHide] = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const onAnchor = (event: MouseEvent<HTMLButtonElement>) => {
@@ -32,21 +44,14 @@ const FormLogin = () => {
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const { LoginX, dataAuthLogin: dataX } = useAuthLoginX();
-  const {
-    dataAuthLoginGoogle,
-    // loadingAuthLoginGoogle,
-    // errorAuthLoginGoogle,
-    LoginGoogle,
-  } = useLoginGoogle();
 
+  const { data, LoginGoogle, LoginX } = useAuthLogin();
   const { data: session } = useSession();
   const pathName = usePathname();
 
   useEffect(() => {
     const id = searchParams.get("xId") || undefined;
     const sessionId = searchParams.get("sessionId") || undefined;
-
     if (id !== undefined && sessionId !== undefined) {
       const param: PropsLoginX = {
         id: id,
@@ -55,44 +60,20 @@ const FormLogin = () => {
       LoginX(param);
     }
   }, [pathName]);
+
   useEffect(() => {
-    if (dataX && dataX.accessToken) {
-      setToken(dataX.accessToken);
-      Cookies.set("accessToken", dataX.accessToken, {
+    if (data && Object.keys(data).length > 0) {
+      console.log("dataLogin", data);
+
+      setToken(data.accessToken);
+      Cookies.set("accessToken", data.accessToken, {
         expires: 7,
         secure: true,
         sameSite: "Strict",
       });
-
-      // setCookie(ACCESSTOKEN_COOKIE, dataX.accessToken)
       router.push(HOME_PATH);
     }
-  }, [dataX]);
-
-  // useEffect(() => {
-  //     if (id && sessionId) {
-  //         const param: PropsLoginX = {
-  //             id: id,
-  //             sessionId: sessionId
-  //         };
-  //         LoginX(param);
-  //     }
-  // }, [id, sessionId]);
-
-  // test local
-
-  useEffect(() => {
-    if (dataAuthLoginGoogle) {
-      setToken(dataAuthLoginGoogle.accessToken);
-      Cookies.set("accessToken", dataAuthLoginGoogle.accessToken, {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
-      // setCookie(ACCESSTOKEN_COOKIE, dataAuthLoginGoogle.accessToken)
-      // router.push(HOME_PATH);
-    }
-  }, [dataAuthLoginGoogle]);
+  }, [data]);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -106,6 +87,37 @@ const FormLogin = () => {
     signIn("google", { callbackUrl: HOME_PATH });
     // signIn("google");
   };
+  // const login = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     try {
+  //       const { access_token } = tokenResponse;
+
+  //       const { data } = await axios.get(
+  //         "https://www.googleapis.com/oauth2/v3/userinfo",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${access_token}`,
+  //           },
+  //         },
+  //       );
+
+  //       const googleUser: GoogleUser = {
+  //         email: data.email,
+  //         name: data.name,
+  //         picture: data.picture,
+  //       };
+
+  //       console.log("Google user info:", googleUser);
+
+  //       await LoginGoogle({ email: googleUser.email });
+  //     } catch (error) {
+  //       console.error("Failed to fetch Google user", error);
+  //     }
+  //   },
+  //   onError: () => {
+  //     console.error("Login Failed");
+  //   },
+  // });
 
   const handleLoginX = () => {
     window.location.href =
@@ -118,55 +130,52 @@ const FormLogin = () => {
       Icon: GoogleIcon,
       functions: handleLoginGoogle,
     },
-    // {
-    //     name: 'Discord',
-    //     Icon: DiscordIcons,
-    //     functions: handleLoginDiscord,
-    // },
+    {
+      name: "Discord",
+      Icon: DiscordIcons,
+      // functions: handleLoginDiscord,
+    },
     {
       name: "X (Twitter)",
-      Icon: XIcon,
+      Icon: () => <XIcon />,
       functions: handleLoginX,
     },
-    // {
-    //     name: 'Twitch',
-    //     Icon: TwitchIcon,
-    //     functions: handleLogiTwitch,
-    // },
-    // {
-    //     name: 'Steam',
-    //     Icon: SteamIcon,
-    //     functions: handleLoginSteam,
-    // },
-    // {
-    //     name: 'Immutable',
-    //     Icon: ImmutableIcon,
-    //     functions: handleLoginImmutable,
-    // },
+    {
+      name: "Twitch",
+      Icon: TwitchIcon,
+      // functions: handleLogiTwitch,
+    },
+    {
+      name: "Steam",
+      Icon: SteamIcon,
+      // functions: handleLoginSteam,
+    },
+    {
+      name: "Immutable",
+      Icon: ImmutableIcon,
+      // functions: handleLoginImmutable,
+    },
   ];
+
+  const [hover, setHover] = useState<boolean>(false);
 
   return (
     <Stack
       width={{ md: "40%", xs: "90%" }}
       height={"auto"}
       direction={"column"}
-      gap={3}
+      gap={{ md: 3, xs: 2 }}
     >
-      {/* {session?.user?.email && (
-        <Button variant="contained" onClick={() => signOut()}>
-          Log out
-        </Button>
-      )} */}
       <Stack
         direction={"row"}
         justifyContent={"center"}
         alignItems={"center"}
         gap={2}
       >
-        <Text fontSize={"28px"} fontWeight={700}>
+        <Text fontSize={"48px"} fontWeight={700}>
           Hello Gamer
         </Text>
-        <Stack height={30} width={30}>
+        <Stack height={48} width={48}>
           <Image
             src={wave}
             alt="preview"
@@ -197,50 +206,128 @@ const FormLogin = () => {
               sx={{
                 width: "100%",
                 borderRadius: "8px !important",
-                borderColor: "#94A7C4 !important",
+                border: "1px solid #FFFFFF40 !important",
                 color: "white !important",
                 background: "inherit !important",
                 height: "52px !important",
+                "&:hover": {
+                  background: "#FFFFFF1A !important",
+                },
               }}
-              onClick={() => functions()}
+              onClick={() => functions?.()}
             >
               <Stack direction={"row"} alignItems={"center"} gap={2}>
-                <Icon /> {name}
+                {Icon && <Icon />} {name}
               </Stack>
             </Button>
           );
         })}
       </Stack>
 
-      <LoginAccount />
+      {/* <LoginAccount /> */}
 
-      <Stack width={"100%"} direction={"row"} alignItems={"center"} gap={2}>
-        <hr style={{ width: "100%", margin: "0 auto", color: "" }} />
-        <Text>Or</Text>
-        <hr style={{ width: "100%", margin: "0 auto", color: "" }} />
+      <Stack width={"100%"} direction={"row"} alignItems={"center"}>
+        <hr
+          style={{
+            width: "100%",
+            border: "none",
+            borderTop: "1px solid #FFFFFF40",
+            margin: 0,
+          }}
+        />
+        <Text
+          fontWeight={400}
+          fontSize={"16px"}
+          color="#FFFFFF80"
+          width={"100%"}
+          textAlign={"center"}
+        >
+          Or continue with
+        </Text>
+        <hr
+          style={{
+            width: "100%",
+            border: "none",
+            borderTop: "1px solid #FFFFFF40",
+            margin: 0,
+          }}
+        />
       </Stack>
 
       <Stack width={"100%"}>
         <Button
-          onClick={isConnectPetra ? onAnchor : onShow}
+          onClick={isConnectAptos ? onAnchor : onShow}
           variant="outlined"
           sx={{
             width: "100%",
-            borderRadius: "8px !important",
+            borderRadius: "10008px !important",
             border: "none !important",
             height: "50px !important",
             fontSize: "16px",
             fontWeight: 700,
+            background: "white !important",
             "&:hover": {
               color: "black",
-              background: "#00CE6B",
             },
           }}
         >
-          <Stack direction={"row"} alignItems={"center"} gap={2}>
-            <WalletIcon /> Login With Wallet
+          <Stack direction={"row"} alignItems={"center"} gap={1}>
+            <Text color="black" fontSize={"18px"} fontWeight={700}>
+              Connect
+            </Text>
+            <Stack height={24} width={24}>
+              <Image
+                src={aptos}
+                alt="preview"
+                size="100%"
+                aspectRatio={1 / 1}
+                sizes="14px"
+                containerProps={{
+                  sx: {
+                    width: "100%",
+                    height: "100%",
+                    overflow: "hidden",
+                    borderRadius: "8px",
+                    "& img": {
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    },
+                  },
+                }}
+              />
+            </Stack>
+            <Text color="black" fontSize={"18px"} fontWeight={700}>
+              Aptos Wallet
+            </Text>
           </Stack>
         </Button>
+
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+          mt={2}
+          gap={1}
+          justifyContent={"center"}
+        >
+          <Text
+            color="white"
+            fontWeight={700}
+            fontSize={"18px"}
+            sx={{
+              textDecoration: hover ? "underline" : undefined,
+            }}
+          >
+            Continue With Email
+          </Text>
+          <ArrowRightCircleIcon />
+        </Stack>
         <WalletModal onClose={onHide} open={isShow} />
       </Stack>
     </Stack>

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { memo } from "react";
-import LayoutLastNews from "./LayoutLastNews";
-import LayoutNew from "./LayoutNew";
+import LayoutLastNews from "./LastNews";
+import LayoutNew from "./New";
 import { usePathname, useRouter } from "next/navigation";
 
 const Layout = () => {
@@ -16,7 +16,7 @@ const Layout = () => {
 
   return (
     <>
-      <LayoutNew />
+      {/* <LayoutNew /> */}
       <LayoutLastNews />
     </>
   );

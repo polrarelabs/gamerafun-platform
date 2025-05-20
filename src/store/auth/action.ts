@@ -1,38 +1,20 @@
 import { client, Endpoint } from "@api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { HttpStatusCode } from "axios";
+import axios from "axios";
 
-export interface PropsSignMessage {
-  nonce: string;
-  wallet: string;
-}
-
-export interface AuthSignMessage {
+export interface AuthAptos {
   wallet: string;
   signature: string;
   publicKey: string;
   refBy?: string;
 }
 
-export const petraSignMessage = createAsyncThunk(
-  "post/signmessage",
-  async (body: PropsSignMessage) => {
-    try {
-      const response = await client.post(Endpoint.AUTH_SIGNMESSAGE, body);
-      // const loginId = response.data.split("loginId:")[1]?.trim();
-      if ((response.status = HttpStatusCode.Ok)) return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-);
-
-export const authSignMessage = createAsyncThunk(
+export const authAptos = createAsyncThunk(
   "auth/signmessage",
-  async (body: AuthSignMessage) => {
+  async (body: AuthAptos) => {
     try {
-      const response = await client.post(Endpoint.AUTH_SIGNMESSAGEV1, body);
-      if ((response.status = HttpStatusCode.Ok)) return response.data;
+      const response = await client.post(Endpoint.AUTH_WALLET, body);
+      return response.data;
     } catch (error) {
       throw error;
     }
@@ -50,7 +32,7 @@ export const loginX = createAsyncThunk(
     try {
       const response = await client.post(Endpoint.LOGIN_X, params);
 
-      if ((response.status = HttpStatusCode.Ok)) return response.data;
+      return response.data;
     } catch (error) {
       throw error;
     }
