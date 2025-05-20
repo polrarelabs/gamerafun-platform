@@ -166,7 +166,7 @@ export const createGameReview = createAsyncThunk(
   async (body: PropsGameReview) => {
     try {
       const response = await client.post(Endpoint.CREATE_GAME_REVIEW, body);
-      if (response.status === HttpStatusCode.Ok) return response.data;
+      return response.data;
     } catch (error) {
       throw error;
     }

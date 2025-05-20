@@ -1,15 +1,12 @@
-import { memo, useMemo, useState, MouseEvent, useEffect } from "react";
 import { Button, ButtonProps, Dropdown, Text } from "@components/shared";
-import LogInIcon from "@icons/LogInIcon";
-import useToggle from "@hooks/useToggle";
-import WalletModal from "./WalletModal";
-import { useRouter } from "next/navigation";
-import { PROFILE_PATH } from "@constant/paths";
-import { shortAddress } from "@utils";
-import { Box } from "@mui/material";
 import { CONNECT_BUTTON_ID } from "@constant";
 import useAptosWallet from "@hooks/useAptosWallet";
-import { useAptos } from "@store/auth";
+import useToggle from "@hooks/useToggle";
+import { Box } from "@mui/material";
+import { useAuthLogin } from "@store/auth";
+import { shortAddress } from "@utils";
+import { memo, MouseEvent, useEffect, useMemo, useState } from "react";
+import WalletModal from "./WalletModal";
 
 enum Option {
   COPY_ADDRESS,
@@ -18,9 +15,8 @@ enum Option {
 
 const Connect = (props: ButtonProps) => {
   const { connected, disconnect, address, wallet } = useAptosWallet();
-  const { push } = useRouter();
 
-  const { isConnectAptos, IsConnectAptos } = useAptos();
+  const { isConnectAptos, IsConnectAptos } = useAuthLogin();
 
   const [isShow, onShow, onHide] = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);

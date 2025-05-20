@@ -2,15 +2,16 @@
 
 import { SCREEN_PX } from "@constant";
 import { Breadcrumbs, Stack } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import { useGameReducers } from "@store/game";
 import { LayoutGenres } from "@components/screens/Genres";
+import { GenresDetail } from "@components/screens/Genres/components";
+import { useGame } from "@store/game";
 
-const GenresDetail = () => {
-  const { genresTitle } = useGameReducers();
+const GenresDetails = () => {
+  const { genresTitle } = useGame();
 
   return (
     <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
@@ -51,10 +52,10 @@ const GenresDetail = () => {
             title of {genresTitle}
           </Text>
         </Stack>
-        <LayoutGenres />
+        <GenresDetail />
       </Stack>
     </Stack>
   );
 };
 
-export default GenresDetail;
+export default memo(GenresDetails);

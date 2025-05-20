@@ -3,11 +3,11 @@
 
 import { Stack } from "@mui/material";
 import React, { memo, useEffect } from "react";
-import { useGameCount } from "@store/game";
 import { BodyBrowserGame, PopularGenres } from "./components";
+import { useGame } from "@store/game";
 
 const LayoutGame = () => {
-  const { fetchGameCount } = useGameCount();
+  const { fetchGameCount } = useGame();
   useEffect(() => {
     fetchGameCount();
   }, []);

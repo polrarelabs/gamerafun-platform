@@ -2,35 +2,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loginX, loginGoogle, loginAccount, authAptos } from "./action";
 
-export interface SignMessageProps {
-  loading: boolean;
-  data: string;
-  error: string;
-  isConnectAptos: boolean;
-  isLogin: boolean;
-}
-
-const initialState: SignMessageProps = {
-  data: "",
-  loading: false,
-  error: "",
-  isConnectAptos: false,
-  isLogin: false,
-};
-
-const AptosReducer = createSlice({
-  name: "aptos_reducer",
-  initialState,
-  reducers: {
-    setIsConnectAptos: (state, action: PayloadAction<boolean>) => {
-      state.isConnectAptos = action.payload;
-    },
-    setIsLogin: (state, action: PayloadAction<boolean>) => {
-      state.isLogin = action.payload;
-    },
-  },
-});
-
 interface PropsUserConnectsAuth {
   connectType?: string;
   account?: string;
@@ -63,18 +34,29 @@ export interface PropsAuthsState {
   data: PropsAuths;
   loading: boolean;
   error: string;
+  isConnectAptos: boolean;
+  isLogin: boolean;
 }
 
 const initialStateAuthLogins: PropsAuthsState = {
   data: {} as PropsAuths,
   loading: false,
   error: "",
+  isConnectAptos: false,
+  isLogin: false,
 };
 
 const Auth_Login = createSlice({
   name: "auth_login",
   initialState: initialStateAuthLogins,
-  reducers: {},
+  reducers: {
+    setIsConnectAptos: (state, action: PayloadAction<boolean>) => {
+      state.isConnectAptos = action.payload;
+    },
+    setIsLogin: (state, action: PayloadAction<boolean>) => {
+      state.isLogin = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // google
@@ -137,9 +119,6 @@ const Auth_Login = createSlice({
   },
 });
 
-export const reducers = {
-  aptos_reducers: AptosReducer.reducer,
-  auth_login: Auth_Login.reducer,
-};
+export default Auth_Login.reducer;
 
-export const { setIsConnectAptos, setIsLogin } = AptosReducer.actions;
+export const { setIsConnectAptos, setIsLogin } = Auth_Login.actions;

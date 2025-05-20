@@ -11,21 +11,25 @@ import {
   Typography,
   Select,
 } from "@mui/material";
-import { useCreateGameReview, useGetGameId } from "@store/game";
 import { useFormik } from "formik";
 import { useParams } from "next/navigation";
 import { memo, useEffect } from "react";
 import { ValidationSchema } from "./helper";
 import { palette } from "public/material";
+import { useGame } from "@store/game";
 interface PropsModalReview {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ModalReview = ({ open, setOpen }: PropsModalReview) => {
   const { id } = useParams();
-  const { isCreate, setIsCreateReview, createGameReviews } =
-    useCreateGameReview();
-  const { data } = useGetGameId();
+
+  const {
+    isCreate,
+    setIsCreateRate,
+    createGameReviews,
+    dataGetGameId: data,
+  } = useGame();
 
   const initialValues = {
     gameId: Array.isArray(id) ? Number(id[0]) : Number(id),
@@ -47,7 +51,7 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
 
   useEffect(() => {
     if (isCreate) {
-      setIsCreateReview();
+      setIsCreateRate(false);
       setOpen(false);
       formik.resetForm();
     }

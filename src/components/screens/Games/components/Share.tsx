@@ -5,13 +5,13 @@ import { Stack } from "@mui/material";
 import logoGame from "public/images/img-logo.png";
 import { memo, useState } from "react";
 import ModalShare from "./ModalShare";
-import { useGetGameId } from "@store/game";
 import GetIcon from "./GetIcon";
 import { palette } from "public/material";
+import { useGame } from "@store/game";
 
 const Share = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { data } = useGetGameId();
+  const { dataGetGameId: data } = useGame();
   const handleClickModalShare = () => {
     setIsOpen(true);
   };

@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 
 import { SCREEN_PX } from "@constant";
-import { useGame, useGetGameId, useUpdateGame } from "@store/game";
+import { useGame } from "@store/game";
 import { PropsFormik, PropsMedia } from "@store/game/action";
 import { useGallery } from "@store/media";
 import { useFormik } from "formik";
@@ -36,10 +36,7 @@ interface ListIdGame {
 }
 
 const UpdateGame = () => {
-  const { dataGallery, uploadGallery, isUpload, SetIsUpload, resetGallery } =
-    useGallery();
-
-  const [media, setMedia] = useState<PropsMedia[]>([]);
+  const { dataGallery, resetGallery } = useGallery();
 
   const [dataListImage, setDataListImage] = useState<PropsInfo[]>([]);
   const ITEM_HEIGHT = 48;
@@ -63,11 +60,16 @@ const UpdateGame = () => {
   };
   const [isDisable, setIdDisable] = useState<boolean>(true);
 
-  const { data, setStatusGet, getGameId } = useGetGameId();
-
-  const { updateGames, isUpdate, setIsUpdate } = useUpdateGame();
-
-  const { fetchGetGame, data: dataGame } = useGame();
+  const {
+    fetchGetGame,
+    dataListGame: dataGame,
+    updateGames,
+    isUpdate,
+    setIsUpdate,
+    dataGetGameId: data,
+    setStatusGet,
+    getGameId,
+  } = useGame();
 
   useEffect(() => {
     fetchGetGame();

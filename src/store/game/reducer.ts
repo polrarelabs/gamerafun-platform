@@ -88,79 +88,6 @@ export interface ListGame {
   rates?: Rate[];
 }
 
-export interface AsyncState<T> {
-  loading: boolean;
-  data: T;
-  error: string;
-  status?: boolean;
-}
-
-const initialStateGetGameID: AsyncState<ListGame> = {
-  loading: false,
-  data: {} as ListGame,
-  error: "",
-  status: false,
-};
-
-const getGameIdSlice = createSlice({
-  name: "game/getByIdReducer",
-  initialState: initialStateGetGameID,
-  reducers: {
-    setStatus: (state) => {
-      state.status = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getGameID.pending, (state) => {
-        state.loading = true;
-        state.status = false;
-      })
-      .addCase(
-        getGameID.fulfilled,
-        (state, action: PayloadAction<ListGame>) => {
-          state.loading = false;
-          state.data = action.payload;
-          state.status = true;
-        },
-      )
-      .addCase(getGameID.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-        state.status = false;
-      });
-  },
-});
-
-const initialStateGame: AsyncState<ListGame[]> = {
-  loading: false,
-  data: [],
-  error: "",
-};
-
-const getGameSlice = createSlice({
-  name: "game/list",
-  initialState: initialStateGame,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchListGame.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(
-        fetchListGame.fulfilled,
-        (state, action: PayloadAction<ListGame[]>) => {
-          state.loading = false;
-          state.data = action.payload;
-        },
-      )
-      .addCase(fetchListGame.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-      });
-  },
-});
-
 export interface GameCount {
   platform: PlatformProps;
   genre: GenreProps;
@@ -168,211 +95,18 @@ export interface GameCount {
   schedule_status: ScheduleStatusProps;
 }
 
-const initialStateCount: AsyncState<GameCount> = {
-  loading: false,
-  data: {} as GameCount,
-  error: "",
-};
-
-const gameCountSlice = createSlice({
-  name: "game/count",
-  initialState: initialStateCount,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(getGameCount.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(
-        getGameCount.fulfilled,
-        (state, action: PayloadAction<GameCount>) => {
-          state.loading = false;
-          state.data = action.payload;
-        },
-      )
-      .addCase(getGameCount.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-      });
-  },
-});
-
-const initialStateOwner: AsyncState<ListGame[]> = {
-  loading: false,
-  data: [],
-  error: "",
-};
-
-const getGameOwnerSlice = createSlice({
-  name: "game/owner",
-  initialState: initialStateOwner,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(getGameOwner.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(
-        getGameOwner.fulfilled,
-        (state, action: PayloadAction<ListGame[]>) => {
-          state.loading = false;
-          state.data = action.payload;
-        },
-      )
-      .addCase(getGameOwner.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-      });
-  },
-});
-
-interface PropsCreateGame {
-  isCreate: boolean;
-  loadingCreate: boolean;
-  errorCreate: string;
-}
-
-const initialStateCreateGame: PropsCreateGame = {
-  isCreate: false,
-  loadingCreate: false,
-  errorCreate: "",
-};
-
-const CreateGameReducer = createSlice({
-  name: "game/createGameReducers",
-  initialState: initialStateCreateGame,
-  reducers: {
-    setIsCreateGame: (state) => {
-      state.isCreate = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(createGame.pending, (state) => {
-        state.loadingCreate = true;
-      })
-      .addCase(createGame.fulfilled, (state) => {
-        state.isCreate = true;
-        state.loadingCreate = false;
-      })
-      .addCase(createGame.rejected, (state, action: PayloadAction<any>) => {
-        state.loadingCreate = false;
-        state.errorCreate = action.payload as string;
-      });
-  },
-});
-
-interface PropsUpdateGame {
-  isUpdate: boolean;
-  loadingUpdate: boolean;
-  errorUpdate: string;
-}
-
-const initialStateUpdateGame: PropsUpdateGame = {
-  isUpdate: false,
-  loadingUpdate: false,
-  errorUpdate: "",
-};
-
-const UpdateGameReducer = createSlice({
-  name: "game/updateGameReducers",
-  initialState: initialStateUpdateGame,
-  reducers: {
-    setIsUpdateGame: (state) => {
-      state.isUpdate = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(updateGame.pending, (state) => {
-        state.loadingUpdate = true;
-      })
-      .addCase(updateGame.fulfilled, (state) => {
-        state.isUpdate = true;
-        state.loadingUpdate = false;
-      })
-      .addCase(updateGame.rejected, (state, action: PayloadAction<any>) => {
-        state.loadingUpdate = false;
-        state.errorUpdate = action.payload as string;
-      });
-  },
-});
-
-export interface PropsDeleteReducer {
-  isDelete: boolean;
-  loadingDelete: boolean;
-  errorDelete: string;
-}
-
-const initialStateDelete: PropsDeleteReducer = {
-  isDelete: false,
-  loadingDelete: false,
-  errorDelete: "",
-};
-
-const DeleteGameReducer = createSlice({
-  name: "game/delete",
-  initialState: initialStateDelete,
-  reducers: {
-    setIsDelete: (state) => {
-      state.isDelete = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(deleteGame.pending, (state) => {
-        state.loadingDelete = true;
-        state.isDelete = false;
-      })
-      .addCase(deleteGame.fulfilled, (state) => {
-        state.isDelete = true;
-        state.loadingDelete = false;
-      })
-      .addCase(deleteGame.rejected, (state, action: PayloadAction<any>) => {
-        state.isDelete = false;
-        state.errorDelete = action.payload as string;
-      });
-  },
-});
-export interface PropsCreateGameReview {
-  isCreate: boolean;
-  loadingCreate: boolean;
-  errorCreate: string;
-}
-const initialStateCreateGameReview: PropsCreateGameReview = {
-  isCreate: false,
-  loadingCreate: false,
-  errorCreate: "",
-};
-
-const CreateGameReviewReducer = createSlice({
-  name: "game/createGameReview",
-  initialState: initialStateCreateGameReview,
-  reducers: {
-    setIsCreateGameReview: (state) => {
-      state.isCreate = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(createGameReview.pending, (state) => {
-        state.loadingCreate = true;
-      })
-      .addCase(createGameReview.fulfilled, (state) => {
-        state.isCreate = true;
-        state.loadingCreate = false;
-      })
-      .addCase(
-        createGameReview.rejected,
-        (state, action: PayloadAction<any>) => {
-          state.loadingCreate = false;
-          state.errorCreate = action.payload as string;
-        },
-      );
-  },
-});
-
 interface PropsGameReducers {
+  loading: boolean;
+  error: string;
+  isCreateRate: boolean;
+  isDelete: boolean;
+  isUpdate: boolean;
+  isCreate: boolean;
+  dataGameOwner: ListGame[];
+  dataGameCount: GameCount;
+  dataListGame: ListGame[];
+  status: boolean;
+  dataGetGameId: ListGame;
   valueEditorRating: number;
   valueUserRating: number;
   gameId: number;
@@ -385,10 +119,22 @@ interface PropsGameReducers {
   awardWinners: boolean;
   favorites: boolean;
   genresTitle: string;
+
   // status: string[],
 }
 
-const initialStateGameReducers: PropsGameReducers = {
+const initialState: PropsGameReducers = {
+  loading: false,
+  error: "",
+  isCreateRate: false,
+  isDelete: false,
+  isUpdate: false,
+  isCreate: false,
+  dataGameOwner: [],
+  dataGameCount: {} as GameCount,
+  dataListGame: [],
+  dataGetGameId: {} as ListGame,
+  status: false,
   valueEditorRating: 0,
   valueUserRating: 0,
   gameId: 0,
@@ -401,12 +147,11 @@ const initialStateGameReducers: PropsGameReducers = {
   awardWinners: false,
   favorites: false,
   genresTitle: "",
-  // status: [],
 };
 
 const GameReducers = createSlice({
   name: "game/reducers",
-  initialState: initialStateGameReducers,
+  initialState,
   reducers: {
     setValueEditorRating: (state, action: PayloadAction<number>) => {
       state.valueEditorRating = action.payload;
@@ -444,23 +189,134 @@ const GameReducers = createSlice({
     setGenresTitle: (state, action: PayloadAction<string>) => {
       state.genresTitle = action.payload;
     },
-    // setStatus: (state, action: PayloadAction<string[]>) => {
-    //   state.status = action.payload;
-    // },
+    SetIsDelete: (state) => {
+      state.isDelete = false;
+    },
+    SetIsCreateRate: (state, action: PayloadAction<boolean>) => {
+      state.isCreateRate = action.payload;
+    },
+    SetIsUpdateGame: (state) => {
+      state.isUpdate = false;
+    },
+    SetIsCreateGame: (state) => {
+      state.isCreate = false;
+    },
+    SetStatus: (state) => {
+      state.status = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createGameReview.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createGameReview.fulfilled, (state) => {
+        state.isCreateRate = true;
+        state.loading = false;
+      })
+      .addCase(
+        createGameReview.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        },
+      )
+      .addCase(deleteGame.pending, (state) => {
+        state.loading = true;
+        state.isDelete = false;
+      })
+      .addCase(deleteGame.fulfilled, (state) => {
+        state.isDelete = true;
+        state.loading = false;
+      })
+      .addCase(deleteGame.rejected, (state, action: PayloadAction<any>) => {
+        state.isDelete = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updateGame.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateGame.fulfilled, (state) => {
+        state.isUpdate = true;
+        state.loading = false;
+      })
+      .addCase(updateGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(createGame.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createGame.fulfilled, (state) => {
+        state.isCreate = true;
+        state.loading = false;
+      })
+      .addCase(createGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(getGameOwner.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        getGameOwner.fulfilled,
+        (state, action: PayloadAction<ListGame[]>) => {
+          state.loading = false;
+          state.dataGameOwner = action.payload;
+        },
+      )
+      .addCase(getGameOwner.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+      .addCase(getGameCount.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        getGameCount.fulfilled,
+        (state, action: PayloadAction<GameCount>) => {
+          state.loading = false;
+          state.dataGameCount = action.payload;
+        },
+      )
+      .addCase(getGameCount.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+      .addCase(fetchListGame.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        fetchListGame.fulfilled,
+        (state, action: PayloadAction<ListGame[]>) => {
+          state.loading = false;
+          state.dataListGame = action.payload;
+        },
+      )
+      .addCase(fetchListGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+      .addCase(getGameID.pending, (state) => {
+        state.loading = true;
+        state.status = false;
+      })
+      .addCase(
+        getGameID.fulfilled,
+        (state, action: PayloadAction<ListGame>) => {
+          state.loading = false;
+          state.dataGetGameId = action.payload;
+          state.status = true;
+        },
+      )
+      .addCase(getGameID.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+        state.status = false;
+      });
   },
 });
-
-export const reducers = {
-  game: getGameSlice.reducer,
-  gameCount: gameCountSlice.reducer,
-  gameOwner: getGameOwnerSlice.reducer,
-  gameReducers: GameReducers.reducer,
-  createGame: CreateGameReducer.reducer,
-  updateGame: UpdateGameReducer.reducer,
-  getGameId: getGameIdSlice.reducer,
-  deleteGame: DeleteGameReducer.reducer,
-  createGameReview: CreateGameReviewReducer.reducer,
-};
+export default GameReducers.reducer;
 
 export const {
   setValueEditorRating,
@@ -475,12 +331,9 @@ export const {
   setFavorites,
   setFreeToPlay,
   setGenresTitle,
-  // setStatus
+  SetIsCreateRate,
+  SetIsDelete,
+  SetIsUpdateGame,
+  SetStatus,
+  SetIsCreateGame,
 } = GameReducers.actions;
-export const { setIsCreateGame } = CreateGameReducer.actions;
-export const { setIsUpdateGame } = UpdateGameReducer.actions;
-export const { setStatus } = getGameIdSlice.actions;
-
-export const { setIsDelete } = DeleteGameReducer.actions;
-
-export const { setIsCreateGameReview } = CreateGameReviewReducer.actions;

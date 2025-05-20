@@ -2,42 +2,24 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import appReducer, { AppState } from "./app/reducer";
 import tokenReducer, { TokenState } from "./token/reducer";
-import {
-  AsyncState,
-  GameCount,
-  ListGame,
-  reducers as GameReducers,
-} from "./game/reducer";
-import { SignMessageProps, reducers as AuthReducers } from "./auth/reducer";
-import { reducers as ChatAIReducer } from "./chatAI";
+import GameReducer from "./game/reducer";
+import ChatAIReducer from "./chatAI/reducer";
 // import { DataState, DataStateOwner, PropGameCount } from "./game";
 import { reducers as MediaReducer } from "./media";
+import BlogReducer from "./new/reducer";
+import Auth_Login from "./auth/reducer";
+
 export interface State {
   app: AppState;
   token: TokenState;
-  signmessage: SignMessageProps;
-  game: AsyncState<ListGame[]>;
-  gameCount: AsyncState<GameCount>;
-  gameOwner: AsyncState<ListGame[]>;
 }
-
-// export const store = configureStore({
-//   reducer: {
-//     app: appReducer,
-//     token: tokenReducer,
-//     ...AuthReducers,
-//     ...GameReducers,
-//     ...ChatAIReducer,
-//     ...MediaReducer,
-//   },
-// });
-
 const appReducers = combineReducers({
   app: appReducer,
   token: tokenReducer,
-  ...AuthReducers,
-  ...GameReducers,
-  ...ChatAIReducer,
+  chatai: ChatAIReducer,
+  blog: BlogReducer,
+  auth: Auth_Login,
+  game: GameReducer,
   ...MediaReducer,
 });
 
