@@ -3,7 +3,7 @@
 import { Text } from "@components/shared";
 import CloseIcon from "@icons/CloseIcon";
 import { Stack } from "@mui/material";
-import { useGameReducers } from "@store/game";
+import { useGame } from "@store/game";
 import React, { memo } from "react";
 import BoxSelected from "../screens/Genres/components/BoxSelected";
 
@@ -25,7 +25,7 @@ const Selected = () => {
     SetPlatforms,
     genres,
     SetGenres,
-  } = useGameReducers();
+  } = useGame();
 
   return (
     <Stack direction={"row"} gap={2} flexWrap={"wrap"}>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, IconButton, Stack } from "@mui/material";
-import { useGame, useGetGameId } from "@store/game";
+import { useGame } from "@store/game";
 import { animate, useMotionValue, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -12,14 +12,13 @@ const SimilarGameReviews = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const IMG_WIDTH = 330;
   const STEP = IMG_WIDTH + 16;
-  const { data, fetchGetGame } = useGame();
-  const { data: dataGameById } = useGetGameId();
+  const { dataListGame: data, fetchGetGame, dataGetGameId } = useGame();
   const [hover, setHover] = useState<boolean>(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const x = useMotionValue(0);
   useEffect(() => {
-    if (dataGameById?.genre && dataGameById.genre.length > 0) {
-      fetchGetGame({ genre: [dataGameById.genre[0]] });
+    if (dataGetGameId?.genre && dataGetGameId.genre.length > 0) {
+      fetchGetGame({ genre: [dataGetGameId.genre[0]] });
     }
   }, []);
   const handleScroll = (direction: "left" | "right") => {

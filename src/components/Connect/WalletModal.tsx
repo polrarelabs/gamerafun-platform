@@ -14,7 +14,7 @@ import { IconButton, Text } from "@components/shared";
 import useAptosWallet from "@hooks/useAptosWallet";
 import CloseIcon from "@icons/CloseIcon";
 import { Box, ButtonBase, Stack } from "@mui/material";
-import { useAptos, useAuthLogin } from "@store/auth";
+import { useAuthLogin } from "@store/auth";
 import { memo, useEffect, useMemo, useState } from "react";
 import Cookies from "js-cookie";
 import { HOME_PATH } from "@constant/paths";
@@ -30,15 +30,13 @@ type ItemProps = {
 const WalletModal = (props: WalletModalProps) => {
   const { onClose, ...rest } = props;
 
-  const { IsConnectAptos } = useAptos();
-
   const router = useRouter();
 
   const [selectedWallet, setSelectedWallet] = useState<
     AdapterWallet | AdapterNotDetectedWallet | null
   >(null);
 
-  const { data, AuthAptos, error } = useAuthLogin();
+  const { data, AuthAptos, error, IsConnectAptos } = useAuthLogin();
 
   const {
     wallets = [],

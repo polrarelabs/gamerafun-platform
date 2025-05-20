@@ -1,5 +1,5 @@
+import { LayoutLogin } from "@components/screens/Login";
 import { memo } from "react";
-import LayoutLogin from "./components/LayoutLogin";
 
 const Login = () => {
   return <LayoutLogin />;

@@ -3,14 +3,14 @@
 import { Text } from "@components/shared";
 import PopularIcon from "@icons/PopularIcon";
 import { Stack, IconButton } from "@mui/material";
-import { useGameCount } from "@store/game";
 import { motion, useMotionValue, animate } from "framer-motion";
 import { memo, useEffect, useRef, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { palette } from "public/material";
+import { useGame } from "@store/game";
 
 const PopularGenres = () => {
-  const { data } = useGameCount();
+  const { dataGameCount: data } = useGame();
   const [arrKeys, setArrKeys] = useState<string[]>([]);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ const AptosIcon = (props: SvgIconProps) => {
       xmlns="http://www.w3.org/2000/SvgIcon"
       {...props}
     >
-      <g clip-path="url(#clip0_283_215)">
+      <g clipPath="url(#clip0_283_215)">
         <mask
           id="mask0_283_215"
           mask-type="luminance"

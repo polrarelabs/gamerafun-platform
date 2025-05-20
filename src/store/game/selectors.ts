@@ -21,13 +21,13 @@ import {
   setGameId,
   setGenres,
   setGenresTitle,
-  setIsCreateGame,
-  setIsCreateGameReview,
-  setIsDelete,
-  setIsUpdateGame,
+  SetIsCreateGame,
+  SetIsCreateRate,
+  SetIsDelete,
+  SetIsUpdateGame,
   setPlatforms,
   setPlayNow,
-  setStatus,
+  SetStatus,
   setStatusGetGameID,
   setValueEditorRating,
   setValueUserRating,
@@ -36,57 +36,35 @@ import {
 export const useGame = () => {
   const dispatch = useAppDispatch();
 
+  const {
+    error,
+    loading,
+    isCreate,
+    isCreateRate,
+    isDelete,
+    isUpdate,
+    dataGameCount,
+    dataGameOwner,
+    dataGetGameId,
+    dataListGame,
+    status,
+    valueEditorRating,
+    valueUserRating,
+    gameId,
+    isGetGameId,
+    genres,
+    errorsSizeImage,
+    platforms,
+    playNow,
+    freeToPlay,
+    awardWinners,
+    favorites,
+    genresTitle,
+  } = useAppSelector((state) => state.game);
+
   const fetchGetGame = (param: ParamsProp = {}) => {
     dispatch(getGame(param));
   };
-
-  const { error, loading, data } = useAppSelector((state) => state.game);
-
-  return {
-    error,
-    loading,
-    data,
-    fetchGetGame,
-  };
-};
-
-export const useGameCount = () => {
-  const dispatch = useAppDispatch();
-
-  const fetchGameCount = () => {
-    dispatch(getGameCount());
-  };
-
-  const { error, loading, data } = useAppSelector((state) => state.gameCount);
-
-  return {
-    error,
-    loading,
-    data,
-    fetchGameCount,
-  };
-};
-
-export const useGameOwner = () => {
-  const dispatch = useAppDispatch();
-
-  const fetchGetGameOwner = (param: ParamsProp = {}) => {
-    dispatch(getGameOwner(param));
-  };
-
-  const { error, loading, data } = useAppSelector((state) => state.gameOwner);
-
-  return {
-    error,
-    loading,
-    data,
-    fetchGetGameOwner,
-  };
-};
-
-export const useGameReducers = () => {
-  const dispatch = useAppDispatch();
-
   const setEditorRating = (value: number) => {
     dispatch(setValueEditorRating(value));
   };
@@ -130,166 +108,98 @@ export const useGameReducers = () => {
     dispatch(setGenresTitle(value));
   };
 
-  const {
-    valueUserRating,
-    valueEditorRating,
-    gameId,
-    isGetGameId,
-    genres,
-    errorsSizeImage,
-    platforms,
-    playNow,
-    awardWinners,
-    freeToPlay,
-    favorites,
-    genresTitle,
-  } = useAppSelector((state) => state.gameReducers);
-
-  return {
-    gameId,
-    setEditorRating,
-    setUserRating,
-    valueEditorRating,
-    valueUserRating,
-    setGameID,
-    isGetGameId,
-    setGetGameId,
-    genres,
-    SetGenres,
-    errorsSizeImage,
-    SetErrorsSizeImage,
-    SetPlatforms,
-    SetAwardWinners,
-    SetFavorites,
-    SetFreeToPlay,
-    SetPlayNow,
-    platforms,
-    playNow,
-    awardWinners,
-    freeToPlay,
-    favorites,
-    genresTitle,
-    SetGenresTitle,
+  const createGameReviews = (body: PropsGameReview) => {
+    dispatch(createGameReview(body));
   };
-};
 
-export const useCreateGame = () => {
-  const dispatch = useAppDispatch();
+  const setIsCreateRate = (value: boolean) => {
+    dispatch(SetIsCreateRate(value));
+  };
+  const fetchGameCount = () => {
+    dispatch(getGameCount());
+  };
+
+  const fetchGetGameOwner = (param: ParamsProp = {}) => {
+    dispatch(getGameOwner(param));
+  };
 
   const createGames = (params: PropsFormik) => {
     dispatch(createGame(params));
   };
 
   const setIsCreate = () => {
-    dispatch(setIsCreateGame());
+    dispatch(SetIsCreateGame());
   };
-
-  const { isCreate, loadingCreate, errorCreate } = useAppSelector(
-    (state) => state.createGame,
-  );
-
-  return {
-    isCreate,
-    loadingCreate,
-    errorCreate,
-    createGames,
-    setIsCreate,
-  };
-};
-
-export const useUpdateGame = () => {
-  const dispatch = useAppDispatch();
-
   const updateGames = (params: PropsFormik) => {
     dispatch(updateGame(params));
   };
 
   const setIsUpdate = () => {
-    dispatch(setIsUpdateGame());
+    dispatch(SetIsUpdateGame());
   };
-
-  const { isUpdate, loadingUpdate, errorUpdate } = useAppSelector(
-    (state) => state.updateGame,
-  );
-
-  return {
-    isUpdate,
-    loadingUpdate,
-    errorUpdate,
-    updateGames,
-    setIsUpdate,
-  };
-};
-
-export const useGetGameId = () => {
-  const dispatch = useAppDispatch();
-
   const getGameId = (gameId: number) => {
     dispatch(getGameID(gameId));
   };
 
   const setStatusGet = () => {
-    dispatch(setStatus());
+    dispatch(SetStatus());
   };
-
-  const { data, loading, error, status } = useAppSelector(
-    (state) => state.getGameId,
-  );
-
-  return {
-    data,
-    loading,
-    error,
-    getGameId,
-    setStatusGet,
-    status,
-  };
-};
-
-export const useDeleteGame = () => {
-  const dispatch = useAppDispatch();
-
   const DeleteGame = (body: PropsDelete) => {
     dispatch(deleteGame(body));
   };
 
   const setIsDeletes = () => {
-    dispatch(setIsDelete());
+    dispatch(SetIsDelete());
   };
 
-  const { isDelete, loadingDelete, errorDelete } = useAppSelector(
-    (state) => state.deleteGame,
-  );
-
   return {
-    isDelete,
-    loadingDelete,
-    errorDelete,
-    DeleteGame,
     setIsDeletes,
-  };
-};
-
-export const useCreateGameReview = () => {
-  const dispatch = useAppDispatch();
-
-  const createGameReviews = (body: PropsGameReview) => {
-    dispatch(createGameReview(body));
-  };
-
-  const setIsCreateReview = () => {
-    dispatch(setIsCreateGameReview());
-  };
-
-  const { isCreate, loadingCreate, errorCreate } = useAppSelector(
-    (state) => state.createGameReview,
-  );
-
-  return {
-    isCreate,
-    loadingCreate,
-    errorCreate,
+    DeleteGame,
+    setStatusGet,
+    getGameId,
+    setIsUpdate,
+    updateGames,
+    setIsCreate,
+    createGames,
+    fetchGetGameOwner,
+    fetchGameCount,
+    setIsCreateRate,
     createGameReviews,
-    setIsCreateReview,
+    error,
+    loading,
+    fetchGetGame,
+    isCreate,
+    isCreateRate,
+    isDelete,
+    isUpdate,
+    dataGameCount,
+    dataGameOwner,
+    dataGetGameId,
+    dataListGame,
+    status,
+    valueEditorRating,
+    valueUserRating,
+    gameId,
+    isGetGameId,
+    genres,
+    errorsSizeImage,
+    platforms,
+    playNow,
+    freeToPlay,
+    awardWinners,
+    favorites,
+    genresTitle,
+    setEditorRating,
+    setUserRating,
+    setGameID,
+    setGetGameId,
+    SetGenres,
+    SetErrorsSizeImage,
+    SetPlatforms,
+    SetAwardWinners,
+    SetFavorites,
+    SetFreeToPlay,
+    SetPlayNow,
+    SetGenresTitle,
   };
 };

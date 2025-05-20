@@ -8,13 +8,12 @@ import TwitterIcon from "@icons/TwitterIcon";
 import WebsiteIcon from "@icons/WebsiteIcon";
 import YoutubeIcon from "@icons/YoutubeIcon";
 import { Stack, Divider, Box } from "@mui/material";
-import { useGetGameId } from "@store/game";
-import Share from "./Share";
 import logoGame from "/public/images/img-logo.png";
 import { memo } from "react";
+import { useGame } from "@store/game";
 
 const About = () => {
-  const { data } = useGetGameId();
+  const { dataGetGameId: data } = useGame();
   return (
     <>
       <Stack my={4}>

@@ -29,4 +29,9 @@ export const Endpoint = {
   LOGIN_ACCOUNT: "/auth/auth",
 
   ASK_HISTORIES: "/{threadId}/histories",
+
+  GET_BLOG: "/blog",
+  POST_CREATE_BLOG: "/blog/create",
+  PATCH_UPDATE_BLOG: "/blog/udpate",
+  DELETE_BLOG: "/blog/delete",
 };

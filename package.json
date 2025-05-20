@@ -53,6 +53,7 @@
     "react-iframe": "^1.8.5",
     "react-quill": "^2.0.0",
     "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0",
     "sass": "^1.85.1",
     "socket.io-client": "^4.8.1",
     "string-format": "^2.0.0",

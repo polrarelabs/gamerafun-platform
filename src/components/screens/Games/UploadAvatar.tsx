@@ -2,9 +2,9 @@
 
 import { Button, Text } from "@components/shared";
 import { Stack, styled } from "@mui/material";
-import { useGameReducers } from "@store/game";
 import React, { memo, useRef } from "react";
 import { InfoImage } from "./components";
+import { useGame } from "@store/game";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -40,7 +40,7 @@ const UploadAvarta = ({
   setDataListImage,
   dataListImage,
 }: PropsUpload) => {
-  const { errorsSizeImage, SetErrorsSizeImage } = useGameReducers();
+  const { errorsSizeImage, SetErrorsSizeImage } = useGame();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
