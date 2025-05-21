@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import bgSlider from "public/images/banner.webp";
 import { Guides, News, Overview, Review } from "@components/screens/Games";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
+
 import { GAME_PATH, HOME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
