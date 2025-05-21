@@ -6,15 +6,31 @@ import { Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 // import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
+import { HOME_PATH } from "@constant/paths";
 import { Stack, useTheme } from "@mui/material";
-import { memo } from "react";
+import { useGame } from "@store/game";
+import { useBlog } from "@store/new";
+import { memo, useEffect } from "react";
 
 const GameHome = () => {
   const theme = useTheme();
+
+  const { setEditorRating, setUserRating, SetPlatforms, SetGenres } = useGame();
+  const { setTags, setCheckDate } = useBlog();
+
+  useEffect(() => {
+    setCheckDate("all");
+    SetPlatforms([]);
+    setUserRating(0);
+    setEditorRating(0);
+    SetGenres([]);
+    setTags([]);
+  }, []);
+
   const { palette } = theme;
   const breadcrumbs: BreadcumbsItem[] = [
     {
-      href: "/",
+      href: HOME_PATH,
       title: "HOME",
     },
     {

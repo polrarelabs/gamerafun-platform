@@ -90,7 +90,7 @@ const WalletModal = (props: WalletModalProps) => {
         secure: true,
         sameSite: "Strict",
       });
-      router.push(HOME_PATH);
+      // router.push(HOME_PATH);
     }
   }, [data, error]);
 

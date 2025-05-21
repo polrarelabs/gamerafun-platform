@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Image, Text } from "@components/shared";
-import { LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
 import DropDownIcon from "@icons/DropDownIcon";
 import LogOutIcon from "@icons/LogOutIcon";
@@ -50,7 +49,7 @@ const Profile = () => {
     disconnect();
     signOut();
     logOut();
-    router.push(LOGIN_PATH);
+    // router.push(LOGIN_PATH);
   };
 
   return (

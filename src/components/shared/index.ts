@@ -9,6 +9,7 @@ import Select, { SelectProps } from "./Select";
 import SliderCustom from "./SliderCustom";
 import SelectOptions from "./SelectOptions";
 import Selected from "./Selected";
+import BoxSelected from "./BoxSelected";
 export {
   Tooltip,
   Text,
@@ -21,6 +22,7 @@ export {
   SliderCustom,
   SelectOptions,
   Selected,
+  BoxSelected,
 };
 
 export type {

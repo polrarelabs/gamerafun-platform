@@ -43,7 +43,7 @@ const LayoutGenres = () => {
 
   const handleClick = (item: string) => {
     const text = item.toLowerCase();
-    const arr: string[] = [];
+    const arr: any[] = [];
     arr.push(text.toUpperCase());
     SetGenres(arr);
     SetGenresTitle(text);

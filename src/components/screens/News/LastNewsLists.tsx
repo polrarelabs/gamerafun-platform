@@ -8,6 +8,9 @@ import { palette } from "public/material";
 import React, { memo, useEffect, useState } from "react";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import { CardBlog } from "./components";
+import { useBlog } from "@store/new";
+import { useRouter } from "next/navigation";
+import { GENRES_PATH, NEWS_PATH } from "@constant/paths";
 
 interface Props {
   isLayoutMD: boolean;
@@ -26,6 +29,12 @@ const LastNewsLists = ({
   const [hover, setHover] = useState<boolean>(false);
   const [id, setId] = useState<number | null>(null);
 
+  const { getBlogId, blog, getBlog } = useBlog();
+
+  useEffect(() => {
+    getBlog({ pageIndex: blog.pageIndex, pageSize: blog.pageSize });
+  }, [blog.pageIndex]);
+
   const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
 
   const [selected, setSelected] = useState<string>("");
@@ -40,6 +49,15 @@ const LastNewsLists = ({
 
   const handleOpen = () => {
     setOpen(true);
+  };
+
+  const router = useRouter();
+
+  const handleClick = (id: number) => {
+    console.log("click r", `${NEWS_PATH}/${id}`);
+
+    getBlogId(id);
+    router.push(`${NEWS_PATH}/${id}`);
   };
 
   return (
@@ -76,7 +94,7 @@ const LastNewsLists = ({
         }}
         gap={4}
       >
-        {Array.from({ length: 12 }).map((_, index) => {
+        {blog.items.map((item, index) => {
           return (
             <CardBlog
               key={index}
@@ -84,9 +102,11 @@ const LastNewsLists = ({
               setHover={setHover}
               img={img}
               setId={setId}
+              data={item}
               index={index}
               id={id}
               displayLayout={displayLayout}
+              handleClick={handleClick}
             />
           );
         })}

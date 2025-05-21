@@ -236,17 +236,24 @@ export default {
       "linear-gradient(90deg,rgba(24, 37, 44, 1) 0%,rgba(24, 37, 44, 1) 10%, rgba(75, 85, 99, 0.68) 100%)",
   },
   colorReview: {
+    textCopy: "#94a7c6",
     bgColor: "#333",
     color: "#ccc",
     border: "#555",
     bgColorHover: "#777",
     bgColor1: "#151c29",
+    borderColorTable: "#b3b3b3",
+    borderTd: "#bfbfbf",
+    colorC7: "#c7c7c7",
+    colorC4: "#c4c4c4",
   },
   colorModalShare: {
     bgColor: "#0e1420",
     bgColor1: "#1b2332",
   },
   colorGame: {
+    textColor: "#ffffff99",
+    colorBtnNew: "#00ce6b",
     colorLinear:
       "linear-gradient(90deg,rgba(184, 84, 85, 1) 1%, rgba(229, 155, 44, 1) 50%, rgba(1, 183, 98, 1) 100%)",
     color: "#242C3D",

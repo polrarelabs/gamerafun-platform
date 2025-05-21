@@ -3,8 +3,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { memo, useEffect } from "react";
 import LayoutLastNews from "./LastNews";
-import { useGetBlog } from "@store/new";
-import { Button } from "@components/shared";
 
 const Layout = () => {
   const router = useRouter();

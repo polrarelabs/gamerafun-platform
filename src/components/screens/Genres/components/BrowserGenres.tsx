@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
-import { Selected, SelectOptions, Text } from "@components/shared";
+import Selected from "@components/Selected";
+import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
 import GameIcon from "@icons/GameIcon";

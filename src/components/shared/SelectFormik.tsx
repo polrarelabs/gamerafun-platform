@@ -19,6 +19,9 @@ interface PropsSelectFormik {
   label: string;
   name: string;
   isDisable?: boolean;
+  isMultiple?: boolean;
+  data?: any[] | null;
+  handleClick?: (id: number) => void;
 }
 
 const SelectFormik = ({
@@ -28,6 +31,9 @@ const SelectFormik = ({
   label,
   name,
   isDisable = false,
+  isMultiple = true,
+  data,
+  handleClick,
 }: PropsSelectFormik) => {
   return (
     <Stack flex={1} gap={1}>
@@ -36,29 +42,51 @@ const SelectFormik = ({
         error={formik.touched.name && Boolean(formik.errors.name)}
         fullWidth
       >
-        <Select
-          multiple
-          name={name}
-          value={formik.values[name]}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          input={<OutlinedInput />}
-          renderValue={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-          disabled={isDisable}
-        >
-          {Object.keys(OptionEnum).map((item, index) => (
-            <MenuItem key={index} value={OptionEnum[item]}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
+        {isMultiple ? (
+          <Select
+            multiple={isMultiple}
+            name={name}
+            value={formik.values[name]}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            input={<OutlinedInput />}
+            renderValue={(selected) => (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {selected.map((value) => (
+                  <Chip key={value} label={value} />
+                ))}
+              </Box>
+            )}
+            MenuProps={MenuProps}
+            disabled={isDisable}
+          >
+            {Object.keys(OptionEnum).map((item, index) => (
+              <MenuItem key={index} value={OptionEnum[item]}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        ) : (
+          <Select
+            name={name}
+            value={formik.values[name]}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            {data &&
+              data.map((item, index) => {
+                return (
+                  <MenuItem
+                    value={item.id}
+                    key={index}
+                    onClick={() => handleClick?.(item.id)}
+                  >
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
+          </Select>
+        )}
         {formik.touched.name && formik.errors.name && (
           <FormHelperText>{formik.errors.name}</FormHelperText>
         )}
