@@ -13,32 +13,6 @@ import { setIsConnectAptos, setIsLogin } from "./reducer";
 import { store } from "@store/configureStore";
 import Cookies from "js-cookie";
 
-export const useAptos = () => {
-  const dispatch = useAppDispatch();
-
-  const IsLogin = (value: boolean) => {
-    return dispatch(setIsLogin(value));
-  };
-
-  const IsConnectAptos = (value: boolean) => {
-    return dispatch(setIsConnectAptos(value));
-  };
-
-  const { data, loading, error, isConnectAptos, isLogin } = useAppSelector(
-    (state) => state.aptos_reducers,
-  );
-
-  return {
-    data,
-    loading,
-    error,
-    IsLogin,
-    isLogin,
-    IsConnectAptos,
-    isConnectAptos,
-  };
-};
-
 export const useAuthLogin = () => {
   const dispatch = useAppDispatch();
 
@@ -60,7 +34,17 @@ export const useAuthLogin = () => {
     dispatch(authAptos(body));
   };
 
-  const { data, loading, error } = useAppSelector((state) => state.auth_login);
+  const IsLogin = (value: boolean) => {
+    return dispatch(setIsLogin(value));
+  };
+
+  const IsConnectAptos = (value: boolean) => {
+    return dispatch(setIsConnectAptos(value));
+  };
+
+  const { data, loading, error, isConnectAptos, isLogin } = useAppSelector(
+    (state) => state.auth,
+  );
 
   return {
     data,
@@ -70,6 +54,10 @@ export const useAuthLogin = () => {
     LoginX,
     LoginAccount,
     AuthAptos,
+    IsLogin,
+    IsConnectAptos,
+    isConnectAptos,
+    isLogin,
   };
 };
 

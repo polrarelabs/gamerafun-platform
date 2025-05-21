@@ -1,29 +1,25 @@
-import { SCREEN_PX } from "@constant";
-import { Breadcrumbs, Stack } from "@mui/material";
-import React from "react";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import Link from "@components/Link";
-import { Text } from "@components/shared";
 import { LayoutGenres } from "@components/screens/Genres";
+import { Text } from "@components/shared";
+import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
+import { SCREEN_PX } from "@constant";
+import { Stack } from "@mui/material";
+import { palette } from "public/material";
 
 const Genres = () => {
+  const breadcrumbs: BreadcumbsItem[] = [
+    {
+      href: "/",
+      title: "HOME",
+    },
+    {
+      title: "GENRES",
+    },
+  ];
+
   return (
     <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
       <Stack direction={"column"} gap={2}>
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-          sx={{
-            color: "#FFFFFFA5",
-          }}
-        >
-          <Link underline="hover" color="inherit" href="/">
-            <Text sx={{ color: "text.primary" }}>HOME</Text>
-          </Link>
-
-          <Text sx={{ color: "text.primary" }}>GENRES</Text>
-        </Breadcrumbs>
-
+        <Breadcumbs breadcumbs={breadcrumbs} />
         <Stack direction={"column"}>
           <Text
             color="white"
@@ -33,12 +29,17 @@ const Genres = () => {
           >
             Genres
           </Text>
-          <Text color="#F9FAFB" fontWeight={500} fontSize={"20px"} mb={4}>
+          <Text
+            color={palette.textWhite}
+            fontWeight={500}
+            fontSize={"20px"}
+            mb={4}
+          >
             Dive into the various blockchain gaming genres and find the perfect
             game you are looking for in your favorite play and earn gaming
             genre.
           </Text>
-          <Text color="#9CA3AF" fontWeight={500} fontSize={"14px"}>
+          <Text color={palette.colorGray} fontWeight={500} fontSize={"14px"}>
             If you are looking for that one blockchain game that fits your niche
             coming over from traditional gaming, this is where you will find it.
             Our various genres include casual blockchain games, card NFT games,

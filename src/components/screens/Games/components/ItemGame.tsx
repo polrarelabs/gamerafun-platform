@@ -3,7 +3,7 @@
 
 import { Image, Text } from "@components/shared";
 import { Stack } from "@mui/material";
-import { useGame, useGetGameId } from "@store/game";
+import { useGame } from "@store/game";
 import { useRouter } from "next/navigation";
 import React, { memo, useEffect, useRef, useState } from "react";
 import GetIcon from "./GetIcon";
@@ -21,16 +21,8 @@ interface Props {
   displayLayout: string;
 }
 
-const ItemGame = ({
-  img,
-  hover,
-  setHover,
-  setId,
-  id,
-  displayLayout,
-  setDisplayLayout,
-}: Props) => {
-  const { data } = useGame();
+const ItemGame = ({ img, setHover, setId }: Props) => {
+  const { dataListGame: data, getGameId } = useGame();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { width } = useWindowSize();
   const [height, setHeight] = useState<number | undefined>(undefined);
@@ -42,8 +34,6 @@ const ItemGame = ({
         : undefined,
     );
   }, [width]);
-
-  const { getGameId } = useGetGameId();
 
   const route = useRouter();
   const handleClick = (value: number) => {

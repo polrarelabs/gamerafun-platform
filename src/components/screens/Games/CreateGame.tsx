@@ -23,7 +23,7 @@ import {
 import { useFormik } from "formik";
 import React, { memo, useEffect, useState } from "react";
 import { PropsFormik, PropsMedia } from "@store/game/action";
-import { useCreateGame, useGame } from "@store/game";
+import { useGame } from "@store/game";
 import { useGallery } from "@store/media";
 import UploadAvarta, { PropsInfo } from "./UploadAvatar";
 import { SCREEN_PX } from "@constant";
@@ -57,8 +57,7 @@ const CreateGame = () => {
     android: ANDROID_URL,
     ios: IOS_URL,
   };
-  const { isCreate, setIsCreate, createGames } = useCreateGame();
-  const { fetchGetGame } = useGame();
+  const { fetchGetGame, isCreate, setIsCreate, createGames } = useGame();
 
   const [media, setMedia] = useState<PropsMedia[]>([]);
 
@@ -138,7 +137,6 @@ const CreateGame = () => {
             : MediaType.VIDEO,
         position: MediaPosition.COVER,
       });
-      console.log(arr);
       setMedia(arr);
       SetIsUpload(false);
     }

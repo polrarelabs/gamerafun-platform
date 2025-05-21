@@ -2,22 +2,15 @@
 
 "use client";
 
-import { Button, SelectOptions, Text } from "@components/shared";
-import GameIcon from "@icons/GameIcon";
-import {
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  useMediaQuery,
-} from "@mui/material";
-import { Theme } from "@mui/material/styles";
-import { useGame } from "@store/game";
-import img from "public/images/img-logo.png";
-import { memo, useEffect, useState } from "react";
+import { SelectOptions, Text } from "@components/shared";
+import ButtonFillters from "@components/shared/ButtonFillters";
+import CardItem from "@components/shared/CardItem";
 import Selected from "@components/shared/Selected";
+import GameIcon from "@icons/GameIcon";
+import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
+import { useGame } from "@store/game";
 import { palette } from "public/material";
-import ItemGame from "./ItemGame";
+import { memo, useEffect, useState } from "react";
 
 interface Props {
   isLayoutMD: boolean;
@@ -42,9 +35,7 @@ const BrowserGame = ({
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const { data, fetchGetGame } = useGame();
-  const [hover, setHover] = useState<boolean>(false);
-  const [id, setId] = useState<number | null>(null);
+  const { dataListGame: data, fetchGetGame } = useGame();
 
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -64,6 +55,10 @@ const BrowserGame = ({
     if (isSm) setDisplayLayout("no-list");
     else setDisplayLayout("list");
   }, [isSm]);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   return (
     <>
@@ -93,24 +88,7 @@ const BrowserGame = ({
               options={names}
             />
 
-            <Button
-              variant="contained"
-              onClick={() => setOpen(true)}
-              sx={{
-                borderRadius: "8px !important",
-                height: "40px !important",
-                color: `${palette.greenColorText} !important`,
-                background: `${palette.greenColorButton} !important`,
-                "&:hover": {
-                  color: "black !important",
-                  background: `${palette.greenColorText} !important`,
-                },
-              }}
-              size={"small"}
-              fullWidth
-            >
-              Fillters
-            </Button>
+            <ButtonFillters handleOpen={handleOpen} />
           </Stack>
         )}
         <Selected />
@@ -123,15 +101,11 @@ const BrowserGame = ({
           }}
           gap={2}
         >
-          <ItemGame
-            img={img}
-            hover={hover}
-            setHover={setHover}
-            setId={setId}
-            id={id}
-            setDisplayLayout={setDisplayLayout}
-            displayLayout={displayLayout}
-          />
+          {data.map((item, index) => {
+            return (
+              <CardItem key={index} index={index} data={item} title={"Title"} />
+            );
+          })}
         </Stack>
       </Stack>
     </>
@@ -139,3 +113,15 @@ const BrowserGame = ({
 };
 
 export default memo(BrowserGame);
+
+{
+  /* <ItemGame
+            img={img}
+            hover={hover}
+            setHover={setHover}
+            setId={setId}
+            id={id}
+            setDisplayLayout={setDisplayLayout}
+            displayLayout={displayLayout}
+          /> */
+}

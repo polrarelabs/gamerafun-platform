@@ -5,10 +5,9 @@ import Link from "@components/Link";
 import { Button } from "@components/shared";
 import { ACCESSTOKEN_COOKIE, HEADER_HEIGHT } from "@constant";
 import { CREATE_AGENT_PATH, LOGIN_PATH } from "@constant/paths";
-import useAptosWallet from "@hooks/useAptosWallet";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
-import { useAptos, useAuthLogin } from "@store/auth";
+import { useAuthLogin } from "@store/auth";
 import Cookies from "js-cookie";
 import { memo, useEffect, useState } from "react";
 import { Logo, Navigation } from "./components";
@@ -18,7 +17,7 @@ const Header = () => {
   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
 
   const [showLogin, setShowLogin] = useState<boolean>(true);
-  const { data } = useAuthLogin();
+  const { data, isConnectAptos, isLogin } = useAuthLogin();
 
   useEffect(() => {
     // if (Object.keys(data).length === 0 && cookies && cookies.lenght > 0) {
@@ -31,7 +30,6 @@ const Header = () => {
   }, [cookies]);
 
   const { isSmSmaller, isMdSmaller } = useBreakpoint();
-  const { isConnectAptos, isLogin } = useAptos();
 
   return (
     <>
@@ -105,7 +103,7 @@ const Header = () => {
 export default memo(Header);
 
 const CreateAgent = () => {
-  const { isConnectAptos } = useAptos();
+  const { isConnectAptos } = useAuthLogin();
   if (!isConnectAptos) return null;
 
   return (

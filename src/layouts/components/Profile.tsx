@@ -1,7 +1,5 @@
 "use client";
 
-import { GetEmail } from "@components/auth/GetEmail";
-import { GetUserName } from "@components/auth/GetUserName";
 import { Button, Image, Text } from "@components/shared";
 import { LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
@@ -13,7 +11,8 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import login_token from "public/images/login-token.svg";
 import { palette } from "public/material";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
+import { GetEmail, GetUserName } from "./helper";
 
 declare global {
   interface Window {
@@ -32,9 +31,7 @@ const Profile = () => {
   const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
   const { data } = useAuthLogin();
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null,
-  );
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

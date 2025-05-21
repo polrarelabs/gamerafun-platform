@@ -9,12 +9,12 @@ import CheckIcon from "@icons/CheckIcon";
 import CheckFailIcon from "@icons/CheckFailIcon";
 import { memo, useState } from "react";
 import ModalShare from "./components/ModalShare";
-import { useGetGameId } from "@store/game";
 import SimilarGameReviews from "./components/SimilarGameReviews";
 import Share from "./components/Share";
 import { palette } from "public/material";
+import { useGame } from "@store/game";
 const Review = () => {
-  const { data } = useGetGameId();
+  const { dataGetGameId: data } = useGame();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleClickModalShare = () => {
     setIsOpen(true);
