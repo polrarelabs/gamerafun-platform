@@ -27,7 +27,7 @@ const LoginAccount = () => {
         secure: true,
         sameSite: "Strict",
       });
-      router.push(HOME_PATH);
+      // router.push(HOME_PATH);
     }
   }, [data]);
 

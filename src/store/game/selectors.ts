@@ -32,6 +32,7 @@ import {
   setValueEditorRating,
   setValueUserRating,
 } from "./reducer";
+import { Genre, Platform } from "@constant/enum";
 
 export const useGame = () => {
   const dispatch = useAppDispatch();
@@ -81,14 +82,14 @@ export const useGame = () => {
     dispatch(setStatusGetGameID(value));
   };
 
-  const SetGenres = (value: string[]) => {
+  const SetGenres = (value: Genre[]) => {
     dispatch(setGenres(value));
   };
 
   const SetErrorsSizeImage = (value: string | null) => {
     dispatch(setErrorsSizeImage(value));
   };
-  const SetPlatforms = (value: string[]) => {
+  const SetPlatforms = (value: Platform[]) => {
     dispatch(setPlatforms(value));
   };
 

@@ -35,12 +35,12 @@ const BrowserGame = ({
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const { dataListGame: data, fetchGetGame } = useGame();
+  const { dataListGame: data, fetchGetGame, genres } = useGame();
 
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
 
   useEffect(() => {
-    fetchGetGame();
+    fetchGetGame({});
   }, []);
 
   const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];

@@ -19,7 +19,7 @@ interface MediaProp {
   updateBy: string;
 }
 
-export interface Blog {
+export interface BlogItem {
   id: number;
   title: string;
   shortDescription: string;
@@ -35,24 +35,42 @@ export interface Blog {
   updateAt: string;
 }
 
+export interface Blog {
+  items: BlogItem[];
+  totalItems: number;
+  pageIndex: number;
+  pageSize: number;
+  totalPages: number;
+}
+
 export interface BlogState {
   loading: boolean;
   error: string;
-  dataBlog: Blog[];
-  dataBlogId: Blog;
+  dataBlog: Blog;
+  dataBlogId: BlogItem;
   isCreate: boolean;
   isUpdate: boolean;
   isDelete: boolean;
+  checkDate: string;
+  tags: Tag[];
 }
 
 const initialState: BlogState = {
   loading: false,
   error: "",
-  dataBlog: [],
-  dataBlogId: {} as Blog,
+  dataBlog: {
+    items: [],
+    totalItems: 0,
+    pageIndex: 1,
+    pageSize: 10,
+    totalPages: 0,
+  },
+  dataBlogId: {} as BlogItem,
   isCreate: false,
   isUpdate: false,
   isDelete: false,
+  checkDate: "all",
+  tags: [],
 };
 
 const BlogReducer = createSlice({
@@ -68,13 +86,19 @@ const BlogReducer = createSlice({
     SetIsDeleteBlog: (state, action: PayloadAction<boolean>) => {
       state.isDelete = action.payload;
     },
+    SetCheckDate: (state, action: PayloadAction<string>) => {
+      state.checkDate = action.payload;
+    },
+    SetTags: (state, action: PayloadAction<Tag[]>) => {
+      state.tags = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(GetBlog.pending, (state) => {
         state.loading = true;
       })
-      .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog[]>) => {
+      .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog>) => {
         state.loading = false;
         state.dataBlog = action.payload;
       })
@@ -85,10 +109,13 @@ const BlogReducer = createSlice({
       .addCase(GetBlogId.pending, (state) => {
         state.loading = true;
       })
-      .addCase(GetBlogId.fulfilled, (state, action: PayloadAction<Blog>) => {
-        state.loading = false;
-        state.dataBlogId = action.payload;
-      })
+      .addCase(
+        GetBlogId.fulfilled,
+        (state, action: PayloadAction<BlogItem>) => {
+          state.loading = false;
+          state.dataBlogId = action.payload;
+        },
+      )
       .addCase(GetBlogId.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload || "";
@@ -131,5 +158,10 @@ const BlogReducer = createSlice({
 
 export default BlogReducer.reducer;
 
-export const { SetIsCreateBlog, SetIsUpdateBlog, SetIsDeleteBlog } =
-  BlogReducer.actions;
+export const {
+  SetIsCreateBlog,
+  SetIsUpdateBlog,
+  SetIsDeleteBlog,
+  SetCheckDate,
+  SetTags,
+} = BlogReducer.actions;

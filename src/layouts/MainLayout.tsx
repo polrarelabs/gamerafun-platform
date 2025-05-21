@@ -1,22 +1,22 @@
 "use client";
 
-import { memo, ReactNode, useEffect, useRef, useState } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import { usePathname, useRouter } from "next/navigation";
-import { Dialog, Stack } from "@mui/material";
-import useBreakpoint from "@hooks/useBreakpoint";
-import { Navigation } from "./components";
-import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
-import { Button } from "@components/shared";
-import { SlArrowUp } from "react-icons/sl";
-import Cookies from "js-cookie";
 import { setToken } from "@api/helpers";
-import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
 import ChatAI from "@components/AskAI/ChatAI";
-import { useAuthLogin, useLogOut } from "@store/auth";
+import { Button } from "@components/shared";
+import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
+import { LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
+import useBreakpoint from "@hooks/useBreakpoint";
+import { Stack } from "@mui/material";
+import { useAuthLogin, useLogOut } from "@store/auth";
+import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { memo, ReactNode, useEffect, useRef, useState } from "react";
+import { SlArrowUp } from "react-icons/sl";
+import { Navigation } from "./components";
+import Footer from "./Footer";
+import Header from "./Header";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -27,7 +27,6 @@ const MainLayout = (props: MainLayoutProps) => {
   const pathName = usePathname();
   const router = useRouter();
   const { data } = useAuthLogin();
-  // console.log("node_env", process.env.NODE_ENV);
   const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
 
@@ -42,28 +41,11 @@ const MainLayout = (props: MainLayoutProps) => {
       router.push(LOGIN_PATH);
     } else if (cookies && cookies !== "undefined") {
       setToken(cookies);
-      router.push(HOME_PATH);
+      // router.push(HOME_PATH);
     } else {
       router.push(LOGIN_PATH);
     }
   }, [data]);
-  // useEffect(() => {
-  //   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
-  //   if (Object.keys(data || {}).length === 0 && cookies && cookies.length > 0) {
-  //     if (window.google?.accounts?.id) {
-  //       window.google.accounts.id.disableAutoSelect();
-  //     }
-  //     disconnect();
-  //     signOut();
-  //     logOut();
-  //     router.push(LOGIN_PATH);
-  //   } else if (cookies !== "undefined" && cookies !== undefined) {
-  //     setToken(cookies);
-  //     router.push(HOME_PATH);
-  //   } else router.push(LOGIN_PATH);
-  //   // if (pathName !== HOME_PATH && pathName !== LOGIN_PATH)
-  //   // router.push(LOGIN_PATH);
-  // }, []);
 
   const { isMdSmaller } = useBreakpoint();
 

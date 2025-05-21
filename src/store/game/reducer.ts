@@ -111,8 +111,8 @@ interface PropsGameReducers {
   valueUserRating: number;
   gameId: number;
   isGetGameId: boolean;
-  genres: string[];
-  platforms: string[];
+  genres: Genre[];
+  platforms: Platform[];
   errorsSizeImage: string | null;
   playNow: boolean;
   freeToPlay: boolean;
@@ -165,10 +165,10 @@ const GameReducers = createSlice({
     setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
       state.isGetGameId = action.payload;
     },
-    setGenres: (state, action: PayloadAction<string[]>) => {
+    setGenres: (state, action: PayloadAction<Genre[]>) => {
       state.genres = action.payload;
     },
-    setPlatforms: (state, action: PayloadAction<string[]>) => {
+    setPlatforms: (state, action: PayloadAction<Platform[]>) => {
       state.platforms = action.payload;
     },
     setErrorsSizeImage: (state, action: PayloadAction<string | null>) => {

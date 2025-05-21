@@ -8,9 +8,16 @@ import {
   GetBlogProps,
   UpdateBlog,
 } from "./action";
-import { SetIsCreateBlog, SetIsDeleteBlog, SetIsUpdateBlog } from "./reducer";
+import {
+  SetCheckDate,
+  SetIsCreateBlog,
+  SetIsDeleteBlog,
+  SetIsUpdateBlog,
+  SetTags,
+} from "./reducer";
+import { Tag } from "@constant/enum";
 
-export const useGetBlog = () => {
+export const useBlog = () => {
   const dispatch = useAppDispatch();
 
   const getBlog = (param: GetBlogProps) => {
@@ -43,6 +50,14 @@ export const useGetBlog = () => {
     dispatch(SetIsDeleteBlog(value));
   };
 
+  const setCheckDate = (value: string) => {
+    dispatch(SetCheckDate(value));
+  };
+
+  const setTags = (value: Tag[]) => {
+    dispatch(SetTags(value));
+  };
+
   const {
     loading,
     error,
@@ -51,6 +66,8 @@ export const useGetBlog = () => {
     isCreate,
     isUpdate,
     isDelete,
+    checkDate,
+    tags,
   } = useAppSelector((state) => state.blog);
 
   return {
@@ -69,5 +86,9 @@ export const useGetBlog = () => {
     updateBlog,
     createBlog,
     deleteBlog,
+    setCheckDate,
+    checkDate,
+    setTags,
+    tags,
   };
 };

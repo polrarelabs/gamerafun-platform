@@ -5,6 +5,7 @@
 import { Image, Text } from "@components/shared";
 import useWindowSize from "@hooks/useWindowSize";
 import { Stack } from "@mui/material";
+import { BlogItem } from "@store/new";
 import { palette } from "public/material";
 import React, { memo, useEffect, useRef, useState } from "react";
 
@@ -16,6 +17,8 @@ export interface PropsLastNew {
   index: number;
   id: number | null;
   displayLayout: string;
+  data: BlogItem;
+  handleClick: (id: number) => void;
 }
 
 const CardBlog = ({
@@ -25,7 +28,9 @@ const CardBlog = ({
   setId,
   index,
   id,
+  data,
   displayLayout,
+  handleClick,
 }: PropsLastNew) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { width } = useWindowSize();
@@ -64,6 +69,7 @@ const CardBlog = ({
         setHover(false);
         setId(null);
       }}
+      onClick={() => handleClick(data.id)}
     >
       <Stack
         height={displayLayout === "list" ? "100%" : undefined}
@@ -102,15 +108,15 @@ const CardBlog = ({
         justifyContent={displayLayout === "list" ? "space-between" : undefined}
       >
         <Text color={palette.colorGray} fontSize={"12px"} fontWeight={600}>
-          TIME
+          {data.publicDate}
         </Text>
 
         <Text color={palette.textWhite} fontSize={"18px"} fontWeight={700}>
-          Name
+          {data.title}
         </Text>
 
         <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-          Description
+          {data.shortDescription}
         </Text>
 
         <Text

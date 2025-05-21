@@ -8,16 +8,32 @@ import { useEffect } from "react";
 import bgSlider from "public/images/banner.webp";
 import { Guides, News, Overview, Review } from "@components/screens/Games";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
-import { GAME_PATH } from "@constant/paths";
+import { GAME_PATH, HOME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
+import { useBlog } from "@store/new";
 const LayoutGameDetail = () => {
   const { id } = useParams();
-  const { getGameId, dataGetGameId: data } = useGame();
+  const {
+    setEditorRating,
+    setUserRating,
+    SetPlatforms,
+    SetGenres,
+    getGameId,
+    dataGetGameId: data,
+  } = useGame();
+  const { setTags, setCheckDate } = useBlog();
+
   useEffect(() => {
     if (id) {
       const gameId = Array.isArray(id) ? Number(id[0]) : Number(id);
       getGameId(gameId);
     }
+    setCheckDate("all");
+    SetPlatforms([]);
+    setUserRating(0);
+    setEditorRating(0);
+    SetGenres([]);
+    setTags([]);
   }, [id]);
   const tabItems = [
     { label: "Overview", content: <Overview /> },
@@ -33,7 +49,7 @@ const LayoutGameDetail = () => {
 
   const breadcrumbs: BreadcumbsItem[] = [
     {
-      href: "/",
+      href: HOME_PATH,
       title: "HOME",
     },
     {
