@@ -1,12 +1,12 @@
 "use client";
 
 import { Image, Text } from "@components/shared";
-import DiscordIcon from "@icons/DiscordIcon";
-import FacebookIcon from "@icons/FacebookIcon";
-import InstagramIcon from "@icons/InstagramIcon";
-import TwitterIcon from "@icons/TwitterIcon";
-import WebsiteIcon from "@icons/WebsiteIcon";
-import YoutubeIcon from "@icons/YoutubeIcon";
+import DiscordIcon from "@icons/socials/DiscordIcon";
+import FacebookIcon from "@icons/socials/FacebookIcon";
+import InstagramIcon from "@icons/socials/InstagramIcon";
+import TwitterIcon from "@icons/socials/TwitterIcon";
+import WebsiteIcon from "@icons/web3/WebsiteIcon";
+import YoutubeIcon from "@icons/socials/YoutubeIcon";
 import { Stack, Divider, Box } from "@mui/material";
 import logoGame from "/public/images/img-logo.png";
 import { memo } from "react";

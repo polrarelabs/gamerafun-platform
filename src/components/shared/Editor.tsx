@@ -9,11 +9,18 @@ interface EditorProps {
   defaultValue?: any;
   onTextChange?: (...args: any[]) => void;
   onSelectionChange?: (...args: any[]) => void;
+  onImagePaste?: (file: File, quill: Quill) => void;
 }
 
 const Editor = forwardRef<Quill | null, EditorProps>(
   (
-    { readOnly = false, defaultValue, onTextChange, onSelectionChange },
+    {
+      readOnly = false,
+      defaultValue,
+      onTextChange,
+      onSelectionChange,
+      onImagePaste,
+    },
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -53,7 +60,20 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
         onSelectionChangeRef.current?.(...args);
       });
-
+      editorContainer.addEventListener("paste", (e: ClipboardEvent) => {
+        if (!e.clipboardData) return;
+        const items = e.clipboardData.items;
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          if (item.type.indexOf("image") !== -1) {
+            const file = item.getAsFile();
+            if (file && typeof onImagePaste === "function") {
+              e.preventDefault();
+              onImagePaste(file, quill);
+            }
+          }
+        }
+      });
       return () => {
         if (ref && "current" in ref) {
           ref.current = null;

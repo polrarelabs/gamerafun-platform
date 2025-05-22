@@ -1,7 +1,7 @@
 "use client";
 
 import { Text } from "@components/shared";
-import PopularIcon from "@icons/PopularIcon";
+import PopularIcon from "@icons/web3/PopularIcon";
 import { Stack, IconButton } from "@mui/material";
 import { motion, useMotionValue, animate } from "framer-motion";
 import { memo, useEffect, useRef, useState } from "react";

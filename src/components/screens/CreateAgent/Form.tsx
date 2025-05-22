@@ -41,7 +41,7 @@ import { memo, useEffect, useMemo, useRef } from "react";
 import StringFormat from "string-format";
 import * as Yup from "yup";
 import { Avatar, RaisedToken } from "./components";
-import ChevronIcon from "@icons/ChevronIcon";
+import ChevronIcon from "@icons/common/ChevronIcon";
 import { motion } from "framer-motion";
 import Purchase from "./Purchase";
 import { U64, U8 } from "@aptos-labs/ts-sdk";

@@ -2,12 +2,15 @@ import axios, { AxiosError, AxiosRequestConfig, HttpStatusCode } from "axios";
 import { API_TIMEOUT, API_URL } from "constant";
 import { ErrorResponse } from "constant/types";
 import { sleep } from "utils/index";
-
+import qs from "qs";
 const requestAbortCode = "ECONNABORTED";
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.timeout = API_TIMEOUT;
+
+axios.defaults.paramsSerializer = (params) =>
+  qs.stringify(params, { arrayFormat: "repeat" });
 
 axios.interceptors.request.use(
   (config) => {

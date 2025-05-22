@@ -12,7 +12,7 @@ import {
 import DialogLayout, { DialogLayoutProps } from "@components/DialogLayout";
 import { IconButton, Text } from "@components/shared";
 import useAptosWallet from "@hooks/useAptosWallet";
-import CloseIcon from "@icons/CloseIcon";
+import CloseIcon from "@icons/common/CloseIcon";
 import { Box, ButtonBase, Stack } from "@mui/material";
 import { useAuthLogin } from "@store/auth";
 import { memo, useEffect, useMemo, useState } from "react";

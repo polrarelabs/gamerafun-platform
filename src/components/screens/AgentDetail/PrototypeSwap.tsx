@@ -22,8 +22,8 @@ import {
 import { Token } from "@constant/types";
 import { aptosClient } from "@contexts/WalletProvider";
 import useAptosWallet from "@hooks/useAptosWallet";
-import SwitchIcon from "@icons/SwitchIcon";
-import WalletIcon from "@icons/WalletIcon";
+import SwitchIcon from "@icons/common/SwitchIcon";
+import WalletIcon from "@icons/socials/WalletIcon";
 import { Skeleton, Stack, StackProps } from "@mui/material";
 import { useSnackbar, useTokensBalance, useTokensPrice } from "@store/app";
 import { useTokenDetail } from "@store/token";

@@ -2,16 +2,22 @@
 
 "use client";
 
+import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
-import Selected from "@components/shared/Selected";
-import GameIcon from "@icons/GameIcon";
+import GameIcon from "@icons/web3/GameIcon";
 import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
 import { palette } from "public/material";
-import { memo, useEffect, useState } from "react";
-
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import Cookies from "js-cookie";
+import { ACCESSTOKEN_COOKIE } from "@constant";
+import { useRouter } from "next/navigation";
+import { GAME_PATH, LOGIN_PATH } from "@constant/paths";
+import { useBlog } from "@store/new";
+import { SortBy } from "@constant/enum";
+import { getSort } from "@components/helper";
 interface Props {
   isLayoutMD: boolean;
   theme: any | null;
@@ -35,21 +41,34 @@ const BrowserGame = ({
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const { dataListGame: data, fetchGetGame, genres } = useGame();
-
+  const {
+    dataListGame: data,
+    fetchGetGame,
+    genres,
+    platforms,
+    getGameId,
+    minRating,
+    maxRating,
+    sortBy,
+    setSortBy,
+    search,
+  } = useGame();
+  const { checkDate } = useBlog();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
 
+  const router = useRouter();
+
   useEffect(() => {
-    fetchGetGame({});
-  }, []);
-
-  const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
-
-  const [selected, setSelected] = useState<string>("");
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelected(event.target.value as string);
-  };
+    fetchGetGame({
+      genre: genres,
+      platform: platforms,
+      minRating: minRating === 0 ? undefined : minRating,
+      maxRating: maxRating === 0 ? undefined : maxRating,
+      addedDateSort: checkDate,
+      sortBy: sortBy,
+      search: search === "" ? undefined : search,
+    });
+  }, [genres, platforms, minRating, maxRating, checkDate, sortBy, search]);
 
   useEffect(() => {
     if (isSm) setDisplayLayout("no-list");
@@ -60,18 +79,81 @@ const BrowserGame = ({
     setOpen(true);
   };
 
+  // const handleClick = (id: number) => {
+  //   const cookie = Cookies.get(ACCESSTOKEN_COOKIE)
+  //   if (cookie && cookie !== 'undefined') {
+  //     getGameId(id)
+  //     router.push(`${GAME_PATH}/${id}`)
+  //   } else {
+  //     router.push(LOGIN_PATH)
+  //   }
+  // }
+
+  //  const [blogDisplay, setBlogDisplay] = useState<BlogItem[]>([])
+  //   const [blogFake, setBlogFake] = useState<BlogItem[]>([])
+
+  //   useEffect(() => {
+  //     if (blog.pageIndex === 1) {
+  //       setBlogDisplay(blog.items)
+  //     } else setBlogFake(blog.items)
+  //   }, [blog.items])
+
+  //   useEffect(() => {
+  //     if (blogFake !== blog.items) {
+  //       setBlogDisplay([...blogDisplay, ...blogFake])
+  //     }
+
+  //   }, [blogFake])
+
+  // const observer = useRef<IntersectionObserver | null>(null);
+  // const lastElementRef = useCallback(
+  //   (node: HTMLDivElement | null) => {
+  //     if (observer.current) observer.current.disconnect();
+  //     observer.current = new IntersectionObserver((entries) => {
+  //       if (entries[0].isIntersecting) {
+  //         // if (blog.pageIndex < blog.totalPages) {
+  //           // const page = blog.pageIndex + 1
+  //           // setPageIndex(page)
+  //         // }
+  //       }
+  //     });
+
+  //     if (node) observer.current.observe(node);
+  //   },
+  //   [blog.items]
+  // );
+
   return (
     <>
       <Stack direction={"column"} gap={2} flex={{ lg: 5, xs: 4 }}>
         <Stack direction={"row"} alignItems={"center"} gap={2}>
           <GameIcon sx={{ color: palette.colorGray }} />
-          <Stack direction={"row"} alignItems={"end"} gap={2}>
-            <Text color="white" fontSize={"20px"} fontWeight={700}>
-              Browse Games
-            </Text>
-            <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-              {data.length} results
-            </Text>
+          <Stack
+            direction={"row"}
+            justifyContent={"space-between"}
+            width={"100%"}
+          >
+            <Stack direction={"row"} alignItems={"end"} gap={2}>
+              <Text color="white" fontSize={"20px"} fontWeight={700}>
+                Browse Games
+              </Text>
+              <Text
+                color={palette.colorGray}
+                fontSize={"14px"}
+                fontWeight={400}
+              >
+                {data.length} results
+              </Text>
+            </Stack>
+
+            <Stack>
+              <SelectOptions
+                selected={sortBy}
+                setSelected={setSortBy}
+                options={Object.keys(SortBy)}
+                getSort={getSort}
+              />
+            </Stack>
           </Stack>
         </Stack>
         {!isLayoutMD && (
@@ -83,9 +165,10 @@ const BrowserGame = ({
             gridTemplateColumns={"repeat(2,1fr)"}
           >
             <SelectOptions
-              selected={selected}
-              handleChange={handleChange}
-              options={names}
+              selected={sortBy}
+              setSelected={setSortBy}
+              options={Object.keys(SortBy)}
+              getSort={getSort}
             />
 
             <ButtonFillters handleOpen={handleOpen} />
@@ -102,8 +185,15 @@ const BrowserGame = ({
           gap={2}
         >
           {data.map((item, index) => {
+            // const isLast = index === blogDisplay.length - 1;
             return (
-              <CardItem key={index} index={index} data={item} title={"Title"} />
+              <CardItem
+                // ref={isLast ? lastElementRef : null}
+                key={index}
+                index={index}
+                data={item}
+                title={"Title"}
+              />
             );
           })}
         </Stack>
@@ -113,15 +203,3 @@ const BrowserGame = ({
 };
 
 export default memo(BrowserGame);
-
-{
-  /* <ItemGame
-            img={img}
-            hover={hover}
-            setHover={setHover}
-            setId={setId}
-            id={id}
-            setDisplayLayout={setDisplayLayout}
-            displayLayout={displayLayout}
-          /> */
-}

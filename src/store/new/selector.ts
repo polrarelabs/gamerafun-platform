@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   CreateBlog,
-  CreateBlogProps,
+  BlogCreateProps,
   DeleteBlog,
   GetBlog,
   GetBlogId,
@@ -13,9 +13,13 @@ import {
   SetIsCreateBlog,
   SetIsDeleteBlog,
   SetIsUpdateBlog,
+  SetPageIndex,
+  SetSearch,
+  SetSortBy,
+  SetStatus,
   SetTags,
 } from "./reducer";
-import { Tag } from "@constant/enum";
+import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
 
 export const useBlog = () => {
   const dispatch = useAppDispatch();
@@ -28,11 +32,11 @@ export const useBlog = () => {
     dispatch(GetBlogId(blogId));
   };
 
-  const createBlog = (body: CreateBlogProps) => {
+  const createBlog = (body: BlogCreateProps) => {
     dispatch(CreateBlog(body));
   };
 
-  const updateBlog = (body: CreateBlogProps) => {
+  const updateBlog = (body: BlogCreateProps) => {
     dispatch(UpdateBlog(body));
   };
 
@@ -50,7 +54,7 @@ export const useBlog = () => {
     dispatch(SetIsDeleteBlog(value));
   };
 
-  const setCheckDate = (value: string) => {
+  const setCheckDate = (value: AddedDateSort) => {
     dispatch(SetCheckDate(value));
   };
 
@@ -58,19 +62,40 @@ export const useBlog = () => {
     dispatch(SetTags(value));
   };
 
+  const setPageIndex = (value: number) => {
+    dispatch(SetPageIndex(value));
+  };
+
+  const setSortBy = (value: SortBy) => {
+    dispatch(SetSortBy(value));
+  };
+
+  const setSearch = (value: string) => {
+    dispatch(SetSearch(value));
+  };
+
+  const setStatus = (value: StatusBlog) => {
+    dispatch(SetStatus(value));
+  };
+
   const {
     loading,
     error,
-    dataBlog: blog,
-    dataBlogId: blogId,
+    blog,
+    blogId,
     isCreate,
     isUpdate,
     isDelete,
     checkDate,
     tags,
+    sortBy,
+    search,
+    status,
   } = useAppSelector((state) => state.blog);
 
   return {
+    sortBy,
+    setSortBy,
     getBlog,
     loading,
     error,
@@ -90,5 +115,10 @@ export const useBlog = () => {
     checkDate,
     setTags,
     tags,
+    setPageIndex,
+    setSearch,
+    search,
+    setStatus,
+    status,
   };
 };

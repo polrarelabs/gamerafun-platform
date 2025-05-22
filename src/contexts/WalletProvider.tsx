@@ -10,8 +10,6 @@ type WalletProviderProps = {
 };
 
 const WalletProvider = ({ children }: WalletProviderProps) => {
-  console.log(APTOS_API_KEY, NETWORK_SUPPORTED);
-
   return (
     <AptosWalletAdapterProvider
       autoConnect

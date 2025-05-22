@@ -5,12 +5,15 @@ import { SelectOptions, Text } from "@components/shared";
 import { SelectChangeEvent, Stack } from "@mui/material";
 import img from "public/images/img-logo.png";
 import { palette } from "public/material";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import { CardBlog } from "./components";
-import { useBlog } from "@store/new";
+import { BlogItem, useBlog } from "@store/new";
 import { useRouter } from "next/navigation";
 import { GENRES_PATH, NEWS_PATH } from "@constant/paths";
+import Selected from "@components/Selected";
+import { SortBy } from "@constant/enum";
+import { getSort } from "@components/helper";
 
 interface Props {
   isLayoutMD: boolean;
@@ -29,18 +32,29 @@ const LastNewsLists = ({
   const [hover, setHover] = useState<boolean>(false);
   const [id, setId] = useState<number | null>(null);
 
-  const { getBlogId, blog, getBlog } = useBlog();
+  const {
+    getBlogId,
+    blog,
+    getBlog,
+    tags,
+    setPageIndex,
+    sortBy,
+    setSortBy,
+    search,
+  } = useBlog();
 
   useEffect(() => {
-    getBlog({ pageIndex: blog.pageIndex, pageSize: blog.pageSize });
-  }, [blog.pageIndex]);
-
-  const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
-
-  const [selected, setSelected] = useState<string>("");
+    getBlog({
+      pageIndex: blog.pageIndex,
+      pageSize: blog.pageSize,
+      tags: tags,
+      sortBy: sortBy,
+      search: search === "" ? undefined : search,
+    });
+  }, [blog.pageIndex, tags, sortBy, search]);
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSelected(event.target.value as string);
+    setSortBy(event.target.value as SortBy);
   };
   useEffect(() => {
     if (isLayoutMD) setDisplayLayout("no-list");
@@ -60,6 +74,39 @@ const LastNewsLists = ({
     router.push(`${NEWS_PATH}/${id}`);
   };
 
+  const [blogDisplay, setBlogDisplay] = useState<BlogItem[]>([]);
+  const [blogFake, setBlogFake] = useState<BlogItem[]>([]);
+
+  useEffect(() => {
+    if (blog.pageIndex === 1) {
+      setBlogDisplay(blog.items);
+    } else setBlogFake(blog.items);
+  }, [blog.items]);
+
+  useEffect(() => {
+    if (blogFake !== blog.items) {
+      setBlogDisplay([...blogDisplay, ...blogFake]);
+    }
+  }, [blogFake]);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          if (blog.pageIndex < blog.totalPages) {
+            const page = blog.pageIndex + 1;
+            setPageIndex(page);
+          }
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [blog.items],
+  );
+
   return (
     <Stack flex={5} direction={"column"} gap={4}>
       <Stack>
@@ -76,14 +123,16 @@ const LastNewsLists = ({
           gridTemplateColumns={"repeat(2,1fr)"}
         >
           <SelectOptions
-            selected={selected}
-            handleChange={handleChange}
-            options={names}
+            selected={sortBy}
+            options={Object.keys(SortBy)}
+            setSelected={setSortBy}
+            getSort={getSort}
           />
 
           <ButtonFillters handleOpen={handleOpen} />
         </Stack>
       )}
+      <Selected />
       <Stack
         display={"grid"}
         gridTemplateColumns={{
@@ -94,9 +143,11 @@ const LastNewsLists = ({
         }}
         gap={4}
       >
-        {blog.items.map((item, index) => {
+        {blogDisplay.map((item, index) => {
+          const isLast = index === blogDisplay.length - 1;
           return (
             <CardBlog
+              ref={isLast ? lastElementRef : null}
               key={index}
               hover={hover}
               setHover={setHover}

@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useState } from "react";
 import { alertClasses, Alert as MuiAlert, Stack } from "@mui/material";
-import CloseIcon from "@icons/CloseIcon";
+import CloseIcon from "@icons/common/CloseIcon";
 import { SnackbarItem, useSnackbar } from "@store/app";
 import { typography } from "public/material";
 import { IconButton, Text } from "@components/shared";

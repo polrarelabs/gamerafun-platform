@@ -22,7 +22,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTokensPrice } from "@store/app";
 import { rawDataToReadable } from "@store/token/actions";
-import SearchIcon from "@icons/SearchIcon";
+import SearchIcon from "@icons/common/SearchIcon";
 
 const SearchAgents = () => {
   const pathname = usePathname();

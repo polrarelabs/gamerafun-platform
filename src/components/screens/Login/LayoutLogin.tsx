@@ -8,11 +8,20 @@ import imgBgLogin from "public/images/img-bg-login.png";
 import logo from "public/images/img-logo-text-big.png";
 // import { useEffect, useState } from "react";
 import SessionLogin from "./SessionLogin";
-import CloseIcon from "@icons/CloseIcon";
+import CloseIcon from "@icons/common/CloseIcon";
 import { palette } from "public/material";
+import useAptosWallet from "@hooks/useAptosWallet";
+import { useLogOut } from "@store/auth";
+import { useEffect } from "react";
 const LayoutLogin = () => {
   const { isMdSmaller } = useBreakpoint();
+  const { disconnect } = useAptosWallet();
+  const { logOut } = useLogOut();
 
+  useEffect(() => {
+    disconnect();
+    logOut();
+  }, []);
   return (
     <Stack
       position={"relative"}
@@ -72,7 +81,6 @@ const LayoutLogin = () => {
                   width: "100%",
                   height: "100%",
                   overflow: "hidden",
-                  borderRadius: "8px",
                   "& img": {
                     objectFit: "cover",
                     objectPosition: "center",

@@ -3,9 +3,9 @@
 import { Button, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 // import Snackbar from '@components/Snackbar'
-import { DOMAIN } from "@constant";
-import CheckedIcon from "@icons/CheckedIcon";
-import CopyIcon from "@icons/CopyIcon";
+import { ACCESSTOKEN_COOKIE, DOMAIN } from "@constant";
+import CheckedIcon from "@icons/common/CheckedIcon";
+import CopyIcon from "@icons/common/CopyIcon";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,8 @@ import { usePathname } from "next/navigation";
 import { palette } from "public/material";
 import React, { memo, useState } from "react";
 import { PiShareFat } from "react-icons/pi";
+import Cookies from "js-cookie";
+
 const NewsDetail = () => {
   const { blogId } = useBlog();
   const [open, setOpen] = useState<boolean>(false);
@@ -29,6 +31,8 @@ const NewsDetail = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
 
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
@@ -52,7 +56,6 @@ const NewsDetail = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpenSnackbar(false);
   };
 
@@ -150,9 +153,13 @@ const NewsDetail = () => {
         </Stack>
       </Stack>
       <Stack direction={"column"} gap={2} flex={2}>
-        <Text color={"white"} fontWeight={700} fontSize={"24px"}>
-          Related Games
-        </Text>
+        {cookie && cookie !== "undefined" && (
+          <>
+            <Text color={"white"} fontWeight={700} fontSize={"24px"}>
+              Related Games
+            </Text>
+          </>
+        )}
       </Stack>
 
       <Dialog

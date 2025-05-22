@@ -8,7 +8,7 @@ import {
   MouseEvent,
 } from "react";
 import { Dropdown, IconButton, Text } from "@components/shared";
-import ChevronIcon from "@icons/ChevronIcon";
+import ChevronIcon from "@icons/common/ChevronIcon";
 import { Box, Stack } from "@mui/material";
 import {
   useHolders,

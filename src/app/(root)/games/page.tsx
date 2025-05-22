@@ -6,6 +6,7 @@ import { Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 // import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
+import { AddedDateSort, SortBy } from "@constant/enum";
 import { HOME_PATH } from "@constant/paths";
 import { Stack, useTheme } from "@mui/material";
 import { useGame } from "@store/game";
@@ -15,16 +16,27 @@ import { memo, useEffect } from "react";
 const GameHome = () => {
   const theme = useTheme();
 
-  const { setEditorRating, setUserRating, SetPlatforms, SetGenres } = useGame();
-  const { setTags, setCheckDate } = useBlog();
+  const {
+    setMinRating,
+    setMaxRating,
+    SetPlatforms,
+    SetGenres,
+    setSearch: searchGame,
+    setSortBy: sortGame,
+  } = useGame();
+  const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
 
   useEffect(() => {
-    setCheckDate("all");
+    setCheckDate(AddedDateSort.AllTime);
     SetPlatforms([]);
-    setUserRating(0);
-    setEditorRating(0);
+    setMaxRating(0);
+    setMinRating(0);
     SetGenres([]);
     setTags([]);
+    setSearch("");
+    searchGame("");
+    setSortBy(SortBy.Newest);
+    sortGame(SortBy.Newest);
   }, []);
 
   const { palette } = theme;

@@ -12,29 +12,36 @@ import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { GAME_PATH, HOME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
+import { AddedDateSort, SortBy } from "@constant/enum";
 const LayoutGameDetail = () => {
   const { id } = useParams();
   const {
-    setEditorRating,
-    setUserRating,
+    setMinRating,
+    setMaxRating,
     SetPlatforms,
     SetGenres,
     getGameId,
     dataGetGameId: data,
+    setSearch: searchGame,
+    setSortBy: sortGame,
   } = useGame();
-  const { setTags, setCheckDate } = useBlog();
+  const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
 
   useEffect(() => {
     if (id) {
       const gameId = Array.isArray(id) ? Number(id[0]) : Number(id);
       getGameId(gameId);
     }
-    setCheckDate("all");
+    setCheckDate(AddedDateSort.AllTime);
     SetPlatforms([]);
-    setUserRating(0);
-    setEditorRating(0);
+    setMaxRating(0);
+    setMinRating(0);
     SetGenres([]);
     setTags([]);
+    setSearch("");
+    searchGame("");
+    setSortBy(SortBy.Newest);
+    sortGame(SortBy.Newest);
   }, [id]);
   const tabItems = [
     { label: "Overview", content: <Overview /> },

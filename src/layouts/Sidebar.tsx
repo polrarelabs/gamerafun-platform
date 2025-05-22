@@ -3,11 +3,11 @@
 import { memo } from "react";
 import { Drawer, drawerClasses, Stack } from "@mui/material";
 import { IconButton } from "@components/shared";
-import PanelIcon from "@icons/PanelIcon";
+import PanelIcon from "@icons/web3/PanelIcon";
 import Connect from "@components/Connect";
 import { Logo, Navigation } from "./components";
 import useBreakpoint from "@hooks/useBreakpoint";
-import BarsIcon from "@icons/BarsIcon";
+import BarsIcon from "@icons/common/BarsIcon";
 import useToggle from "@hooks/useToggle";
 
 const Sidebar = () => {

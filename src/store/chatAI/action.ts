@@ -22,14 +22,14 @@ const readStream = async (stream: ReadableStream) => {
   }
 };
 
-export interface SendMessageProps {
+export interface MessageProps {
   threadId?: string;
   question: string;
 }
 
 export const SendMessage = createAsyncThunk(
   "sendMessage",
-  async (sendBody: SendMessageProps) => {
+  async (sendBody: MessageProps) => {
     try {
       const response = await fetch(EndPointChatAi, {
         method: "POST",

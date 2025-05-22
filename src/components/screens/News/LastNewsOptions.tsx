@@ -1,9 +1,13 @@
 "use client";
 
 import FormDateAdded from "@components/FormDateAdded";
-import { SelectOptions, Text } from "@components/shared";
-import SearchIcon from "@icons/SearchIcon";
+import { getSort } from "@components/helper";
+import { Search, SelectOptions, Text } from "@components/shared";
+import FormListOption from "@components/shared/FormListOption";
+import { SortBy, Tag } from "@constant/enum";
+import SearchIcon from "@icons/common/SearchIcon";
 import { InputBase, SelectChangeEvent, Stack } from "@mui/material";
+import { useBlog } from "@store/new";
 import { palette } from "public/material";
 import { memo, useState } from "react";
 import { FaListAlt } from "react-icons/fa";
@@ -20,19 +24,15 @@ const LastNewsOptions = ({
   displayLayout,
   setDisplayLayout,
 }: PropsLastNew) => {
-  const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
-
-  const [selected, setSelected] = useState<string>("");
+  const { tags, setTags, sortBy, setSortBy, search, setSearch } = useBlog();
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSelected(event.target.value as string);
+    setSortBy(event.target.value as SortBy);
   };
 
   const handleSetLayout = (value: string) => {
     setDisplayLayout(value);
   };
-
-  const [showTag, setShowTag] = useState<boolean>(false);
 
   return (
     <Stack flex={1} direction={"column"} gap={4}>
@@ -44,9 +44,10 @@ const LastNewsOptions = ({
           justifyContent={"end"}
         >
           <SelectOptions
-            selected={selected}
-            handleChange={handleChange}
-            options={names}
+            selected={sortBy}
+            options={Object.keys(SortBy)}
+            setSelected={setSortBy}
+            getSort={getSort}
           />
           <Stack
             direction={"row"}
@@ -94,108 +95,15 @@ const LastNewsOptions = ({
           </Stack>
         </Stack>
       )}
-      <Stack>
-        <InputBase
-          placeholder="Search for news"
-          startAdornment={
-            <SearchIcon
-              sx={{
-                height: 20,
-                width: 20,
-                mr: 1,
-              }}
-            />
-          }
-          sx={{
-            border: "none !important",
-            backgroundColor: palette.bgMenuHover,
-            padding: "8px 16px",
-            borderRadius: "6px",
-          }}
-        />
-      </Stack>
+      <Search setSearch={setSearch} placeholder="Search for news" />
 
-      {/* tag */}
-      <Stack direction={"column"} gap={2}>
-        <Stack
-          direction={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
-          <Text color="white" fontSize={"16px"} fontWeight={500}>
-            Tags
-          </Text>
-          <Text
-            color={palette.greenColor}
-            fontSize={"14px"}
-            fontWeight={500}
-            sx={{
-              "&:hover": {
-                cursor: "pointer",
-                textDecoration: "underline",
-              },
-            }}
-            onClick={() => setShowTag(!showTag)}
-          >
-            {!showTag ? "Show More" : "Show Less"}
-          </Text>
-        </Stack>
-        <Stack direction={"column"} gap={2}>
-          {showTag ? (
-            <>
-              {Object.keys(TAGS).map((item, index) => {
-                const value = Object.values(TAGS);
-                return (
-                  <Stack
-                    key={index}
-                    direction={"row"}
-                    alignItems={"center"}
-                    gap={2}
-                  >
-                    <Text color={"#9CA3AF"} fontSize={"14px"} fontWeight={500}>
-                      {item}
-                    </Text>
-                    <Text color={"#9CA3AF"} fontSize={"12px"} fontWeight={500}>
-                      {value[index]}
-                    </Text>
-                  </Stack>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {Object.keys(TAGS).map((item, index) => {
-                const value = Object.values(TAGS);
-                if (index < 6) {
-                  return (
-                    <Stack
-                      key={index}
-                      direction={"row"}
-                      alignItems={"center"}
-                      gap={2}
-                    >
-                      <Text
-                        color={"#9CA3AF"}
-                        fontSize={"14px"}
-                        fontWeight={500}
-                      >
-                        {item}
-                      </Text>
-                      <Text
-                        color={"#9CA3AF"}
-                        fontSize={"12px"}
-                        fontWeight={500}
-                      >
-                        {value[index]}
-                      </Text>
-                    </Stack>
-                  );
-                }
-              })}
-            </>
-          )}
-        </Stack>
-      </Stack>
+      <FormListOption
+        name={"Tag"}
+        data={Tag}
+        setArray={setTags}
+        arrayKey={tags}
+        isValue={false}
+      />
 
       <FormDateAdded />
     </Stack>
@@ -214,14 +122,3 @@ const OPTION_LAYOUT = [
     ICON: <FaListAlt />,
   },
 ];
-
-const TAGS = {
-  "Game Updates": 100,
-  "Press Release": 266,
-  Partnerships: 100,
-  Investments: 266,
-  Sponsored: 100,
-  "GAM3 Awards": 266,
-  "Best of": 100,
-  "Creator Academy": 266,
-};

@@ -8,18 +8,34 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LensIcon from "@mui/icons-material/Lens";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { useGame } from "@store/game";
+import { AddedDateSort, SortBy } from "@constant/enum";
+import { useBlog } from "@store/new";
+import { getDateSort } from "./helper";
 
 const FormDateAdded = () => {
-  const { setEditorRating, setUserRating, SetPlatforms, SetGenres } = useGame();
-  const [checked, setChecked] = useState<string>("all");
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const {
+    setMinRating,
+    setMaxRating,
+    SetPlatforms,
+    SetGenres,
+    setSearch: searchGame,
+    setSortBy: sortGame,
+  } = useGame();
+  const { checkDate, setCheckDate, setSearch, setSortBy, setTags } = useBlog();
   const handleClear = () => {
-    setChecked("all");
+    setCheckDate(AddedDateSort.AllTime);
     SetPlatforms([]);
-    setUserRating(0);
-    setEditorRating(0);
+    setMaxRating(0);
+    setMinRating(0);
     SetGenres([]);
+    setTags([]);
+    setSearch("");
+    searchGame("");
+    setSortBy(SortBy.Newest);
+    sortGame(SortBy.Newest);
   };
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
   return (
     <Stack direction={"column"} gap={2}>
       <Stack>
@@ -28,20 +44,22 @@ const FormDateAdded = () => {
         </Text>
       </Stack>
       <Stack direction={"column"}>
-        {DATE_ADDED.map((item, index) => {
+        {Object.keys(AddedDateSort).map((item, index) => {
           return (
             <Stack
               key={index}
               direction={"row"}
               alignItems={"center"}
               justifyContent={"space-between"}
-              onClick={() => setChecked(item.key)}
+              onClick={() => setCheckDate(AddedDateSort[item])}
               sx={{
                 backgroundColor:
-                  item.key === checked ? palette.colorGame?.bgColor : undefined,
+                  AddedDateSort[item] === checkDate
+                    ? palette.colorGame?.bgColor
+                    : undefined,
                 "&:hover": {
                   backgroundColor:
-                    item.key === checked
+                    AddedDateSort[item] === checkDate
                       ? palette.colorGame?.bgColor
                       : palette.colorGame?.bgColorHover,
                 },
@@ -56,15 +74,19 @@ const FormDateAdded = () => {
                   }}
                 />
                 <Text
-                  color={item.key === checked ? "white" : palette.colorGray}
+                  color={
+                    AddedDateSort[item] === checkDate
+                      ? "white"
+                      : palette.colorGray
+                  }
                   fontSize={"14px"}
                   fontWeight={500}
                 >
-                  {item.title}
+                  {getDateSort(AddedDateSort[item])}
                 </Text>
               </Stack>
               <Checkbox
-                checked={checked === item.key}
+                checked={checkDate === AddedDateSort[item]}
                 {...label}
                 icon={
                   <LensIcon
@@ -105,26 +127,3 @@ const FormDateAdded = () => {
 };
 
 export default memo(FormDateAdded);
-
-const DATE_ADDED = [
-  {
-    key: "all",
-    title: "All Time",
-  },
-  {
-    key: "7days",
-    title: "Last 7 days",
-  },
-  {
-    key: "30days",
-    title: "Last 30 days",
-  },
-  {
-    key: "6months",
-    title: "Last 6 months",
-  },
-  {
-    key: "12months",
-    title: "Last 12 months",
-  },
-];

@@ -45,16 +45,6 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
 
   const [dataListImage, setDataListImage] = useState<PropsInfo[]>([]);
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
   const DownloadLinks = {
     windows: WINDOW_URL,
     macos: MACOS_URL,
@@ -248,7 +238,6 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
                   label={"Game Id"}
                   name={"gameId"}
                   formik={formik}
-                  MenuProps={MenuProps}
                   OptionEnum={dataListGame}
                   handleClick={handleClick}
                 />
@@ -314,14 +303,12 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               label={"Support Os"}
               name={"support_os"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={SupportOs}
             />
             <SelectFormik
               label={"Platform"}
               name={"platform"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={Platform}
             />
           </Stack>
@@ -330,14 +317,12 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               label={"Genre"}
               name={"genre"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={Genre}
             />
             <SelectFormik
               label={"Chain"}
               name={"chain"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={SupportChain}
             />
           </Stack>
