@@ -4,7 +4,7 @@ import { setToken } from "@api/helpers";
 import ChatAI from "@components/AskAI/ChatAI";
 import { Button } from "@components/shared";
 import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
-import { LOGIN_PATH } from "@constant/paths";
+import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
@@ -17,6 +17,7 @@ import { SlArrowUp } from "react-icons/sl";
 import { Navigation } from "./components";
 import Footer from "./Footer";
 import Header from "./Header";
+import { palette } from "public/material";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -24,28 +25,24 @@ type MainLayoutProps = {
 
 const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
-  const pathName = usePathname();
+  const pathname = usePathname();
   const router = useRouter();
-  const { data } = useAuthLogin();
+  const { GetProfile } = useAuthLogin();
   const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
 
   useEffect(() => {
-    const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
-    if (data === undefined) return;
-
-    if (Object.keys(data || {}).length === 0 && cookies) {
-      disconnect();
-      signOut();
-      logOut();
-      router.push(LOGIN_PATH);
-    } else if (cookies && cookies !== "undefined") {
-      setToken(cookies);
-      // router.push(HOME_PATH);
-    } else {
-      router.push(LOGIN_PATH);
+    const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
+    if (cookie && cookie !== "undefined") {
+      setToken(cookie);
+      GetProfile();
     }
-  }, [data]);
+    // else if (pathname !== LOGIN_PATH && pathname !== HOME_PATH) {
+    //   disconnect()
+    //   logOut()
+    //   router.push(LOGIN_PATH);
+    // }
+  }, []);
 
   const { isMdSmaller } = useBreakpoint();
 
@@ -84,7 +81,7 @@ const MainLayout = (props: MainLayoutProps) => {
 
   return (
     <Stack position={"relative"}>
-      {pathName === LOGIN_PATH ? (
+      {pathname === LOGIN_PATH ? (
         <>
           <Stack ref={ref}></Stack>
           {children}
@@ -97,7 +94,7 @@ const MainLayout = (props: MainLayoutProps) => {
           <Footer />
         </>
       )}
-      {isMdSmaller && pathName !== LOGIN_PATH && (
+      {isMdSmaller && pathname !== LOGIN_PATH && (
         <Stack
           width={"100%"}
           position={"fixed"}
@@ -140,11 +137,10 @@ const MainLayout = (props: MainLayoutProps) => {
           right: 20,
           zIndex: 4,
           background: "black !important",
-          boxShadow:
-            " 0px 0px 4px rgba(106, 246, 96, 0.6), 0px 0px 8px rgba(105,246,96, 0.6) !important",
+          boxShadow: `0px 0px 4px ${palette.colorGame?.btnChat}, 0px 0px 8px ${palette.colorGame?.btnChat} !important `,
           color: "white !important",
           "&:hover": {
-            boxShadow: "0px 0px 4px #69F660, 0px 0px 8px #69F660 !important",
+            boxShadow: `0px 0px 4px ${palette.colorGame?.btnChat}, 0px 0px 8px ${palette.colorGame?.btnChat} !important`,
           },
         }}
       >

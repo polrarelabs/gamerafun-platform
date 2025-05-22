@@ -2,7 +2,7 @@ import { memo } from "react";
 import { Stack } from "@mui/material";
 import Link, { LinkProps } from "./Link";
 import { IconButton, Text } from "./shared";
-import ArrowLongIcon from "@icons/ArrowLongIcon";
+import ArrowLongIcon from "@icons/common/ArrowLongIcon";
 
 type BackProps = {
   label: string;

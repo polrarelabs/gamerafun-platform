@@ -4,7 +4,7 @@ import Link from "@components/Link";
 import { Text } from "@components/shared";
 import { GAME_PATH, GENRES_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
-import ArrowIcon from "@icons/ArrowIcon";
+import ArrowIcon from "@icons/common/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
 import { Popover, Stack } from "@mui/material";
 import { usePathname } from "next/navigation";

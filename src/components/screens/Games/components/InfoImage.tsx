@@ -3,11 +3,11 @@
 import InputText from "@components/Media/InputText";
 import SelectPosition from "@components/Media/SelectPosition";
 import { Image } from "@components/shared";
-import EyeIcon from "@icons/EyeIcon";
+import EyeIcon from "@icons/common/EyeIcon";
 import { Dialog, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { PropsInfo } from "../UploadAvatar";
-import TrashIcon from "@icons/TrashIcon";
+import TrashIcon from "@icons/common/TrashIcon";
 import { palette } from "public/material";
 
 interface PropsInfoInmage {

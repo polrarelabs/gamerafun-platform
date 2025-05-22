@@ -252,6 +252,7 @@ export default {
     bgColor1: "#1b2332",
   },
   colorGame: {
+    btnChat: "#69F660",
     textColor: "#ffffff99",
     colorBtnNew: "#00ce6b",
     colorLinear:

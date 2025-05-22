@@ -2,7 +2,7 @@
 "use client";
 
 import { Text } from "@components/shared";
-import CloseIcon from "@icons/CloseIcon";
+import CloseIcon from "@icons/common/CloseIcon";
 import { Stack } from "@mui/material";
 import { palette } from "public/material";
 import React, { memo } from "react";

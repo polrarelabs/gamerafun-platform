@@ -122,7 +122,22 @@ export enum Tag {
 }
 
 export enum StatusBlog {
-  PENDING = "PENDING",
-  ACCEPT = "ACCEPT",
-  CANCLE = "CANCLE",
+  DRAFT = "draft",
+  PUBLISHED = "published",
+}
+
+export enum SortBy {
+  TopRated = "TopRated",
+  Oldest = "Oldest",
+  Newest = "Newest",
+  AZ = "AZ",
+  ZA = "ZA",
+}
+
+export enum AddedDateSort {
+  AllTime = "AllTime",
+  Days7 = "7days",
+  Days30 = "30days",
+  Months6 = "6months",
+  Months12 = "12months",
 }

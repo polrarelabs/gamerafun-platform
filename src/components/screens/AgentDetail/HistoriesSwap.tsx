@@ -7,7 +7,7 @@ import {
   TOKEN_DECIMAL,
 } from "@constant";
 import useNow from "@hooks/useNow";
-import ArrowTopRightIcon from "@icons/ArrowTopRightIcon";
+import ArrowTopRightIcon from "@icons/common/ArrowTopRightIcon";
 import { TableRow } from "@mui/material";
 import { useSwaps, useTokenDetail } from "@store/token";
 import {

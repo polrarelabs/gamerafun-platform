@@ -8,10 +8,10 @@ import { BoxSelected } from "./shared";
 
 const Selected = () => {
   const {
-    setEditorRating,
-    setUserRating,
-    valueEditorRating,
-    valueUserRating,
+    setMinRating,
+    setMaxRating,
+    minRating,
+    maxRating,
     playNow,
     freeToPlay,
     awardWinners,
@@ -66,18 +66,18 @@ const Selected = () => {
         />
       )}
 
-      {valueEditorRating !== 0 && (
+      {minRating !== 0 && (
         <BoxSelected
-          name={"editor rating"}
-          value={valueEditorRating}
-          onClose={() => setEditorRating(0)}
+          name={"min rating"}
+          value={minRating}
+          onClose={() => setMinRating(0)}
         />
       )}
-      {valueUserRating !== 0 && (
+      {maxRating !== 0 && (
         <BoxSelected
-          name={"user rating"}
-          value={valueUserRating}
-          onClose={() => setUserRating(0)}
+          name={"max rating"}
+          value={maxRating}
+          onClose={() => setMaxRating(0)}
         />
       )}
       {genres.length > 0 && (

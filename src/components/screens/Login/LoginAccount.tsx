@@ -10,6 +10,7 @@ import { setToken } from "@api/helpers";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { HOME_PATH } from "@constant/paths";
+import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
 const LoginAccount = () => {
   const router = useRouter();
   const { data, LoginAccount } = useAuthLogin();
@@ -21,13 +22,20 @@ const LoginAccount = () => {
 
   useEffect(() => {
     if (data && Object.keys(data).length > 0) {
+      console.log("data-admin", data);
+
       setToken(data.accessToken);
-      Cookies.set("accessToken", data.accessToken, {
+      Cookies.set(ACCESSTOKEN_COOKIE, data.accessToken, {
         expires: 7,
         secure: true,
         sameSite: "Strict",
       });
-      // router.push(HOME_PATH);
+      Cookies.set(REFRESHTOKEN_COOKIE, data.accessToken, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+      router.push(HOME_PATH);
     }
   }, [data]);
 

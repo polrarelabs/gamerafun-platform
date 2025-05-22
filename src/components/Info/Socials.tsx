@@ -1,10 +1,10 @@
 import { memo } from "react";
 import { Stack, StackProps } from "@mui/material";
 import Link, { LinkProps } from "@components/Link";
-import TelegramIcon from "@icons/TelegramIcon";
-import TwitterIcon from "@icons/TwitterIcon";
+import TelegramIcon from "@icons/socials/TelegramIcon";
+import TwitterIcon from "@icons/socials/TwitterIcon";
 import { Token } from "@constant/types";
-import WebsiteIcon from "@icons/WebsiteIcon";
+import WebsiteIcon from "@icons/web3/WebsiteIcon";
 
 type SocialsProps = {
   data: Token;

@@ -14,7 +14,6 @@ import Text from "./Text";
 
 interface PropsSelectFormik {
   formik: any;
-  MenuProps: any;
   OptionEnum: any;
   label: string;
   name: string;
@@ -26,7 +25,6 @@ interface PropsSelectFormik {
 
 const SelectFormik = ({
   formik,
-  MenuProps,
   OptionEnum,
   label,
   name,
@@ -35,6 +33,16 @@ const SelectFormik = ({
   data,
   handleClick,
 }: PropsSelectFormik) => {
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
   return (
     <Stack flex={1} gap={1}>
       <Text>{label}</Text>
@@ -72,8 +80,9 @@ const SelectFormik = ({
             value={formik.values[name]}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            input={<OutlinedInput />}
           >
-            {data &&
+            {/* {data &&
               data.map((item, index) => {
                 return (
                   <MenuItem
@@ -84,7 +93,12 @@ const SelectFormik = ({
                     {item.name}
                   </MenuItem>
                 );
-              })}
+              })} */}
+            {Object.keys(OptionEnum).map((item, index) => (
+              <MenuItem key={index} value={OptionEnum[item]}>
+                {item}
+              </MenuItem>
+            ))}
           </Select>
         )}
         {formik.touched.name && formik.errors.name && (

@@ -29,6 +29,7 @@ export const API_TIMEOUT = 30_000;
 export const EMPTY_TEXT = "N/A";
 export const AUTH_COOKIE = "aI";
 export const ACCESSTOKEN_COOKIE = "accessToken";
+export const REFRESHTOKEN_COOKIE = "refreshToken";
 
 export const CONNECT_BUTTON_ID = "cB";
 

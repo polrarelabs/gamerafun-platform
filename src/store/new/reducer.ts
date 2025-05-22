@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { StatusBlog, Tag } from "@constant/enum";
+import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateBlog,
@@ -46,31 +46,37 @@ export interface Blog {
 export interface BlogState {
   loading: boolean;
   error: string;
-  dataBlog: Blog;
-  dataBlogId: BlogItem;
+  blog: Blog;
+  blogId: BlogItem;
   isCreate: boolean;
   isUpdate: boolean;
   isDelete: boolean;
-  checkDate: string;
+  checkDate: AddedDateSort;
   tags: Tag[];
+  sortBy: SortBy;
+  search: string;
+  status: StatusBlog;
 }
 
 const initialState: BlogState = {
   loading: false,
   error: "",
-  dataBlog: {
+  blog: {
     items: [],
     totalItems: 0,
     pageIndex: 1,
     pageSize: 10,
     totalPages: 0,
   },
-  dataBlogId: {} as BlogItem,
+  blogId: {} as BlogItem,
   isCreate: false,
   isUpdate: false,
   isDelete: false,
-  checkDate: "all",
+  checkDate: AddedDateSort.AllTime,
   tags: [],
+  sortBy: SortBy.Newest,
+  search: "",
+  status: "" as StatusBlog,
 };
 
 const BlogReducer = createSlice({
@@ -86,11 +92,23 @@ const BlogReducer = createSlice({
     SetIsDeleteBlog: (state, action: PayloadAction<boolean>) => {
       state.isDelete = action.payload;
     },
-    SetCheckDate: (state, action: PayloadAction<string>) => {
+    SetCheckDate: (state, action: PayloadAction<AddedDateSort>) => {
       state.checkDate = action.payload;
     },
     SetTags: (state, action: PayloadAction<Tag[]>) => {
       state.tags = action.payload;
+    },
+    SetPageIndex: (state, action: PayloadAction<number>) => {
+      state.blog.pageIndex = action.payload;
+    },
+    SetSortBy: (state, action: PayloadAction<SortBy>) => {
+      state.sortBy = action.payload;
+    },
+    SetSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+    },
+    SetStatus: (state, action: PayloadAction<StatusBlog>) => {
+      state.status = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -100,7 +118,7 @@ const BlogReducer = createSlice({
       })
       .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog>) => {
         state.loading = false;
-        state.dataBlog = action.payload;
+        state.blog = action.payload;
       })
       .addCase(GetBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -113,7 +131,7 @@ const BlogReducer = createSlice({
         GetBlogId.fulfilled,
         (state, action: PayloadAction<BlogItem>) => {
           state.loading = false;
-          state.dataBlogId = action.payload;
+          state.blogId = action.payload;
         },
       )
       .addCase(GetBlogId.rejected, (state, action: PayloadAction<any>) => {
@@ -164,4 +182,8 @@ export const {
   SetIsDeleteBlog,
   SetCheckDate,
   SetTags,
+  SetPageIndex,
+  SetSortBy,
+  SetSearch,
+  SetStatus,
 } = BlogReducer.actions;

@@ -10,7 +10,7 @@ import {
 } from "@constant";
 import { Currency } from "@constant/enum";
 import { aptosClient } from "@contexts/WalletProvider";
-import CloseIcon from "@icons/CloseIcon";
+import CloseIcon from "@icons/common/CloseIcon";
 import { Stack, StackProps } from "@mui/material";
 import { formatNumber, getTicker, blockchainToNumber } from "@utils";
 import { typography } from "public/material";

@@ -6,6 +6,8 @@ import { useGame } from "@store/game";
 import React, { useEffect, useState } from "react";
 import img from "public/images/img-local.png";
 import { useRouter } from "next/navigation";
+import { useBlog } from "@store/new";
+import { AddedDateSort, SortBy } from "@constant/enum";
 
 const LayoutGenres = () => {
   const router = useRouter();
@@ -14,9 +16,27 @@ const LayoutGenres = () => {
     SetGenresTitle,
     fetchGameCount,
     dataGameCount: data,
+    setMinRating,
+    setMaxRating,
+    SetPlatforms,
+    setSearch: searchGame,
+    setSortBy: sortGame,
   } = useGame();
+
+  const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
+
   useEffect(() => {
     fetchGameCount();
+    setCheckDate(AddedDateSort.AllTime);
+    SetPlatforms([]);
+    setMaxRating(0);
+    setMinRating(0);
+    SetGenres([]);
+    setTags([]);
+    setSearch("");
+    searchGame("");
+    setSortBy(SortBy.Newest);
+    sortGame(SortBy.Newest);
   }, []);
 
   const [genres, setGenres] = useState<string[]>([]);

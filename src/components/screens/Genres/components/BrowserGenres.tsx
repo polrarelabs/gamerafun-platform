@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
+import { getSort } from "@components/helper";
 import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
-import GameIcon from "@icons/GameIcon";
+import GameIcon from "@icons/web3/GameIcon";
 import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
 import { palette } from "public/material";
@@ -73,8 +74,9 @@ const BrowserGenres = ({
           >
             <SelectOptions
               selected={selected}
-              handleChange={handleChange}
+              setSelected={setSelected}
               options={names}
+              getSort={getSort}
             />
             <ButtonFillters handleOpen={handleOpen} />
           </Stack>

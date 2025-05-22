@@ -6,7 +6,7 @@ import { Stack } from "@mui/material";
 import { PlatformProps } from "@store/game";
 import React, { memo, useEffect, useState } from "react";
 import { HandleClickOption } from "../screens/Genres/components/helper";
-import CircleCheckIcon from "@icons/CircleCheckIcon";
+import CircleCheckIcon from "@icons/common/CircleCheckIcon";
 import { palette } from "public/material";
 
 interface PropForm {

@@ -13,9 +13,9 @@ import {
   popoverClasses,
 } from "@mui/material";
 import { memo, useId, useMemo, useState, MouseEvent } from "react";
-import ChevronIcon from "icons/ChevronIcon";
+import ChevronIcon from "@icons/common/ChevronIcon";
 import { Option } from "constant/types";
-import CheckedIcon from "icons/CheckedIcon";
+import CheckedIcon from "@icons/common/CheckedIcon";
 import Text from "./Text";
 import { typography } from "public/material";
 

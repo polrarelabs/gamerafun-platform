@@ -12,17 +12,17 @@ import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { GENRES_PATH, HOME_PATH } from "@constant/paths";
+import { AddedDateSort } from "@constant/enum";
 
 const GenresDetails = () => {
-  const { setEditorRating, setUserRating, SetPlatforms, genresTitle } =
-    useGame();
+  const { setMinRating, setMaxRating, SetPlatforms, genresTitle } = useGame();
   const { setTags, setCheckDate } = useBlog();
 
   useEffect(() => {
-    setCheckDate("all");
+    setCheckDate(AddedDateSort.AllTime);
     SetPlatforms([]);
-    setUserRating(0);
-    setEditorRating(0);
+    setMaxRating(0);
+    setMinRating(0);
     setTags([]);
   }, []);
 
