@@ -152,15 +152,7 @@ const NewsDetail = () => {
           </Button>
         </Stack>
       </Stack>
-      <Stack direction={"column"} gap={2} flex={2}>
-        {cookie && cookie !== "undefined" && (
-          <>
-            <Text color={"white"} fontWeight={700} fontSize={"24px"}>
-              Related Games
-            </Text>
-          </>
-        )}
-      </Stack>
+      <Stack flex={2}></Stack>
 
       <Dialog
         fullWidth

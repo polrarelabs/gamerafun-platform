@@ -41,12 +41,11 @@ const CreateBlog = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      // if (dataGallery) {
-      //     values.thumbnailUrl = dataGallery.url
-      // }
-      // createBlog(values)
-
       console.log(values);
+      if (dataGallery) {
+        values.thumbnailUrl = dataGallery.url;
+      }
+      createBlog(values);
     },
   });
   return (

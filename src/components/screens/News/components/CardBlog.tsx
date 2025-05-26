@@ -18,7 +18,7 @@ export interface PropsLastNew {
   id: number | null;
   displayLayout: string;
   data: BlogItem;
-  handleClick: (id: number) => void;
+  handleClick: (id: string) => void;
 }
 
 const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
@@ -123,7 +123,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
           </Text>
 
           <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-            {data.shortDescription}
+            {data.metaDescription}
           </Text>
 
           <Text

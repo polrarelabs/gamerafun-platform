@@ -28,7 +28,7 @@ export const useBlog = () => {
     dispatch(GetBlog(param));
   };
 
-  const getBlogId = (blogId: number) => {
+  const getBlogId = (blogId: string) => {
     dispatch(GetBlogId(blogId));
   };
 
