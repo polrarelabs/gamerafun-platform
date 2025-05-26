@@ -3,6 +3,7 @@
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
+import { Box } from "@mui/material";
 
 interface EditorProps {
   readOnly?: boolean;
@@ -82,7 +83,14 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       };
     }, [ref, readOnly]);
 
-    return <div ref={containerRef} />;
+    return (
+      <Box
+        ref={containerRef}
+        sx={{
+          "&:read-only": {},
+        }}
+      />
+    );
   },
 );
 

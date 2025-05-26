@@ -206,7 +206,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
   useEffect(() => {
     if (isCreate) {
       setIsCreate();
-      fetchGetGame();
+      // fetchGetGame();
       formik.resetForm();
     }
   }, [isCreate]);

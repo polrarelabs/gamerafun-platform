@@ -16,11 +16,11 @@ const SimilarGameReviews = () => {
   const [hover, setHover] = useState<boolean>(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const x = useMotionValue(0);
-  useEffect(() => {
-    if (dataGetGameId?.genre && dataGetGameId.genre.length > 0) {
-      fetchGetGame({ genre: [dataGetGameId.genre[0]] });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (dataGetGameId?.genre && dataGetGameId.genre.length > 0) {
+  //     fetchGetGame({ genre: [dataGetGameId.genre[0]] });
+  //   }
+  // }, []);
   const handleScroll = (direction: "left" | "right") => {
     const container = containerRef.current;
     const track = trackRef.current;

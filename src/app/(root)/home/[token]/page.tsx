@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { HOME_DETAIL_PATH } from "@constant/paths";
 import { generateMetadata } from "@utils/seo";
 import { Stack } from "@mui/material";
-import { InfoApp, Tabs, TradingView } from "@components/screens/AgentDetail";
-import Wrapper from "@components/screens/AgentDetail/Wrapper";
+// import { InfoApp, Tabs, TradingView } from "@components/screens/AgentDetail";
+// import Wrapper from "@components/screens/AgentDetail/Wrapper";
 import { MIN_HEIGHT_SCREEN, SCREEN_PX } from "@constant";
 
 export const metadata: Metadata = generateMetadata("Home", HOME_DETAIL_PATH);
@@ -18,7 +18,7 @@ export default function Home() {
       minHeight={MIN_HEIGHT_SCREEN}
       pt={2}
     >
-      <Stack
+      {/* <Stack
         flex={{ xs: 1, lg: 2 }}
         maxWidth={{ xs: "100%", lg: "66.6%" }}
         px={{ xs: 1, lg: 2, elg: 3 }}
@@ -36,7 +36,7 @@ export default function Home() {
         </Stack>
         <Tabs />
       </Stack>
-      <Wrapper />
+      <Wrapper /> */}
     </Stack>
   );
 }

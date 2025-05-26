@@ -13,11 +13,11 @@ import { palette } from "public/material";
 const RelatedGames = () => {
   const { dataListGame: data, fetchGetGame, dataGetGameId } = useGame();
   // const [hover, setHover] = useState<boolean>(false);
-  useEffect(() => {
-    if (dataGetGameId?.genre && dataGetGameId.genre.length > 0) {
-      fetchGetGame({ genre: dataGetGameId.genre });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (dataGetGameId?.genre && dataGetGameId.genre.length > 0) {
+  //     fetchGetGame({ genre: dataGetGameId.genre });
+  //   }
+  // }, []);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const x = useMotionValue(0);

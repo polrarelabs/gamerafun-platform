@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { getSort } from "@components/helper";
+import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
-import { SelectChangeEvent, Stack } from "@mui/material";
-import img from "public/images/img-logo.png";
-import { palette } from "public/material";
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import ButtonFillters from "@components/shared/ButtonFillters";
-import { CardBlog } from "./components";
+import { SortBy } from "@constant/enum";
+import { NEWS_PATH } from "@constant/paths";
+import { SelectChangeEvent, Stack } from "@mui/material";
 import { BlogItem, useBlog } from "@store/new";
 import { useRouter } from "next/navigation";
-import { GENRES_PATH, NEWS_PATH } from "@constant/paths";
-import Selected from "@components/Selected";
-import { SortBy } from "@constant/enum";
-import { getSort } from "@components/helper";
+import { palette } from "public/material";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import { CardBlog } from "./components";
 
 interface Props {
   isLayoutMD: boolean;
@@ -41,6 +40,7 @@ const LastNewsLists = ({
     sortBy,
     setSortBy,
     search,
+    checkDate,
   } = useBlog();
 
   useEffect(() => {
@@ -50,8 +50,9 @@ const LastNewsLists = ({
       tags: tags,
       sortBy: sortBy,
       search: search === "" ? undefined : search,
+      // sortBydate: checkDate,
     });
-  }, [blog.pageIndex, tags, sortBy, search]);
+  }, [blog.pageIndex, tags, sortBy, search, checkDate]);
 
   const handleChange = (event: SelectChangeEvent) => {
     setSortBy(event.target.value as SortBy);
@@ -147,13 +148,8 @@ const LastNewsLists = ({
             <CardBlog
               ref={isLast ? lastElementRef : null}
               key={index}
-              hover={hover}
-              setHover={setHover}
-              img={img}
-              setId={setId}
               data={item}
               index={index}
-              id={id}
               displayLayout={displayLayout}
               handleClick={handleClick}
             />

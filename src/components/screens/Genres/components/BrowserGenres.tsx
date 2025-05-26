@@ -31,9 +31,9 @@ const BrowserGenres = ({
 
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { isSmSmaller } = useBreakpoint();
-  useEffect(() => {
-    fetchGetGame();
-  }, []);
+  // useEffect(() => {
+  //   fetchGetGame();
+  // }, []);
 
   const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
   const [selected, setSelected] = useState<string>("");

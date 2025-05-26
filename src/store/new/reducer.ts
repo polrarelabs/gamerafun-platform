@@ -26,6 +26,7 @@ export interface BlogItem {
   slug: string;
   thumbnailUrl: string;
   publicDate: string;
+  status: StatusBlog;
   tags: Tag[];
   author: string;
   metaTitle: string;

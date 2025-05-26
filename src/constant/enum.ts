@@ -70,12 +70,12 @@ export enum SupportOs {
   IOS = "IOS",
 }
 
-export enum ScheduleStatus {
-  PLAYABLE = "Playable",
-  BETA = "Beta",
-  ALPHA = "Alpha",
-  INDEVELOPMENT = "InDevelopment",
-}
+// export enum ScheduleStatus {
+//   PLAYABLE = "Playable",
+//   BETA = "Beta",
+//   ALPHA = "Alpha",
+//   INDEVELOPMENT = "InDevelopment",
+// }
 
 export enum SupportChain {
   BscTestnet = "BSC_TESTNET",
@@ -140,4 +140,13 @@ export enum AddedDateSort {
   Days30 = "30days",
   Months6 = "6months",
   Months12 = "12months",
+}
+
+export enum ScheduleStatus {
+  Playable = "Playable",
+  Beta = "Beta",
+  Alpha = "Alpha",
+  InDevelopment = "InDevelopment",
+  Discontinued = "Discontinued",
+  TBA = "TBA",
 }

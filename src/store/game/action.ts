@@ -3,6 +3,7 @@ import {
   Genre,
   MediaPosition,
   Platform,
+  ScheduleStatus,
   SupportChain,
   SupportOs,
 } from "@constant/enum";
@@ -11,6 +12,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 // import qs from 'qs'
 
 export interface ParamsProp {
+  // pageIndex: number;
+  // pageSize: number;
   search?: string;
   sortBy?: string;
   addedDateSort?: string;
@@ -18,6 +21,9 @@ export interface ParamsProp {
   maxRating?: number;
   genre?: Genre[];
   platform?: Platform[];
+  statusGame?: ScheduleStatus[];
+  playableOnDesktop?: boolean;
+  skip?: number;
 }
 
 export interface PropsSocials {
@@ -76,8 +82,8 @@ export interface PropsGameReview {
 }
 
 export const getGame = createAsyncThunk(
-  "game/getList",
-  async (params: ParamsProp = {}) => {
+  "get/game",
+  async (params: ParamsProp) => {
     try {
       const response = await client.get(Endpoint.GET_GAME, params);
       // if (response?.status === HttpStatusCode.Ok) {
@@ -89,7 +95,7 @@ export const getGame = createAsyncThunk(
   },
 );
 
-export const getGameCount = createAsyncThunk("game/getCount", async () => {
+export const getGameCount = createAsyncThunk("get/count", async () => {
   try {
     const response = await client.get(Endpoint.GET_GAME_COUNT);
     // if (response.status === HttpStatusCode.Ok)
@@ -100,8 +106,8 @@ export const getGameCount = createAsyncThunk("game/getCount", async () => {
 });
 
 export const getGameOwner = createAsyncThunk(
-  "game/getOwner",
-  async (params: ParamsProp = {}) => {
+  "get/owner",
+  async (params: ParamsProp) => {
     try {
       const respon = await client.get(Endpoint.GET_GAME_OWNER, params);
       // if (respon?.status === HttpStatusCode.Ok)
@@ -113,7 +119,7 @@ export const getGameOwner = createAsyncThunk(
 );
 
 export const createGame = createAsyncThunk(
-  "game/create",
+  "post/create",
   async (params: PropsFormik) => {
     try {
       const response = await client.post(Endpoint.CREATE_GAME, params);
@@ -126,7 +132,7 @@ export const createGame = createAsyncThunk(
 );
 
 export const updateGame = createAsyncThunk(
-  "game/update",
+  "put/update",
   async (body: PropsFormik) => {
     try {
       const response = await client.put(Endpoint.UPDATE_GAME, body);
@@ -139,7 +145,7 @@ export const updateGame = createAsyncThunk(
 );
 
 export const getGameID = createAsyncThunk(
-  "game/getById",
+  "get/gameId",
   async (gameId: number) => {
     try {
       const response = await client.get(`${Endpoint.GET_GAME}/${gameId}`);
@@ -156,7 +162,7 @@ export interface PropsDelete {
 }
 
 export const deleteGame = createAsyncThunk(
-  "game/delete",
+  "delete/game",
   async (body: PropsDelete) => {
     try {
       const response = await client.delete(Endpoint.DELETE_GAME, body);

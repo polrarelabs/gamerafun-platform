@@ -1,45 +1,39 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { Image, Text } from "@components/shared";
 import useWindowSize from "@hooks/useWindowSize";
 import { Stack } from "@mui/material";
 import { BlogItem } from "@store/new";
 import { palette } from "public/material";
 import React, { forwardRef, memo, useEffect, useRef, useState } from "react";
-
+import img from "public/images/img-bg-login.png";
+import { formatMMMMDoYYYY } from "@components/helper";
 export interface PropsLastNew {
-  hover: boolean;
-  setHover: React.Dispatch<React.SetStateAction<boolean>>;
-  img: any | null;
-  setId: React.Dispatch<React.SetStateAction<number | null>>;
   index: number;
-  id: number | null;
   displayLayout: string;
   data: BlogItem;
   handleClick: (id: string) => void;
+  isHover?: boolean;
+  widthMax?: number | null;
 }
 
 const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
   (
     {
-      hover,
-      setHover,
-      img,
-      setId,
       index,
-      id,
       data,
       displayLayout,
       handleClick,
+      isHover = true,
+      widthMax = null,
     },
     ref,
   ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { width } = useWindowSize();
     const [height, setHeight] = useState<number | undefined>(undefined);
-
+    const [hover, setHover] = useState<boolean>(false);
+    const [id, setId] = useState<number | null>(null);
     useEffect(() => {
       if (!containerRef.current) return;
       setHeight(
@@ -62,17 +56,25 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
           transition:
             displayLayout === "list" ? undefined : "translate 0.2s ease-in-out",
           "&:hover": {
-            translate: displayLayout === "list" ? undefined : "0 -6px",
+            translate: isHover
+              ? displayLayout === "list"
+                ? undefined
+                : "0 -6px"
+              : undefined,
             cursor: "pointer",
           },
         }}
         onMouseEnter={() => {
-          setHover(true);
-          setId(index);
+          if (isHover === true) {
+            setHover(true);
+            setId(index);
+          }
         }}
         onMouseLeave={() => {
-          setHover(false);
-          setId(null);
+          if (isHover === true) {
+            setHover(false);
+            setId(null);
+          }
         }}
         onClick={() => handleClick(data.id)}
       >
@@ -81,19 +83,17 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
           ref={displayLayout === "list" ? containerRef : undefined}
         >
           <Image
-            src={img}
+            src={data.thumbnailUrl ? data.thumbnailUrl : img}
             alt={`img-${img}`}
-            size="100%"
-            // aspectRatio={displayLayout === "list" ? 7 / 3 : 7 / 4}
+            size={"100%"}
             aspectRatio={3 / 2}
-            sizes={`${height}px`}
+            sizes={widthMax === null ? `${height}px` : `${widthMax}px`}
             containerProps={{
               sx: {
-                width: `${height}px`,
+                width: widthMax == null ? `${height}px` : `${widthMax}px`,
                 height: "100%",
                 overflow: "hidden",
                 borderRadius: "16px",
-
                 border: "1px",
                 borderColor: palette.borderColorLinear,
                 "& img": {
@@ -110,37 +110,69 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
           direction={"column"}
           gap={2}
           p={2}
-          justifyContent={
-            displayLayout === "list" ? "space-between" : undefined
-          }
+          height={"100%"}
+          justifyContent={"space-between"}
         >
-          <Text color={palette.colorGray} fontSize={"12px"} fontWeight={600}>
-            {data.publicDate}
-          </Text>
+          <Stack direction={"column"} gap={2}>
+            <Text color={palette.colorGray} fontSize={"12px"} fontWeight={600}>
+              {formatMMMMDoYYYY(data.publicDate)}
+            </Text>
 
-          <Text color={palette.textWhite} fontSize={"18px"} fontWeight={700}>
-            {data.title}
-          </Text>
+            <Text color={palette.textWhite} fontSize={"18px"} fontWeight={700}>
+              {data.title}
+            </Text>
 
-          <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-            {data.metaDescription}
-          </Text>
-
-          <Text
-            color={palette.greenColorText}
-            fontSize={"12px"}
-            fontWeight={600}
-            textTransform={"uppercase"}
-            sx={{
-              backgroundColor: palette.greenColorButton,
-              padding: "4px 8px",
-              borderRadius: "4px",
-              width: "max-content",
-              border: `1px solid ${palette.colorBorderTag}`,
-            }}
-          >
-            Tag
-          </Text>
+            <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
+              {data.metaDescription}
+            </Text>
+          </Stack>
+          <Stack direction={"row"} gap={1} alignItems={"center"}>
+            {data.tags &&
+              data.tags.length > 0 &&
+              data.tags.map((tag, index) => {
+                if (index < 2) {
+                  return (
+                    <Text
+                      key={index}
+                      color={palette.greenColorText}
+                      fontSize={"12px"}
+                      fontWeight={600}
+                      textTransform={"uppercase"}
+                      sx={{
+                        backgroundColor: palette.greenColorButton,
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                        width: "max-content",
+                        border: `1px solid ${palette.colorBorderTag}`,
+                      }}
+                    >
+                      {tag}
+                    </Text>
+                  );
+                } else if (index === 2) {
+                  return (
+                    <>
+                      <Text
+                        key={index}
+                        color={palette.greenColorText}
+                        fontSize={"12px"}
+                        fontWeight={600}
+                        textTransform={"uppercase"}
+                        sx={{
+                          backgroundColor: palette.greenColorButton,
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          width: "max-content",
+                          border: `1px solid ${palette.colorBorderTag}`,
+                        }}
+                      >
+                        {`+${data.tags.length - 2}`}
+                      </Text>
+                    </>
+                  );
+                }
+              })}
+          </Stack>
         </Stack>
       </Stack>
     );

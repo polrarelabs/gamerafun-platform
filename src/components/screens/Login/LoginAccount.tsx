@@ -11,7 +11,13 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { HOME_PATH } from "@constant/paths";
 import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
-const LoginAccount = () => {
+import ArrowRightCircleIcon from "@icons/common/ArrowRightCircleIcon";
+
+interface LoginAccountProps {
+  setOption: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const LoginAccount = ({ setOption }: LoginAccountProps) => {
   const router = useRouter();
   const { data, LoginAccount } = useAuthLogin();
 
@@ -49,7 +55,19 @@ const LoginAccount = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Stack direction={"column"} gap={2}>
+      <Stack direction={"column"} gap={2} position={"relative"} pt={6}>
+        <ArrowRightCircleIcon
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            rotate: "180deg",
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+          onClick={() => setOption("social")}
+        />
         <TextFieldFormik label="Username" name="userName" formik={formik} />
         <TextFieldFormik
           label="Password"
