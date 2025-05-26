@@ -1,18 +1,17 @@
 "use client";
 
-import { Text } from "@components/shared";
-import CloseIcon from "@icons/CloseIcon";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
+import { useBlog } from "@store/new";
 import React, { memo } from "react";
-import BoxSelected from "../screens/Genres/components/BoxSelected";
+import { BoxSelected } from "./shared";
 
 const Selected = () => {
   const {
-    setEditorRating,
-    setUserRating,
-    valueEditorRating,
-    valueUserRating,
+    setMinRating,
+    setMaxRating,
+    minRating,
+    maxRating,
     playNow,
     freeToPlay,
     awardWinners,
@@ -26,6 +25,8 @@ const Selected = () => {
     genres,
     SetGenres,
   } = useGame();
+
+  const { tags, setTags } = useBlog();
 
   return (
     <Stack direction={"row"} gap={2} flexWrap={"wrap"}>
@@ -65,18 +66,18 @@ const Selected = () => {
         />
       )}
 
-      {valueEditorRating !== 0 && (
+      {minRating !== 0 && (
         <BoxSelected
-          name={"editor rating"}
-          value={valueEditorRating}
-          onClose={() => setEditorRating(0)}
+          name={"min rating"}
+          value={minRating}
+          onClose={() => setMinRating(0)}
         />
       )}
-      {valueUserRating !== 0 && (
+      {maxRating !== 0 && (
         <BoxSelected
-          name={"user rating"}
-          value={valueUserRating}
-          onClose={() => setUserRating(0)}
+          name={"max rating"}
+          value={maxRating}
+          onClose={() => setMaxRating(0)}
         />
       )}
       {genres.length > 0 && (
@@ -85,6 +86,9 @@ const Selected = () => {
           value={genres}
           onClose={() => SetGenres([])}
         />
+      )}
+      {tags.length > 0 && (
+        <BoxSelected name={"tags"} value={tags} onClose={() => setTags([])} />
       )}
     </Stack>
   );

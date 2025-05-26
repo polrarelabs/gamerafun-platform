@@ -2,9 +2,9 @@ import { memo } from "react";
 import { Stack } from "@mui/material";
 import { SCREEN_PX } from "@constant";
 import { Text } from "@components/shared";
-import TwitterIcon from "@icons/TwitterIcon";
-import TelegramIcon from "@icons/TelegramIcon";
-import DiscordIcon from "@icons/DiscordIcon";
+import TwitterIcon from "@icons/socials/TwitterIcon";
+import TelegramIcon from "@icons/socials/TelegramIcon";
+import DiscordIcon from "@icons/socials/DiscordIcon";
 import Link from "@components/Link";
 import { TELE_URL, X_URL } from "./helper";
 

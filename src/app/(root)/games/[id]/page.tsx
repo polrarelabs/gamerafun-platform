@@ -8,16 +8,40 @@ import { useEffect } from "react";
 import bgSlider from "public/images/banner.webp";
 import { Guides, News, Overview, Review } from "@components/screens/Games";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
-import { GAME_PATH } from "@constant/paths";
+
+import { GAME_PATH, HOME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
+import { useBlog } from "@store/new";
+import { AddedDateSort, SortBy } from "@constant/enum";
 const LayoutGameDetail = () => {
   const { id } = useParams();
-  const { getGameId, dataGetGameId: data } = useGame();
+  const {
+    setMinRating,
+    setMaxRating,
+    SetPlatforms,
+    SetGenres,
+    getGameId,
+    dataGetGameId: data,
+    setSearch: searchGame,
+    setSortBy: sortGame,
+  } = useGame();
+  const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
+
   useEffect(() => {
     if (id) {
       const gameId = Array.isArray(id) ? Number(id[0]) : Number(id);
       getGameId(gameId);
     }
+    setCheckDate(AddedDateSort.AllTime);
+    SetPlatforms([]);
+    setMaxRating(0);
+    setMinRating(0);
+    SetGenres([]);
+    setTags([]);
+    setSearch("");
+    searchGame("");
+    setSortBy(SortBy.Newest);
+    sortGame(SortBy.Newest);
   }, [id]);
   const tabItems = [
     { label: "Overview", content: <Overview /> },
@@ -33,7 +57,7 @@ const LayoutGameDetail = () => {
 
   const breadcrumbs: BreadcumbsItem[] = [
     {
-      href: "/",
+      href: HOME_PATH,
       title: "HOME",
     },
     {

@@ -15,8 +15,8 @@ import {
   Text,
 } from "components/shared";
 import { Box, Stack } from "@mui/material";
-import TrashIcon from "icons/TrashIcon";
-import EyeIcon from "icons/EyeIcon";
+import TrashIcon from "@icons/common/TrashIcon";
+import EyeIcon from "@icons/common/EyeIcon";
 import { parsedRatioString } from "utils/index";
 import useToggle from "hooks/useToggle";
 import DialogLayout from "components/DialogLayout";

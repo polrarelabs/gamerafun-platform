@@ -4,14 +4,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GetHistory, SendMessage } from "./action";
 import { TypeChat } from "./helper";
 
-export interface GetHistoryProps {
+export interface HistoryProps {
   id: number;
   content: string | any;
   type: TypeChat;
 }
 interface ChatAIState {
-  dataSendMessage: string;
-  dataHistory: GetHistoryProps[];
+  message: string;
+  histories: HistoryProps[];
   loading: boolean;
   error: string;
   isCall: boolean;
@@ -20,8 +20,8 @@ interface ChatAIState {
 const initialState: ChatAIState = {
   loading: false,
   error: "",
-  dataHistory: [],
-  dataSendMessage: "",
+  histories: [],
+  message: "",
   isCall: false,
 };
 
@@ -41,7 +41,7 @@ const ChatAIReducer = createSlice({
       .addCase(
         SendMessage.fulfilled,
         (state, action: PayloadAction<string>) => {
-          state.dataSendMessage = action.payload;
+          state.message = action.payload;
           state.loading = false;
           state.isCall = true;
         },
@@ -55,8 +55,8 @@ const ChatAIReducer = createSlice({
       })
       .addCase(
         GetHistory.fulfilled,
-        (state, action: PayloadAction<GetHistoryProps[]>) => {
-          state.dataHistory = action.payload;
+        (state, action: PayloadAction<HistoryProps[]>) => {
+          state.histories = action.payload;
           state.loading = false;
         },
       )

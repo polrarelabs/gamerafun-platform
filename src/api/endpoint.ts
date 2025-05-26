@@ -30,8 +30,9 @@ export const Endpoint = {
 
   ASK_HISTORIES: "/{threadId}/histories",
 
-  GET_BLOG: "/blog",
+  GET_BLOG: "web/blog",
   POST_CREATE_BLOG: "/blog/create",
   PATCH_UPDATE_BLOG: "/blog/udpate",
   DELETE_BLOG: "/blog/delete",
+  GET_PROFILE: "/user/profile",
 };

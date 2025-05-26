@@ -3,13 +3,13 @@
 import { memo } from "react";
 import { Stack } from "@mui/material";
 import { IconButton } from "@components/shared";
-import MenuIcon from "@icons/MenuIcon";
-import GridIcon from "@icons/GridIcon";
+import MenuIcon from "@icons/web3/MenuIcon";
+import GridIcon from "@icons/web3/GridIcon";
 import { useTokens, ViewMode } from "@store/token";
 import { Tag } from "./components";
 import { DEFAULT_PAGING } from "@constant";
 import { AgentState } from "@constant/enum";
-import BarsIcon from "@icons/BarsIcon";
+import BarsIcon from "@icons/common/BarsIcon";
 
 type FiltersProps = {};
 

@@ -12,7 +12,7 @@ import {
   InputBase,
   Stack,
 } from "@mui/material";
-import { GetHistoryProps, useSendMessage } from "@store/chatAI";
+import { HistoryProps, useChatAI } from "@store/chatAI";
 import { TypeChat } from "@store/chatAI/helper";
 import { palette } from "public/material";
 import React, { memo, useEffect, useRef, useState } from "react";
@@ -25,12 +25,12 @@ interface PropChatAI {
 }
 
 const ChatAI = ({ handleClose, open }: PropChatAI) => {
-  const { threadId, sendMessage, history, getHistory, isCall, SetIsCall } =
-    useSendMessage();
+  const { threadId, sendMessage, histories, getHistory, isCall, SetIsCall } =
+    useChatAI();
 
   const [value, setvalue] = useState<string>("");
 
-  const [dataHistorychat, setDataHistorychat] = useState<GetHistoryProps[]>([]);
+  const [historyChats, setHistoryChats] = useState<HistoryProps[]>([]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -51,13 +51,13 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
   }, [isCall]);
 
   useEffect(() => {
-    if (history) {
-      setDataHistorychat(history);
+    if (histories) {
+      setHistoryChats(histories);
     }
-  }, [history]);
+  }, [histories]);
   useEffect(() => {
     scrolltoView();
-  }, [dataHistorychat]);
+  }, [historyChats]);
 
   const handleSendMessage = () => {
     if (value.length > 0) {
@@ -65,16 +65,16 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
         threadId: threadId,
         question: value,
       });
-      const arrnew: GetHistoryProps[] = [
-        ...dataHistorychat,
+      const arrnew: HistoryProps[] = [
+        ...historyChats,
         {
-          id: dataHistorychat.length,
+          id: historyChats.length,
           content: value,
           type: TypeChat.HUMAN,
         },
       ];
       setvalue("");
-      setDataHistorychat(arrnew);
+      setHistoryChats(arrnew);
       setTimeout(() => {
         const updatedArr = [
           ...arrnew,
@@ -84,7 +84,7 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
             type: TypeChat.AI,
           },
         ];
-        setDataHistorychat(updatedArr);
+        setHistoryChats(updatedArr);
       }, 200);
     }
   };
@@ -122,14 +122,14 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
           height={"100%"}
           width={"100%"}
         >
-          {dataHistorychat.map((item, index) => {
+          {historyChats.map((item, index) => {
             return (
               <Stack
                 key={item.id}
                 direction={"row"}
                 justifyContent={item.type === TypeChat.AI ? "start" : "end"}
                 alignItems={"center"}
-                // ref={index === dataHistorychat.length - 1 ? ref : null}
+                // ref={index === historyChats.length - 1 ? ref : null}
                 width={"100%"}
               >
                 <Stack
@@ -151,7 +151,7 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
                     </Avatar>
                   )}
                   <Text
-                    ref={index === dataHistorychat.length - 1 ? ref : null}
+                    ref={index === historyChats.length - 1 ? ref : null}
                     sx={{
                       background:
                         // item.errors && item.type === "ai"

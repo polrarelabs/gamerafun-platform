@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { StatusBlog, Tag } from "@constant/enum";
+import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateBlog,
@@ -19,40 +19,65 @@ interface MediaProp {
   updateBy: string;
 }
 
-export interface Blog {
-  id: number;
+export interface BlogItem {
+  id: string;
   title: string;
-  shortDescription: string;
   content: string;
   slug: string;
-  media: MediaProp[];
-  status: StatusBlog;
-  tags: Tag[];
+  thumbnailUrl: string;
   publicDate: string;
+  tags: Tag[];
+  author: string;
+  metaTitle: string;
+  metaDescription: string;
   createAt: string;
   createBy: string;
   updateBy: string;
   updateAt: string;
 }
 
+export interface Blog {
+  items: BlogItem[];
+  totalItems: number;
+  pageIndex: number;
+  pageSize: number;
+  totalPages: number;
+}
+
 export interface BlogState {
   loading: boolean;
   error: string;
-  dataBlog: Blog[];
-  dataBlogId: Blog;
+  blog: Blog;
+  blogId: BlogItem;
   isCreate: boolean;
   isUpdate: boolean;
   isDelete: boolean;
+  checkDate: AddedDateSort;
+  tags: Tag[];
+  sortBy: SortBy;
+  search: string;
+  status: StatusBlog;
 }
 
 const initialState: BlogState = {
   loading: false,
   error: "",
-  dataBlog: [],
-  dataBlogId: {} as Blog,
+  blog: {
+    items: [],
+    totalItems: 0,
+    pageIndex: 1,
+    pageSize: 10,
+    totalPages: 0,
+  },
+  blogId: {} as BlogItem,
   isCreate: false,
   isUpdate: false,
   isDelete: false,
+  checkDate: AddedDateSort.AllTime,
+  tags: [],
+  sortBy: SortBy.Newest,
+  search: "",
+  status: "" as StatusBlog,
 };
 
 const BlogReducer = createSlice({
@@ -68,15 +93,33 @@ const BlogReducer = createSlice({
     SetIsDeleteBlog: (state, action: PayloadAction<boolean>) => {
       state.isDelete = action.payload;
     },
+    SetCheckDate: (state, action: PayloadAction<AddedDateSort>) => {
+      state.checkDate = action.payload;
+    },
+    SetTags: (state, action: PayloadAction<Tag[]>) => {
+      state.tags = action.payload;
+    },
+    SetPageIndex: (state, action: PayloadAction<number>) => {
+      state.blog.pageIndex = action.payload;
+    },
+    SetSortBy: (state, action: PayloadAction<SortBy>) => {
+      state.sortBy = action.payload;
+    },
+    SetSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+    },
+    SetStatus: (state, action: PayloadAction<StatusBlog>) => {
+      state.status = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(GetBlog.pending, (state) => {
         state.loading = true;
       })
-      .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog[]>) => {
+      .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog>) => {
         state.loading = false;
-        state.dataBlog = action.payload;
+        state.blog = action.payload;
       })
       .addCase(GetBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -85,10 +128,13 @@ const BlogReducer = createSlice({
       .addCase(GetBlogId.pending, (state) => {
         state.loading = true;
       })
-      .addCase(GetBlogId.fulfilled, (state, action: PayloadAction<Blog>) => {
-        state.loading = false;
-        state.dataBlogId = action.payload;
-      })
+      .addCase(
+        GetBlogId.fulfilled,
+        (state, action: PayloadAction<BlogItem>) => {
+          state.loading = false;
+          state.blogId = action.payload;
+        },
+      )
       .addCase(GetBlogId.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload || "";
@@ -131,5 +177,14 @@ const BlogReducer = createSlice({
 
 export default BlogReducer.reducer;
 
-export const { SetIsCreateBlog, SetIsUpdateBlog, SetIsDeleteBlog } =
-  BlogReducer.actions;
+export const {
+  SetIsCreateBlog,
+  SetIsUpdateBlog,
+  SetIsDeleteBlog,
+  SetCheckDate,
+  SetTags,
+  SetPageIndex,
+  SetSortBy,
+  SetSearch,
+  SetStatus,
+} = BlogReducer.actions;

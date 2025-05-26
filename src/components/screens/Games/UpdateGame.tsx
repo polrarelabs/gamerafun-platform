@@ -329,7 +329,6 @@ const UpdateGame = () => {
               label={"Support Os"}
               name={"support_os"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={SupportOs}
               isDisable={isDisable}
             />
@@ -337,7 +336,6 @@ const UpdateGame = () => {
               label={"Platform"}
               name={"platform"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={Platform}
               isDisable={isDisable}
             />
@@ -347,7 +345,6 @@ const UpdateGame = () => {
               label={"Genre"}
               name={"genre"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={Genre}
               isDisable={isDisable}
             />
@@ -355,7 +352,6 @@ const UpdateGame = () => {
               label={"Chain"}
               name={"chain"}
               formik={formik}
-              MenuProps={MenuProps}
               OptionEnum={SupportChain}
               isDisable={isDisable}
             />

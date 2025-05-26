@@ -3,13 +3,13 @@
 import { Box, IconButton, Modal, Stack } from "@mui/material";
 import logoGame from "public/images/img-logo.png";
 import { Image, Text } from "@components/shared";
-import XIcon from "@icons/XIcon";
-import TelegramIcon from "@icons/TelegramIcon";
+import XIcon from "@icons/socials/XIcon";
+import TelegramIcon from "@icons/socials/TelegramIcon";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Link from "next/link";
-import FacebookIcon from "@icons/FacebookIcon";
-import RedditIcon from "@icons/RedditIcon";
-import WhatsAppIcon from "@icons/WhatsAppIcon";
+import FacebookIcon from "@icons/socials/FacebookIcon";
+import RedditIcon from "@icons/socials/RedditIcon";
+import WhatsAppIcon from "@icons/socials/WhatsAppIcon";
 import { memo } from "react";
 import { YOUR_URL } from "./helper";
 import { palette } from "public/material";

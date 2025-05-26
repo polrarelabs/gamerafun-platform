@@ -1,22 +1,23 @@
 "use client";
 
-import { memo, ReactNode, useEffect, useRef, useState } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import { usePathname, useRouter } from "next/navigation";
-import { Dialog, Stack } from "@mui/material";
-import useBreakpoint from "@hooks/useBreakpoint";
-import { Navigation } from "./components";
-import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
-import { Button } from "@components/shared";
-import { SlArrowUp } from "react-icons/sl";
-import Cookies from "js-cookie";
 import { setToken } from "@api/helpers";
-import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
 import ChatAI from "@components/AskAI/ChatAI";
-import { useAuthLogin, useLogOut } from "@store/auth";
+import { Button } from "@components/shared";
+import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
+import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
+import useBreakpoint from "@hooks/useBreakpoint";
+import { Stack } from "@mui/material";
+import { useAuthLogin, useLogOut } from "@store/auth";
+import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { memo, ReactNode, useEffect, useRef, useState } from "react";
+import { SlArrowUp } from "react-icons/sl";
+import { Navigation } from "./components";
+import Footer from "./Footer";
+import Header from "./Header";
+import { palette } from "public/material";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -24,46 +25,24 @@ type MainLayoutProps = {
 
 const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
-  const pathName = usePathname();
+  const pathname = usePathname();
   const router = useRouter();
-  const { data } = useAuthLogin();
-  // console.log("node_env", process.env.NODE_ENV);
+  const { GetProfile } = useAuthLogin();
   const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
 
   useEffect(() => {
-    const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
-    if (data === undefined) return;
-
-    if (Object.keys(data || {}).length === 0 && cookies) {
-      disconnect();
-      signOut();
-      logOut();
-      router.push(LOGIN_PATH);
-    } else if (cookies && cookies !== "undefined") {
-      setToken(cookies);
-      router.push(HOME_PATH);
-    } else {
-      router.push(LOGIN_PATH);
+    const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
+    if (cookie && cookie !== "undefined") {
+      setToken(cookie);
+      GetProfile();
     }
-  }, [data]);
-  // useEffect(() => {
-  //   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
-  //   if (Object.keys(data || {}).length === 0 && cookies && cookies.length > 0) {
-  //     if (window.google?.accounts?.id) {
-  //       window.google.accounts.id.disableAutoSelect();
-  //     }
-  //     disconnect();
-  //     signOut();
-  //     logOut();
-  //     router.push(LOGIN_PATH);
-  //   } else if (cookies !== "undefined" && cookies !== undefined) {
-  //     setToken(cookies);
-  //     router.push(HOME_PATH);
-  //   } else router.push(LOGIN_PATH);
-  //   // if (pathName !== HOME_PATH && pathName !== LOGIN_PATH)
-  //   // router.push(LOGIN_PATH);
-  // }, []);
+    // else if (pathname !== LOGIN_PATH && pathname !== HOME_PATH) {
+    //   disconnect()
+    //   logOut()
+    //   router.push(LOGIN_PATH);
+    // }
+  }, []);
 
   const { isMdSmaller } = useBreakpoint();
 
@@ -102,7 +81,7 @@ const MainLayout = (props: MainLayoutProps) => {
 
   return (
     <Stack position={"relative"}>
-      {pathName === LOGIN_PATH ? (
+      {pathname === LOGIN_PATH ? (
         <>
           <Stack ref={ref}></Stack>
           {children}
@@ -115,7 +94,7 @@ const MainLayout = (props: MainLayoutProps) => {
           <Footer />
         </>
       )}
-      {isMdSmaller && pathName !== LOGIN_PATH && (
+      {isMdSmaller && pathname !== LOGIN_PATH && (
         <Stack
           width={"100%"}
           position={"fixed"}
@@ -158,11 +137,10 @@ const MainLayout = (props: MainLayoutProps) => {
           right: 20,
           zIndex: 4,
           background: "black !important",
-          boxShadow:
-            " 0px 0px 4px rgba(106, 246, 96, 0.6), 0px 0px 8px rgba(105,246,96, 0.6) !important",
+          boxShadow: `0px 0px 4px ${palette.colorGame?.btnChat}, 0px 0px 8px ${palette.colorGame?.btnChat} !important `,
           color: "white !important",
           "&:hover": {
-            boxShadow: "0px 0px 4px #69F660, 0px 0px 8px #69F660 !important",
+            boxShadow: `0px 0px 4px ${palette.colorGame?.btnChat}, 0px 0px 8px ${palette.colorGame?.btnChat} !important`,
           },
         }}
       >

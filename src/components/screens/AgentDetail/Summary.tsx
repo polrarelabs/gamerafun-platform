@@ -5,9 +5,9 @@ import useToggle from "@hooks/useToggle";
 import { getMaxLinesCss } from "@utils";
 import { Skeleton, Stack } from "@mui/material";
 import Link from "@components/Link";
-import LinkBlankIcon from "@icons/LinkBlankIcon";
-import TelegramIcon from "@icons/TelegramIcon";
-import TwitterIcon from "@icons/TwitterIcon";
+import LinkBlankIcon from "@icons/web3/LinkBlankIcon";
+import TelegramIcon from "@icons/socials/TelegramIcon";
+import TwitterIcon from "@icons/socials/TwitterIcon";
 import { Heading } from "./components";
 
 type SummaryProps = {};

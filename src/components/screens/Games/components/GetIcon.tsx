@@ -1,8 +1,8 @@
-import AndroidIcon from "@icons/AndroidIcon";
-import IosIcon from "@icons/IosIcon";
-import MacIcon from "@icons/MacIcon";
-import WebsiteIcon from "@icons/WebsiteIcon";
-import WindowsIcon from "@icons/WindowsIcon";
+import AndroidIcon from "@icons/web3/AndroidIcon";
+import IosIcon from "@icons/web3/IosIcon";
+import MacIcon from "@icons/web3/MacIcon";
+import WebsiteIcon from "@icons/web3/WebsiteIcon";
+import WindowsIcon from "@icons/web3/WindowsIcon";
 import { Stack } from "@mui/material";
 import { palette } from "public/material";
 import { memo } from "react";

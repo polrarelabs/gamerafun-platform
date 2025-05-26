@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
@@ -6,12 +7,22 @@ import Text from "./Text";
 import { palette } from "public/material";
 
 interface SelectedProps {
-  selected: string;
-  handleChange: (event: SelectChangeEvent) => void;
-  options: string[];
+  selected: any;
+  options: any[];
+  setSelected: (value: any) => void;
+  getSort: (value: string) => React.ReactNode;
+  isShow?: boolean;
+  label?: string;
 }
 
-const SelectOptions = ({ options, selected, handleChange }: SelectedProps) => {
+const SelectOptions = ({
+  options,
+  selected,
+  setSelected,
+  getSort,
+  isShow = true,
+  label,
+}: SelectedProps) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -22,71 +33,87 @@ const SelectOptions = ({ options, selected, handleChange }: SelectedProps) => {
       },
     },
   };
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelected(event.target.value);
+  };
 
   return (
-    <Select
-      displayEmpty
-      value={selected}
-      onChange={handleChange}
-      renderValue={(selected) => {
-        if (selected === "") {
+    <Stack flex={1} gap={1}>
+      {label && <Text>{label}</Text>}
+      <Select
+        displayEmpty
+        value={selected}
+        onChange={handleChange}
+        renderValue={(selected) => {
+          if (isShow && selected === "") {
+            return (
+              <Stack direction={"row"} alignItems={"center"} gap={1}>
+                <Text
+                  fontWeight={500}
+                  fontSize={"12px"}
+                  color={palette.colorGray}
+                >
+                  Sort by:
+                </Text>
+                <Text
+                  fontWeight={500}
+                  fontSize={"14px"}
+                  color={palette.textWhite}
+                >
+                  Any
+                </Text>
+              </Stack>
+            );
+          }
           return (
             <Stack direction={"row"} alignItems={"center"} gap={1}>
-              <Text
-                fontWeight={500}
-                fontSize={"12px"}
-                color={palette.colorGray}
-              >
-                Sort by:
-              </Text>
+              {isShow && (
+                <Text
+                  fontWeight={500}
+                  fontSize={"12px"}
+                  color={palette.colorGray}
+                >
+                  Sort by:
+                </Text>
+              )}
               <Text
                 fontWeight={500}
                 fontSize={"14px"}
                 color={palette.textWhite}
               >
-                Any
+                {getSort(selected)}
               </Text>
             </Stack>
           );
-        }
-        return (
-          <Stack direction={"row"} alignItems={"center"} gap={1}>
-            <Text fontWeight={500} fontSize={"12px"} color={palette.colorGray}>
-              Sort by:
-            </Text>
-            <Text fontWeight={500} fontSize={"14px"} color={palette.textWhite}>
-              {selected}
-            </Text>
-          </Stack>
-        );
-      }}
-      MenuProps={MenuProps}
-      inputProps={{ "aria-label": "Without label" }}
-      size="small"
-      sx={{
-        "& .MuiOutlinedInput-notchedOutline": {
-          border: `1px solid ${palette.borderMenu}`,
-        },
-        "& .mui-1hhzsab-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
-          {
-            backgroundColor: palette.bgMenu,
+        }}
+        MenuProps={MenuProps}
+        inputProps={{ "aria-label": "Without label" }}
+        size="small"
+        sx={{
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: `1px solid ${palette.borderMenu}`,
           },
-        "&:hover": {
           "& .mui-1hhzsab-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
             {
-              backgroundColor: palette.bgMenuHover,
+              backgroundColor: palette.bgMenu,
             },
-        },
-      }}
-    >
-      {options.map((name) => (
-        <MenuItem key={name} value={name}>
-          <Text fontWeight={500} fontSize={"14px"} color={palette.colorGray}>
-            {name}
-          </Text>
-        </MenuItem>
-      ))}
-    </Select>
+          "&:hover": {
+            "& .mui-1hhzsab-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select":
+              {
+                backgroundColor: palette.bgMenuHover,
+              },
+          },
+        }}
+      >
+        {options.map((name) => (
+          <MenuItem key={name} value={name}>
+            <Text fontWeight={500} fontSize={"14px"} color={palette.colorGray}>
+              {getSort(name)}
+            </Text>
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
   );
 };
 

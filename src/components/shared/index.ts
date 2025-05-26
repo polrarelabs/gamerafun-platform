@@ -8,7 +8,10 @@ import TextField, { TextFieldProps } from "./TextField";
 import Select, { SelectProps } from "./Select";
 import SliderCustom from "./SliderCustom";
 import SelectOptions from "./SelectOptions";
-import Selected from "./Selected";
+import BoxSelected from "./BoxSelected";
+import Search from "./Search";
+import UploadImage from "./UploadImage";
+
 export {
   Tooltip,
   Text,
@@ -20,7 +23,9 @@ export {
   Select,
   SliderCustom,
   SelectOptions,
-  Selected,
+  BoxSelected,
+  Search,
+  UploadImage,
 };
 
 export type {

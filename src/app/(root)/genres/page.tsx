@@ -1,14 +1,17 @@
+"use client";
+
 import { LayoutGenres } from "@components/screens/Genres";
 import { Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { SCREEN_PX } from "@constant";
+import { HOME_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { palette } from "public/material";
 
 const Genres = () => {
   const breadcrumbs: BreadcumbsItem[] = [
     {
-      href: "/",
+      href: HOME_PATH,
       title: "HOME",
     },
     {

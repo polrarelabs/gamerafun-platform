@@ -4,7 +4,7 @@ import { memo, useState, useEffect } from "react";
 import { Stack, StackProps } from "@mui/material";
 import { IconButton, Text, TextProps } from "@components/shared";
 import { shortAddress } from "@utils";
-import CopyIcon from "@icons/CopyIcon";
+import CopyIcon from "@icons/common/CopyIcon";
 
 type AddressProps = {
   value: string;

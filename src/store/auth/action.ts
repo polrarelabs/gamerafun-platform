@@ -72,3 +72,12 @@ export const loginAccount = createAsyncThunk(
     }
   },
 );
+
+export const getProfile = createAsyncThunk("get/profile", async () => {
+  try {
+    const response = await axios.get(Endpoint.GET_PROFILE);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+});

@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { loginX, loginGoogle, loginAccount, authAptos } from "./action";
+import {
+  loginX,
+  loginGoogle,
+  loginAccount,
+  authAptos,
+  getProfile,
+} from "./action";
 
 interface PropsUserConnectsAuth {
   connectType?: string;
@@ -113,6 +119,21 @@ const Auth_Login = createSlice({
         },
       )
       .addCase(authAptos.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // get_profile
+      .addCase(getProfile.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        getProfile.fulfilled,
+        (state, action: PayloadAction<PropsUserAuth>) => {
+          state.data.user = action.payload;
+          state.loading = false;
+        },
+      )
+      .addCase(getProfile.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload as string;
       });

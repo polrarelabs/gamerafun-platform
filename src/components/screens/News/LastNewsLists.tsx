@@ -5,9 +5,15 @@ import { SelectOptions, Text } from "@components/shared";
 import { SelectChangeEvent, Stack } from "@mui/material";
 import img from "public/images/img-logo.png";
 import { palette } from "public/material";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import { CardBlog } from "./components";
+import { BlogItem, useBlog } from "@store/new";
+import { useRouter } from "next/navigation";
+import { GENRES_PATH, NEWS_PATH } from "@constant/paths";
+import Selected from "@components/Selected";
+import { SortBy } from "@constant/enum";
+import { getSort } from "@components/helper";
 
 interface Props {
   isLayoutMD: boolean;
@@ -26,12 +32,29 @@ const LastNewsLists = ({
   const [hover, setHover] = useState<boolean>(false);
   const [id, setId] = useState<number | null>(null);
 
-  const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
+  const {
+    getBlogId,
+    blog,
+    getBlog,
+    tags,
+    setPageIndex,
+    sortBy,
+    setSortBy,
+    search,
+  } = useBlog();
 
-  const [selected, setSelected] = useState<string>("");
+  useEffect(() => {
+    getBlog({
+      pageIndex: blog.pageIndex,
+      pageSize: blog.pageSize,
+      tags: tags,
+      sortBy: sortBy,
+      search: search === "" ? undefined : search,
+    });
+  }, [blog.pageIndex, tags, sortBy, search]);
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSelected(event.target.value as string);
+    setSortBy(event.target.value as SortBy);
   };
   useEffect(() => {
     if (isLayoutMD) setDisplayLayout("no-list");
@@ -41,6 +64,46 @@ const LastNewsLists = ({
   const handleOpen = () => {
     setOpen(true);
   };
+
+  const router = useRouter();
+
+  const handleClick = (id: string) => {
+    getBlogId(id);
+    router.push(`${NEWS_PATH}/${id}`);
+  };
+
+  const [blogDisplay, setBlogDisplay] = useState<BlogItem[]>([]);
+  const [blogFake, setBlogFake] = useState<BlogItem[]>([]);
+
+  useEffect(() => {
+    if (blog.pageIndex === 1) {
+      setBlogDisplay(blog.items);
+    } else setBlogFake(blog.items);
+  }, [blog.items]);
+
+  useEffect(() => {
+    if (blogFake !== blog.items) {
+      setBlogDisplay([...blogDisplay, ...blogFake]);
+    }
+  }, [blogFake]);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          if (blog.pageIndex < blog.totalPages) {
+            const page = blog.pageIndex + 1;
+            setPageIndex(page);
+          }
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [blog.items],
+  );
 
   return (
     <Stack flex={5} direction={"column"} gap={4}>
@@ -58,14 +121,16 @@ const LastNewsLists = ({
           gridTemplateColumns={"repeat(2,1fr)"}
         >
           <SelectOptions
-            selected={selected}
-            handleChange={handleChange}
-            options={names}
+            selected={sortBy}
+            options={Object.keys(SortBy)}
+            setSelected={setSortBy}
+            getSort={getSort}
           />
 
           <ButtonFillters handleOpen={handleOpen} />
         </Stack>
       )}
+      <Selected />
       <Stack
         display={"grid"}
         gridTemplateColumns={{
@@ -76,17 +141,21 @@ const LastNewsLists = ({
         }}
         gap={4}
       >
-        {Array.from({ length: 12 }).map((_, index) => {
+        {blogDisplay.map((item, index) => {
+          const isLast = index === blogDisplay.length - 1;
           return (
             <CardBlog
+              ref={isLast ? lastElementRef : null}
               key={index}
               hover={hover}
               setHover={setHover}
               img={img}
               setId={setId}
+              data={item}
               index={index}
               id={id}
               displayLayout={displayLayout}
+              handleClick={handleClick}
             />
           );
         })}

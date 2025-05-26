@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
-import { Selected, SelectOptions, Text } from "@components/shared";
+import { getSort } from "@components/helper";
+import Selected from "@components/Selected";
+import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
-import GameIcon from "@icons/GameIcon";
+import useBreakpoint from "@hooks/useBreakpoint";
+import GameIcon from "@icons/web3/GameIcon";
 import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
 import { palette } from "public/material";
@@ -27,7 +30,7 @@ const BrowserGenres = ({
   const { dataListGame: data, fetchGetGame } = useGame();
 
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
-
+  const { isSmSmaller } = useBreakpoint();
   useEffect(() => {
     fetchGetGame();
   }, []);
@@ -72,8 +75,9 @@ const BrowserGenres = ({
           >
             <SelectOptions
               selected={selected}
-              handleChange={handleChange}
+              setSelected={setSelected}
               options={names}
+              getSort={getSort}
             />
             <ButtonFillters handleOpen={handleOpen} />
           </Stack>
@@ -90,7 +94,13 @@ const BrowserGenres = ({
         >
           {data.map((item, index) => {
             return (
-              <CardItem key={index} index={index} data={item} title={"Title"} />
+              <CardItem
+                key={index}
+                index={index}
+                data={item}
+                title={"Title"}
+                isSmaller={isSmSmaller}
+              />
             );
           })}
         </Stack>

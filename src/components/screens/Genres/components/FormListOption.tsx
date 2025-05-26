@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Text } from "@components/shared";
@@ -5,17 +6,24 @@ import { Stack } from "@mui/material";
 import { PlatformProps } from "@store/game";
 import React, { memo, useEffect, useState } from "react";
 import { HandleClickOption } from "./helper";
-import CircleCheckIcon from "@icons/CircleCheckIcon";
+import CircleCheckIcon from "@icons/common/CircleCheckIcon";
 import { palette } from "public/material";
 
 interface PropForm {
   data: any | null;
-  arrayKey: string[];
-  setArray: (arrayKey: string[]) => void;
+  arrayKey: any[];
+  setArray: (arrayKey: any[]) => void;
   name: string;
+  isValue?: boolean;
 }
 
-const FormListOption = ({ data, arrayKey, setArray, name }: PropForm) => {
+const FormListOption = ({
+  data,
+  arrayKey,
+  setArray,
+  name,
+  isValue = true,
+}: PropForm) => {
   const [arrKeys, setArrKeys] = useState<string[]>([]);
   const [arrValues, setArrValues] = useState<number[]>([]);
   const [show, setShow] = useState<boolean>(false);
@@ -115,9 +123,11 @@ const FormListOption = ({ data, arrayKey, setArray, name }: PropForm) => {
                       <Text color={palette.colorGray} fontSize={"14px"}>
                         {arrKeys[index]}
                       </Text>
-                      <Text color={palette.colorGray} fontSize={"14px"}>
-                        {arrValues[index]}
-                      </Text>
+                      {isValue && (
+                        <Text color={palette.colorGray} fontSize={"14px"}>
+                          {arrValues[index]}
+                        </Text>
+                      )}
                     </Stack>
                     {arrayKey.includes(arrKeys[index]) && (
                       <CircleCheckIcon
@@ -162,9 +172,11 @@ const FormListOption = ({ data, arrayKey, setArray, name }: PropForm) => {
                         <Text color={palette.colorGray} fontSize={"14px"}>
                           {arrKeys[index]}
                         </Text>
-                        <Text color={palette.colorGray} fontSize={"14px"}>
-                          {arrValues[index]}
-                        </Text>
+                        {isValue && (
+                          <Text color={palette.colorGray} fontSize={"14px"}>
+                            {arrValues[index]}
+                          </Text>
+                        )}
                       </Stack>
                       {arrayKey.includes(arrKeys[index]) && (
                         <CircleCheckIcon
@@ -211,9 +223,11 @@ const FormListOption = ({ data, arrayKey, setArray, name }: PropForm) => {
                   <Text color={palette.colorGray} fontSize={"14px"}>
                     {arrKeys[index]}
                   </Text>
-                  <Text color={palette.colorGray} fontSize={"14px"}>
-                    {arrValues[index]}
-                  </Text>
+                  {isValue && (
+                    <Text color={palette.colorGray} fontSize={"14px"}>
+                      {arrValues[index]}
+                    </Text>
+                  )}
                 </Stack>
                 {arrayKey.includes(arrKeys[index]) && (
                   <CircleCheckIcon

@@ -5,6 +5,7 @@ import { store } from "@store/configureStore";
 import { usePathname } from "next/navigation";
 import { memo, useCallback, useEffect } from "react";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/lib/integration/react";
 
 type InitializeProviderProps = {
   children: React.ReactNode;
@@ -47,7 +48,13 @@ const InitializeProvider = (props: InitializeProviderProps) => {
     }
   }, [pathname]);
 
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      {/* <PersistGate persistor={persistor} > */}
+      {children}
+      {/* </PersistGate> */}
+    </Provider>
+  );
 };
 
 export default memo(InitializeProvider);

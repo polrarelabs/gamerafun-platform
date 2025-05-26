@@ -7,7 +7,8 @@ import {
   SupportOs,
 } from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { HttpStatusCode } from "axios";
+// import { HttpStatusCode } from "axios";
+// import qs from 'qs'
 
 export interface ParamsProp {
   search?: string;
@@ -79,9 +80,9 @@ export const getGame = createAsyncThunk(
   async (params: ParamsProp = {}) => {
     try {
       const response = await client.get(Endpoint.GET_GAME, params);
-      if (response?.status === HttpStatusCode.Ok) {
-        return response.data;
-      }
+      // if (response?.status === HttpStatusCode.Ok) {
+      return response.data;
+      // }
     } catch (error) {
       throw error;
     }
@@ -91,7 +92,8 @@ export const getGame = createAsyncThunk(
 export const getGameCount = createAsyncThunk("game/getCount", async () => {
   try {
     const response = await client.get(Endpoint.GET_GAME_COUNT);
-    if (response.status === HttpStatusCode.Ok) return response.data;
+    // if (response.status === HttpStatusCode.Ok)
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -102,7 +104,8 @@ export const getGameOwner = createAsyncThunk(
   async (params: ParamsProp = {}) => {
     try {
       const respon = await client.get(Endpoint.GET_GAME_OWNER, params);
-      if (respon?.status === HttpStatusCode.Ok) return respon.data;
+      // if (respon?.status === HttpStatusCode.Ok)
+      return respon.data;
     } catch (error) {
       throw error;
     }
@@ -114,7 +117,8 @@ export const createGame = createAsyncThunk(
   async (params: PropsFormik) => {
     try {
       const response = await client.post(Endpoint.CREATE_GAME, params);
-      if (response?.status === HttpStatusCode.Ok) return response.data;
+      // if (response?.status === HttpStatusCode.Ok)
+      return response.data;
     } catch (error) {
       throw error;
     }
@@ -126,7 +130,8 @@ export const updateGame = createAsyncThunk(
   async (body: PropsFormik) => {
     try {
       const response = await client.put(Endpoint.UPDATE_GAME, body);
-      if (response.status === HttpStatusCode.Ok) return response.data;
+      // if (response.status === HttpStatusCode.Ok)
+      return response.data;
     } catch (error) {
       throw error;
     }
@@ -138,7 +143,8 @@ export const getGameID = createAsyncThunk(
   async (gameId: number) => {
     try {
       const response = await client.get(`${Endpoint.GET_GAME}/${gameId}`);
-      if (response.status === HttpStatusCode.Ok) return response.data;
+      // if (response.status === HttpStatusCode.Ok)
+      return response.data;
     } catch (error) {
       throw error;
     }
@@ -154,7 +160,8 @@ export const deleteGame = createAsyncThunk(
   async (body: PropsDelete) => {
     try {
       const response = await client.delete(Endpoint.DELETE_GAME, body);
-      if (response.status === HttpStatusCode.Ok) return response.data;
+      // if (response.status === HttpStatusCode.Ok)
+      return response.data;
     } catch (error) {
       throw error;
     }

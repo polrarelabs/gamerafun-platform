@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { GetHistory, SendMessage, SendMessageProps } from "./action";
+import { GetHistory, SendMessage, MessageProps } from "./action";
 import { setIsCall } from "./reducer";
 
-export const useSendMessage = () => {
+export const useChatAI = () => {
   const dispatch = useAppDispatch();
 
-  const sendMessage = (message: SendMessageProps) => {
+  const sendMessage = (message: MessageProps) => {
     dispatch(SendMessage(message));
   };
 
@@ -18,11 +18,11 @@ export const useSendMessage = () => {
   };
 
   const {
-    dataSendMessage: threadId,
+    message: threadId,
     loading,
     error,
     isCall,
-    dataHistory: history,
+    histories,
   } = useAppSelector((state) => state.chatai);
 
   return {
@@ -31,7 +31,7 @@ export const useSendMessage = () => {
     error,
     sendMessage,
     getHistory,
-    history,
+    histories,
     SetIsCall,
     isCall,
   };

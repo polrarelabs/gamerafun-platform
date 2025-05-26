@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Image, ImageProps, Text } from "components/shared";
 import { Container, Message } from "@components/FormControl";
-import CameraIcon from "@icons/CameraIcon";
+import CameraIcon from "@icons/web3/CameraIcon";
 
 type AvatarProps = {
   label: string;

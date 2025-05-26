@@ -14,7 +14,13 @@ import {
   PropsSocials,
   updateGame,
 } from "./action";
-import { Genre, Platform, SupportChain, SupportOs } from "@constant/enum";
+import {
+  Genre,
+  Platform,
+  SortBy,
+  SupportChain,
+  SupportOs,
+} from "@constant/enum";
 
 export interface ScheduleProps {
   beta: string;
@@ -107,19 +113,20 @@ interface PropsGameReducers {
   dataListGame: ListGame[];
   status: boolean;
   dataGetGameId: ListGame;
-  valueEditorRating: number;
-  valueUserRating: number;
+  minRating: number;
+  maxRating: number;
   gameId: number;
   isGetGameId: boolean;
-  genres: string[];
-  platforms: string[];
+  genres: Genre[];
+  platforms: Platform[];
   errorsSizeImage: string | null;
   playNow: boolean;
   freeToPlay: boolean;
   awardWinners: boolean;
   favorites: boolean;
   genresTitle: string;
-
+  sortBy: SortBy;
+  search: string;
   // status: string[],
 }
 
@@ -135,8 +142,8 @@ const initialState: PropsGameReducers = {
   dataListGame: [],
   dataGetGameId: {} as ListGame,
   status: false,
-  valueEditorRating: 0,
-  valueUserRating: 0,
+  minRating: 0,
+  maxRating: 0,
   gameId: 0,
   isGetGameId: false,
   genres: [],
@@ -147,17 +154,19 @@ const initialState: PropsGameReducers = {
   awardWinners: false,
   favorites: false,
   genresTitle: "",
+  sortBy: SortBy.Newest,
+  search: "",
 };
 
 const GameReducers = createSlice({
   name: "game/reducers",
   initialState,
   reducers: {
-    setValueEditorRating: (state, action: PayloadAction<number>) => {
-      state.valueEditorRating = action.payload;
+    SetMinRating: (state, action: PayloadAction<number>) => {
+      state.minRating = action.payload;
     },
-    setValueUserRating: (state, action: PayloadAction<number>) => {
-      state.valueUserRating = action.payload;
+    SetMaxRating: (state, action: PayloadAction<number>) => {
+      state.maxRating = action.payload;
     },
     setGameId: (state, action: PayloadAction<number>) => {
       state.gameId = action.payload;
@@ -165,10 +174,10 @@ const GameReducers = createSlice({
     setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
       state.isGetGameId = action.payload;
     },
-    setGenres: (state, action: PayloadAction<string[]>) => {
+    setGenres: (state, action: PayloadAction<Genre[]>) => {
       state.genres = action.payload;
     },
-    setPlatforms: (state, action: PayloadAction<string[]>) => {
+    setPlatforms: (state, action: PayloadAction<Platform[]>) => {
       state.platforms = action.payload;
     },
     setErrorsSizeImage: (state, action: PayloadAction<string | null>) => {
@@ -203,6 +212,12 @@ const GameReducers = createSlice({
     },
     SetStatus: (state) => {
       state.status = false;
+    },
+    SetSortBy: (state, action: PayloadAction<SortBy>) => {
+      state.sortBy = action.payload;
+    },
+    SetSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -319,8 +334,8 @@ const GameReducers = createSlice({
 export default GameReducers.reducer;
 
 export const {
-  setValueEditorRating,
-  setValueUserRating,
+  SetMinRating,
+  SetMaxRating,
   setGameId,
   setStatusGetGameID,
   setGenres,
@@ -336,4 +351,6 @@ export const {
   SetIsUpdateGame,
   SetStatus,
   SetIsCreateGame,
+  SetSortBy,
+  SetSearch,
 } = GameReducers.actions;

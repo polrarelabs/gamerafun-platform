@@ -29,9 +29,12 @@ import {
   setPlayNow,
   SetStatus,
   setStatusGetGameID,
-  setValueEditorRating,
-  setValueUserRating,
+  SetMaxRating,
+  SetMinRating,
+  SetSortBy,
+  SetSearch,
 } from "./reducer";
+import { Genre, Platform, SortBy } from "@constant/enum";
 
 export const useGame = () => {
   const dispatch = useAppDispatch();
@@ -48,8 +51,8 @@ export const useGame = () => {
     dataGetGameId,
     dataListGame,
     status,
-    valueEditorRating,
-    valueUserRating,
+    minRating,
+    maxRating,
     gameId,
     isGetGameId,
     genres,
@@ -60,17 +63,19 @@ export const useGame = () => {
     awardWinners,
     favorites,
     genresTitle,
+    sortBy,
+    search,
   } = useAppSelector((state) => state.game);
 
   const fetchGetGame = (param: ParamsProp = {}) => {
     dispatch(getGame(param));
   };
-  const setEditorRating = (value: number) => {
-    dispatch(setValueEditorRating(value));
+  const setMinRating = (value: number) => {
+    dispatch(SetMinRating(value));
   };
 
-  const setUserRating = (value: number) => {
-    dispatch(setValueUserRating(value));
+  const setMaxRating = (value: number) => {
+    dispatch(SetMaxRating(value));
   };
 
   const setGameID = (value: number) => {
@@ -81,14 +86,14 @@ export const useGame = () => {
     dispatch(setStatusGetGameID(value));
   };
 
-  const SetGenres = (value: string[]) => {
+  const SetGenres = (value: Genre[]) => {
     dispatch(setGenres(value));
   };
 
   const SetErrorsSizeImage = (value: string | null) => {
     dispatch(setErrorsSizeImage(value));
   };
-  const SetPlatforms = (value: string[]) => {
+  const SetPlatforms = (value: Platform[]) => {
     dispatch(setPlatforms(value));
   };
 
@@ -152,7 +157,19 @@ export const useGame = () => {
     dispatch(SetIsDelete());
   };
 
+  const setSortBy = (value: SortBy) => {
+    dispatch(SetSortBy(value));
+  };
+
+  const setSearch = (value: string) => {
+    dispatch(SetSearch(value));
+  };
+
   return {
+    setSearch,
+    search,
+    sortBy,
+    setSortBy,
     setIsDeletes,
     DeleteGame,
     setStatusGet,
@@ -177,8 +194,8 @@ export const useGame = () => {
     dataGetGameId,
     dataListGame,
     status,
-    valueEditorRating,
-    valueUserRating,
+    minRating,
+    maxRating,
     gameId,
     isGetGameId,
     genres,
@@ -189,8 +206,8 @@ export const useGame = () => {
     awardWinners,
     favorites,
     genresTitle,
-    setEditorRating,
-    setUserRating,
+    setMinRating,
+    setMaxRating,
     setGameID,
     setGetGameId,
     SetGenres,

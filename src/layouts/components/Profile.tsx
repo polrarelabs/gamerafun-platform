@@ -1,10 +1,9 @@
 "use client";
 
 import { Button, Image, Text } from "@components/shared";
-import { LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
-import DropDownIcon from "@icons/DropDownIcon";
-import LogOutIcon from "@icons/LogOutIcon";
+import DropDownIcon from "@icons/common/DropDownIcon";
+import LogOutIcon from "@icons/web3/LogOutIcon";
 import { Popover, Stack } from "@mui/material";
 import { useAuthLogin, useLogOut } from "@store/auth";
 import { signOut } from "next-auth/react";
@@ -50,7 +49,8 @@ const Profile = () => {
     disconnect();
     signOut();
     logOut();
-    router.push(LOGIN_PATH);
+
+    // router.push(LOGIN_PATH);
   };
 
   return (
