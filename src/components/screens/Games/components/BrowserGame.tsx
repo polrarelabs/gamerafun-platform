@@ -18,6 +18,7 @@ import { GAME_PATH, LOGIN_PATH } from "@constant/paths";
 import { useBlog } from "@store/new";
 import { SortBy } from "@constant/enum";
 import { getSort } from "@components/helper";
+import useBreakpoint from "@hooks/useBreakpoint";
 interface Props {
   isLayoutMD: boolean;
   theme: any | null;
@@ -55,7 +56,7 @@ const BrowserGame = ({
   } = useGame();
   const { checkDate } = useBlog();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
-
+  const { isSmSmaller } = useBreakpoint();
   const router = useRouter();
 
   useEffect(() => {
@@ -189,6 +190,7 @@ const BrowserGame = ({
             return (
               <CardItem
                 // ref={isLast ? lastElementRef : null}
+                isSmaller={isSmSmaller}
                 key={index}
                 index={index}
                 data={item}

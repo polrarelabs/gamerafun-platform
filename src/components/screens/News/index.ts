@@ -5,7 +5,7 @@ import LastNews from "./LastNews";
 import New from "./New";
 import NewsDetail from "./NewsDetail";
 import CreateBlog from "./components/CreateBlog";
-
+import RelatedNews from "./RelatedNews";
 export {
   LastNewsItem,
   LastNewsOptions,
@@ -14,4 +14,5 @@ export {
   New,
   NewsDetail,
   CreateBlog,
+  RelatedNews,
 };

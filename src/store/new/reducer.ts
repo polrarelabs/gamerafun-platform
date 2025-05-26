@@ -20,15 +20,16 @@ interface MediaProp {
 }
 
 export interface BlogItem {
-  id: number;
+  id: string;
   title: string;
-  shortDescription: string;
   content: string;
   slug: string;
-  media: MediaProp[];
-  status: StatusBlog;
-  tags: Tag[];
+  thumbnailUrl: string;
   publicDate: string;
+  tags: Tag[];
+  author: string;
+  metaTitle: string;
+  metaDescription: string;
   createAt: string;
   createBy: string;
   updateBy: string;

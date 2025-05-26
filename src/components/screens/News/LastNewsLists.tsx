@@ -67,9 +67,7 @@ const LastNewsLists = ({
 
   const router = useRouter();
 
-  const handleClick = (id: number) => {
-    console.log("click r", `${NEWS_PATH}/${id}`);
-
+  const handleClick = (id: string) => {
     getBlogId(id);
     router.push(`${NEWS_PATH}/${id}`);
   };

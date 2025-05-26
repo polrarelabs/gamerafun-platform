@@ -17,10 +17,11 @@ interface CardItemProps {
   handleClick?: (value: number) => void;
   title: string;
   displayLayout?: string;
+  isSmaller: boolean;
 }
 
 const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
-  ({ index, data, handleClick, title }, ref) => {
+  ({ index, data, handleClick, title, isSmaller }, ref) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { width } = useWindowSize();
     const [height, setHeight] = useState<number | undefined>(undefined);
@@ -31,10 +32,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           ? containerRef.current?.offsetHeight * 1.5
           : undefined,
       );
-      console.log("height: ", height);
-      console.log("width: ", width);
     }, [width]);
-    const { isSmSmaller } = useBreakpoint();
 
     const [hover, setHover] = useState<boolean>(false);
     const [id, setId] = useState<number | null>(null);
@@ -54,7 +52,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
             cursor: "pointer",
           },
         }}
-        direction={isSmSmaller ? "row" : "column"}
+        direction={isSmaller ? "row" : "column"}
         justifyContent={"space-between"}
         onMouseEnter={() => {
           setHover(true);
@@ -69,20 +67,20 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
         }}
       >
         <Stack
-          height={isSmSmaller ? "100%" : undefined}
-          ref={isSmSmaller ? containerRef : undefined}
+          height={isSmaller ? "100%" : undefined}
+          ref={isSmaller ? containerRef : undefined}
           // p={"6px"}
         >
           <Image
             src={data.media[0] ? data.media[0].url : img}
             alt={`img-${img}`}
             size="100%"
-            aspectRatio={isSmSmaller ? 1 / 1 : 3 / 2}
-            sizes={isSmSmaller ? 150 : `${height}px`}
+            aspectRatio={isSmaller ? 1 / 1 : 3 / 2}
+            sizes={isSmaller ? 150 : `${height}px`}
             containerProps={{
               sx: {
-                width: isSmSmaller ? 150 : `${height}px`,
-                height: isSmSmaller ? 150 : "100%",
+                width: isSmaller ? 150 : `${height}px`,
+                height: isSmaller ? 150 : "100%",
                 overflow: "hidden",
                 borderRadius: "16px",
 
@@ -99,7 +97,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           />
         </Stack>
 
-        {isSmSmaller ? (
+        {isSmaller ? (
           <Stack justifyContent={"space-between"} width={"100%"}>
             <Stack py="0.5rem" gap={1} alignItems={"start"}>
               <Text

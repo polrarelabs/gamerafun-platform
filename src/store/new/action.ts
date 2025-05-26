@@ -27,7 +27,7 @@ export const GetBlog = createAsyncThunk(
 
 export const GetBlogId = createAsyncThunk(
   "get/blog-id",
-  async (blogId: number) => {
+  async (blogId: string) => {
     try {
       const response = await client.get(`${Endpoint.GET_BLOG}/${blogId}`);
       return response.data;
