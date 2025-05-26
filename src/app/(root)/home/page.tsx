@@ -10,20 +10,6 @@ import { Metadata } from "next";
 export const metadata: Metadata = generateMetadata("Home", HOME_PATH);
 
 export default function Home() {
-  // const { items,
-  //   status,
-  //   error,
-  //   isFetching,
-  //   isSucceeded,
-  //   onGetRecommendTokens } = useRecommendTokens()
-
-  // console.log('useRecommendTokens', items,
-  //   status,
-  //   error,
-  //   isFetching,
-  //   isSucceeded,
-  //   onGetRecommendTokens);
-
   return (
     <Stack
       flex={1}
@@ -34,14 +20,6 @@ export default function Home() {
       <Banner />
 
       <LatestNews />
-
-      {/* <Overview /> */}
-
-      {/* <ArbitrumCatalogue /> */}
-      {/* <Stack width="100%" spacing={3} pb={14} px={SCREEN_PX}>
-        <Filters />
-        <AgentList />
-      </Stack> */}
     </Stack>
   );
 }

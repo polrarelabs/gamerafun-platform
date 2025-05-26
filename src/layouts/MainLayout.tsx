@@ -26,10 +26,7 @@ type MainLayoutProps = {
 const MainLayout = (props: MainLayoutProps) => {
   const { children } = props;
   const pathname = usePathname();
-  const router = useRouter();
   const { GetProfile } = useAuthLogin();
-  const { disconnect } = useAptosWallet();
-  const { logOut } = useLogOut();
 
   useEffect(() => {
     const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
@@ -37,11 +34,6 @@ const MainLayout = (props: MainLayoutProps) => {
       setToken(cookie);
       GetProfile();
     }
-    // else if (pathname !== LOGIN_PATH && pathname !== HOME_PATH) {
-    //   disconnect()
-    //   logOut()
-    //   router.push(LOGIN_PATH);
-    // }
   }, []);
 
   const { isMdSmaller } = useBreakpoint();

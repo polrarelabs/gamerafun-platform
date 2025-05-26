@@ -20,10 +20,6 @@ const Header = () => {
   const { data, isConnectAptos, isLogin } = useAuthLogin();
 
   useEffect(() => {
-    // if (Object.keys(data).length === 0 && cookies && cookies.lenght > 0) {
-    //   setShowLogin(true);
-    // }
-    // else
     if (cookies !== "undefined" && cookies !== undefined) {
       setShowLogin(false);
     } else setShowLogin(true);
@@ -51,11 +47,7 @@ const Header = () => {
 
         <Stack direction={"row"} alignItems={"center"} gap={4}>
           <Logo />
-          {!isMdSmaller && (
-            <Navigation
-            // spacing={{ xs: 2, md: 4 }}
-            />
-          )}
+          {!isMdSmaller && <Navigation />}
         </Stack>
         {isMdSmaller ? (
           <>
@@ -76,7 +68,6 @@ const Header = () => {
           </>
         ) : (
           <Stack direction="row" spacing={2} alignItems="center">
-            {/* <CreateAgent /> */}
             {showLogin ? (
               <>
                 {(!isSmSmaller || !isConnectAptos) && <Connect />}
@@ -101,19 +92,3 @@ const Header = () => {
 };
 
 export default memo(Header);
-
-const CreateAgent = () => {
-  const { isConnectAptos } = useAuthLogin();
-  if (!isConnectAptos) return null;
-
-  return (
-    <Button
-      LinkComponent={Link}
-      href={CREATE_AGENT_PATH}
-      size="small"
-      variant="contained"
-    >
-      Create Agent
-    </Button>
-  );
-};

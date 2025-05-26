@@ -26,13 +26,6 @@ const News = () => {
     <Stack gap={2}>
       <BannerNew />
       <Stack px={SCREEN_PX} direction={"column"} gap={2}>
-        {/* <Text
-        color={palette.colorGame?.textColor}
-        fontWeight={300}
-        fontSize={"21px"}
-      >
-        {blogId.shortDescription}
-      </Text> */}
         <NewsDetail />
       </Stack>
       <Stack>
