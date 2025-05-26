@@ -8,7 +8,7 @@ import { useGame } from "@store/game";
 import { AddedDateSort, SortBy } from "@constant/enum";
 import { Button } from "@components/shared";
 import { Stack } from "@mui/material";
-import { CREATE_NEWS_PATH } from "@constant/paths";
+import { CREATE_NEWS_PATH, UPDATE_NEWS_PATH } from "@constant/paths";
 
 const Layout = () => {
   const router = useRouter();
@@ -45,12 +45,18 @@ const Layout = () => {
   return (
     <>
       {/* <LayoutNew /> */}
-      <Stack width={"100%"} direction={"row"} justifyContent={"end"}>
+      <Stack width={"100%"} direction={"row"} justifyContent={"end"} gap={2}>
         <Button
           variant="outlined"
           onClick={() => router.push(CREATE_NEWS_PATH)}
         >
           Create Blog
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => router.push(UPDATE_NEWS_PATH)}
+        >
+          Update Blog
         </Button>
       </Stack>
       <LayoutLastNews />

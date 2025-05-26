@@ -101,6 +101,9 @@ export interface GameCount {
   schedule_status: ScheduleStatusProps;
 }
 
+// interface PropsGame {
+//   items:
+// }
 interface PropsGameReducers {
   loading: boolean;
   error: string;

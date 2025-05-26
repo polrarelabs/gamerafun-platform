@@ -8,6 +8,7 @@ export const TASKS_PATH = "/tasks";
 export const HOME_DETAIL_PATH = "/home/{token}";
 export const NEWS_PATH = "/news";
 export const CREATE_NEWS_PATH = "/news/create-news";
+export const UPDATE_NEWS_PATH = "/news/update-news";
 export const NEWS_DETAIL_PATH = "/news/{token}";
 export const LOGIN_PATH = "/login";
 export const AGENT_DETAIL_PATH = "/agent";

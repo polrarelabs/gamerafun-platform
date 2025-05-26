@@ -11,6 +11,7 @@ import SelectOptions from "./SelectOptions";
 import BoxSelected from "./BoxSelected";
 import Search from "./Search";
 import UploadImage from "./UploadImage";
+import Slider from "./Slider";
 
 export {
   Tooltip,
@@ -26,6 +27,7 @@ export {
   BoxSelected,
   Search,
   UploadImage,
+  Slider,
 };
 
 export type {

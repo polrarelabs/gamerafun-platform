@@ -67,7 +67,7 @@ export const useGame = () => {
     search,
   } = useAppSelector((state) => state.game);
 
-  const fetchGetGame = (param: ParamsProp = {}) => {
+  const fetchGetGame = (param: ParamsProp) => {
     dispatch(getGame(param));
   };
   const setMinRating = (value: number) => {

@@ -1,6 +1,6 @@
 // 'use client'
 
-import { Banner } from "@components/screens/BannerSlider.tsx";
+import { Banner, LatestNews } from "@components/screens/Home";
 import { MIN_HEIGHT_SCREEN } from "@constant";
 import { HOME_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
@@ -32,6 +32,8 @@ export default function Home() {
       spacing={4}
     >
       <Banner />
+
+      <LatestNews />
 
       {/* <Overview /> */}
 

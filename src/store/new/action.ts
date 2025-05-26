@@ -38,7 +38,7 @@ export const GetBlogId = createAsyncThunk(
 );
 
 export interface BlogCreateProps {
-  id?: number;
+  id?: string;
   title: string;
   content: string;
   tags: Tag[];
