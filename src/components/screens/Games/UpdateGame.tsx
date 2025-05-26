@@ -72,7 +72,7 @@ const UpdateGame = () => {
   } = useGame();
 
   useEffect(() => {
-    fetchGetGame();
+    // fetchGetGame();
   }, []);
 
   useEffect(() => {
@@ -202,7 +202,7 @@ const UpdateGame = () => {
   useEffect(() => {
     if (isUpdate) {
       setIsUpdate();
-      fetchGetGame();
+      // fetchGetGame();
       resetGallery();
       setStatusGet();
       formik.resetForm();

@@ -59,17 +59,17 @@ const BrowserGame = ({
   const { isSmSmaller } = useBreakpoint();
   const router = useRouter();
 
-  useEffect(() => {
-    fetchGetGame({
-      genre: genres,
-      platform: platforms,
-      minRating: minRating === 0 ? undefined : minRating,
-      maxRating: maxRating === 0 ? undefined : maxRating,
-      addedDateSort: checkDate,
-      sortBy: sortBy,
-      search: search === "" ? undefined : search,
-    });
-  }, [genres, platforms, minRating, maxRating, checkDate, sortBy, search]);
+  // useEffect(() => {
+  //   fetchGetGame({
+  //     genre: genres,
+  //     platform: platforms,
+  //     minRating: minRating === 0 ? undefined : minRating,
+  //     maxRating: maxRating === 0 ? undefined : maxRating,
+  //     addedDateSort: checkDate,
+  //     sortBy: sortBy,
+  //     search: search === "" ? undefined : search,
+  //   });
+  // }, [genres, platforms, minRating, maxRating, checkDate, sortBy, search]);
 
   useEffect(() => {
     if (isSm) setDisplayLayout("no-list");

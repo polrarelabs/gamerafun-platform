@@ -269,5 +269,12 @@ export default {
     borderColor: "#FFFFFF40",
     bgColorHover: "#FFFFFF1A",
     bgColorLogin: "#6D45FC",
+    linearHr:
+      "linear-gradient(90deg,rgba(14, 20, 32, 1) 1%, rgba(217, 217, 217, 1) 50%, rgba(14, 20, 32, 1) 100%)",
+    linearImage:
+      "linear-gradient(to right, rgba(14, 20, 32, 0.6) 0%, rgba(0, 206, 107, 0.6) 100%), linear-gradient(to right, rgba(14, 20, 32, 0.8) 0%, rgba(14, 20, 32, 0) 100%)",
+    textShadow: "rgba(255, 255, 255, 0.3) 0px 0px 12px",
+    colorBtn: "#1b233280",
+    bgColorSub: "#00ce6b26",
   },
 } as unknown as PaletteOptions;

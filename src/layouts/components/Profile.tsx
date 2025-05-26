@@ -10,7 +10,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import login_token from "public/images/login-token.svg";
 import { palette } from "public/material";
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { GetEmail, GetUserName } from "./helper";
 
 declare global {
@@ -40,16 +40,25 @@ const Profile = () => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    console.log(data);
+  }, []);
+
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   const handleLogOut = () => {
-    if (window.google?.accounts?.id) {
-      window.google.accounts.id.disableAutoSelect();
+    if (data && data.user && data.user.userConnects) {
+      if (data.user.userConnects[0].connectType === "Email") {
+        if (window.google?.accounts?.id) {
+          window.google.accounts.id.disableAutoSelect();
+        }
+        signOut();
+        logOut();
+      } else if (data.user.userConnects[0].connectType === "Wallet") {
+        disconnect();
+        logOut();
+      } else logOut();
     }
-    disconnect();
-    signOut();
-    logOut();
-
     // router.push(LOGIN_PATH);
   };
 

@@ -24,7 +24,11 @@ import { URL_CALLBACK_X } from "./helper";
 import { palette } from "public/material";
 import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
 
-const LoginSocials = () => {
+interface PropsSocials {
+  setOption: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const LoginSocials = ({ setOption }: PropsSocials) => {
   const [isShow, onShow, onHide] = useToggle();
   const [_anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const onAnchor = (event: MouseEvent<HTMLButtonElement>) => {
@@ -266,6 +270,9 @@ const LoginSocials = () => {
           mt={2}
           gap={1}
           justifyContent={"center"}
+          onClick={() => {
+            setOption("email");
+          }}
         >
           <Text
             color="white"

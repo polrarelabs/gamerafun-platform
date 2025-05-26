@@ -5,7 +5,11 @@ import LastNews from "./LastNews";
 import New from "./New";
 import NewsDetail from "./NewsDetail";
 import CreateBlog from "./components/CreateBlog";
-import RelatedNews from "./RelatedNews";
+import Related from "./Related";
+import BannerNew from "./BannerNew";
+import BannerJoin from "./BannerJoin";
+import Subscribe from "./Subscribe";
+
 export {
   LastNewsItem,
   LastNewsOptions,
@@ -14,5 +18,8 @@ export {
   New,
   NewsDetail,
   CreateBlog,
-  RelatedNews,
+  Related,
+  BannerNew,
+  BannerJoin,
+  Subscribe,
 };

@@ -81,6 +81,7 @@ const SelectFormik = ({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             input={<OutlinedInput />}
+            disabled={isDisable}
           >
             {/* {data &&
               data.map((item, index) => {

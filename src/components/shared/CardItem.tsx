@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import useBreakpoint from "@hooks/useBreakpoint";
@@ -13,7 +14,7 @@ import { GetIcon } from "@components/screens/Games/components";
 
 interface CardItemProps {
   index: number;
-  data: ListGame;
+  data: any | null;
   handleClick?: (value: number) => void;
   title: string;
   displayLayout?: string;

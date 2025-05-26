@@ -9,6 +9,7 @@ import { useGallery } from "@store/media";
 import EyeIcon from "@icons/common/EyeIcon";
 import TrashIcon from "@icons/common/TrashIcon";
 import { palette } from "public/material";
+import img from "/public/images/img-logo.png";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -25,6 +26,7 @@ const VisuallyHiddenInput = styled("input")({
 export interface PropsUpload {
   ratioWidth: number;
   ratioHeight: number;
+  imgUrl?: string | null;
 }
 
 export interface PropsInfo {
@@ -39,7 +41,11 @@ interface InfoImage {
   url: string;
 }
 
-const UploadImage = ({ ratioWidth, ratioHeight }: PropsUpload) => {
+const UploadImage = ({
+  ratioWidth,
+  ratioHeight,
+  imgUrl = null,
+}: PropsUpload) => {
   const { errorsSizeImage, SetErrorsSizeImage } = useGame();
   const [open, setOpen] = useState(false);
 
@@ -119,11 +125,33 @@ const UploadImage = ({ ratioWidth, ratioHeight }: PropsUpload) => {
     }
   };
 
+  console.log("image", image);
+  console.log("imgUrl", imgUrl);
+
   return (
     <>
       <Stack position="relative" direction="row" height="100%" width="100%">
         <Stack flex={1} alignItems={"center"} gap={2} mt={2}>
-          {image ? (
+          {image === null && imgUrl === null ? (
+            <Button
+              component="label"
+              variant="outlined"
+              tabIndex={-1}
+              sx={{
+                borderRadius: "8px",
+                p: 2,
+                width: "max-content",
+              }}
+            >
+              Upload image
+              <VisuallyHiddenInput
+                ref={inputRef}
+                type="file"
+                onChange={handleChange}
+                accept="image/png"
+              />
+            </Button>
+          ) : (
             <Stack
               position={"relative"}
               sx={{
@@ -143,7 +171,7 @@ const UploadImage = ({ ratioWidth, ratioHeight }: PropsUpload) => {
                 }}
               >
                 <Image
-                  src={image.url}
+                  src={image ? image.url : imgUrl}
                   alt="preview"
                   size="100%"
                   aspectRatio={3 / 2}
@@ -202,25 +230,6 @@ const UploadImage = ({ ratioWidth, ratioHeight }: PropsUpload) => {
                 })}
               </Stack>
             </Stack>
-          ) : (
-            <Button
-              component="label"
-              variant="outlined"
-              tabIndex={-1}
-              sx={{
-                borderRadius: "8px",
-                p: 2,
-                width: "max-content",
-              }}
-            >
-              Upload image
-              <VisuallyHiddenInput
-                ref={inputRef}
-                type="file"
-                onChange={handleChange}
-                accept="image/png"
-              />
-            </Button>
           )}
           {errorsSizeImage && (
             <Text

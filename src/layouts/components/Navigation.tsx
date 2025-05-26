@@ -6,7 +6,7 @@ import { GAME_PATH, GENRES_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import ArrowIcon from "@icons/common/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
-import { Popover, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { memo, useMemo, useState } from "react";
 type ItemProps = {
@@ -162,7 +162,6 @@ const sx = {
     position: "relative",
     color: "common.white",
     display: "flex",
-    // justifyContent: "center",
     "&:after": {
       content: { md: "''" },
       position: "absolute",
@@ -174,12 +173,6 @@ const sx = {
     "&:hover, &.active": {
       color: "primary.main",
     },
-    // "&:hover, &.active": {
-    //   color: { xs: "primary.main", md: "common.white" },
-    //   "&:after": {
-    //     background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
-    //   },
-    // },
   },
 };
 
@@ -191,10 +184,4 @@ const DATA = [
   { label: "Games", href: GAME_PATH },
   { label: "News", href: NEWS_PATH },
   { label: "Genres", href: GENRES_PATH },
-  // {
-  //   label: "Research",
-  //   href: "https://research.noctra.ai",
-  // },
-  // { label: "Engine", href: STUDIO_URL },
-  // { label: "Docs", href: DOCUMENTS_URL },
 ];
