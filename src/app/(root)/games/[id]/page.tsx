@@ -1,18 +1,19 @@
 "use client";
 
-import { Breadcrumbs, Link, Stack, Typography, Box } from "@mui/material";
-import { Image } from "@components/shared";
-import { useParams } from "next/navigation";
-import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
-import { useEffect } from "react";
-import bgSlider from "public/images/banner.webp";
 import { Guides, News, Overview, Review } from "@components/screens/Games";
+import { Image } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
+import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
+import { Box, Stack, Typography } from "@mui/material";
+import { useParams } from "next/navigation";
+import bgSlider from "public/images/banner.webp";
+import { useEffect } from "react";
 
+import { AddedDateSort, SortBy } from "@constant/enum";
 import { GAME_PATH, HOME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import { AddedDateSort, SortBy } from "@constant/enum";
+
 const LayoutGameDetail = () => {
   const { id } = useParams();
   const {
@@ -20,8 +21,8 @@ const LayoutGameDetail = () => {
     setMaxRating,
     SetPlatforms,
     SetGenres,
-    getGameId,
-    dataGetGameId: data,
+    getGameById,
+    gameById,
     setSearch: searchGame,
     setSortBy: sortGame,
   } = useGame();
@@ -30,7 +31,7 @@ const LayoutGameDetail = () => {
   useEffect(() => {
     if (id) {
       const gameId = Array.isArray(id) ? Number(id[0]) : Number(id);
-      getGameId(gameId);
+      getGameById(gameId);
     }
     setCheckDate(AddedDateSort.AllTime);
     SetPlatforms([]);
@@ -65,7 +66,7 @@ const LayoutGameDetail = () => {
       title: "Games",
     },
     {
-      title: data.name,
+      title: gameById.name,
     },
   ];
 
@@ -89,7 +90,7 @@ const LayoutGameDetail = () => {
           <Stack p={8} position="absolute" top={"275px"} left={0}>
             <Breadcumbs breadcumbs={breadcrumbs} />
             <Typography color="text.while">OverView</Typography>
-            <h1>{data.name}</h1>
+            <h1>{gameById.name}</h1>
             <TabHeaders
               tabs={tabItems}
               value={value}

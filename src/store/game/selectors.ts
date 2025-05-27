@@ -1,17 +1,24 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
-  createGame,
-  createGameReview,
-  deleteGame,
-  getGame,
-  getGameCount,
-  getGameID,
-  getGameOwner,
-  ParamsProp,
-  PropsDelete,
+  CreateGame,
+  // createGame,
+  // createGameReview,
+  CreateGenres,
+  CreateRate,
+  DeleteGame,
+  DeleteGenres,
+  GetGame,
+  GetGameById,
+  GetGameCount,
+  // getGameID,
+  GetGameOwner,
+  GetGenres,
+  GetGenresById,
+  GetOwnerById,
   PropsFormik,
   PropsGameReview,
-  updateGame,
+  UpdateGame,
+  UpdateGenres,
 } from "./action";
 import {
   setAwardWinners,
@@ -33,8 +40,20 @@ import {
   SetMinRating,
   SetSortBy,
   SetSearch,
+  SetPageIndex,
+  SetPageSize,
 } from "./reducer";
 import { Genre, Platform, SortBy } from "@constant/enum";
+import {
+  FormCreateGameProps,
+  GameDProps,
+  GenresCProps,
+  GenresDProps,
+  GenresProps,
+  ParamsGameProps,
+  RateProps,
+} from "./type";
+import { DeleteOwner } from "./action";
 
 export const useGame = () => {
   const dispatch = useAppDispatch();
@@ -42,14 +61,20 @@ export const useGame = () => {
   const {
     error,
     loading,
+    gameCount,
+    gameOwner,
+    ownerById,
+    game,
+    gameById,
+    genreItems,
+    genreById,
+    pageIndex,
+    pageSize,
+
     isCreate,
     isCreateRate,
     isDelete,
     isUpdate,
-    dataGameCount,
-    dataGameOwner,
-    dataGetGameId,
-    dataListGame,
     status,
     minRating,
     maxRating,
@@ -66,10 +91,59 @@ export const useGame = () => {
     sortBy,
     search,
   } = useAppSelector((state) => state.game);
-
-  const fetchGetGame = (param: ParamsProp) => {
-    dispatch(getGame(param));
+  const getGame = (param: ParamsGameProps) => {
+    dispatch(GetGame(param));
   };
+  const getGameOwner = (param: ParamsGameProps) => {
+    dispatch(GetGameOwner(param));
+  };
+  const getOwnerById = (gameId: number) => {
+    dispatch(GetOwnerById(gameId));
+  };
+  const getGameById = (gameId: number) => {
+    dispatch(GetGameById(gameId));
+  };
+  const createGame = (body: FormCreateGameProps) => {
+    dispatch(CreateGame(body));
+  };
+  const updateGame = (body: FormCreateGameProps) => {
+    dispatch(UpdateGame(body));
+  };
+  const deleteOwner = (body: GameDProps) => {
+    dispatch(DeleteOwner(body));
+  };
+  const deleteGame = (body: GameDProps) => {
+    dispatch(DeleteGame(body));
+  };
+  const createGenres = (body: GenresCProps) => {
+    dispatch(CreateGenres(body));
+  };
+  const updateGenres = (body: GenresCProps) => {
+    dispatch(UpdateGenres(body));
+  };
+  const deleteGenres = (body: number) => {
+    dispatch(DeleteGenres(body));
+  };
+  const createRate = (body: RateProps) => {
+    dispatch(CreateRate(body));
+  };
+  const getGenres = (param: GenresProps) => {
+    dispatch(GetGenres(param));
+  };
+  const getGenresById = (genreId: number) => {
+    dispatch(GetGenresById(genreId));
+  };
+  const setPageIndex = (value: number) => {
+    dispatch(SetPageIndex(value));
+  };
+  const setPageSize = (value: number) => {
+    dispatch(SetPageSize(value));
+  };
+
+  const getGameCount = () => {
+    dispatch(GetGameCount());
+  };
+
   const setMinRating = (value: number) => {
     dispatch(SetMinRating(value));
   };
@@ -113,44 +187,20 @@ export const useGame = () => {
     dispatch(setGenresTitle(value));
   };
 
-  const createGameReviews = (body: PropsGameReview) => {
-    dispatch(createGameReview(body));
-  };
-
   const setIsCreateRate = (value: boolean) => {
     dispatch(SetIsCreateRate(value));
-  };
-  const fetchGameCount = () => {
-    dispatch(getGameCount());
-  };
-
-  const fetchGetGameOwner = (param: ParamsProp = {}) => {
-    dispatch(getGameOwner(param));
-  };
-
-  const createGames = (params: PropsFormik) => {
-    dispatch(createGame(params));
   };
 
   const setIsCreate = () => {
     dispatch(SetIsCreateGame());
   };
-  const updateGames = (params: PropsFormik) => {
-    dispatch(updateGame(params));
-  };
 
   const setIsUpdate = () => {
     dispatch(SetIsUpdateGame());
   };
-  const getGameId = (gameId: number) => {
-    dispatch(getGameID(gameId));
-  };
 
   const setStatusGet = () => {
     dispatch(SetStatus());
-  };
-  const DeleteGame = (body: PropsDelete) => {
-    dispatch(deleteGame(body));
   };
 
   const setIsDeletes = () => {
@@ -166,33 +216,48 @@ export const useGame = () => {
   };
 
   return {
+    getGameById,
+    getOwnerById,
+    getGame,
+    ownerById,
+    gameById,
+    updateGame,
+    deleteOwner,
+    deleteGame,
+    createGenres,
+    updateGenres,
+    deleteGenres,
+    createRate,
+    genreItems,
+    getGenres,
+    genreById,
+    getGenresById,
+    setPageIndex,
+    setPageSize,
+    pageIndex,
+    pageSize,
+    getGameCount,
+    createGame,
+
     setSearch,
     search,
     sortBy,
     setSortBy,
     setIsDeletes,
-    DeleteGame,
     setStatusGet,
-    getGameId,
     setIsUpdate,
-    updateGames,
     setIsCreate,
-    createGames,
-    fetchGetGameOwner,
-    fetchGameCount,
+    getGameOwner,
     setIsCreateRate,
-    createGameReviews,
     error,
     loading,
-    fetchGetGame,
     isCreate,
     isCreateRate,
     isDelete,
     isUpdate,
-    dataGameCount,
-    dataGameOwner,
-    dataGetGameId,
-    dataListGame,
+    gameCount,
+    gameOwner,
+    game,
     status,
     minRating,
     maxRating,

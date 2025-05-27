@@ -27,12 +27,12 @@ const BrowserGenres = ({
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const { dataListGame: data, fetchGetGame } = useGame();
+  const { game, getGame } = useGame();
 
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { isSmSmaller } = useBreakpoint();
   // useEffect(() => {
-  //   fetchGetGame();
+  //   getGame();
   // }, []);
 
   const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
@@ -61,7 +61,7 @@ const BrowserGenres = ({
               Browse Auto Battler Games
             </Text>
             <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-              {data.length} results
+              {game?.items.length} results
             </Text>
           </Stack>
         </Stack>
@@ -92,7 +92,7 @@ const BrowserGenres = ({
           }}
           gap={2}
         >
-          {data.map((item, index) => {
+          {game?.items.map((item, index) => {
             return (
               <CardItem
                 key={index}

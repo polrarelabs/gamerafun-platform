@@ -9,6 +9,7 @@ import { AddedDateSort, SortBy } from "@constant/enum";
 import { Button } from "@components/shared";
 import { Stack } from "@mui/material";
 import { CREATE_NEWS_PATH, UPDATE_NEWS_PATH } from "@constant/paths";
+import { SCREEN_PX } from "@constant";
 
 const Layout = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const Layout = () => {
   }, []);
 
   return (
-    <>
+    <Stack px={SCREEN_PX}>
       {/* <LayoutNew /> */}
       <Stack width={"100%"} direction={"row"} justifyContent={"end"} gap={2}>
         <Button
@@ -60,7 +61,7 @@ const Layout = () => {
         </Button>
       </Stack>
       <LayoutLastNews />
-    </>
+    </Stack>
   );
 };
 

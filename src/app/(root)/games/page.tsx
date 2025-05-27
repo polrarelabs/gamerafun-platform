@@ -2,16 +2,17 @@
 
 import { LayoutGame } from "@components/screens/Games";
 import { FormCreateGame } from "@components/screens/Games/components";
-import { Text } from "@components/shared";
+import { Image, Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 // import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
 import { AddedDateSort, SortBy } from "@constant/enum";
 import { HOME_PATH } from "@constant/paths";
-import { Stack, useTheme } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
+import image from "public/images/img-login.png";
 
 const GameHome = () => {
   const theme = useTheme();
@@ -51,18 +52,68 @@ const GameHome = () => {
   ];
 
   return (
-    <Stack px={SCREEN_PX} py={4} direction={"column"} gap={4}>
-      <Stack direction={"column"} gap={2}>
+    <Stack direction={"column"} gap={4}>
+      <Stack
+        px={SCREEN_PX}
+        direction={"column"}
+        gap={2}
+        position={"relative"}
+        py={4}
+      >
+        <Stack
+          position={"absolute"}
+          top={0}
+          left={0}
+          width={"100%"}
+          height={"100%"}
+          zIndex={1}
+        >
+          <Image
+            src={image}
+            alt={`img-`}
+            size="100%"
+            aspectRatio={3 / 2}
+            sizes={`1920px`}
+            containerProps={{
+              sx: {
+                width: `100%`,
+                height: "100%",
+                overflow: "hidden",
+                opacity: 0.2,
+                border: "1px",
+                borderColor: palette.borderColorLinear,
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  // transition: "all 0.5s ease-in-out",
+                },
+              },
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none",
+              background: `linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)`,
+              zIndex: 2,
+            }}
+          />
+        </Stack>
         <Stack
           direction={"row"}
           alignItems={"center"}
           justifyContent={"space-between"}
+          zIndex={3}
         >
           <Breadcumbs breadcumbs={breadcrumbs} />
           <FormCreateGame />
         </Stack>
 
-        <Stack direction={"column"}>
+        <Stack direction={"column"} zIndex={3}>
           <Text
             color="white"
             fontWeight={700}

@@ -61,32 +61,31 @@ const UpdateGame = () => {
   const [isDisable, setIdDisable] = useState<boolean>(true);
 
   const {
-    fetchGetGame,
-    dataListGame: dataGame,
-    updateGames,
+    getGame,
+    game,
+    updateGame,
     isUpdate,
     setIsUpdate,
-    dataGetGameId: data,
     setStatusGet,
-    getGameId,
+    getGameById,
   } = useGame();
 
   useEffect(() => {
-    // fetchGetGame();
+    // getGame();
   }, []);
 
-  useEffect(() => {
-    if (dataGame) {
-      const arr: ListIdGame[] = [];
-      for (let i = 0; i < dataGame.length; i++) {
-        arr.push({
-          id: dataGame[i].id,
-          name: dataGame[i].name,
-        });
-      }
-      return setDataGameId(arr);
-    }
-  }, [dataGame]);
+  // useEffect(() => {
+  //   if (game) {
+  //     const arr: ListIdGame[] = [];
+  //     for (let i = 0; i < game.length; i++) {
+  //       arr.push({
+  //         id: game[i].id,
+  //         name: game[i].name,
+  //       });
+  //     }
+  //     return setDataGameId(arr);
+  //   }
+  // }, [game]);
 
   const initialValues: PropsFormik = {
     gameId: 0,
@@ -123,48 +122,48 @@ const UpdateGame = () => {
     chain: [],
     media: [],
   };
-  useEffect(() => {
-    if (data && Object.keys(data).length > 0) {
-      formik.resetForm({
-        values: {
-          gameId: data.id,
-          name: data.name,
-          description: data.description,
-          status: data.status,
-          website: data.website,
-          downloadLinks: {
-            windows: data?.downloadLink?.windows || "",
-            macos: data?.downloadLink?.macos || "",
-            android: data?.downloadLink?.android || "",
-            ios: data?.downloadLink?.ios || "",
-          },
-          publisher: data.publisher || "",
-          developer: data.developer || "",
-          socials: {
-            discord: data?.socials?.discord || "",
-            telegram_chat: data?.socials?.telegram_chat || "",
-            telegram_news: data?.socials?.telegram_news || "",
-            linkedin: data?.socials?.linkedin || "",
-            medium: data?.socials?.medium || "",
-            twitter: data?.socials?.twitter || "",
-            tiktok: data?.socials?.tiktok || "",
-            youtube: data?.socials?.youtube || "",
-          },
-          schedule: {
-            alpha: data?.schedule?.alpha || "",
-            beta: data?.schedule?.beta || "",
-            release: data?.schedule?.release || "",
-          },
-          support_os: data.support_os || [],
-          platform: data.platform || [],
-          genre: data.genre || [],
-          chain: data.chain || [],
-          media: data.media || [],
-        },
-      });
-      setIdDisable(false);
-    } else setIdDisable(true);
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && Object.keys(data).length > 0) {
+  //     formik.resetForm({
+  //       values: {
+  //         gameId: data.id,
+  //         name: data.name,
+  //         description: data.description,
+  //         status: data.status,
+  //         website: data.website,
+  //         downloadLinks: {
+  //           windows: data?.downloadLink?.windows || "",
+  //           macos: data?.downloadLink?.macos || "",
+  //           android: data?.downloadLink?.android || "",
+  //           ios: data?.downloadLink?.ios || "",
+  //         },
+  //         publisher: data.publisher || "",
+  //         developer: data.developer || "",
+  //         socials: {
+  //           discord: data?.socials?.discord || "",
+  //           telegram_chat: data?.socials?.telegram_chat || "",
+  //           telegram_news: data?.socials?.telegram_news || "",
+  //           linkedin: data?.socials?.linkedin || "",
+  //           medium: data?.socials?.medium || "",
+  //           twitter: data?.socials?.twitter || "",
+  //           tiktok: data?.socials?.tiktok || "",
+  //           youtube: data?.socials?.youtube || "",
+  //         },
+  //         schedule: {
+  //           alpha: data?.schedule?.alpha || "",
+  //           beta: data?.schedule?.beta || "",
+  //           release: data?.schedule?.release || "",
+  //         },
+  //         support_os: data.support_os || [],
+  //         platform: data.platform || [],
+  //         genre: data.genre || [],
+  //         chain: data.chain || [],
+  //         media: data.media || [],
+  //       },
+  //     });
+  //     setIdDisable(false);
+  //   } else setIdDisable(true);
+  // }, [data]);
 
   const formik = useFormik({
     initialValues,
@@ -191,12 +190,12 @@ const UpdateGame = () => {
           formik.values.downloadLinks[osKey] = DownloadLinks[osKey];
         }
       });
-      updateGames(values);
+      // updateGame(values);
     },
   });
 
   const handleClickItem = (gameId: number) => {
-    getGameId(gameId);
+    getGameById(gameId);
   };
 
   useEffect(() => {

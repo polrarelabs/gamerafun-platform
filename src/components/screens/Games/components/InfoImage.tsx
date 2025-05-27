@@ -4,7 +4,7 @@ import InputText from "@components/Media/InputText";
 import SelectPosition from "@components/Media/SelectPosition";
 import { Image } from "@components/shared";
 import EyeIcon from "@icons/common/EyeIcon";
-import { Dialog, Stack } from "@mui/material";
+import { Dialog, DialogContent, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { PropsInfo } from "../UploadAvatar";
 import TrashIcon from "@icons/common/TrashIcon";
@@ -29,7 +29,9 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
   };
   const [hover, setHover] = useState<boolean>(false);
   const handleDelete = () => {
-    dataList.splice(id, 1);
+    const arr = [...dataList];
+    arr.splice(id, 1);
+    setDataList(arr);
   };
 
   const IconAction = [
@@ -49,8 +51,8 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
         position={"relative"}
         sx={{
           borderRadius: "8px",
-          width: 150,
-          height: 100,
+          width: "100%",
+          height: "100%",
           "&:hover": {
             cursor: "pointer",
           },
@@ -100,7 +102,7 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
                   borderRadius: 1000,
                   "&:hover": {
                     color: "black",
-                    backgroundColor: palette.colorBgHover,
+                    // backgroundColor: palette.colorBgHover,
                   },
                 }}
                 onClick={onClick}
@@ -109,7 +111,7 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
           })}
         </Stack>
       </Stack>
-      <InputText
+      {/* <InputText
         id={id}
         setData={setDataList}
         data={dataList}
@@ -129,42 +131,48 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
         data={dataList}
         name="position"
         title="Position"
-      />
+      /> */}
       <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xl"}>
-        <Stack
+        <DialogContent
           sx={{
-            borderRadius: "8px",
-            width: data.widthImg,
-            height: data.heightImg,
-            "&:hover": {
-              cursor: "pointer",
-            },
+            padding: "0px !important",
           }}
-          direction={"row"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          onClick={handleClickOpen}
         >
-          <Image
-            src={URL.createObjectURL(data.file)}
-            alt="preview"
-            size="100%"
-            aspectRatio={3 / 2}
-            sizes="960px"
-            containerProps={{
-              sx: {
-                width: "100%",
-                height: "100%",
-                overflow: "hidden",
-                borderRadius: "8px",
-                "& img": {
-                  objectFit: "cover",
-                  objectPosition: "center",
-                },
+          <Stack
+            sx={{
+              borderRadius: "8px",
+              width: "100%",
+              height: "100%",
+              "&:hover": {
+                cursor: "pointer",
               },
             }}
-          />
-        </Stack>
+            direction={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            onClick={handleClickOpen}
+          >
+            <Image
+              src={URL.createObjectURL(data.file)}
+              alt="preview"
+              size="100%"
+              aspectRatio={3 / 2}
+              sizes="960px"
+              containerProps={{
+                sx: {
+                  width: "100%",
+                  height: "100%",
+                  overflow: "hidden",
+                  borderRadius: "8px",
+                  "& img": {
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  },
+                },
+              }}
+            />
+          </Stack>
+        </DialogContent>
       </Dialog>
     </Stack>
   );

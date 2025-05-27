@@ -22,7 +22,7 @@ interface Props {
 }
 
 const ItemGame = ({ img, setHover, setId }: Props) => {
-  const { dataListGame: data, getGameId } = useGame();
+  const { game, getGameById } = useGame();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { width } = useWindowSize();
   const [height, setHeight] = useState<number | undefined>(undefined);
@@ -37,14 +37,14 @@ const ItemGame = ({ img, setHover, setId }: Props) => {
 
   const route = useRouter();
   const handleClick = (value: number) => {
-    getGameId(value);
+    getGameById(value);
     route.push(`/games/${value}`);
   };
   const { isSmSmaller } = useBreakpoint();
 
   return (
     <>
-      {data.map((item, index) => {
+      {game.items.map((item, index) => {
         return (
           <Stack
             key={index}
@@ -78,7 +78,7 @@ const ItemGame = ({ img, setHover, setId }: Props) => {
               p={"6px"}
             >
               <Image
-                src={item.media[0] ? item.media[0].url : img}
+                src={item.mediaUrl[0] ? item.mediaUrl[0] : img}
                 alt={`img-${img}`}
                 size="100%"
                 aspectRatio={3 / 2}

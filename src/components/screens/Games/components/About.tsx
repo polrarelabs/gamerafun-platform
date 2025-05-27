@@ -13,11 +13,11 @@ import { memo } from "react";
 import { useGame } from "@store/game";
 
 const About = () => {
-  const { dataGetGameId: data } = useGame();
+  const { gameById } = useGame();
   return (
     <>
       <Stack my={4}>
-        <Divider textAlign="left">ABOUT {data.name}</Divider>
+        <Divider textAlign="left">ABOUT {gameById.name}</Divider>
       </Stack>
       <Stack
         direction={"row"}

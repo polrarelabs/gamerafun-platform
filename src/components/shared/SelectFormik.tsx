@@ -43,6 +43,9 @@ const SelectFormik = ({
       },
     },
   };
+  const optionKey = Object.keys(OptionEnum);
+  const optionValue = Object.keys(OptionEnum);
+
   return (
     <Stack flex={1} gap={1}>
       <Text>{label}</Text>
@@ -68,7 +71,7 @@ const SelectFormik = ({
             MenuProps={MenuProps}
             disabled={isDisable}
           >
-            {Object.keys(OptionEnum).map((item, index) => (
+            {optionKey.map((item, index) => (
               <MenuItem key={index} value={OptionEnum[item]}>
                 {item}
               </MenuItem>
@@ -83,19 +86,7 @@ const SelectFormik = ({
             input={<OutlinedInput />}
             disabled={isDisable}
           >
-            {/* {data &&
-              data.map((item, index) => {
-                return (
-                  <MenuItem
-                    value={item.id}
-                    key={index}
-                    onClick={() => handleClick?.(item.id)}
-                  >
-                    {item.name}
-                  </MenuItem>
-                );
-              })} */}
-            {Object.keys(OptionEnum).map((item, index) => (
+            {optionValue.map((item, index) => (
               <MenuItem key={index} value={OptionEnum[item]}>
                 {item}
               </MenuItem>
