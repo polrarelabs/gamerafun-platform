@@ -8,6 +8,7 @@ import { palette } from "public/material";
 import React, { forwardRef, memo, useEffect, useRef, useState } from "react";
 import img from "public/images/img-bg-login.png";
 import { formatMMMMDoYYYY } from "@components/helper";
+import { useGallery } from "@store/media";
 export interface PropsLastNew {
   index: number;
   displayLayout: string;
@@ -34,6 +35,9 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
     const [height, setHeight] = useState<number | undefined>(undefined);
     const [hover, setHover] = useState<boolean>(false);
     const [id, setId] = useState<number | null>(null);
+
+    const { setUrl } = useGallery();
+
     useEffect(() => {
       if (!containerRef.current) return;
       setHeight(
@@ -64,10 +68,14 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
             cursor: "pointer",
           },
         }}
-        onMouseEnter={() => {
+        onMouseEnter={(e) => {
           if (isHover === true) {
             setHover(true);
             setId(index);
+            const img = e.currentTarget.querySelector("img");
+            if (img) {
+              setUrl(img.src);
+            }
           }
         }}
         onMouseLeave={() => {
@@ -151,24 +159,22 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
                   );
                 } else if (index === 2) {
                   return (
-                    <>
-                      <Text
-                        key={index}
-                        color={palette.greenColorText}
-                        fontSize={"12px"}
-                        fontWeight={600}
-                        textTransform={"uppercase"}
-                        sx={{
-                          backgroundColor: palette.greenColorButton,
-                          padding: "4px 8px",
-                          borderRadius: "4px",
-                          width: "max-content",
-                          border: `1px solid ${palette.colorBorderTag}`,
-                        }}
-                      >
-                        {`+${data.tags.length - 2}`}
-                      </Text>
-                    </>
+                    <Text
+                      key={index}
+                      color={palette.greenColorText}
+                      fontSize={"12px"}
+                      fontWeight={600}
+                      textTransform={"uppercase"}
+                      sx={{
+                        backgroundColor: palette.greenColorButton,
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                        width: "max-content",
+                        border: `1px solid ${palette.colorBorderTag}`,
+                      }}
+                    >
+                      {`+${data.tags.length - 2}`}
+                    </Text>
                   );
                 }
               })}

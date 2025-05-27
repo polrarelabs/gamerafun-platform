@@ -27,8 +27,8 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
   const {
     isCreate,
     setIsCreateRate,
-    createGameReviews,
-    dataGetGameId: data,
+    // createGameReviews,
+    gameById,
   } = useGame();
 
   const initialValues = {
@@ -42,7 +42,7 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
     validationSchema: ValidationSchema,
     onSubmit: (values) => {
       console.log("values", values);
-      createGameReviews(values);
+      // createGameReviews(values);
     },
   });
   const handleSelect = (num: number) => {
@@ -69,7 +69,7 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
     >
       <DialogTitle marginBottom={4}>
         <Text textAlign={"left"} fontSize={"20px"} fontWeight={700}>
-          Write a review for {data.name}
+          Write a review for {gameById.name}
         </Text>
       </DialogTitle>
       <DialogContent>

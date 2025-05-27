@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { upGallery } from "./action";
-import { setDataGallery, setIsUpload } from "./reducer";
+import { setDataGallery, setIsUpload, SetUrl } from "./reducer";
 
 export const useGallery = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +17,11 @@ export const useGallery = () => {
     dispatch(setIsUpload(value));
   };
 
-  const { dataGallery, loadingGallery, errorGallery, isUpload } =
+  const setUrl = (value: string | null) => {
+    dispatch(SetUrl(value));
+  };
+
+  const { dataGallery, loadingGallery, errorGallery, isUpload, url } =
     useAppSelector((state) => state.gallery);
 
   return {
@@ -28,5 +32,7 @@ export const useGallery = () => {
     resetGallery,
     isUpload,
     SetIsUpload,
+    setUrl,
+    url,
   };
 };

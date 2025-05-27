@@ -23,7 +23,7 @@ const TextFieldFormik = ({
   isDisable = false,
 }: PropsTextFieldFormik) => {
   return (
-    <Stack flex={2} gap={1}>
+    <Stack flex={1} gap={1}>
       <Text>{label}</Text>
       <TextField
         fullWidth
@@ -40,6 +40,11 @@ const TextFieldFormik = ({
           input: {
             readOnly: readonly,
             disabled: isDisable,
+          },
+        }}
+        sx={{
+          "& .mui-1v24f9t-MuiOutlinedInput-notchedOutline": {
+            borderColor: "none !important",
           },
         }}
       />

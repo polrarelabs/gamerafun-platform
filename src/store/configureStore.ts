@@ -57,7 +57,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import appReducer, { AppState } from "./app/reducer";
-import tokenReducer, { TokenState } from "./token/reducer";
+// import tokenReducer, { TokenState } from "./token/reducer";
 import GameReducer from "./game/reducer";
 import ChatAIReducer from "./chatAI/reducer";
 // import { DataState, DataStateOwner, PropGameCount } from "./game";
@@ -67,11 +67,11 @@ import Auth_Login from "./auth/reducer";
 
 export interface State {
   app: AppState;
-  token: TokenState;
+  // token: TokenState;
 }
 const appReducers = combineReducers({
   app: appReducer,
-  token: tokenReducer,
+  // token: tokenReducer,
   chatai: ChatAIReducer,
   blog: BlogReducer,
   auth: Auth_Login,

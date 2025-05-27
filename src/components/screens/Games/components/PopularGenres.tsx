@@ -10,40 +10,17 @@ import { palette } from "public/material";
 import { useGame } from "@store/game";
 
 const PopularGenres = () => {
-  const { dataGameCount: data } = useGame();
+  const { gameCount, getGameCount } = useGame();
   const [arrKeys, setArrKeys] = useState<string[]>([]);
 
   useEffect(() => {
-    if (data?.genre) {
-      setArrKeys(Object.keys(data.genre));
+    getGameCount();
+  }, []);
+  useEffect(() => {
+    if (gameCount?.genre) {
+      setArrKeys(Object.keys(gameCount.genre));
     }
-  }, [data]);
-
-  // const containerRef = useRef<HTMLDivElement | null>(null);
-  // const trackRef = useRef<HTMLDivElement | null>(null);
-  // const x = useMotionValue(0);
-
-  // const ITEM_WIDTH = 208;
-  // const STEP = ITEM_WIDTH + 16;
-
-  // const handleScroll = (direction: "left" | "right") => {
-  //   const container = containerRef.current;
-  //   const track = trackRef.current;
-  //   if (!container || !track) return;
-
-  //   const step = direction === "left" ? STEP : -STEP;
-  //   const newX = x.get() + step;
-
-  //   const maxScroll = -(track.scrollWidth - container.offsetWidth);
-  //   const clampedX = Math.max(Math.min(newX, 0), maxScroll);
-
-  //   animate(x, clampedX, {
-  //     type: "tween",
-  //     duration: 0.35,
-  //     ease: "easeInOut",
-  //   });
-  // };
-
+  }, [gameCount]);
   return (
     <Stack direction="column" gap={2} sx={{ width: "100%" }}>
       <Stack direction="row" alignItems="center" gap={2}>
@@ -52,8 +29,74 @@ const PopularGenres = () => {
           Popular Genres
         </Text>
       </Stack>
+      <Slider itemWidth={208} step={16}>
+        {arrKeys.map((item) => (
+          <Stack
+            key={item}
+            width={`208px`}
+            height="108px"
+            bgcolor={palette.bgColorYellow}
+            position="relative"
+            flexShrink={0}
+            sx={{
+              borderRadius: "6px",
+              opacity: 0.7,
+              "&:hover": {
+                opacity: 1,
+                cursor: "pointer",
+              },
+            }}
+          >
+            <Text
+              position="absolute"
+              left="50%"
+              bottom={2}
+              color="common.white"
+              variant={{ xs: "body1", md: "subtitle1" }}
+              fontWeight={500}
+              sx={{
+                translate: "-50% -50%",
+                // zIndex: 3,
+              }}
+            >
+              {item}
+            </Text>
+          </Stack>
+        ))}
+      </Slider>
+    </Stack>
+  );
+};
 
-      {/* <Stack direction="row" alignItems="center" gap={1}>
+export default memo(PopularGenres);
+
+// const containerRef = useRef<HTMLDivElement | null>(null);
+// const trackRef = useRef<HTMLDivElement | null>(null);
+// const x = useMotionValue(0);
+
+// const ITEM_WIDTH = 208;
+// const STEP = ITEM_WIDTH + 16;
+
+// const handleScroll = (direction: "left" | "right") => {
+//   const container = containerRef.current;
+//   const track = trackRef.current;
+//   if (!container || !track) return;
+
+//   const step = direction === "left" ? STEP : -STEP;
+//   const newX = x.get() + step;
+
+//   const maxScroll = -(track.scrollWidth - container.offsetWidth);
+//   const clampedX = Math.max(Math.min(newX, 0), maxScroll);
+
+//   animate(x, clampedX, {
+//     type: "tween",
+//     duration: 0.35,
+//     ease: "easeInOut",
+//   });
+// };
+
+{
+  /* <Stack direction="row" alignItems="center" gap={1}>
         <Stack
           direction="row"
           overflow="hidden"
@@ -142,45 +185,5 @@ const PopularGenres = () => {
             ))}
           </motion.div>
         </Stack>
-      </Stack> */}
-
-      <Slider itemWidth={208} step={16}>
-        {arrKeys.map((item) => (
-          <Stack
-            key={item}
-            width={`208px`}
-            height="108px"
-            bgcolor={palette.bgColorYellow}
-            position="relative"
-            flexShrink={0}
-            sx={{
-              borderRadius: "6px",
-              opacity: 0.7,
-              "&:hover": {
-                opacity: 1,
-                cursor: "pointer",
-              },
-            }}
-          >
-            <Text
-              position="absolute"
-              left="50%"
-              bottom={2}
-              color="common.white"
-              variant={{ xs: "body1", md: "subtitle1" }}
-              fontWeight={500}
-              sx={{
-                translate: "-50% -50%",
-                // zIndex: 3,
-              }}
-            >
-              {item}
-            </Text>
-          </Stack>
-        ))}
-      </Slider>
-    </Stack>
-  );
-};
-
-export default memo(PopularGenres);
+      </Stack> */
+}

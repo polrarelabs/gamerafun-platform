@@ -150,3 +150,8 @@ export enum ScheduleStatus {
   Discontinued = "Discontinued",
   TBA = "TBA",
 }
+
+export enum OwnerStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+}

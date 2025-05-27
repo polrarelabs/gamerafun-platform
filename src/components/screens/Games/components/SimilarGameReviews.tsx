@@ -12,7 +12,7 @@ const SimilarGameReviews = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const IMG_WIDTH = 330;
   const STEP = IMG_WIDTH + 16;
-  const { dataListGame: data, fetchGetGame, dataGetGameId } = useGame();
+  const { game, getGame } = useGame();
   const [hover, setHover] = useState<boolean>(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const x = useMotionValue(0);
@@ -123,7 +123,7 @@ const SimilarGameReviews = () => {
               }
             }}
           >
-            {data?.map((item, index) => {
+            {game?.items.map((item, index) => {
               return (
                 <Stack
                   key={index}
@@ -153,7 +153,7 @@ const SimilarGameReviews = () => {
                   <Stack direction={"column"} gap={2}>
                     <Stack>
                       <Image
-                        src={item.media[0] ? item.media[0].url : img}
+                        src={item.mediaUrl[0] ? item.mediaUrl[0] : img}
                         alt={`img-${img}`}
                         size="100%"
                         aspectRatio={3 / 2}

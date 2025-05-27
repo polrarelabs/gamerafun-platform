@@ -4,6 +4,7 @@ import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { Box } from "@mui/material";
+import dynamic from "next/dynamic";
 
 interface EditorProps {
   readOnly?: boolean;

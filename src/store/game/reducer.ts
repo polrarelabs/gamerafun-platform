@@ -1,19 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  createGame,
-  createGameReview,
-  deleteGame,
-  getGame as fetchListGame,
-  getGameCount,
-  getGameID,
-  getGameOwner,
-  PropsDownloading,
-  PropsMedia,
-  PropsSchedule,
-  PropsSocials,
-  updateGame,
-} from "./action";
 import {
   Genre,
   Platform,
@@ -21,101 +6,54 @@ import {
   SupportChain,
   SupportOs,
 } from "@constant/enum";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  CreateGame,
+  // createGame,
+  // createGameReview,
+  CreateGenres,
+  CreateOwnerReview,
+  CreateRate,
+  DeleteGame,
+  // deleteGame,
+  DeleteGenres,
+  DeleteOwner,
+  GetGame,
+  GetGameById,
+  GetGameCount,
+  // getGameID,
+  GetGameOwner,
+  GetGenres,
+  GetGenresById,
+  GetOwnerById,
+  PropsMedia,
+  PropsSchedule,
+  UpdateGame,
+  UpdateGenres,
+  UpdateOwnerReview,
+} from "./action";
+import { GameCountProps, GameItems, GameProps, GenresItems } from "./type";
 
-export interface ScheduleProps {
-  beta: string;
-  alpha: string;
-  release: string;
-}
-export interface SupportOsProps {
-  WINDOWS: number;
-  MAC: number;
-  WEB: number;
-  ANDROID: number;
-  IOS: number;
-}
-
-export interface PlatformProps {
-  EPIC: number;
-  STEAM: number;
-}
-
-export interface ScheduleStatusProps {
-  PLAYABLE: number;
-  BETA: number;
-  ALPHA: number;
-  INDEVELOPMENT: number;
-}
-
-export interface GenreProps {
-  ACTION: number;
-  ADVENTURE: number;
-  RPG: number;
-  STRATEGY: number;
-  PUZZLE: number;
-  CASUAL: number;
-  MULTIPLAYER: number;
-  SPORTS: number;
-  SHOOTER: number;
-  RACING: number;
-  FIGHTING: number;
-  MMORPG: number;
-  METAVERSE: number;
-  FREETOPLAY: number;
-  ONCHAIN: number;
-  CARD: number;
-  BATTLEROYALE: number;
-  AUTOBATTLER: number;
-}
-
-interface Rate {
-  gameId: number;
-  score: number;
-  review: string;
-}
-
-export interface ListGame {
-  id: number;
-  name: string;
-  description: string;
-  status: number;
-  downloadLink: PropsDownloading;
-  publisher: string;
-  developer: string;
-  website: string;
-  socials: PropsSocials;
-  schedule: PropsSchedule;
-  support_os: SupportOs[];
-  platform: Platform[];
-  genre: Genre[];
-  chain: SupportChain[];
-  media: PropsMedia[];
-  rating: number;
-  rates?: Rate[];
-}
-
-export interface GameCount {
-  platform: PlatformProps;
-  genre: GenreProps;
-  support_os: SupportOsProps;
-  schedule_status: ScheduleStatusProps;
-}
-
-// interface PropsGame {
-//   items:
-// }
 interface PropsGameReducers {
   loading: boolean;
-  error: string;
+  error: string | null;
+
+  gameOwner: GameProps;
+  gameCount: GameCountProps;
+  game: GameProps;
+  gameById: GameItems;
+  ownerById: GameItems;
+  genreItems: GenresItems[];
+  genreById: GenresItems;
+
+  pageIndex: number;
+  pageSize: number;
+
   isCreateRate: boolean;
   isDelete: boolean;
   isUpdate: boolean;
   isCreate: boolean;
-  dataGameOwner: ListGame[];
-  dataGameCount: GameCount;
-  dataListGame: ListGame[];
   status: boolean;
-  dataGetGameId: ListGame;
   minRating: number;
   maxRating: number;
   gameId: number;
@@ -135,15 +73,18 @@ interface PropsGameReducers {
 
 const initialState: PropsGameReducers = {
   loading: false,
-  error: "",
+  error: null,
   isCreateRate: false,
   isDelete: false,
   isUpdate: false,
   isCreate: false,
-  dataGameOwner: [],
-  dataGameCount: {} as GameCount,
-  dataListGame: [],
-  dataGetGameId: {} as ListGame,
+  gameOwner: {} as GameProps,
+  gameCount: {} as GameCountProps,
+  ownerById: {} as GameItems,
+  game: {} as GameProps,
+  gameById: {} as GameItems,
+  genreById: {} as GenresItems,
+  genreItems: [],
   status: false,
   minRating: 0,
   maxRating: 0,
@@ -159,12 +100,20 @@ const initialState: PropsGameReducers = {
   genresTitle: "",
   sortBy: SortBy.Newest,
   search: "",
+  pageIndex: 1,
+  pageSize: 10,
 };
 
 const GameReducers = createSlice({
   name: "game/reducers",
   initialState,
   reducers: {
+    SetPageIndex: (state, action: PayloadAction<number>) => {
+      state.pageIndex = action.payload;
+    },
+    SetPageSize: (state, action: PayloadAction<number>) => {
+      state.pageSize = action.payload;
+    },
     SetMinRating: (state, action: PayloadAction<number>) => {
       state.minRating = action.payload;
     },
@@ -225,113 +174,263 @@ const GameReducers = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createGameReview.pending, (state) => {
+      // game
+      .addCase(GetGame.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
-      .addCase(createGameReview.fulfilled, (state) => {
-        state.isCreateRate = true;
+      .addCase(GetGame.fulfilled, (state, action: PayloadAction<GameProps>) => {
         state.loading = false;
+        state.game = action.payload;
+        state.error = null;
+      })
+      .addCase(GetGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+      // game by id
+      .addCase(GetGameById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(
-        createGameReview.rejected,
+        GetGameById.fulfilled,
+        (state, action: PayloadAction<GameProps>) => {
+          state.loading = false;
+          state.game = action.payload;
+          state.error = null;
+        },
+      )
+      .addCase(GetGameById.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+      // game owner
+      .addCase(GetGameOwner.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetGameOwner.fulfilled,
+        (state, action: PayloadAction<GameProps>) => {
+          state.loading = false;
+          state.gameOwner = action.payload;
+          state.error = null;
+        },
+      )
+      .addCase(GetGameOwner.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+      // game owner by id
+      .addCase(GetOwnerById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetOwnerById.fulfilled,
+        (state, action: PayloadAction<GameItems>) => {
+          state.loading = false;
+          state.gameById = action.payload;
+          state.error = null;
+        },
+      )
+      .addCase(GetOwnerById.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+      // game count
+      .addCase(GetGameCount.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetGameCount.fulfilled,
+        (state, action: PayloadAction<GameCountProps>) => {
+          state.loading = false;
+          state.gameCount = action.payload;
+          state.error = null;
+        },
+      )
+      .addCase(GetGameCount.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Errors";
+      })
+
+      // create game
+      .addCase(CreateGame.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(CreateGame.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(CreateGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // update game
+      .addCase(UpdateGame.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(UpdateGame.fulfilled, (state) => {
+        // state.isUpdate = true;
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(UpdateGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // delete owner
+      .addCase(DeleteOwner.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(DeleteOwner.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(DeleteOwner.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // delete game
+      .addCase(DeleteGame.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(DeleteGame.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(DeleteGame.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // get genres
+      .addCase(GetGenres.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetGenres.fulfilled,
+        (state, action: PayloadAction<GenresItems[]>) => {
+          state.genreItems = action.payload;
+          state.loading = false;
+          state.error = "";
+        },
+      )
+      .addCase(GetGenres.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // get genres by id
+      .addCase(GetGenresById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetGenresById.fulfilled,
+        (state, action: PayloadAction<GenresItems>) => {
+          state.genreById = action.payload;
+          state.loading = false;
+          state.error = "";
+        },
+      )
+      .addCase(GetGenresById.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // create genres
+      .addCase(CreateGenres.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(CreateGenres.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(CreateGenres.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // update genres
+      .addCase(UpdateGenres.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(UpdateGenres.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(UpdateGenres.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // delte genres
+      .addCase(DeleteGenres.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(DeleteGenres.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(DeleteGenres.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // create rate
+      .addCase(CreateRate.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(CreateRate.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(CreateRate.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // create owner review
+      .addCase(CreateOwnerReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(CreateOwnerReview.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(
+        CreateOwnerReview.rejected,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = action.payload as string;
         },
       )
-      .addCase(deleteGame.pending, (state) => {
+      // update owner review
+      .addCase(UpdateOwnerReview.pending, (state) => {
         state.loading = true;
-        state.isDelete = false;
+        state.error = null;
       })
-      .addCase(deleteGame.fulfilled, (state) => {
-        state.isDelete = true;
+      .addCase(UpdateOwnerReview.fulfilled, (state) => {
         state.loading = false;
-      })
-      .addCase(deleteGame.rejected, (state, action: PayloadAction<any>) => {
-        state.isDelete = false;
-        state.error = action.payload as string;
-      })
-      .addCase(updateGame.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateGame.fulfilled, (state) => {
-        state.isUpdate = true;
-        state.loading = false;
-      })
-      .addCase(updateGame.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(createGame.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(createGame.fulfilled, (state) => {
-        state.isCreate = true;
-        state.loading = false;
-      })
-      .addCase(createGame.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(getGameOwner.pending, (state) => {
-        state.loading = true;
+        state.error = "";
       })
       .addCase(
-        getGameOwner.fulfilled,
-        (state, action: PayloadAction<ListGame[]>) => {
+        UpdateOwnerReview.rejected,
+        (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.dataGameOwner = action.payload;
+          state.error = action.payload as string;
         },
-      )
-      .addCase(getGameOwner.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-      })
-      .addCase(getGameCount.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(
-        getGameCount.fulfilled,
-        (state, action: PayloadAction<GameCount>) => {
-          state.loading = false;
-          state.dataGameCount = action.payload;
-        },
-      )
-      .addCase(getGameCount.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-      })
-      .addCase(fetchListGame.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(
-        fetchListGame.fulfilled,
-        (state, action: PayloadAction<ListGame[]>) => {
-          state.loading = false;
-          state.dataListGame = action.payload;
-        },
-      )
-      .addCase(fetchListGame.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-      })
-      .addCase(getGameID.pending, (state) => {
-        state.loading = true;
-        state.status = false;
-      })
-      .addCase(
-        getGameID.fulfilled,
-        (state, action: PayloadAction<ListGame>) => {
-          state.loading = false;
-          state.dataGetGameId = action.payload;
-          state.status = true;
-        },
-      )
-      .addCase(getGameID.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload?.message || "Errors";
-        state.status = false;
-      });
+      );
   },
 });
 export default GameReducers.reducer;
@@ -356,4 +455,139 @@ export const {
   SetIsCreateGame,
   SetSortBy,
   SetSearch,
+  SetPageSize,
+  SetPageIndex,
 } = GameReducers.actions;
+
+// export interface ScheduleProps {
+//   beta: string;
+//   alpha: string;
+//   release: string;
+// }
+// export interface SupportOsProps {
+//   WINDOWS: number;
+//   MAC: number;
+//   WEB: number;
+//   ANDROID: number;
+//   IOS: number;
+// }
+
+// export interface PlatformProps {
+//   EPIC: number;
+//   STEAM: number;
+// }
+
+// export interface ScheduleStatusProps {
+//   PLAYABLE: number;
+//   BETA: number;
+//   ALPHA: number;
+//   INDEVELOPMENT: number;
+// }
+
+// export interface GenreProps {
+//   ACTION: number;
+//   ADVENTURE: number;
+//   RPG: number;
+//   STRATEGY: number;
+//   PUZZLE: number;
+//   CASUAL: number;
+//   MULTIPLAYER: number;
+//   SPORTS: number;
+//   SHOOTER: number;
+//   RACING: number;
+//   FIGHTING: number;
+//   MMORPG: number;
+//   METAVERSE: number;
+//   FREETOPLAY: number;
+//   ONCHAIN: number;
+//   CARD: number;
+//   BATTLEROYALE: number;
+//   AUTOBATTLER: number;
+// }
+
+// interface Rate {
+//   gameId: number;
+//   score: number;
+//   review: string;
+// }
+
+// interface PropPlatformLink {
+//   [key: string]: string;
+// }
+// interface ListGame {
+//   id: number;
+//   name: string;
+//   description: string;
+//   status: number;
+//   platformLink: PropPlatformLink[];
+//   publisher: string;
+//   developer: string;
+//   website: string;
+//   discord: string;
+//   telegramChat: string;
+//   telegramnews: string;
+//   medium: string;
+//   twitter: string;
+//   youtube: string;
+//   // socials: PropsSocials;
+//   schedule: PropsSchedule;
+//   support_os: SupportOs[];
+//   platform: Platform[];
+//   genre: Genre[];
+//   chain: SupportChain[];
+//   media: PropsMedia[];
+//   rating: number;
+//   rates?: Rate[];
+// }
+
+// export interface GameCount {
+//   platform: PlatformProps;
+//   genre: GenreProps;
+//   support_os: SupportOsProps;
+//   schedule_status: ScheduleStatusProps;
+// }
+
+// .addCase(createGameReview.pending, (state) => {
+//   state.loading = true;
+// })
+// .addCase(createGameReview.fulfilled, (state) => {
+//   state.isCreateRate = true;
+//   state.loading = false;
+// })
+// .addCase(
+//   createGameReview.rejected,
+//   (state, action: PayloadAction<any>) => {
+//     state.loading = false;
+//     state.error = action.payload as string;
+//   },
+// )
+// .addCase(deleteGame.pending, (state) => {
+//   state.loading = true;
+//   state.isDelete = false;
+// })
+// .addCase(deleteGame.fulfilled, (state) => {
+//   state.isDelete = true;
+//   state.loading = false;
+// })
+// .addCase(deleteGame.rejected, (state, action: PayloadAction<any>) => {
+//   state.isDelete = false;
+//   state.error = action.payload as string;
+// })
+
+// .addCase(getGameID.pending, (state) => {
+//   state.loading = true;
+//   state.status = false;
+// })
+// .addCase(
+//   getGameID.fulfilled,
+//   (state, action: PayloadAction<ListGame>) => {
+//     state.loading = false;
+//     state.dataGetGameId = action.payload;
+//     state.status = true;
+//   },
+// )
+// .addCase(getGameID.rejected, (state, action: PayloadAction<any>) => {
+//   state.loading = false;
+//   state.error = action.payload?.message || "Errors";
+//   state.status = false;
+// });
