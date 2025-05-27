@@ -1,18 +1,16 @@
 "use client";
 
-import { SCREEN_PX } from "@constant";
-import { Breadcrumbs, Stack } from "@mui/material";
-import React, { memo, useEffect } from "react";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import Link from "@components/Link";
-import { Text } from "@components/shared";
-import { LayoutGenres } from "@components/screens/Genres";
 import { GenresDetail } from "@components/screens/Genres/components";
+import { Text } from "@components/shared";
+import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
+import { SCREEN_PX } from "@constant";
+import { AddedDateSort } from "@constant/enum";
+import { GENRES_PATH, HOME_PATH } from "@constant/paths";
+import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
-import { GENRES_PATH, HOME_PATH } from "@constant/paths";
-import { AddedDateSort } from "@constant/enum";
+import { palette } from "public/material";
+import { memo, useEffect } from "react";
 
 const GenresDetails = () => {
   const { setMinRating, setMaxRating, SetPlatforms, genresTitle } = useGame();
@@ -54,7 +52,12 @@ const GenresDetails = () => {
           >
             {genresTitle}
           </Text>
-          <Text color="#9CA3AF" fontWeight={500} fontSize={"20px"} mb={4}>
+          <Text
+            color={palette.colorGray}
+            fontWeight={500}
+            fontSize={"20px"}
+            mb={4}
+          >
             title of {genresTitle}
           </Text>
         </Stack>

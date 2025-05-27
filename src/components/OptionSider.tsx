@@ -1,6 +1,5 @@
 "use client";
 
-import FormListOption from "@components/screens/Genres/components/FormListOption";
 import { Search, SliderCustom, Text } from "@components/shared";
 import SearchIcon from "@icons/common/SearchIcon";
 import { InputBase, Stack } from "@mui/material";
@@ -8,6 +7,7 @@ import { useGame } from "@store/game";
 import { palette } from "public/material";
 import { memo } from "react";
 import FormDateAdded from "./FormDateAdded";
+import FormListOption from "./shared/FormListOption";
 const OptionSider = () => {
   const {
     setMinRating,
@@ -18,7 +18,7 @@ const OptionSider = () => {
     SetPlatforms,
     genres,
     SetGenres,
-    dataGameCount: data,
+    gameCount,
     setSearch,
   } = useGame();
 
@@ -41,7 +41,7 @@ const OptionSider = () => {
       <Stack direction={"column"} gap={2}>
         <FormListOption
           name={"Platform"}
-          data={data.platform!}
+          data={gameCount.platform!}
           setArray={SetPlatforms}
           arrayKey={platforms}
         />
@@ -63,7 +63,7 @@ const OptionSider = () => {
 
         <FormListOption
           name={"Genres"}
-          data={data.genre!}
+          data={gameCount.genre!}
           setArray={SetGenres}
           arrayKey={genres}
         />

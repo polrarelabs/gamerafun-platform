@@ -22,7 +22,7 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
 
   const { blogId, blog, getBlog, getBlogId } = useBlog();
 
-  const { dataListGame: game, fetchGetGame } = useGame();
+  const { game, getGame } = useGame();
   const param = useParams();
 
   const handleClick = (id: string) => {
@@ -38,10 +38,10 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
     });
   }, [blogId.tags]);
 
-  useEffect(() => {
-    console.log("game", game);
-    console.log("news", blog.items);
-  }, [game, blog.items]);
+  // useEffect(() => {
+  //   console.log("game", game);
+  //   console.log("news", blog.items);
+  // }, [game, blog.items]);
 
   const handleViewAll = () => {
     if (relateBy === "game") return router.push(GAME_PATH);
@@ -75,7 +75,7 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
         {relateBy === "game" ? (
           <>
             {game &&
-              game.map((item, index) => {
+              game?.items.map((item, index) => {
                 return (
                   <CardItem
                     key={index}

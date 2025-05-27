@@ -11,11 +11,11 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { palette } from "public/material";
 
 const RelatedGames = () => {
-  const { dataListGame: data, fetchGetGame, dataGetGameId } = useGame();
+  const { game, getGame, gameById } = useGame();
   // const [hover, setHover] = useState<boolean>(false);
   // useEffect(() => {
-  //   if (dataGetGameId?.genre && dataGetGameId.genre.length > 0) {
-  //     fetchGetGame({ genre: dataGetGameId.genre });
+  //   if (gameById?.genre && gameById.genre.length > 0) {
+  //     fetchGetGame({ genre: gameById.genre });
   //   }
   // }, []);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -97,7 +97,7 @@ const RelatedGames = () => {
             }
           }}
         >
-          {data?.map((item, index) => {
+          {game.items.map((item, index) => {
             return (
               <Stack
                 key={index}
@@ -127,7 +127,7 @@ const RelatedGames = () => {
                 <Stack direction={"column"} gap={2}>
                   <Stack>
                     <Image
-                      src={item.media[0] ? item.media[0].url : img}
+                      src={item.mediaUrl[0] ? item.mediaUrl[0] : img}
                       alt={`img-${img}`}
                       size="100%"
                       aspectRatio={3 / 2}

@@ -11,7 +11,7 @@ import { useGame } from "@store/game";
 
 const Share = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { dataGetGameId: data } = useGame();
+  const { gameById } = useGame();
   const handleClickModalShare = () => {
     setIsOpen(true);
   };
@@ -30,7 +30,7 @@ const Share = () => {
   const informationGames: InformationGame[] = [
     {
       label: "Developer",
-      value: <Text variant="h5">{data.developer}</Text>,
+      value: <Text variant="h5">{gameById.developer}</Text>,
     },
     {
       label: "Networks",
@@ -50,11 +50,11 @@ const Share = () => {
     },
     {
       label: "Status",
-      value: <Text variant="h5">{data.status}</Text>,
+      value: <Text variant="h5">{gameById.status}</Text>,
     },
     {
       label: "Platform",
-      value: <GetIcon array={data.platform} />,
+      value: <GetIcon array={gameById.support_os} />,
     },
   ];
   return (
@@ -81,12 +81,12 @@ const Share = () => {
           },
         }}
       />
-      {data.description ? (
-        <Text variant="body2">{data.description}</Text>
+      {gameById.description ? (
+        <Text variant="body2">{gameById.description}</Text>
       ) : (
         <Text variant="body2">Description game</Text>
       )}
-      {data?.genre?.map((item, index) => (
+      {gameById?.genreName.map((item, index) => (
         <Button
           key={index}
           variant="contained"

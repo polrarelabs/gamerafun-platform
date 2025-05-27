@@ -58,7 +58,6 @@ const BannerNew = () => {
           src={blogId.thumbnailUrl}
           alt={`img-${blogId.thumbnailUrl}`}
           size="100%"
-          // aspectRatio={displayLayout === "list" ? 7 / 3 : 7 / 4}
           aspectRatio={3 / 2}
           sizes={`1920px`}
           containerProps={{

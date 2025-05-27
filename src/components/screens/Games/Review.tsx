@@ -14,7 +14,7 @@ import Share from "./components/Share";
 import { palette } from "public/material";
 import { useGame } from "@store/game";
 const Review = () => {
-  const { dataGetGameId: data } = useGame();
+  const { gameById } = useGame();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleClickModalShare = () => {
     setIsOpen(true);
@@ -51,8 +51,8 @@ const Review = () => {
         </Stack>
         <Text>Updated:06/09/2023 . Posted:15/10/2022</Text>
       </Stack>
-      {data.description ? (
-        <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
+      {gameById.description ? (
+        <div dangerouslySetInnerHTML={{ __html: gameById.description }}></div>
       ) : (
         <>
           <Typography variant="h2" component="h2" gutterBottom sx={{ my: 2 }}>

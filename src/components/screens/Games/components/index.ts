@@ -11,6 +11,7 @@ import ModalReview from "./ModalReview";
 import ModalShare from "./ModalShare";
 import RelatedGames from "./RelatedGames";
 import Share from "./Share";
+import PlatformLink from "./PlatformLink";
 
 export {
   BodyBrowserGame,
@@ -26,4 +27,5 @@ export {
   ModalShare,
   RelatedGames,
   Share,
+  PlatformLink,
 };

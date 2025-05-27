@@ -28,8 +28,8 @@ const LastNewsLists = ({
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const [hover, setHover] = useState<boolean>(false);
-  const [id, setId] = useState<number | null>(null);
+  // const [hover, setHover] = useState<boolean>(false);
+  // const [id, setId] = useState<number | null>(null);
 
   const {
     getBlogId,

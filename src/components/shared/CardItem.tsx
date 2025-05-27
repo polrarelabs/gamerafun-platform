@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
 import { palette } from "public/material";
 import React, { forwardRef, memo, useEffect, useRef, useState } from "react";
 import Image from "./Image";
 import Text from "./Text";
 import useWindowSize from "@hooks/useWindowSize";
-import { ListGame } from "@store/game";
 import img from "public/images/img-logo.png";
 import { GetIcon } from "@components/screens/Games/components";
+import GameIcon from "@icons/web3/GameIcon";
 
 interface CardItemProps {
   index: number;
@@ -37,9 +36,60 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
 
     const [hover, setHover] = useState<boolean>(false);
     const [id, setId] = useState<number | null>(null);
+    const getImageSrc = (url: string) => {
+      if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
+        return url;
+      }
+      return img;
+    };
+    const getGenres = (genres: string[]) => {
+      if (genres && genres.length > 2) {
+        return genres.map((genre, index) => {
+          if (index < 2) {
+            return (
+              <Text
+                key={index}
+                color={palette.colorGray}
+                fontSize={"12px"}
+                textAlign={"center"}
+              >
+                {genre}
+                {index < 1 && genres.length > 1 ? ", " : ""}
+              </Text>
+            );
+          } else if (index === 2 && genres.length > 3) {
+            return (
+              <Text
+                key={index}
+                color={palette.colorGray}
+                fontSize={"12px"}
+                textAlign={"center"}
+              >
+                +{genres.length - 2}
+              </Text>
+            );
+          }
+        });
+      } else if (genres && genres.length <= 2) {
+        return genres.map((genre, index) => {
+          return (
+            <Text
+              key={index}
+              color={palette.colorGray}
+              fontSize={"12px"}
+              textAlign={"center"}
+            >
+              {genre}
+              {index === genres.length - 1 ? "" : ", "}
+            </Text>
+          );
+        });
+      }
+    };
 
     return (
       <Stack
+        ref={ref}
         position={"relative"}
         p={"6px"}
         borderRadius={"16px"}
@@ -55,9 +105,13 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
         }}
         direction={isSmaller ? "row" : "column"}
         justifyContent={"space-between"}
-        onMouseEnter={() => {
+        onMouseEnter={(e) => {
           setHover(true);
           setId(index);
+          const img = e.currentTarget.querySelector("img");
+          if (img) {
+            console.log("Image URL:", img.src);
+          }
         }}
         onMouseLeave={() => {
           setHover(false);
@@ -73,7 +127,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           // p={"6px"}
         >
           <Image
-            src={data.media[0] ? data.media[0].url : img}
+            src={getImageSrc(data.mediaUrl[0])}
             alt={`img-${img}`}
             size="100%"
             aspectRatio={isSmaller ? 1 / 1 : 3 / 2}
@@ -88,10 +142,10 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
                 border: "1px",
                 borderColor: palette.borderColorLinear,
                 "& img": {
-                  // objectFit: hover && id === index ? "cover" : "fill",
-                  objectFit: "cover",
+                  objectFit: hover && id === index ? "cover" : "fill",
+                  // objectFit: "cover",
                   objectPosition: "center",
-                  transition: "all 0.5s ease-in-out",
+                  transition: "all s ease-in-out",
                 },
               },
             }}
@@ -116,13 +170,14 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
               >
                 {data.name}
               </Text>
-              <Text
-                color={palette.colorGray}
-                fontSize={"12px"}
-                textAlign={"center"}
+              <Stack
+                direction={"row"}
+                gap={1}
+                alignItems={"center"}
+                justifyContent={"center"}
               >
-                {data.description ? data.description : "description"}
-              </Text>
+                {getGenres(data.genreName)}
+              </Stack>
               <GetIcon array={data.support_os} />
             </Stack>
             <Stack
@@ -159,13 +214,14 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
               >
                 {data.name}
               </Text>
-              <Text
-                color={palette.colorGray}
-                fontSize={"12px"}
-                textAlign={"center"}
+              <Stack
+                direction={"row"}
+                gap={1}
+                alignItems={"center"}
+                justifyContent={"center"}
               >
-                {data.description ? data.description : "description"}
-              </Text>
+                {getGenres(data.genreName)}
+              </Stack>
               <GetIcon array={data.support_os} />
             </Stack>
             <Stack
@@ -175,13 +231,23 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
                 borderBottomLeftRadius: "12px",
                 borderBottomRightRadius: "12px",
               }}
+              direction={"row"}
+              alignItems={"center"}
+              gap={1}
+              justifyContent={"center"}
             >
+              <GameIcon
+                sx={{
+                  color: palette.colorGray,
+                  fontSize: 15,
+                }}
+              />
               <Text
                 color={palette.colorItemGame?.colorText}
                 fontSize={"12px"}
-                textAlign={"center"}
+                textTransform={"uppercase"}
               >
-                {title}
+                {data.statusGame}
               </Text>
             </Stack>
           </>

@@ -14,8 +14,8 @@ const LayoutGenres = () => {
   const {
     SetGenres,
     SetGenresTitle,
-    fetchGameCount,
-    dataGameCount: data,
+    getGameCount,
+    gameCount,
     setMinRating,
     setMaxRating,
     SetPlatforms,
@@ -26,7 +26,7 @@ const LayoutGenres = () => {
   const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
 
   useEffect(() => {
-    fetchGameCount();
+    getGameCount();
     setCheckDate(AddedDateSort.AllTime);
     SetPlatforms([]);
     setMaxRating(0);
@@ -42,11 +42,11 @@ const LayoutGenres = () => {
   const [genres, setGenres] = useState<string[]>([]);
 
   useEffect(() => {
-    if (data && data.genre) {
-      const arr: string[] = Object.keys(data.genre);
+    if (gameCount && gameCount.genre) {
+      const arr: string[] = Object.keys(gameCount.genre);
       setGenres(arr);
     }
-  }, [data]);
+  }, [gameCount]);
 
   const [hover, setHover] = useState<boolean>(false);
   const [id, setId] = useState<number | null>(null);

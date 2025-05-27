@@ -121,7 +121,13 @@ const UploadAvarta = ({
           )}
         </Stack>
         {dataListImage.length > 0 && (
-          <Stack flex={4} direction={"column"} gap={2}>
+          <Stack
+            flex={4}
+            // direction={"column"}
+            gap={2}
+            display={"grid"}
+            gridTemplateColumns={`repeat(5, 1fr)`}
+          >
             {dataListImage.map((item, index) => {
               return (
                 <InfoImage

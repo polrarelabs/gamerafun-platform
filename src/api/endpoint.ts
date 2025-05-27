@@ -1,9 +1,5 @@
 export const Endpoint = {
   UPLOAD: "/upload",
-  TOKENS: "/agents",
-  TOKEN_ITEM: "/agents/{token}",
-  TRADING: "/agents/{token}/tradings",
-  SWAP: "/agents/{token}/swaps",
 
   RECOMMEND_AGENTS: "/agents/marquee-agents",
 
@@ -12,12 +8,18 @@ export const Endpoint = {
   GET_GAME: "/game",
   GET_GAME_OWNER: "/game/owner",
   GET_GAME_COUNT: "/game/count",
-
   CREATE_GAME: "/game/create",
   UPDATE_GAME: "/game/update",
   GET_GAME_ID: "/game/{id}",
   DELETE_GAME: "/game/delete",
   CREATE_GAME_REVIEW: "game/rate",
+  DELETE_OWNER: "/game/owner/delete",
+  GET_GENRES: "/game/genres",
+  CREATE_GENRES: "/game/genres/create",
+  UPDATE_GENRES: "/game/genres/update",
+  DELETE_GENRES: "/game/genre/delete",
+  CREATE_RATE: "/game/rate",
+  OWNER_REVIEW: "/game/owner/review",
 
   GALLERY: "/gallery",
 

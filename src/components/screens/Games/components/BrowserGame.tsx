@@ -2,23 +2,20 @@
 
 "use client";
 
+import { getSort } from "@components/helper";
 import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
+import { SortBy } from "@constant/enum";
+import useBreakpoint from "@hooks/useBreakpoint";
 import GameIcon from "@icons/web3/GameIcon";
-import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
+import { Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
+import { GameItems } from "@store/game/type";
+import { useBlog } from "@store/new";
 import { palette } from "public/material";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import Cookies from "js-cookie";
-import { ACCESSTOKEN_COOKIE } from "@constant";
-import { useRouter } from "next/navigation";
-import { GAME_PATH, LOGIN_PATH } from "@constant/paths";
-import { useBlog } from "@store/new";
-import { SortBy } from "@constant/enum";
-import { getSort } from "@components/helper";
-import useBreakpoint from "@hooks/useBreakpoint";
 interface Props {
   isLayoutMD: boolean;
   theme: any | null;
@@ -39,37 +36,33 @@ const BrowserGame = ({
   isLayoutMD,
   theme,
   setOpen,
-  displayLayout,
   setDisplayLayout,
 }: Props) => {
   const {
-    dataListGame: data,
-    fetchGetGame,
+    game,
+    getGame,
     genres,
-    platforms,
-    getGameId,
-    minRating,
-    maxRating,
     sortBy,
     setSortBy,
     search,
+    pageIndex,
+    pageSize,
+    setPageIndex,
   } = useGame();
   const { checkDate } = useBlog();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { isSmSmaller } = useBreakpoint();
-  const router = useRouter();
 
-  // useEffect(() => {
-  //   fetchGetGame({
-  //     genre: genres,
-  //     platform: platforms,
-  //     minRating: minRating === 0 ? undefined : minRating,
-  //     maxRating: maxRating === 0 ? undefined : maxRating,
-  //     addedDateSort: checkDate,
-  //     sortBy: sortBy,
-  //     search: search === "" ? undefined : search,
-  //   });
-  // }, [genres, platforms, minRating, maxRating, checkDate, sortBy, search]);
+  useEffect(() => {
+    getGame({
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      genre: genres,
+      addedDateSort: checkDate,
+      sortBy: sortBy,
+      search: search === "" ? undefined : search,
+    });
+  }, [genres, checkDate, sortBy, search, pageIndex, pageSize]);
 
   useEffect(() => {
     if (isSm) setDisplayLayout("no-list");
@@ -90,39 +83,38 @@ const BrowserGame = ({
   //   }
   // }
 
-  //  const [blogDisplay, setBlogDisplay] = useState<BlogItem[]>([])
-  //   const [blogFake, setBlogFake] = useState<BlogItem[]>([])
+  const [gameDisplay, setGameDisplay] = useState<GameItems[]>([]);
+  const [gameFake, setGameFake] = useState<GameItems[]>([]);
 
-  //   useEffect(() => {
-  //     if (blog.pageIndex === 1) {
-  //       setBlogDisplay(blog.items)
-  //     } else setBlogFake(blog.items)
-  //   }, [blog.items])
+  useEffect(() => {
+    if (game.pageIndex === 1) {
+      setGameDisplay(game.items);
+    } else setGameFake(game.items);
+  }, [game.items]);
 
-  //   useEffect(() => {
-  //     if (blogFake !== blog.items) {
-  //       setBlogDisplay([...blogDisplay, ...blogFake])
-  //     }
+  useEffect(() => {
+    if (gameFake !== game.items) {
+      setGameDisplay([...gameDisplay, ...gameFake]);
+    }
+  }, [gameFake]);
 
-  //   }, [blogFake])
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          if (game.pageIndex < game.totalPages) {
+            const page = game.pageIndex + 1;
+            setPageIndex(page);
+          }
+        }
+      });
 
-  // const observer = useRef<IntersectionObserver | null>(null);
-  // const lastElementRef = useCallback(
-  //   (node: HTMLDivElement | null) => {
-  //     if (observer.current) observer.current.disconnect();
-  //     observer.current = new IntersectionObserver((entries) => {
-  //       if (entries[0].isIntersecting) {
-  //         // if (blog.pageIndex < blog.totalPages) {
-  //           // const page = blog.pageIndex + 1
-  //           // setPageIndex(page)
-  //         // }
-  //       }
-  //     });
-
-  //     if (node) observer.current.observe(node);
-  //   },
-  //   [blog.items]
-  // );
+      if (node) observer.current.observe(node);
+    },
+    [game.items],
+  );
 
   return (
     <>
@@ -143,7 +135,7 @@ const BrowserGame = ({
                 fontSize={"14px"}
                 fontWeight={400}
               >
-                {data.length} results
+                {game.totalItems} results
               </Text>
             </Stack>
 
@@ -183,21 +175,22 @@ const BrowserGame = ({
             lg: "repeat(4, 1fr)",
             sm: "repeat(2, 1fr)",
           }}
-          gap={2}
+          gap={2.5}
         >
-          {data.map((item, index) => {
-            // const isLast = index === blogDisplay.length - 1;
-            return (
-              <CardItem
-                // ref={isLast ? lastElementRef : null}
-                isSmaller={isSmSmaller}
-                key={index}
-                index={index}
-                data={item}
-                title={"Title"}
-              />
-            );
-          })}
+          {gameDisplay &&
+            gameDisplay.map((item, index) => {
+              const isLast = index === gameDisplay.length - 1;
+              return (
+                <CardItem
+                  ref={isLast ? lastElementRef : null}
+                  isSmaller={isSmSmaller}
+                  key={index}
+                  index={index}
+                  data={item}
+                  title={"Title"}
+                />
+              );
+            })}
         </Stack>
       </Stack>
     </>
