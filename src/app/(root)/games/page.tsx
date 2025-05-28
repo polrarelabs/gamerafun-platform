@@ -13,6 +13,7 @@ import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
 import image from "public/images/img-login.png";
+import { useGallery } from "@store/media";
 
 const GameHome = () => {
   const theme = useTheme();
@@ -51,6 +52,8 @@ const GameHome = () => {
     },
   ];
 
+  const { url } = useGallery();
+
   return (
     <Stack direction={"column"} gap={4}>
       <Stack
@@ -69,6 +72,7 @@ const GameHome = () => {
           zIndex={1}
         >
           <Image
+            // src={(url && url.length > 0) ? url : image}
             src={image}
             alt={`img-`}
             size="100%"

@@ -233,7 +233,7 @@ export default {
     borderTitle: "#4B556380",
     colorText: "#D1D5D8",
     borderLinear:
-      "linear-gradient(90deg,rgba(24, 37, 44, 1) 0%,rgba(24, 37, 44, 1) 10%, rgba(75, 85, 99, 0.68) 100%)",
+      "linear-gradient(90deg, #1F2937 0%,rgba(75, 85, 99, 0.36) 50%, rgba(75, 85, 99, 0.68) 100%)",
   },
   colorReview: {
     textCopy: "#94a7c6",
@@ -252,6 +252,10 @@ export default {
     bgColor1: "#1b2332",
   },
   colorGame: {
+    colorBorderLinear:
+      "linear-gradient(180deg,rgba(9, 222, 87, 0.7) 0%, rgba(9, 222, 87, 0.4) 70%, rgba(9, 222, 87, 0.01)) 100%",
+    colorBoderLinear1:
+      "linear-gradient(180deg, rgba(255, 171, 45, 0.7) 0%, rgba(255, 171, 45, 0.4) 70%, rgba(255, 171, 45, 0.01)) 100%",
     btnChat: "#69F660",
     textColor: "#ffffff99",
     colorBtnNew: "#00ce6b",

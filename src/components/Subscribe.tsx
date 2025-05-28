@@ -10,7 +10,7 @@ const Subscribe = () => {
   const [email, setEmail] = useState<string>("");
 
   return (
-    <Stack px={SCREEN_PX} py={4}>
+    <Stack px={SCREEN_PX} py={4} flex={1} width={"100%"}>
       <Stack
         direction={{ sm: "row", xs: "column" }}
         justifyContent={{ md: "space-between" }}
@@ -20,6 +20,7 @@ const Subscribe = () => {
         p={{ md: "56px 40px", xs: "40px 28px" }}
         bgcolor={palette.colorRelate?.bgColorSub}
         borderRadius={"4px"}
+        flex={1}
       >
         <Stack
           direction={"column"}

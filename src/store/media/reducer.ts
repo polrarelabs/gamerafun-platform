@@ -23,7 +23,7 @@ interface PropsStateGalley {
   loadingGallery: boolean;
   errorGallery: string;
   isUpload: boolean;
-  url: string | null;
+  url: any | null;
 }
 
 const initialStateGallery: PropsStateGalley = {
@@ -44,7 +44,7 @@ const GalleryReducer = createSlice({
     setIsUpload: (state, action: PayloadAction<boolean>) => {
       state.isUpload = action.payload;
     },
-    SetUrl: (state, action: PayloadAction<string | null>) => {
+    SetUrl: (state, action: PayloadAction<any | null>) => {
       state.url = action.payload;
     },
   },

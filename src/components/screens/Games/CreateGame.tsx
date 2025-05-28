@@ -1,34 +1,19 @@
 "use client";
 
-import { Button, Text } from "@components/shared";
+import { Button } from "@components/shared";
 import DatePickerFormik from "@components/shared/DatePickerFormik";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
-import {
-  Genre,
-  MediaPosition,
-  MediaType,
-  Platform,
-  ScheduleStatus,
-  SupportChain,
-  SupportOs,
-} from "@constant/enum";
-import {
-  FormControl,
-  FormHelperText,
-  MenuItem,
-  Select,
-  Stack,
-} from "@mui/material";
+import { Genre, ScheduleStatus, SupportChain, SupportOs } from "@constant/enum";
+import { FormControl, FormHelperText, Stack } from "@mui/material";
 
-import { useFormik } from "formik";
-import React, { memo, useEffect, useState } from "react";
-import { PropsFormik, PropsMedia } from "@store/game/action";
-import { useGame } from "@store/game";
-import { useGallery } from "@store/media";
-import UploadAvarta, { PropsInfo } from "./UploadAvatar";
 import { SCREEN_PX } from "@constant";
-import InputEditor from "@components/shared/InputEditor";
+import { useGame } from "@store/game";
+import { FormCreateGameProps, PlatformLinkProps } from "@store/game/type";
+import { useGallery } from "@store/media";
+import { useFormik } from "formik";
+import { memo, useEffect, useState } from "react";
+import { PlatformLink } from "./components";
 import {
   ANDROID_URL,
   IOS_URL,
@@ -36,12 +21,7 @@ import {
   validationSchema,
   WINDOW_URL,
 } from "./helper";
-import {
-  FormCreateGameProps,
-  PlatformLinkProps,
-  ScheduleProps,
-} from "@store/game/type";
-import { PlatformLink } from "./components";
+import UploadAvarta, { PropsInfo } from "./UploadAvatar";
 
 interface PropsFormGame {
   name?: string;
@@ -75,48 +55,43 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
 
   const [media, setMedia] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   if (gameId && Object.keys(gameId).length > 0) {
-  //     formik.resetForm({
-  //       values: {
-  //         gameId: gameId.id,
-  //         name: gameId.name,
-  //         description: gameId.description,
-  //         status: gameId.status,
-  //         website: gameId.website,
-  //         downloadLinks: {
-  //           windows: gameId?.downloadLink?.windows || "",
-  //           macos: gameId?.downloadLink?.macos || "",
-  //           android: gameId?.downloadLink?.android || "",
-  //           ios: gameId?.downloadLink?.ios || "",
-  //         },
-  //         publisher: gameId.publisher || "",
-  //         developer: gameId.developer || "",
-  //         socials: {
-  //           discord: gameId?.socials?.discord || "",
-  //           telegram_chat: gameId?.socials?.telegram_chat || "",
-  //           telegram_news: gameId?.socials?.telegram_news || "",
-  //           linkedin: gameId?.socials?.linkedin || "",
-  //           medium: gameId?.socials?.medium || "",
-  //           twitter: gameId?.socials?.twitter || "",
-  //           tiktok: gameId?.socials?.tiktok || "",
-  //           youtube: gameId?.socials?.youtube || "",
-  //         },
-  //         schedule: {
-  //           alpha: gameId?.schedule?.alpha || "",
-  //           beta: gameId?.schedule?.beta || "",
-  //           release: gameId?.schedule?.release || "",
-  //         },
-  //         support_os: gameId.support_os || [],
-  //         platform: gameId.platform || [],
-  //         genre: gameId.genre || [],
-  //         chain: gameId.chain || [],
-  //         media: gameId.media || [],
-  //       },
-  //     });
-  //     setIdDisable(false);
-  //   } else setIdDisable(true);
-  // }, [gameId]);
+  useEffect(() => {
+    if (gameById && Object.keys(gameById).length > 0) {
+      formik.resetForm({
+        values: {
+          id: gameById.id,
+          name: gameById.name,
+          description: gameById.description,
+          status: gameById.status,
+          website: gameById.website,
+          publisher: gameById.publisher,
+          developer: gameById.developer,
+          schedule: {
+            alpha: gameById.schedule.alpha,
+            beta: gameById.schedule.beta,
+            release: gameById.schedule.release,
+          },
+          support_os: gameById.support_os,
+          chain: gameById.chain,
+          platformLink: gameById.platformLink,
+          mediaUrl: gameById.mediaUrl,
+          playableOnDestop: gameById.playableOnDestop,
+          genreName: gameById.genreName,
+          statusGame: gameById.statusGame,
+          discord: gameById.discord,
+          telegramChat: gameById.telegramChat,
+          telegramNews: gameById.telegramNews,
+          medium: gameById.medium,
+          twitter: gameById.twitter,
+          youtube: gameById.youtube,
+          contactPhone: gameById.contactPhone,
+          contactEmail: gameById.contactEmail,
+          contactName: gameById.contactName,
+        },
+      });
+      setIdDisable(false);
+    } else setIdDisable(true);
+  }, [gameById]);
 
   const initialValues: FormCreateGameProps = {
     name: "",
@@ -139,13 +114,13 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
     statusGame: "" as ScheduleStatus,
     discord: "",
     telegramChat: "",
-    telegramnews: "",
+    telegramNews: "",
     medium: "",
     twitter: "",
     youtube: "",
-    contact_phone: "",
-    contact_email: "",
-    contact_name: "",
+    contactPhone: "",
+    contactEmail: "",
+    contactName: "",
   };
 
   const formik = useFormik({
@@ -162,6 +137,8 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
         //     formik.values.downloadLinks[osKey] = DownloadLinks[osKey];
         //   }
         // });
+
+        formik.values.platformLink = listPlatform;
 
         for (let i = 0; i < dataListImage.length; i++) {
           const data = new FormData();
@@ -235,9 +212,9 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
                 <SelectFormik
                   isMultiple={false}
                   label={"Game Id"}
-                  name={"gameId"}
+                  name={"id"}
                   formik={formik}
-                  OptionEnum={game}
+                  OptionEnum={game.items}
                   handleClick={handleClick}
                 />
               )}
@@ -322,7 +299,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
             />
             <TextFieldFormik
               label="Telegram News"
-              name="telegramnews"
+              name="telegramNews"
               formik={formik}
             />
           </Stack>
@@ -334,17 +311,17 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
           <Stack direction={"row"} gap={2}>
             <TextFieldFormik
               label="Contact Phone"
-              name="contact_phone"
+              name="contactPhone"
               formik={formik}
             />
             <TextFieldFormik
               label="Contact Email"
-              name="contact_email"
+              name="contactEmail"
               formik={formik}
             />
             <TextFieldFormik
               label="Contact Name"
-              name="contact_name"
+              name="contactName"
               formik={formik}
             />
           </Stack>
@@ -382,10 +359,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               )}
           </FormControl>
 
-          {/* <PlatformLink
-            data={listPlatform}
-            setData={setListPlatform}
-          /> */}
+          <PlatformLink data={listPlatform} setData={setListPlatform} />
 
           {/* <InputEditor name="content" label="Content" formik={formik} /> */}
         </Stack>

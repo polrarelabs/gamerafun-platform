@@ -15,8 +15,6 @@ import {
   GetGenres,
   GetGenresById,
   GetOwnerById,
-  PropsFormik,
-  PropsGameReview,
   UpdateGame,
   UpdateGenres,
 } from "./action";

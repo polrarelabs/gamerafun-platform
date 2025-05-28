@@ -8,57 +8,7 @@ import {
   GetBlogId,
   UpdateBlog,
 } from "./action";
-
-interface MediaProp {
-  id: number;
-  type: string;
-  url: string;
-  blogId: number;
-  createAt: string;
-  createBy: string;
-  updateBy: string;
-}
-
-export interface BlogItem {
-  id: string;
-  title: string;
-  content: string;
-  slug: string;
-  thumbnailUrl: string;
-  publicDate: string;
-  status: StatusBlog;
-  tags: Tag[];
-  author: string;
-  metaTitle: string;
-  metaDescription: string;
-  createAt: string;
-  createBy: string;
-  updateBy: string;
-  updateAt: string;
-}
-
-export interface Blog {
-  items: BlogItem[];
-  totalItems: number;
-  pageIndex: number;
-  pageSize: number;
-  totalPages: number;
-}
-
-export interface BlogState {
-  loading: boolean;
-  error: string;
-  blog: Blog;
-  blogId: BlogItem;
-  isCreate: boolean;
-  isUpdate: boolean;
-  isDelete: boolean;
-  checkDate: AddedDateSort;
-  tags: Tag[];
-  sortBy: SortBy;
-  search: string;
-  status: StatusBlog;
-}
+import { Blog, BlogItem, BlogState } from "./type";
 
 const initialState: BlogState = {
   loading: false,

@@ -1,4 +1,3 @@
-import { client } from "@api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { EndPointChatAi } from "./helper";
 import axios from "axios";

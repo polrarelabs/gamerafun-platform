@@ -70,39 +70,41 @@ const LayoutGameDetail = () => {
     },
   ];
 
+  const param = useParams();
+
+  console.log("params", param);
+
   return (
-    <>
-      <Stack>
-        <Box position="relative" width="100%">
-          <Image
-            src={bgSlider}
-            alt={`img - ${bgSlider}`}
-            size="100%"
-            width={"100%"}
-            height={"300px"}
-            containerProps={{
-              sx: {
-                borderRadius: "10px",
-                overflow: "hidden",
-              },
-            }}
+    <Stack>
+      <Box position="relative" width="100%">
+        <Image
+          src={bgSlider}
+          alt={`img - ${bgSlider}`}
+          size="100%"
+          width={"100%"}
+          height={"300px"}
+          containerProps={{
+            sx: {
+              borderRadius: "10px",
+              overflow: "hidden",
+            },
+          }}
+        />
+        <Stack p={8} position="absolute" top={"275px"} left={0}>
+          <Breadcumbs breadcumbs={breadcrumbs} />
+          <Typography color="text.while">OverView</Typography>
+          <h1>{gameById.name}</h1>
+          <TabHeaders
+            tabs={tabItems}
+            value={value}
+            handleChange={handleChange}
           />
-          <Stack p={8} position="absolute" top={"275px"} left={0}>
-            <Breadcumbs breadcumbs={breadcrumbs} />
-            <Typography color="text.while">OverView</Typography>
-            <h1>{gameById.name}</h1>
-            <TabHeaders
-              tabs={tabItems}
-              value={value}
-              handleChange={handleChange}
-            />
-          </Stack>
-        </Box>
-        <Box px={8}>
-          <TabContents tabs={tabItems} value={value} />
-        </Box>
-      </Stack>
-    </>
+        </Stack>
+      </Box>
+      <Box px={8}>
+        <TabContents tabs={tabItems} value={value} />
+      </Box>
+    </Stack>
   );
 };
 

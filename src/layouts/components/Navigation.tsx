@@ -7,6 +7,7 @@ import useBreakpoint from "@hooks/useBreakpoint";
 import ArrowIcon from "@icons/common/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
 import { Stack } from "@mui/material";
+import zIndex from "@mui/material/styles/zIndex";
 import { usePathname } from "next/navigation";
 import { memo, useMemo, useState } from "react";
 type ItemProps = {
@@ -162,6 +163,7 @@ const sx = {
     position: "relative",
     color: "common.white",
     display: "flex",
+    zIndex: 10,
     "&:after": {
       content: { md: "''" },
       position: "absolute",

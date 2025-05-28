@@ -8,11 +8,12 @@ import ButtonFillters from "@components/shared/ButtonFillters";
 import { SortBy } from "@constant/enum";
 import { NEWS_PATH } from "@constant/paths";
 import { SelectChangeEvent, Stack } from "@mui/material";
-import { BlogItem, useBlog } from "@store/new";
+import { useBlog } from "@store/new";
 import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { CardBlog } from "./components";
+import { BlogItem } from "@store/new/type";
 
 interface Props {
   isLayoutMD: boolean;

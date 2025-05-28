@@ -1,8 +1,8 @@
-// 'use client'
-
-import { Banner, LatestNews } from "@components/screens/Home";
+import Latest from "@components/Latest";
+import { Banner, Genres } from "@components/screens/Home";
+import Subscribe from "@components/Subscribe";
 import { MIN_HEIGHT_SCREEN } from "@constant";
-import { HOME_PATH } from "@constant/paths";
+import { GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { generateMetadata } from "@utils/seo";
 import { Metadata } from "next";
@@ -18,8 +18,18 @@ export default function Home() {
       spacing={4}
     >
       <Banner />
+      <Latest
+        title="Play Now"
+        path={GAME_PATH}
+        type="game"
+        isHome={true}
+        widthGame={200}
+      />
+      <Latest title="Latest News" path={NEWS_PATH} type="new" />
 
-      <LatestNews />
+      <Genres />
+
+      <Subscribe />
     </Stack>
   );
 }

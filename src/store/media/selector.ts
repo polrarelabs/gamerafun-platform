@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { upGallery } from "./action";
 import { setDataGallery, setIsUpload, SetUrl } from "./reducer";
@@ -17,7 +18,7 @@ export const useGallery = () => {
     dispatch(setIsUpload(value));
   };
 
-  const setUrl = (value: string | null) => {
+  const setUrl = (value: any | null) => {
     dispatch(SetUrl(value));
   };
 

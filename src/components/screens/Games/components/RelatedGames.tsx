@@ -1,14 +1,14 @@
 "use client";
 
+import { Image, Text } from "@components/shared";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { IconButton, Stack } from "@mui/material";
 import { useGame } from "@store/game";
-import GetIcon from "./GetIcon";
-import { Image, Text } from "@components/shared";
-import { motion, useMotionValue, animate } from "framer-motion";
+import { animate, motion, useMotionValue } from "framer-motion";
 import img from "public/images/img-logo.png";
-import { memo, useEffect, useRef } from "react";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { palette } from "public/material";
+import { memo, useRef } from "react";
+import GetIcon from "./GetIcon";
 
 const RelatedGames = () => {
   const { game, getGame, gameById } = useGame();
@@ -97,105 +97,107 @@ const RelatedGames = () => {
             }
           }}
         >
-          {game.items.map((item, index) => {
-            return (
-              <Stack
-                key={index}
-                width={`${ITEM_WIDTH}px`}
-                position={"relative"}
-                p={"6px"}
-                borderRadius={"16px"}
-                bgcolor={palette.colorRelate?.bgColor}
-                gap={2}
-                border={`1px solid ${palette.colorGray}`}
-                sx={{
-                  transition: "translate 0.2s ease-in-out",
-                  "&:hover": {
-                    translate: "0 -6px",
-                    cursor: "pointer",
-                  },
-                }}
-                direction={"column"}
-                justifyContent={"space-between"}
-                // onMouseEnter={() => {
-                //   setHover(true);
-                // }}
-                // onMouseLeave={() => {
-                //   setHover(false);
-                // }}
-              >
-                <Stack direction={"column"} gap={2}>
-                  <Stack>
-                    <Image
-                      src={item.mediaUrl[0] ? item.mediaUrl[0] : img}
-                      alt={`img-${img}`}
-                      size="100%"
-                      aspectRatio={3 / 2}
-                      sizes="960px"
-                      containerProps={{
-                        sx: {
-                          width: "100%",
-                          height: "100%",
-                          overflow: "hidden",
-                          borderRadius: "16px",
+          {game &&
+            game.items &&
+            game.items.map((item, index) => {
+              return (
+                <Stack
+                  key={index}
+                  width={`${ITEM_WIDTH}px`}
+                  position={"relative"}
+                  p={"6px"}
+                  borderRadius={"16px"}
+                  bgcolor={palette.colorRelate?.bgColor}
+                  gap={2}
+                  border={`1px solid ${palette.colorGray}`}
+                  sx={{
+                    transition: "translate 0.2s ease-in-out",
+                    "&:hover": {
+                      translate: "0 -6px",
+                      cursor: "pointer",
+                    },
+                  }}
+                  direction={"column"}
+                  justifyContent={"space-between"}
+                  // onMouseEnter={() => {
+                  //   setHover(true);
+                  // }}
+                  // onMouseLeave={() => {
+                  //   setHover(false);
+                  // }}
+                >
+                  <Stack direction={"column"} gap={2}>
+                    <Stack>
+                      <Image
+                        src={item.mediaUrl[0] ? item.mediaUrl[0] : img}
+                        alt={`img-${img}`}
+                        size="100%"
+                        aspectRatio={3 / 2}
+                        sizes="960px"
+                        containerProps={{
+                          sx: {
+                            width: "100%",
+                            height: "100%",
+                            overflow: "hidden",
+                            borderRadius: "16px",
 
-                          border: "1px",
-                          borderColor: palette.borderColorLinear,
-                          "& img": {
-                            objectFit: "cover",
-                            objectPosition: "center",
-                            transition: "all 0.5s ease-in-out",
+                            border: "1px",
+                            borderColor: palette.borderColorLinear,
+                            "& img": {
+                              objectFit: "cover",
+                              objectPosition: "center",
+                              transition: "all 0.5s ease-in-out",
+                            },
                           },
-                        },
-                      }}
-                    />
+                        }}
+                      />
+                    </Stack>
+                    <Stack py="0.5rem" gap={1}>
+                      <Text
+                        fontSize={"18px"}
+                        color="white"
+                        textAlign={"center"}
+                        fontWeight={700}
+                        sx={{
+                          display: "-webkit-box",
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          WebkitLineClamp: 1,
+                        }}
+                      >
+                        {item.name}
+                      </Text>
+                      <Text
+                        color={palette.colorGray}
+                        fontSize={"12px"}
+                        textAlign={"center"}
+                      >
+                        {item.description ? item.description : "description"}
+                      </Text>
+                      <GetIcon array={item.support_os} />
+                    </Stack>
                   </Stack>
-                  <Stack py="0.5rem" gap={1}>
+
+                  <Stack
+                    bgcolor={palette.colorItemGame?.borderTitle}
+                    py="2px"
+                    sx={{
+                      borderBottomLeftRadius: "12px",
+                      borderBottomRightRadius: "12px",
+                    }}
+                  >
                     <Text
-                      fontSize={"18px"}
-                      color="white"
-                      textAlign={"center"}
-                      fontWeight={700}
-                      sx={{
-                        display: "-webkit-box",
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        WebkitLineClamp: 1,
-                      }}
-                    >
-                      {item.name}
-                    </Text>
-                    <Text
-                      color={palette.colorGray}
+                      color={palette.colorItemGame?.colorText}
                       fontSize={"12px"}
                       textAlign={"center"}
                     >
-                      {item.description ? item.description : "description"}
+                      Title
                     </Text>
-                    <GetIcon array={item.support_os} />
                   </Stack>
                 </Stack>
-
-                <Stack
-                  bgcolor={palette.colorItemGame?.borderTitle}
-                  py="2px"
-                  sx={{
-                    borderBottomLeftRadius: "12px",
-                    borderBottomRightRadius: "12px",
-                  }}
-                >
-                  <Text
-                    color={palette.colorItemGame?.colorText}
-                    fontSize={"12px"}
-                    textAlign={"center"}
-                  >
-                    Title
-                  </Text>
-                </Stack>
-              </Stack>
-            );
-          })}
+              );
+            })}
         </motion.div>
       </Stack>
     </Stack>

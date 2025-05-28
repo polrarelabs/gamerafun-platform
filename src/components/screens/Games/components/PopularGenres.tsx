@@ -29,41 +29,81 @@ const PopularGenres = () => {
           Popular Genres
         </Text>
       </Stack>
-      <Slider itemWidth={208} step={16}>
-        {arrKeys.map((item) => (
-          <Stack
-            key={item}
-            width={`208px`}
-            height="108px"
-            bgcolor={palette.bgColorYellow}
-            position="relative"
-            flexShrink={0}
-            sx={{
-              borderRadius: "6px",
-              opacity: 0.7,
-              "&:hover": {
-                opacity: 1,
-                cursor: "pointer",
-              },
-            }}
-          >
-            <Text
-              position="absolute"
-              left="50%"
-              bottom={2}
-              color="common.white"
-              variant={{ xs: "body1", md: "subtitle1" }}
-              fontWeight={500}
+      {arrKeys && arrKeys.length > 6 ? (
+        <Slider itemWidth={208} step={16}>
+          {arrKeys.map((item) => (
+            <Stack
+              key={item}
+              width={`208px`}
+              height="108px"
+              bgcolor={palette.bgColorYellow}
+              position="relative"
+              flexShrink={0}
               sx={{
-                translate: "-50% -50%",
-                // zIndex: 3,
+                borderRadius: "6px",
+                opacity: 0.7,
+                "&:hover": {
+                  opacity: 1,
+                  cursor: "pointer",
+                },
               }}
             >
-              {item}
-            </Text>
-          </Stack>
-        ))}
-      </Slider>
+              <Text
+                position="absolute"
+                left="50%"
+                bottom={2}
+                color="common.white"
+                variant={{ xs: "body1", md: "subtitle1" }}
+                fontWeight={500}
+                sx={{
+                  translate: "-50% -50%",
+                  // zIndex: 3,
+                }}
+              >
+                {item}
+              </Text>
+            </Stack>
+          ))}
+        </Slider>
+      ) : (
+        <Stack direction={"row"} gap={2} alignItems={"center"}>
+          {arrKeys &&
+            arrKeys.map((item, index) => {
+              return (
+                <Stack
+                  key={index}
+                  width={`208px`}
+                  height="108px"
+                  bgcolor={palette.bgColorYellow}
+                  position="relative"
+                  flexShrink={0}
+                  sx={{
+                    borderRadius: "6px",
+                    opacity: 0.7,
+                    "&:hover": {
+                      opacity: 1,
+                      cursor: "pointer",
+                    },
+                  }}
+                >
+                  <Text
+                    position="absolute"
+                    left="50%"
+                    bottom={2}
+                    color="common.white"
+                    variant={{ xs: "body1", md: "subtitle1" }}
+                    fontWeight={500}
+                    sx={{
+                      translate: "-50% -50%",
+                    }}
+                  >
+                    {item}
+                  </Text>
+                </Stack>
+              );
+            })}
+        </Stack>
+      )}
     </Stack>
   );
 };

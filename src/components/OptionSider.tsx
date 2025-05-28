@@ -1,10 +1,8 @@
 "use client";
 
 import { Search, SliderCustom, Text } from "@components/shared";
-import SearchIcon from "@icons/common/SearchIcon";
-import { InputBase, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
-import { palette } from "public/material";
 import { memo } from "react";
 import FormDateAdded from "./FormDateAdded";
 import FormListOption from "./shared/FormListOption";
