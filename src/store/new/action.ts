@@ -49,6 +49,7 @@ export interface BlogCreateProps {
   metaDescription: string;
   slug?: string;
   publicDate?: string;
+  gameIds?: number[];
 }
 
 export const CreateBlog = createAsyncThunk(

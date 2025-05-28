@@ -4,13 +4,13 @@ import {
   BannerNew,
   NewsDetail,
   Related,
-  Subscribe,
 } from "@components/screens/News";
 import { SCREEN_PX } from "@constant";
 import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Subscribe from "@components/Subscribe";
 
 const News = () => {
   const { getBlogId } = useBlog();

@@ -39,19 +39,19 @@ export interface GameItems {
   rating: number;
   rates?: RateProps[];
   mediaUrl: string[];
-  statusGame: ScheduleStatus[];
+  statusGame: ScheduleStatus;
   playableOnDestop: boolean;
   review: string | null;
   discord: string;
   telegramChat: string;
-  telegramnews: string;
+  telegramNews: string;
   medium: string;
   twitter: string;
   youtube: string;
   genreName: Genre[];
-  contact_phone: string;
-  contact_email: string;
-  contact_name: string;
+  contactPhone: string;
+  contactEmail: string;
+  contactName: string;
 }
 
 export interface GameProps {
@@ -97,13 +97,13 @@ export interface FormCreateGameProps {
   statusGame: ScheduleStatus;
   discord: string;
   telegramChat: string;
-  telegramnews: string;
+  telegramNews: string;
   medium: string;
   twitter: string;
   youtube: string;
-  contact_phone: string;
-  contact_email: string;
-  contact_name: string;
+  contactPhone: string;
+  contactEmail: string;
+  contactName: string;
 }
 
 export interface GameDProps {
@@ -113,7 +113,7 @@ export interface GameDProps {
 export interface GenresCProps {
   id?: number;
   name: string;
-  shortDescription: string;
+  shortDescription?: string;
   media: string;
 }
 export interface GenresDProps {

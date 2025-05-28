@@ -10,6 +10,12 @@ import useWindowSize from "@hooks/useWindowSize";
 import img from "public/images/img-logo.png";
 import { GetIcon } from "@components/screens/Games/components";
 import GameIcon from "@icons/web3/GameIcon";
+import { useGallery } from "@store/media";
+import { PlatformLinkProps } from "@store/game/type";
+import { BsFillHexagonFill } from "react-icons/bs";
+import { thumbColor } from "./helper";
+import Tooltip from "./Tooltip";
+import useBreakpoint from "@hooks/useBreakpoint";
 
 interface CardItemProps {
   index: number;
@@ -18,10 +24,26 @@ interface CardItemProps {
   title: string;
   displayLayout?: string;
   isSmaller: boolean;
+  isHover?: boolean;
+  widthMax?: number | null;
+  isHome?: boolean;
 }
 
 const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
-  ({ index, data, handleClick, title, isSmaller }, ref) => {
+  (
+    {
+      index,
+      data,
+      handleClick,
+      title,
+      isSmaller,
+      isHover = true,
+      widthMax = null,
+      isHome = false,
+    },
+    ref,
+  ) => {
+    const { isMdSmaller } = useBreakpoint();
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { width } = useWindowSize();
     const [height, setHeight] = useState<number | undefined>(undefined);
@@ -36,6 +58,9 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
 
     const [hover, setHover] = useState<boolean>(false);
     const [id, setId] = useState<number | null>(null);
+
+    const { setUrl } = useGallery();
+
     const getImageSrc = (url: string) => {
       if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
         return url;
@@ -87,171 +112,287 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
       }
     };
 
+    const getPlatform = (platform: PlatformLinkProps[]) => {
+      const arr: string[] = [];
+      platform.forEach((item) => arr.push(Object.keys(item)[0]));
+      return arr;
+    };
+
     return (
       <Stack
         ref={ref}
         position={"relative"}
-        p={"6px"}
-        borderRadius={"16px"}
-        bgcolor={palette.colorRelate?.bgColor}
-        gap={2}
-        border={`1px solid ${palette.colorItemGame?.border}`}
         sx={{
+          background: palette.colorGame?.colorBorderLinear,
+          padding: "1px",
+          borderRadius: "16px",
           transition: "translate 0.2s ease-in-out",
           "&:hover": {
-            translate: "0 -6px",
+            translate: isHover ? "0 -6px" : undefined,
             cursor: "pointer",
           },
         }}
-        direction={isSmaller ? "row" : "column"}
         justifyContent={"space-between"}
         onMouseEnter={(e) => {
-          setHover(true);
-          setId(index);
-          const img = e.currentTarget.querySelector("img");
-          if (img) {
-            console.log("Image URL:", img.src);
+          if (isHover === true) {
+            setHover(true);
+            setId(index);
+            const img = e.currentTarget.querySelector("img");
+            if (img) {
+              console.log("Image URL:", img.src);
+            }
           }
         }}
         onMouseLeave={() => {
-          setHover(false);
-          setId(null);
+          if (isHover === true) {
+            setHover(false);
+            setId(null);
+          }
         }}
         onClick={() => {
           if (handleClick) handleClick(data.id);
         }}
       >
         <Stack
-          height={isSmaller ? "100%" : undefined}
-          ref={isSmaller ? containerRef : undefined}
-          // p={"6px"}
+          bgcolor={palette.bgMenuHover}
+          p={"4px"}
+          width="100%"
+          height="100%"
+          borderRadius={"16px"}
+          direction={isSmaller ? "row" : "column"}
+          gap={2}
         >
-          <Image
-            src={getImageSrc(data.mediaUrl[0])}
-            alt={`img-${img}`}
-            size="100%"
-            aspectRatio={isSmaller ? 1 / 1 : 3 / 2}
-            sizes={isSmaller ? 150 : `${height}px`}
-            containerProps={{
-              sx: {
-                width: isSmaller ? 150 : `${height}px`,
-                height: isSmaller ? 150 : "100%",
-                overflow: "hidden",
-                borderRadius: "16px",
+          <Stack
+            height={isSmaller ? "100%" : undefined}
+            ref={isSmaller ? containerRef : undefined}
+            position={"relative"}
+          >
+            <Image
+              src={getImageSrc(data.mediaUrl[0])}
+              alt={`img-${img}`}
+              size="100%"
+              aspectRatio={1 / 1}
+              sizes={
+                widthMax === null ? (isSmaller ? 125 : `${height}px`) : widthMax
+              }
+              draggable={false}
+              containerProps={{
+                sx: {
+                  width:
+                    widthMax == null
+                      ? isSmaller
+                        ? 125
+                        : `${height}px`
+                      : widthMax,
+                  height: isSmaller ? 125 : "100%",
+                  overflow: "hidden",
+                  borderRadius: "8px",
 
-                border: "1px",
-                borderColor: palette.borderColorLinear,
-                "& img": {
-                  objectFit: hover && id === index ? "cover" : "fill",
-                  // objectFit: "cover",
-                  objectPosition: "center",
-                  transition: "all s ease-in-out",
+                  border: "1px",
+                  borderColor: palette.borderColorLinear,
+                  "& img": {
+                    objectFit: hover && id === index ? "cover" : "fill",
+                    objectPosition: "center",
+                    transition: "all s ease-in-out",
+                  },
                 },
-              },
-            }}
-          />
-        </Stack>
-
-        {isSmaller ? (
-          <Stack justifyContent={"space-between"} width={"100%"}>
-            <Stack py="0.5rem" gap={1} alignItems={"start"}>
-              <Text
-                fontSize={"18px"}
-                color="white"
-                textAlign={"center"}
-                fontWeight={700}
-                sx={{
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  WebkitLineClamp: 1,
-                }}
-              >
-                {data.name}
-              </Text>
-              <Stack
-                direction={"row"}
-                gap={1}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                {getGenres(data.genreName)}
-              </Stack>
-              <GetIcon array={data.support_os} />
-            </Stack>
-            <Stack
-              py="2px"
-              sx={{
-                borderBottomRightRadius: "12px",
-                background: palette.colorItemGame?.borderLinear,
               }}
-            >
-              <Text
-                color={palette.colorItemGame?.colorText}
-                fontSize={"12px"}
-                textAlign={"center"}
-              >
-                {title}
-              </Text>
-            </Stack>
+            />
+            {!isHome && (
+              <>
+                {!(data && data.rating > 0) && (
+                  <Stack
+                    position={"absolute"}
+                    sx={{
+                      right: isMdSmaller ? 25 : 30,
+                      bottom: isMdSmaller ? 25 : 30,
+                    }}
+                  >
+                    <Tooltip
+                      // title={`This game have a rating of ${data.rating}/10`}
+                      title={`This game have a rating of 5/10`}
+                      placement="top"
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: palette.colorGray,
+                      }}
+                    >
+                      <Stack
+                        flex={1}
+                        direction={"row"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        position={"relative"}
+                      >
+                        <Text
+                          fontSize={"16px"}
+                          fontWeight={700}
+                          sx={{
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            translate: "-50% -50%",
+                            color: "black",
+                            zIndex: 3,
+                            // color: data.rating === 0 ? palette.colorGray : "black",
+                          }}
+                        >
+                          {/* {data.rating === 0 ? "-" : data.rating} */}5
+                        </Text>
+                        <BsFillHexagonFill
+                          size={isMdSmaller ? 44 : 52}
+                          style={{
+                            color: thumbColor(2.5),
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            translate: "-50% -50%",
+                            zIndex: 1,
+                            // data.rating === 0
+                            //   ? palette.colorGame?.color
+                            //   : thumbColor(data.rating),
+                          }}
+                        />
+                        <BsFillHexagonFill
+                          size={isMdSmaller ? 40 : 48}
+                          style={{
+                            color: thumbColor(5),
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            translate: "-50% -50%",
+                            zIndex: 2,
+                            // data.rating === 0
+                            //   ? palette.colorGame?.color
+                            //   : thumbColor(data.rating),
+                          }}
+                        />
+                      </Stack>
+                    </Tooltip>
+                  </Stack>
+                )}
+              </>
+            )}
           </Stack>
-        ) : (
-          <>
-            <Stack py="0.5rem" gap={1}>
-              <Text
-                fontSize={"18px"}
-                color="white"
-                textAlign={"center"}
-                fontWeight={700}
-                sx={{
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  WebkitLineClamp: 1,
-                }}
-              >
-                {data.name}
-              </Text>
+
+          {isSmaller ? (
+            <Stack justifyContent={"space-between"} width={"100%"}>
+              <Stack py="0.5rem" gap={1} alignItems={"start"}>
+                <Text
+                  fontSize={"18px"}
+                  color="white"
+                  textAlign={"center"}
+                  fontWeight={700}
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    WebkitLineClamp: 1,
+                  }}
+                >
+                  {data.name}
+                </Text>
+                <Stack
+                  direction={"row"}
+                  gap={1}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  {getGenres(data.genreName)}
+                </Stack>
+                <GetIcon array={getPlatform(data.platformLink)} />
+              </Stack>
               <Stack
+                py="2px"
+                sx={{
+                  borderBottomRightRadius: "12px",
+                  background: palette.colorItemGame?.borderLinear,
+                }}
                 direction={"row"}
-                gap={1}
                 alignItems={"center"}
+                gap={1}
                 justifyContent={"center"}
               >
-                {getGenres(data.genreName)}
+                <GameIcon
+                  sx={{
+                    color: palette.colorGray,
+                    fontSize: 15,
+                  }}
+                />
+                <Text
+                  color={palette.colorItemGame?.colorText}
+                  fontSize={"12px"}
+                  textTransform={"uppercase"}
+                >
+                  {data.statusGame}
+                </Text>
               </Stack>
-              <GetIcon array={data.support_os} />
             </Stack>
+          ) : (
             <Stack
-              bgcolor={palette.colorItemGame?.borderTitle}
-              py="2px"
-              sx={{
-                borderBottomLeftRadius: "12px",
-                borderBottomRightRadius: "12px",
-              }}
-              direction={"row"}
-              alignItems={"center"}
-              gap={1}
-              justifyContent={"center"}
+              direction={"column"}
+              justifyContent={"space-between"}
+              height={"100%"}
             >
-              <GameIcon
-                sx={{
-                  color: palette.colorGray,
-                  fontSize: 15,
-                }}
-              />
-              <Text
-                color={palette.colorItemGame?.colorText}
-                fontSize={"12px"}
-                textTransform={"uppercase"}
-              >
-                {data.statusGame}
-              </Text>
+              <Stack gap={1} pb={2}>
+                <Text
+                  fontSize={"18px"}
+                  color="white"
+                  textAlign={"center"}
+                  fontWeight={700}
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    WebkitLineClamp: 1,
+                  }}
+                >
+                  {data.name}
+                </Text>
+                <Stack
+                  direction={"row"}
+                  gap={1}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  {getGenres(data.genreName)}
+                </Stack>
+                {!isHome && <GetIcon array={getPlatform(data.platformLink)} />}
+              </Stack>
+              {!isHome && (
+                <Stack
+                  bgcolor={palette.colorItemGame?.borderTitle}
+                  py="2px"
+                  sx={{
+                    borderBottomLeftRadius: "12px",
+                    borderBottomRightRadius: "12px",
+                  }}
+                  direction={"row"}
+                  alignItems={"center"}
+                  gap={1}
+                  justifyContent={"center"}
+                >
+                  <GameIcon
+                    sx={{
+                      color: palette.colorGray,
+                      fontSize: 15,
+                    }}
+                  />
+                  <Text
+                    color={palette.colorItemGame?.colorText}
+                    fontSize={"12px"}
+                    textTransform={"uppercase"}
+                  >
+                    {data.statusGame}
+                  </Text>
+                </Stack>
+              )}
             </Stack>
-          </>
-        )}
+          )}
+        </Stack>
       </Stack>
     );
   },

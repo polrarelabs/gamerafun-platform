@@ -1,14 +1,14 @@
 "use client";
+import Latest from "@components/Latest";
 import { Text } from "@components/shared";
 import CardItem from "@components/shared/CardItem";
+import { GAME_PATH, NEWS_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import { palette } from "public/material";
-import React, { memo, useEffect } from "react";
-import { CardBlog } from "./components";
 import { useParams, useRouter } from "next/navigation";
-import { GAME_PATH, NEWS_PATH } from "@constant/paths";
+import { palette } from "public/material";
+import { memo, useEffect } from "react";
 
 interface RelatedProps {
   relateBy: string;
@@ -31,6 +31,10 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
   };
 
   useEffect(() => {
+    getGame({ pageIndex: 1, pageSize: 10 });
+  }, []);
+
+  useEffect(() => {
     getBlog({
       tags: blogId.tags,
       pageIndex: 1,
@@ -49,65 +53,59 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
   };
 
   return (
-    <Stack direction={"column"} gap={2}>
-      <Stack direction={"row"} gap={2} alignItems={"center"}>
-        <Text color={"white"} fontWeight={700} fontSize={"24px"}>
-          {title}
-        </Text>
-        {isViewAll && (
-          <Text
-            fontSize={"14px"}
-            fontWeight={500}
-            color={palette.greenColorText}
-            sx={{
-              "&:hover": {
-                cursor: "pointer",
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleViewAll}
-          >
-            View All
-          </Text>
-        )}
-      </Stack>
-      <Stack direction={relateBy === "game" ? "column" : "row"} gap={2}>
-        {relateBy === "game" ? (
-          <>
-            {game &&
-              game?.items.map((item, index) => {
+    <>
+      {relateBy === "game" ? (
+        <Stack direction={"column"} gap={2}>
+          <Stack direction={"row"} gap={2} alignItems={"center"}>
+            <Text color={"white"} fontWeight={700} fontSize={"24px"}>
+              {title}
+            </Text>
+            {isViewAll && (
+              <Text
+                fontSize={"14px"}
+                fontWeight={500}
+                color={palette.greenColorText}
+                sx={{
+                  "&:hover": {
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={handleViewAll}
+              >
+                View All
+              </Text>
+            )}
+          </Stack>
+          {game && game.items && (
+            <Stack direction={"column"} gap={2}>
+              {game.items.map((item, index) => {
                 return (
                   <CardItem
                     key={index}
-                    isSmaller={true}
-                    index={index}
                     data={item}
+                    index={index}
+                    displayLayout={"no-list"}
+                    // handleClick={handleClick}
+                    isSmaller={true}
+                    isHover={true}
+                    widthMax={323}
                     title="title"
                   />
                 );
               })}
-          </>
-        ) : (
-          <>
-            {blog.items &&
-              blog.items.map((item, index) => {
-                const id = param.token as string;
-                if (item.id !== id) {
-                  return (
-                    <CardBlog
-                      key={index}
-                      data={item}
-                      index={index}
-                      displayLayout={"no-list"}
-                      handleClick={handleClick}
-                    />
-                  );
-                }
-              })}
-          </>
-        )}
-      </Stack>
-    </Stack>
+            </Stack>
+          )}
+        </Stack>
+      ) : (
+        <Latest
+          title="Related News"
+          path={NEWS_PATH}
+          isPadding={false}
+          type="new"
+        />
+      )}
+    </>
   );
 };
 

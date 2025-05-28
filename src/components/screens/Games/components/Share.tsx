@@ -86,27 +86,29 @@ const Share = () => {
       ) : (
         <Text variant="body2">Description game</Text>
       )}
-      {gameById?.genreName.map((item, index) => (
-        <Button
-          key={index}
-          variant="contained"
-          sx={{
-            p: 2,
-            borderRadius: "8px !important",
-            width: "fit-content !important",
-            height: "40px !impornt",
-            color: `${palette.greenColorText} !important`,
-            background: palette.greenColorButton,
-            "&:hover": {
-              color: "black !important",
-              background: `${palette.greenColorText} !important`,
-            },
-          }}
-          size={"small"}
-        >
-          {item}
-        </Button>
-      ))}
+      {gameById &&
+        gameById.genreName &&
+        gameById.genreName.map((item, index) => (
+          <Button
+            key={index}
+            variant="contained"
+            sx={{
+              p: 2,
+              borderRadius: "8px !important",
+              width: "fit-content !important",
+              height: "40px !impornt",
+              color: `${palette.greenColorText} !important`,
+              background: palette.greenColorButton,
+              "&:hover": {
+                color: "black !important",
+                background: `${palette.greenColorText} !important`,
+              },
+            }}
+            size={"small"}
+          >
+            {item}
+          </Button>
+        ))}
       <Stack px={2} gap={2}>
         {informationGames.map((item, idx) => (
           <Stack

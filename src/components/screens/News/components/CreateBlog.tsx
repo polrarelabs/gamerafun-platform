@@ -15,7 +15,8 @@ import {
   Stack,
 } from "@mui/material";
 import { useGallery } from "@store/media";
-import { BlogCreateProps, BlogItem, useBlog } from "@store/new";
+import { BlogCreateProps, useBlog } from "@store/new";
+import { BlogItem } from "@store/new/type";
 import { useFormik } from "formik";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 
@@ -54,6 +55,7 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
     metaDescription: "",
     slug: "",
     publicDate: new Date().toISOString(),
+    gameIds: [],
   };
 
   useEffect(() => {
@@ -72,6 +74,7 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
             metaDescription: blogId.metaDescription || "",
             slug: blogId.slug || "",
             publicDate: blogId.publicDate || new Date().toISOString(),
+            // gameIds: blogId.game
           },
         });
         setIsDisable(false);

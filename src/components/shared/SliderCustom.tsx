@@ -1,9 +1,9 @@
-import { GetColor } from "@components/screens/Games/components/helper";
 import { Text, Tooltip } from "@components/shared";
 import { Slider, Stack } from "@mui/material";
 import { palette } from "public/material";
-import React, { memo, useMemo } from "react";
+import { memo } from "react";
 import { BsFillHexagonFill } from "react-icons/bs";
+import { thumbColor } from "./helper";
 
 interface SliderCustomProps {
   value: number;
@@ -12,13 +12,6 @@ interface SliderCustomProps {
 }
 
 const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
-  const thumbColor = useMemo(() => {
-    if (typeof value !== "number" || value === 0) return palette.colorGray;
-
-    const color = GetColor(value);
-    return color;
-  }, [value]);
-
   return (
     <Stack direction={"column"} gap={1}>
       <Text color={palette.colorGray} fontSize={"12px"}>
@@ -48,7 +41,7 @@ const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
               "& .MuiSlider-thumb": {
                 height: 16,
                 width: 16,
-                backgroundColor: thumbColor?.toString(),
+                backgroundColor: thumbColor(value),
                 border: "none",
                 "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
                   boxShadow: "inherit",
@@ -80,9 +73,7 @@ const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
               size={40}
               style={{
                 color:
-                  value === 0
-                    ? palette.colorGame?.color
-                    : thumbColor?.toString(),
+                  value === 0 ? palette.colorGame?.color : thumbColor(value),
               }}
             />
             <Text

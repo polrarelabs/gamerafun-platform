@@ -47,18 +47,25 @@ const Profile = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   const handleLogOut = () => {
-    if (data && data.user && data.user.userConnects) {
-      if (data.user.userConnects[0].connectType === "Email") {
-        if (window.google?.accounts?.id) {
-          window.google.accounts.id.disableAutoSelect();
-        }
-        signOut();
-        logOut();
-      } else if (data.user.userConnects[0].connectType === "Wallet") {
-        disconnect();
-        logOut();
-      } else logOut();
+    // if (data && data.user && data.user.userConnects) {
+    //   if (data.user.userConnects[0].connectType === "Email") {
+    //     if (window.google?.accounts?.id) {
+    //       window.google.accounts.id.disableAutoSelect();
+    //     }
+    //     signOut();
+    //     logOut();
+    //   } else if (data.user.userConnects[0].connectType === "Wallet") {
+    //     disconnect();
+    //     logOut();
+    //   } else logOut();
+    // }
+
+    if (window.google?.accounts?.id) {
+      window.google.accounts.id.disableAutoSelect();
     }
+    signOut();
+    logOut();
+    disconnect();
     // router.push(LOGIN_PATH);
   };
 
@@ -154,7 +161,7 @@ const Profile = () => {
             direction={"row"}
             gap="8px"
             alignItems={"center"}
-            onClick={handleLogOut}
+            onClick={() => handleLogOut}
             sx={{
               "&:hover": {
                 cursor: "pointer",

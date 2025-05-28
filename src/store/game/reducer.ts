@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Genre,
-  Platform,
-  SortBy,
-  SupportChain,
-  SupportOs,
-} from "@constant/enum";
+import { Genre, Platform, SortBy } from "@constant/enum";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateGame,
@@ -26,8 +20,6 @@ import {
   GetGenres,
   GetGenresById,
   GetOwnerById,
-  PropsMedia,
-  PropsSchedule,
   UpdateGame,
   UpdateGenres,
   UpdateOwnerReview,

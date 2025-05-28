@@ -3,7 +3,7 @@
 import { setToken } from "@api/helpers";
 import ChatAI from "@components/AskAI/ChatAI";
 import { Button } from "@components/shared";
-import { ACCESSTOKEN_COOKIE, SCREEN_PX } from "@constant";
+import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE, SCREEN_PX } from "@constant";
 import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
 import useAptosWallet from "@hooks/useAptosWallet";
 import useBreakpoint from "@hooks/useBreakpoint";
@@ -30,8 +30,12 @@ const MainLayout = (props: MainLayoutProps) => {
 
   useEffect(() => {
     const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
+    const refreshToken = Cookies.get(REFRESHTOKEN_COOKIE);
     if (cookie && cookie !== "undefined") {
       setToken(cookie);
+      GetProfile();
+    } else if (refreshToken && refreshToken !== "undefined") {
+      setToken(refreshToken);
       GetProfile();
     }
   }, []);
@@ -94,6 +98,7 @@ const MainLayout = (props: MainLayoutProps) => {
           bgcolor={"black"}
           height={"70px"}
           px={SCREEN_PX}
+          zIndex={10}
         >
           <Navigation />
         </Stack>

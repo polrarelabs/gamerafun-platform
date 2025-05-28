@@ -46,6 +46,8 @@ const SelectFormik = ({
   const optionKey = Object.keys(OptionEnum);
   const optionValue = Object.keys(OptionEnum);
 
+  const names = name === "id" ? "name" : name;
+
   return (
     <Stack flex={1} gap={1}>
       <Text>{label}</Text>
