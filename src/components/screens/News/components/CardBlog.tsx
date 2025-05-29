@@ -47,6 +47,13 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
       );
     }, [width]);
 
+    const getImageSrc = (url: string) => {
+      if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
+        return url;
+      }
+      return img;
+    };
+
     return (
       <Stack
         ref={ref}
@@ -99,7 +106,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
             ref={displayLayout === "list" ? containerRef : undefined}
           >
             <Image
-              src={data.thumbnailUrl ? data.thumbnailUrl : img}
+              src={getImageSrc(data.thumbnailUrl)}
               alt={`img-${img}`}
               size={"100%"}
               aspectRatio={3 / 2}

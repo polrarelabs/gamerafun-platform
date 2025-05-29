@@ -1,28 +1,20 @@
 "use client";
 
-import { Button, Text } from "@components/shared";
-import ButtonFillters from "@components/shared/ButtonFillters";
+import { Button, Snackbared, Text } from "@components/shared";
 // import Snackbar from '@components/Snackbar'
-import { ACCESSTOKEN_COOKIE, DOMAIN, SCREEN_PX } from "@constant";
+import { formatMMMMDoYYYY } from "@components/helper";
+import { DOMAIN } from "@constant";
+import useBreakpoint from "@hooks/useBreakpoint";
 import CheckedIcon from "@icons/common/CheckedIcon";
+import CircleIcon from "@icons/common/CircleIcon";
 import CopyIcon from "@icons/common/CopyIcon";
-import {
-  Dialog,
-  DialogContent,
-  Snackbar,
-  SnackbarCloseReason,
-  Stack,
-} from "@mui/material";
+import { Dialog, Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { usePathname } from "next/navigation";
 import { palette } from "public/material";
 import React, { memo, useState } from "react";
 import { PiShareFat } from "react-icons/pi";
-import Cookies from "js-cookie";
 import Related from "./Related";
-import CircleIcon from "@icons/common/CircleIcon";
-import { formatMMMMDoYYYY } from "@components/helper";
-import useBreakpoint from "@hooks/useBreakpoint";
 
 const NewsDetail = () => {
   const { blogId } = useBlog();
@@ -54,16 +46,6 @@ const NewsDetail = () => {
     }
   };
 
-  const handleCloseSnackbar = (
-    event: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason,
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
-
   return (
     <Stack direction={"column"} gap={2}>
       <Stack
@@ -73,7 +55,13 @@ const NewsDetail = () => {
       >
         {isMdSmaller && (
           <Stack flex={2}>
-            <Related relateBy="game" title="Related Games" />
+            {blogId.game && blogId.game.length > 0 && (
+              <Related
+                relateBy="game"
+                title="Related Games"
+                dataGame={blogId.game}
+              />
+            )}
           </Stack>
         )}
         <Stack flex={6} gap={2}>
@@ -259,7 +247,7 @@ const NewsDetail = () => {
                   color={palette.textWhite}
                   fontSize={"14px"}
                 >
-                  {formatMMMMDoYYYY(blogId.createAt)}
+                  {formatMMMMDoYYYY(blogId.createAt ?? "")}
                 </Text>
               </Stack>
             </Stack>
@@ -267,7 +255,13 @@ const NewsDetail = () => {
         </Stack>
         {!isMdSmaller && (
           <Stack flex={2}>
-            <Related relateBy="game" title="Related Games" />
+            {blogId.game && blogId.game.length > 0 && (
+              <Related
+                relateBy="game"
+                title="Related Games"
+                dataGame={blogId.game}
+              />
+            )}
           </Stack>
         )}
 
@@ -318,12 +312,10 @@ const NewsDetail = () => {
             </Stack>
           </Stack>
 
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={openSnackbar}
-            autoHideDuration={2000}
-            onClose={handleCloseSnackbar}
+          <Snackbared
             message="Copied."
+            open={openSnackbar}
+            setOpen={setOpenSnackbar}
           />
         </Dialog>
       </Stack>

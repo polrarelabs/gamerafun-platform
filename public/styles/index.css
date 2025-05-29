@@ -130,32 +130,53 @@ input:-internal-autofill-selected {
   animation-delay: 0.4s;
 }
 
-/* width */
 .scrollbar ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
-/* width */
-.scrollbar ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-/* Track */
 .scrollbar ::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 2px;
 }
 
-/* Handle */
 .scrollbar ::-webkit-scrollbar-thumb {
   background: #7d90b2;
   border-radius: 2px;
 }
 
-/* Handle on hover */
 .scrollbar ::-webkit-scrollbar-thumb:hover {
   background: #7d90b2;
   cursor: pointer;
+}
+
+.ql-toolbar {
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+}
+
+.ql-toolbar .ql-picker,
+.ql-toolbar .ql-picker-label,
+.ql-toolbar .ql-picker-item,
+.ql-toolbar .ql-stroke,
+.ql-toolbar .ql-fill {
+  color: white !important;
+  stroke: white !important;
+}
+.ql-container.ql-snow {
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+}
+
+.ql-toolbar .ql-picker-options {
+  background-color: #1e1e1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+}
+
+.ql-toolbar .ql-picker-options .ql-picker-item {
+  color: white !important;
+}
+
+.ql-toolbar .ql-picker-options .ql-picker-item:hover,
+.ql-toolbar .ql-picker-options .ql-picker-item.ql-selected {
+  background-color: #333 !important;
+  color: #00bcd4 !important;
 }

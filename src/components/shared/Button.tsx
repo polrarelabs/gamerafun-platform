@@ -219,7 +219,8 @@ const getDefaultSx = (
           bgcolor: overrideCss.backgroundColor,
         }
       : {
-          background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+          // background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+          background: "#44B0FC",
         }),
     color: overrideCss?.color ?? "text.secondary",
     boxShadow: "none",

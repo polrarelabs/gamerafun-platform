@@ -11,6 +11,8 @@ interface SliderProps {
   step: number;
   children: React.ReactNode;
   iconWhite?: boolean;
+  onLoadMore?: () => void; // Hàm gọi khi cần tải thêm dữ liệu
+  hasMore?: boolean; // Còn dữ liệu để load hay không
 }
 
 const Slider = ({
@@ -18,6 +20,8 @@ const Slider = ({
   step,
   children,
   iconWhite = false,
+  onLoadMore,
+  hasMore, // Còn dữ liệu để load hay không
 }: SliderProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -130,16 +134,39 @@ const Slider = ({
         )}
         <motion.div
           ref={trackRef}
-          style={{ x, display: "flex", gap: `16px` }}
+          style={{ x, display: "flex", gap: `16px`, userSelect: "none" }}
           drag="x"
           dragConstraints={false}
+          dragMomentum={false}
           onDragEnd={(_event, info) => {
+            const container = containerRef.current;
+            const track = trackRef.current;
+            if (!container || !track) return;
+
+            const maxScrollX = -(track.scrollWidth - container.offsetWidth);
+            const currentX = x.get();
+
             if (info.offset.x > 50) {
               handleScroll("left");
             } else if (info.offset.x < -50) {
               handleScroll("right");
             }
+
+            // Nếu đã đến gần phần tử cuối cùng và còn dữ liệu để load
+            if (
+              Math.abs(currentX - maxScrollX) < STEP &&
+              typeof onLoadMore === "function"
+            ) {
+              onLoadMore();
+            }
           }}
+          // onDragEnd={(_event, info) => {
+          //   if (info.offset.x > 50) {
+          //     handleScroll("left");
+          //   } else if (info.offset.x < -50) {
+          //     handleScroll("right");
+          //   }
+          // }}
         >
           {children}
         </motion.div>

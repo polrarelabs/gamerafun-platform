@@ -1,13 +1,11 @@
 "use client";
 
-import { Slider, Text } from "@components/shared";
+import { ClickWrapper, Slider, Text } from "@components/shared";
 import PopularIcon from "@icons/web3/PopularIcon";
-import { Stack, IconButton } from "@mui/material";
-import { motion, useMotionValue, animate } from "framer-motion";
-import { memo, useEffect, useRef, useState } from "react";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { palette } from "public/material";
+import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
+import { palette } from "public/material";
+import { memo, useEffect, useState } from "react";
 
 const PopularGenres = () => {
   const { gameCount, getGameCount } = useGame();
@@ -31,38 +29,39 @@ const PopularGenres = () => {
       </Stack>
       {arrKeys && arrKeys.length > 6 ? (
         <Slider itemWidth={208} step={16}>
-          {arrKeys.map((item) => (
-            <Stack
-              key={item}
-              width={`208px`}
-              height="108px"
-              bgcolor={palette.bgColorYellow}
-              position="relative"
-              flexShrink={0}
-              sx={{
-                borderRadius: "6px",
-                opacity: 0.7,
-                "&:hover": {
-                  opacity: 1,
-                  cursor: "pointer",
-                },
-              }}
-            >
-              <Text
-                position="absolute"
-                left="50%"
-                bottom={2}
-                color="common.white"
-                variant={{ xs: "body1", md: "subtitle1" }}
-                fontWeight={500}
+          {arrKeys.map((item, index) => (
+            <ClickWrapper key={index}>
+              <Stack
+                width={`208px`}
+                height="108px"
+                bgcolor={palette.bgColorYellow}
+                position="relative"
+                flexShrink={0}
                 sx={{
-                  translate: "-50% -50%",
-                  // zIndex: 3,
+                  borderRadius: "6px",
+                  opacity: 0.7,
+                  "&:hover": {
+                    opacity: 1,
+                    cursor: "pointer",
+                  },
                 }}
               >
-                {item}
-              </Text>
-            </Stack>
+                <Text
+                  position="absolute"
+                  left="50%"
+                  bottom={2}
+                  color="common.white"
+                  variant={{ xs: "body1", md: "subtitle1" }}
+                  fontWeight={500}
+                  sx={{
+                    translate: "-50% -50%",
+                    // zIndex: 3,
+                  }}
+                >
+                  {item}
+                </Text>
+              </Stack>
+            </ClickWrapper>
           ))}
         </Slider>
       ) : (

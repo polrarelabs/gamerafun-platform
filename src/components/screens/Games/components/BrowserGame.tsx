@@ -55,6 +55,7 @@ const BrowserGame = ({
     setPageIndex,
     getGameById,
     platforms,
+    getGameBlog,
   } = useGame();
   const { checkDate } = useBlog();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));

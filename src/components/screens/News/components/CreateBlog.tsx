@@ -1,12 +1,11 @@
 "use client";
 
-import { getStatus } from "@components/helper";
-import { Button, SelectOptions, Text, UploadImage } from "@components/shared";
+import { Button, Snackbared, Text, UploadImage } from "@components/shared";
 import InputEditor from "@components/shared/InputEditor";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
 import { SCREEN_PX } from "@constant";
-import { StatusBlog, Tag } from "@constant/enum";
+import { StatusBlog, Tag, TypeBlog } from "@constant/enum";
 import {
   FormControl,
   FormHelperText,
@@ -14,20 +13,22 @@ import {
   Select,
   Stack,
 } from "@mui/material";
+import { useGame } from "@store/game";
 import { useGallery } from "@store/media";
-import { BlogCreateProps, useBlog } from "@store/new";
-import { BlogItem } from "@store/new/type";
+import { useBlog } from "@store/new";
+import { BlogItem, BlogRequestState } from "@store/new/type";
 import { useFormik } from "formik";
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 interface PropsBlog {
   type?: string;
 }
 
-const CreateBlog = ({ type = "update" }: PropsBlog) => {
+const CreateBlog = ({ type = "create" }: PropsBlog) => {
   const {
     createBlog,
     loading,
+    error,
     isCreate,
     setIsCreateBlog,
     blogId,
@@ -37,25 +38,29 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
     setPageIndex,
     updateBlog,
   } = useBlog();
+
+  const { getGame, game } = useGame();
   const [isDisable, setIsDisable] = useState<boolean>(false);
   const { dataGallery } = useGallery();
 
   useEffect(() => {
     getBlog({ pageIndex: 1, pageSize: 10 });
+    getGame({ pageIndex: 1, pageSize: 10 });
   }, []);
 
-  const initialValues: BlogCreateProps = {
+  const initialValues: BlogRequestState = {
     title: "",
     content: "",
     tags: [],
-    status: "" as StatusBlog,
+    status: 0,
     thumbnailUrl: "",
     author: "",
     metaTitle: "",
     metaDescription: "",
-    slug: "",
+    // slug: "",
     publicDate: new Date().toISOString(),
     gameIds: [],
+    type: "" as TypeBlog,
   };
 
   useEffect(() => {
@@ -63,24 +68,33 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
       if (blogId && Object.keys(blogId).length > 0) {
         formik.resetForm({
           values: {
-            id: blogId.id || "",
-            title: blogId.title || "",
-            content: blogId.content || "",
-            tags: blogId.tags || [],
-            status: blogId.status || ("" as StatusBlog),
-            thumbnailUrl: blogId.thumbnailUrl || "",
-            author: blogId.author || "",
-            metaTitle: blogId.metaTitle || "",
-            metaDescription: blogId.metaDescription || "",
-            slug: blogId.slug || "",
-            publicDate: blogId.publicDate || new Date().toISOString(),
-            // gameIds: blogId.game
+            id: blogId.id,
+            title: blogId.title,
+            content: blogId.content,
+            tags: blogId.tags,
+            status: blogId.status,
+            thumbnailUrl: blogId.thumbnailUrl,
+            author: blogId.author,
+            metaTitle: blogId.metaTitle,
+            metaDescription: blogId.metaDescription,
+            slug: blogId.slug,
+            publicDate: new Date().toISOString(),
+            gameIds: blogId.gameIds,
+            type: blogId.type,
           },
         });
         setIsDisable(false);
       } else setIsDisable(true);
     }
   }, [blogId]);
+
+  const [openSnack, setOpenSnack] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (loading === false && error === "") {
+      <Snackbared open={openSnack} setOpen={setOpenSnack} message="Success" />;
+    }
+  }, [loading, error]);
 
   useEffect(() => {
     if (isCreate) {
@@ -91,14 +105,13 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
+      console.log("values", values);
       if (dataGallery) {
         values.thumbnailUrl = dataGallery.url;
       }
       if (type === "create") {
         createBlog(values);
       } else {
-        console.log(values);
-
         updateBlog(values);
       }
     },
@@ -156,7 +169,7 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
         {type !== "create" && (
           <Stack direction={"column"} gap={3} flex={4}>
             <Stack flex={2} gap={1}>
-              <Text>Select Game</Text>
+              <Text>Select Blogs</Text>
               <FormControl
                 error={formik.touched.id && Boolean(formik.errors.id)}
                 fullWidth
@@ -231,8 +244,28 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
             label="Status"
             name="status"
             formik={formik}
-            OptionEnum={StatusBlog}
+            OptionEnum={Status}
             isDisable={isDisable}
+          />
+        </Stack>
+        <Stack direction={"row"} gap={2}>
+          <SelectFormik
+            label={"Type"}
+            name={"type"}
+            formik={formik}
+            OptionEnum={TypeBlog}
+            isMultiple={false}
+            isDisable={isDisable}
+          />
+          <SelectFormik
+            label="Game"
+            name="gameIds"
+            formik={formik}
+            OptionEnum={game.items}
+            isDisable={isDisable}
+            nameDisplay={game.items}
+            keyNameDisplay="name"
+            // isMultiple={false}
           />
         </Stack>
         <Stack>
@@ -255,3 +288,8 @@ const CreateBlog = ({ type = "update" }: PropsBlog) => {
 };
 
 export default memo(CreateBlog);
+const Status = {
+  "1": 1,
+  "2": 2,
+  "3": 3,
+};

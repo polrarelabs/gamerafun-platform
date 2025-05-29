@@ -15,6 +15,7 @@ import {
   GetGame,
   GetGameById,
   GetGameCount,
+  GetGameIdTypeBlog,
   // getGameID,
   GetGameOwner,
   GetGenres,
@@ -24,7 +25,13 @@ import {
   UpdateGenres,
   UpdateOwnerReview,
 } from "./action";
-import { GameCountProps, GameItems, GameProps, GenresItems } from "./type";
+import {
+  GameBlogItems,
+  GameCountProps,
+  GameItems,
+  GameProps,
+  GenresItems,
+} from "./type";
 
 interface PropsGameReducers {
   loading: boolean;
@@ -37,6 +44,7 @@ interface PropsGameReducers {
   ownerById: GameItems;
   genreItems: GenresItems[];
   genreById: GenresItems;
+  gameBlog: GameBlogItems;
 
   pageIndex: number;
   pageSize: number;
@@ -76,6 +84,7 @@ const initialState: PropsGameReducers = {
   game: {} as GameProps,
   gameById: {} as GameItems,
   genreById: {} as GenresItems,
+  gameBlog: {} as GameBlogItems,
   genreItems: [],
   status: false,
   minRating: 0,
@@ -187,9 +196,9 @@ const GameReducers = createSlice({
       })
       .addCase(
         GetGameById.fulfilled,
-        (state, action: PayloadAction<GameProps>) => {
+        (state, action: PayloadAction<GameItems>) => {
           state.loading = false;
-          state.game = action.payload;
+          state.gameById = action.payload;
           state.error = null;
         },
       )
@@ -223,7 +232,7 @@ const GameReducers = createSlice({
         GetOwnerById.fulfilled,
         (state, action: PayloadAction<GameItems>) => {
           state.loading = false;
-          state.gameById = action.payload;
+          state.ownerById = action.payload;
           state.error = null;
         },
       )
@@ -418,6 +427,26 @@ const GameReducers = createSlice({
       })
       .addCase(
         UpdateOwnerReview.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        },
+      )
+      //gameblog
+      .addCase(GetGameIdTypeBlog.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetGameIdTypeBlog.fulfilled,
+        (state, action: PayloadAction<GameBlogItems>) => {
+          state.loading = false;
+          state.error = "";
+          state.gameBlog = action.payload;
+        },
+      )
+      .addCase(
+        GetGameIdTypeBlog.rejected,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.error = action.payload as string;

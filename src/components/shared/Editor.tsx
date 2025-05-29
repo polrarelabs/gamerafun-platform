@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { Box } from "@mui/material";
-import dynamic from "next/dynamic";
+// import 'highlight.js/styles/github.css';
 
+0;
 interface EditorProps {
   readOnly?: boolean;
   defaultValue?: any;
@@ -45,6 +47,27 @@ const Editor = forwardRef<Quill | null, EditorProps>(
       const quill = new Quill(editorContainer, {
         theme: "snow",
         readOnly,
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ["bold", "italic", "underline", "strike"],
+            ["blockquote", "code-block"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ direction: "rtl" }],
+            // [{ size: ['small', false, 'large', 'huge'] }],
+            [{ color: [] }, { background: [] }],
+            [{ font: [] }],
+            [{ align: [] }],
+            ["link", "image", "video", "formula"],
+            ["clean"],
+          ],
+          clipboard: { matchVisual: false },
+          history: { delay: 1000, maxStack: 100, userOnly: true },
+          keyboard: { bindings: {} },
+          // syntax: true,
+        },
       });
 
       if (ref && "current" in ref) {

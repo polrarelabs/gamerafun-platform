@@ -157,3 +157,9 @@ export enum OwnerStatus {
   ACTIVE = "active",
   INACTIVE = "inactive",
 }
+
+export enum TypeBlog {
+  NEWS = "news",
+  GUIDES = "guides",
+  REVIEWS = "reviews",
+}

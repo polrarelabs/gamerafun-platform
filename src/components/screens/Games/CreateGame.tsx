@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@components/shared";
+import { Button, Snackbared } from "@components/shared";
 import DatePickerFormik from "@components/shared/DatePickerFormik";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
@@ -40,13 +40,14 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
   };
   const {
     getGame,
-    // isCreate,
     setIsCreate,
     createGame,
     gameById,
     game,
     updateGame,
     getGameById,
+    loading,
+    error,
   } = useGame();
 
   const [isDisable, setIdDisable] = useState<boolean>(true);
@@ -54,6 +55,8 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
   const [listPlatform, setListPlatform] = useState<PlatformLinkProps[]>([]);
 
   const [media, setMedia] = useState<string[]>([]);
+
+  const [openSnack, setOpenSnack] = useState<boolean>(false);
 
   useEffect(() => {
     if (gameById && Object.keys(gameById).length > 0) {
@@ -178,6 +181,12 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
       console.log("formik.values", formik.values);
     }
   }, [media]);
+
+  useEffect(() => {
+    if (loading === false && error === "") {
+      <Snackbared open={openSnack} setOpen={setOpenSnack} message="Success." />;
+    }
+  }, [loading, error]);
 
   // useEffect(() => {
   //   if (isCreate) {

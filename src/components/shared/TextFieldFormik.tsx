@@ -4,6 +4,7 @@
 import { Stack, TextField } from "@mui/material";
 import React, { memo } from "react";
 import Text from "./Text";
+import { palette } from "public/material";
 
 interface PropsTextFieldFormik {
   formik: any;
@@ -43,8 +44,19 @@ const TextFieldFormik = ({
           },
         }}
         sx={{
-          "& .mui-1v24f9t-MuiOutlinedInput-notchedOutline": {
-            borderColor: "none !important",
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: palette.FilledInput?.bg,
+            },
+            "&:hover fieldset": {
+              borderColor: palette.FilledInput?.hoverBg,
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: palette.FilledInput?.hoverBg,
+            },
+            "&.Mui-error fieldset": {
+              borderColor: palette.LinearProgress?.errorBg,
+            },
           },
         }}
       />
