@@ -5,6 +5,7 @@ import {
   SupportChain,
   SupportOs,
 } from "@constant/enum";
+import { BlogItem } from "@store/new/type";
 
 // game
 
@@ -136,8 +137,8 @@ export interface GenresItems {
   name: string;
   shortDescription: string;
   media: string;
-  createBy: string;
-  updateBy: string;
+  // createBy?: string;
+  // updateBy?: string;
 }
 
 export interface GenresProps {
@@ -154,4 +155,40 @@ export interface GameCountProps {
   chain: GameCountItems;
   support_os: GameCountItems;
   schedule_status: GameCountItems;
+}
+
+export interface GameBlogProps {
+  gameId: number;
+  typeBlog: string;
+}
+
+export interface GameBlogItems {
+  id: number;
+  name: string;
+  description: string;
+  status: number;
+  publisher: string;
+  developer: string;
+  website: string;
+  schedule: ScheduleProps;
+  platformLink: PlatformLinkProps[];
+  support_os: SupportOs[];
+  chain: SupportChain[];
+  rating: number;
+  rates?: RateProps[];
+  mediaUrl: string[];
+  statusGame: ScheduleStatus;
+  playableOnDestop: boolean;
+  review: string | null;
+  discord: string;
+  telegramChat: string;
+  telegramNews: string;
+  medium: string;
+  twitter: string;
+  youtube: string;
+  genreName: Genre[];
+  contactPhone: string;
+  contactEmail: string;
+  contactName: string;
+  blogs: BlogItem[];
 }

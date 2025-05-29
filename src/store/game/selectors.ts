@@ -10,6 +10,7 @@ import {
   GetGame,
   GetGameById,
   GetGameCount,
+  GetGameIdTypeBlog,
   // getGameID,
   GetGameOwner,
   GetGenres,
@@ -44,9 +45,9 @@ import {
 import { Genre, Platform, SortBy } from "@constant/enum";
 import {
   FormCreateGameProps,
+  GameBlogProps,
   GameDProps,
   GenresCProps,
-  GenresDProps,
   GenresProps,
   ParamsGameProps,
   RateProps,
@@ -68,6 +69,7 @@ export const useGame = () => {
     genreById,
     pageIndex,
     pageSize,
+    gameBlog,
 
     isCreate,
     isCreateRate,
@@ -213,7 +215,13 @@ export const useGame = () => {
     dispatch(SetSearch(value));
   };
 
+  const getGameBlog = (params: GameBlogProps) => {
+    dispatch(GetGameIdTypeBlog(params));
+  };
+
   return {
+    getGameBlog,
+    gameBlog,
     getGameById,
     getOwnerById,
     getGame,

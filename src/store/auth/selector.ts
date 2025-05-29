@@ -70,8 +70,6 @@ export const useAuthLogin = () => {
 
 export const useLogOut = () => {
   const logOut = () => {
-    Cookies.remove(ACCESSTOKEN_COOKIE, { path: "/" });
-    Cookies.remove(REFRESHTOKEN_COOKIE, { path: "/" });
     store.dispatch({ type: "RESET_STORE" });
   };
   return {

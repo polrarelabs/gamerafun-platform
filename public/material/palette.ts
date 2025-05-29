@@ -276,9 +276,14 @@ export default {
     linearHr:
       "linear-gradient(90deg,rgba(14, 20, 32, 1) 1%, rgba(217, 217, 217, 1) 50%, rgba(14, 20, 32, 1) 100%)",
     linearImage:
-      "linear-gradient(to right, rgba(14, 20, 32, 0.6) 0%, rgba(0, 206, 107, 0.6) 100%), linear-gradient(to right, rgba(14, 20, 32, 0.8) 0%, rgba(14, 20, 32, 0) 100%)",
+      "linear-gradient(to right, rgba(14, 20, 32, 0.6) 0%, #002BC2 40%, #9747FF 60%,  #58C2C9 80%, #00C27C 100%)",
+    linearOverview:
+      "linear-gradient(to right, #111111 0%, transparent 15%, transparent 85%, #111111 100%)",
+    linearOverview1:
+      "linear-gradient(rgba(14, 20, 32, 0) 0%, rgba(14, 20, 32, 0) 40%, rgba(14, 20, 32, 0.75) 80%, #111111 100%)",
     textShadow: "rgba(255, 255, 255, 0.3) 0px 0px 12px",
     colorBtn: "#1b233280",
     bgColorSub: "#00ce6b26",
+    colorBorderBottom: "#1f2c47",
   },
 } as unknown as PaletteOptions;

@@ -12,7 +12,8 @@ import BoxSelected from "./BoxSelected";
 import Search from "./Search";
 import UploadImage from "./UploadImage";
 import Slider from "./Slider";
-
+import ClickWrapper from "./ClickWrapper";
+import Snackbared from "./Snackbared";
 export {
   Tooltip,
   Text,
@@ -28,6 +29,8 @@ export {
   Search,
   UploadImage,
   Slider,
+  ClickWrapper,
+  Snackbared,
 };
 
 export type {

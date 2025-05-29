@@ -1,6 +1,7 @@
 import { client, Endpoint } from "@api";
 import { StatusBlog, Tag } from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { BlogRequestState } from "./type";
 
 export interface GetBlogProps {
   pageIndex: number;
@@ -37,24 +38,9 @@ export const GetBlogId = createAsyncThunk(
   },
 );
 
-export interface BlogCreateProps {
-  id?: string;
-  title: string;
-  content: string;
-  tags: Tag[];
-  status: StatusBlog;
-  thumbnailUrl: string;
-  author: string;
-  metaTitle: string;
-  metaDescription: string;
-  slug?: string;
-  publicDate?: string;
-  gameIds?: number[];
-}
-
 export const CreateBlog = createAsyncThunk(
   "post/create-blog",
-  async (body: BlogCreateProps) => {
+  async (body: BlogRequestState) => {
     try {
       const response = await client.post(Endpoint.POST_CREATE_BLOG, body);
       return response.data;
@@ -66,7 +52,7 @@ export const CreateBlog = createAsyncThunk(
 
 export const UpdateBlog = createAsyncThunk(
   "patch/update-blog",
-  async (body: BlogCreateProps) => {
+  async (body: BlogRequestState) => {
     try {
       const response = await client.patch(Endpoint.PATCH_UPDATE_BLOG, body);
       return response.data;

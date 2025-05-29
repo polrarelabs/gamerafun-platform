@@ -1,6 +1,6 @@
 "use client";
 
-import { Slider, Text } from "@components/shared";
+import { ClickWrapper, Slider, Text } from "@components/shared";
 import CardItem from "@components/shared/CardItem";
 import { SCREEN_PX } from "@constant";
 import { GAME_PATH, NEWS_PATH } from "@constant/paths";
@@ -21,6 +21,7 @@ interface LatestProps {
   type: string;
   isHome?: boolean;
   widthGame?: number | null;
+  direction?: "row" | "row-reverse" | "column" | "column-reverse";
 }
 
 const Latest = ({
@@ -30,6 +31,7 @@ const Latest = ({
   type,
   isHome = false,
   widthGame = null,
+  direction = "row",
 }: LatestProps) => {
   const { blog, getBlogId, getBlog } = useBlog();
   const { game, getGame, getGameById } = useGame();
@@ -116,20 +118,21 @@ const Latest = ({
                 blog.items &&
                 blog.items.map((item, index) => {
                   return (
-                    <CardBlog
-                      key={index}
-                      data={item}
-                      index={index}
-                      displayLayout={"no-list"}
-                      handleClick={handleClickNew}
-                      isHover={false}
-                      widthMax={widthGame ? widthGame : 350}
-                    />
+                    <ClickWrapper key={index}>
+                      <CardBlog
+                        data={item}
+                        index={index}
+                        displayLayout={"no-list"}
+                        handleClick={handleClickNew}
+                        isHover={false}
+                        widthMax={widthGame ? widthGame : 350}
+                      />
+                    </ClickWrapper>
                   );
                 })}
             </Slider>
           ) : (
-            <Stack direction={"row"} gap={2}>
+            <Stack direction={direction} gap={2}>
               {blog &&
                 blog.items &&
                 blog.items.map((item, index) => {
@@ -160,21 +163,22 @@ const Latest = ({
                 game.items &&
                 game.items.map((item, index) => {
                   return (
-                    <CardItem
-                      isSmaller={false}
-                      key={index}
-                      index={index}
-                      data={item}
-                      title={"Title"}
-                      handleClick={handleClickGame}
-                      widthMax={widthGame ? widthGame : 350}
-                      isHome={isHome}
-                    />
+                    <ClickWrapper key={index}>
+                      <CardItem
+                        isSmaller={false}
+                        index={index}
+                        data={item}
+                        title={"Title"}
+                        handleClick={handleClickGame}
+                        widthMax={widthGame ? widthGame : 350}
+                        isHome={isHome}
+                      />
+                    </ClickWrapper>
                   );
                 })}
             </Slider>
           ) : (
-            <Stack direction={"row"} gap={2}>
+            <Stack direction={direction} gap={2}>
               {game &&
                 game.items &&
                 game.items.map((item, index) => {

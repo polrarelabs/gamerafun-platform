@@ -12,7 +12,8 @@ import login_token from "public/images/login-token.svg";
 import { palette } from "public/material";
 import React, { memo, useEffect, useState } from "react";
 import { GetEmail, GetUserName } from "./helper";
-
+import Cookies from "js-cookie";
+import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
 declare global {
   interface Window {
     google?: {
@@ -59,7 +60,8 @@ const Profile = () => {
     //     logOut();
     //   } else logOut();
     // }
-
+    Cookies.remove(ACCESSTOKEN_COOKIE, { path: "/" });
+    Cookies.remove(REFRESHTOKEN_COOKIE, { path: "/" });
     if (window.google?.accounts?.id) {
       window.google.accounts.id.disableAutoSelect();
     }

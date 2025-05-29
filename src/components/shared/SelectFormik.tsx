@@ -11,16 +11,19 @@ import {
 } from "@mui/material";
 import React, { memo } from "react";
 import Text from "./Text";
+import { palette } from "public/material";
 
 interface PropsSelectFormik {
   formik: any;
-  OptionEnum: any;
+  OptionEnum?: any;
   label: string;
   name: string;
   isDisable?: boolean;
   isMultiple?: boolean;
   data?: any[] | null;
   handleClick?: (id: number) => void;
+  nameDisplay?: any[] | null;
+  keyNameDisplay?: string;
 }
 
 const SelectFormik = ({
@@ -32,6 +35,8 @@ const SelectFormik = ({
   isMultiple = true,
   data,
   handleClick,
+  nameDisplay = null,
+  keyNameDisplay,
 }: PropsSelectFormik) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -43,10 +48,22 @@ const SelectFormik = ({
       },
     },
   };
-  const optionKey = Object.keys(OptionEnum);
-  const optionValue = Object.keys(OptionEnum);
+  const optionKey = OptionEnum ? Object.keys(OptionEnum) : [];
+  const optionValue = OptionEnum ? Object.values(OptionEnum) : [];
 
-  const names = name === "id" ? "name" : name;
+  const getLabel = (item: number) => {
+    // if (nameDisplay !== null && keyNameDisplay) {
+    //   console.log('item', item);
+    //   console.log('nameDisplay', nameDisplay);
+
+    //   const items = nameDisplay.findIndex(item => item.id === item)
+    //   // return items.name
+    //   console.log('arrr', items);
+
+    // } else console.log('objet', item)
+
+    return item;
+  };
 
   return (
     <Stack flex={1} gap={1}>
@@ -66,18 +83,53 @@ const SelectFormik = ({
             renderValue={(selected) => (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((value) => (
-                  <Chip key={value} label={value} />
+                  <Chip key={value} label={getLabel(value)} />
                 ))}
               </Box>
             )}
             MenuProps={MenuProps}
             disabled={isDisable}
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.FilledInput?.bg} !important`,
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.FilledInput?.hoverBg} !important`,
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.FilledInput?.hoverBg} !important`,
+              },
+              "&.Mui-error .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.LinearProgress?.errorBg} !important`,
+              },
+            }}
           >
             {optionKey.map((item, index) => (
+              <MenuItem
+                key={index}
+                value={
+                  nameDisplay !== null && keyNameDisplay
+                    ? nameDisplay[index]["id"]
+                    : OptionEnum[item]
+                }
+                onClick={() =>
+                  handleClick?.(
+                    nameDisplay !== null && keyNameDisplay
+                      ? nameDisplay[index]["id"]
+                      : (optionValue[index] as { id: number })["id"],
+                  )
+                }
+              >
+                {nameDisplay !== null && keyNameDisplay
+                  ? nameDisplay[index][keyNameDisplay]
+                  : item}
+              </MenuItem>
+            ))}
+            {/* {optionKey.map((item, index) => (
               <MenuItem key={index} value={OptionEnum[item]}>
                 {item}
               </MenuItem>
-            ))}
+            ))} */}
           </Select>
         ) : (
           <Select
@@ -87,10 +139,36 @@ const SelectFormik = ({
             onBlur={formik.handleBlur}
             input={<OutlinedInput />}
             disabled={isDisable}
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.FilledInput?.bg} !important`,
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.FilledInput?.hoverBg} !important`,
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.FilledInput?.hoverBg} !important`,
+              },
+              "&.Mui-error .MuiOutlinedInput-notchedOutline": {
+                borderColor: `${palette.LinearProgress?.errorBg} !important`,
+              },
+            }}
           >
-            {optionValue.map((item, index) => (
-              <MenuItem key={index} value={OptionEnum[item]}>
-                {item}
+            {optionKey.map((item, index) => (
+              <MenuItem
+                key={index}
+                value={OptionEnum[item]}
+                onClick={() =>
+                  handleClick?.(
+                    nameDisplay !== null && keyNameDisplay
+                      ? nameDisplay[index]["id"]
+                      : (optionValue[index] as { id: number })["id"],
+                  )
+                }
+              >
+                {nameDisplay !== null && keyNameDisplay
+                  ? nameDisplay[index][keyNameDisplay]
+                  : item}
               </MenuItem>
             ))}
           </Select>

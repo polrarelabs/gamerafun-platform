@@ -2,6 +2,7 @@ import { client, Endpoint } from "@api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   FormCreateGameProps,
+  GameBlogProps,
   GameDProps,
   GenresCProps,
   GenresProps,
@@ -122,7 +123,9 @@ export const GetGenresById = createAsyncThunk(
   "get/genres/id",
   async (genreId: number) => {
     try {
-      const response = await client.get(`${Endpoint.GET_GENRES}/${genreId}`);
+      const response = await client.get(
+        `${Endpoint.GET_GENRES_BY_ID}/${genreId}`,
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -211,3 +214,17 @@ export const GetGameCount = createAsyncThunk("get/count", async () => {
     throw error;
   }
 });
+
+export const GetGameIdTypeBlog = createAsyncThunk(
+  "get/gameId/typeBlog",
+  async (params: GameBlogProps) => {
+    try {
+      const response = await client.get(
+        `${Endpoint.GET_GAME}/${params.gameId}/${params.typeBlog}`,
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);

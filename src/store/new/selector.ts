@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   CreateBlog,
-  BlogCreateProps,
   DeleteBlog,
   GetBlog,
   GetBlogId,
@@ -20,6 +19,7 @@ import {
   SetTags,
 } from "./reducer";
 import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
+import { BlogRequestState } from "./type";
 
 export const useBlog = () => {
   const dispatch = useAppDispatch();
@@ -32,11 +32,11 @@ export const useBlog = () => {
     dispatch(GetBlogId(blogId));
   };
 
-  const createBlog = (body: BlogCreateProps) => {
+  const createBlog = (body: BlogRequestState) => {
     dispatch(CreateBlog(body));
   };
 
-  const updateBlog = (body: BlogCreateProps) => {
+  const updateBlog = (body: BlogRequestState) => {
     dispatch(UpdateBlog(body));
   };
 

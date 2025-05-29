@@ -1,23 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Latest from "@components/Latest";
 import { Text } from "@components/shared";
 import CardItem from "@components/shared/CardItem";
 import { GAME_PATH, NEWS_PATH } from "@constant/paths";
+import ArrowIcon from "@icons/common/ArrowIcon";
+import ArrowLongIcon from "@icons/common/ArrowLongIcon";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { useParams, useRouter } from "next/navigation";
 import { palette } from "public/material";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 
 interface RelatedProps {
   relateBy: string;
   isSmaller?: boolean;
   title: string;
   isViewAll?: boolean;
+  dataGame?: any[];
 }
 
-const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
+const Related = ({
+  relateBy,
+  title,
+  isViewAll = true,
+  dataGame,
+}: RelatedProps) => {
   const router = useRouter();
 
   const { blogId, blog, getBlog, getBlogId } = useBlog();
@@ -51,7 +60,7 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
     if (relateBy === "game") return router.push(GAME_PATH);
     else return router.push(NEWS_PATH);
   };
-
+  const [hover, setHover] = useState<boolean>(false);
   return (
     <>
       {relateBy === "game" ? (
@@ -61,25 +70,47 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
               {title}
             </Text>
             {isViewAll && (
-              <Text
-                fontSize={"14px"}
-                fontWeight={500}
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
                 color={palette.greenColorText}
-                sx={{
-                  "&:hover": {
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                  },
-                }}
-                onClick={handleViewAll}
               >
-                View All
-              </Text>
+                <Text
+                  fontSize={"14px"}
+                  fontWeight={500}
+                  color={palette.greenColorText}
+                  sx={{
+                    "&:hover": {
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                    },
+                  }}
+                  onClick={handleViewAll}
+                  onMouseEnter={() => setHover(true)}
+                  onMouseLeave={() => setHover(false)}
+                >
+                  View All
+                </Text>
+                {hover ? (
+                  <ArrowLongIcon
+                    sx={{
+                      rotate: "180deg",
+                    }}
+                  />
+                ) : (
+                  <ArrowIcon
+                    sx={{
+                      fontSize: 15,
+                      rotate: "-90deg",
+                    }}
+                  />
+                )}
+              </Stack>
             )}
           </Stack>
-          {game && game.items && (
-            <Stack direction={"column"} gap={2}>
-              {game.items.map((item, index) => {
+          {dataGame && dataGame.length > 0 ? (
+            <>
+              {dataGame.map((item, index) => {
                 return (
                   <CardItem
                     key={index}
@@ -89,12 +120,34 @@ const Related = ({ relateBy, title, isViewAll = true }: RelatedProps) => {
                     // handleClick={handleClick}
                     isSmaller={true}
                     isHover={true}
-                    widthMax={323}
+                    widthMax={150}
                     title="title"
                   />
                 );
               })}
-            </Stack>
+            </>
+          ) : (
+            <>
+              {game && game.items && (
+                <Stack direction={"column"} gap={2}>
+                  {game.items.map((item, index) => {
+                    return (
+                      <CardItem
+                        key={index}
+                        data={item}
+                        index={index}
+                        displayLayout={"no-list"}
+                        // handleClick={handleClick}
+                        isSmaller={true}
+                        isHover={true}
+                        widthMax={150}
+                        title="title"
+                      />
+                    );
+                  })}
+                </Stack>
+              )}
+            </>
           )}
         </Stack>
       ) : (
