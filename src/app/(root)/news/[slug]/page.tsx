@@ -41,7 +41,6 @@ const News = () => {
           <Related relateBy="news" title="Related News" />
         </Stack>
         <BannerJoin />
-        <Subscribe />
       </Stack>
     </Stack>
   );

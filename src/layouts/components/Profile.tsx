@@ -1,19 +1,18 @@
 "use client";
 
 import { Button, Image, Text } from "@components/shared";
+import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
 import useAptosWallet from "@hooks/useAptosWallet";
 import DropDownIcon from "@icons/common/DropDownIcon";
 import LogOutIcon from "@icons/web3/LogOutIcon";
 import { Popover, Stack } from "@mui/material";
 import { useAuthLogin, useLogOut } from "@store/auth";
+import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import login_token from "public/images/login-token.svg";
 import { palette } from "public/material";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useState } from "react";
 import { GetEmail, GetUserName } from "./helper";
-import Cookies from "js-cookie";
-import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
 declare global {
   interface Window {
     google?: {
@@ -27,11 +26,11 @@ declare global {
 }
 
 const Profile = () => {
-  const router = useRouter();
-  const { disconnect } = useAptosWallet();
   const { logOut } = useLogOut();
   const { data } = useAuthLogin();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const { disconnect } = useAptosWallet();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -41,34 +40,17 @@ const Profile = () => {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   const handleLogOut = () => {
-    // if (data && data.user && data.user.userConnects) {
-    //   if (data.user.userConnects[0].connectType === "Email") {
-    //     if (window.google?.accounts?.id) {
-    //       window.google.accounts.id.disableAutoSelect();
-    //     }
-    //     signOut();
-    //     logOut();
-    //   } else if (data.user.userConnects[0].connectType === "Wallet") {
-    //     disconnect();
-    //     logOut();
-    //   } else logOut();
-    // }
     Cookies.remove(ACCESSTOKEN_COOKIE, { path: "/" });
     Cookies.remove(REFRESHTOKEN_COOKIE, { path: "/" });
     if (window.google?.accounts?.id) {
       window.google.accounts.id.disableAutoSelect();
     }
     signOut();
-    logOut();
     disconnect();
-    // router.push(LOGIN_PATH);
+    logOut();
   };
 
   return (
@@ -99,6 +81,9 @@ const Profile = () => {
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "right",
+        }}
+        sx={{
+          zIndex: 9999,
         }}
       >
         <Stack direction={"column"} gap={"16px"} p={"16px"}>
@@ -163,7 +148,7 @@ const Profile = () => {
             direction={"row"}
             gap="8px"
             alignItems={"center"}
-            onClick={() => handleLogOut}
+            onClick={handleLogOut}
             sx={{
               "&:hover": {
                 cursor: "pointer",

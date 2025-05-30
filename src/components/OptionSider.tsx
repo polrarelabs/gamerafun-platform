@@ -66,6 +66,13 @@ const OptionSider = () => {
           arrayKey={genres}
         />
 
+        {/* <FormListOption
+          name={"Status"}
+          data={gameCount.schedule_status!}
+          setArray={SetGenres}
+          arrayKey={genres}
+        /> */}
+
         <FormDateAdded />
       </Stack>
     </Stack>

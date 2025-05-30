@@ -14,6 +14,10 @@ import UploadImage from "./UploadImage";
 import Slider from "./Slider";
 import ClickWrapper from "./ClickWrapper";
 import Snackbared from "./Snackbared";
+import Avartars from "./Avartars";
+import AverageStar from "./AverageStar";
+import DialogShare from "./DialogShare";
+
 export {
   Tooltip,
   Text,
@@ -31,6 +35,9 @@ export {
   Slider,
   ClickWrapper,
   Snackbared,
+  Avartars,
+  AverageStar,
+  DialogShare,
 };
 
 export type {

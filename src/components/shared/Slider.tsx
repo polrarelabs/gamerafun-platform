@@ -11,8 +11,8 @@ interface SliderProps {
   step: number;
   children: React.ReactNode;
   iconWhite?: boolean;
-  onLoadMore?: () => void; // Hàm gọi khi cần tải thêm dữ liệu
-  hasMore?: boolean; // Còn dữ liệu để load hay không
+  onLoadMore?: () => void;
+  hasMore?: boolean;
 }
 
 const Slider = ({
@@ -21,7 +21,7 @@ const Slider = ({
   children,
   iconWhite = false,
   onLoadMore,
-  hasMore, // Còn dữ liệu để load hay không
+  hasMore,
 }: SliderProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -152,7 +152,6 @@ const Slider = ({
               handleScroll("right");
             }
 
-            // Nếu đã đến gần phần tử cuối cùng và còn dữ liệu để load
             if (
               Math.abs(currentX - maxScrollX) < STEP &&
               typeof onLoadMore === "function"

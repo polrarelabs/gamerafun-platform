@@ -4,7 +4,7 @@ import Connect from "@components/Connect";
 import Link from "@components/Link";
 import { Button } from "@components/shared";
 import { ACCESSTOKEN_COOKIE, HEADER_HEIGHT } from "@constant";
-import { CREATE_AGENT_PATH, LOGIN_PATH } from "@constant/paths";
+import { LOGIN_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
 import { useAuthLogin } from "@store/auth";
@@ -17,7 +17,7 @@ const Header = () => {
   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
 
   const [showLogin, setShowLogin] = useState<boolean>(true);
-  const { data, isConnectAptos, isLogin } = useAuthLogin();
+  const { isConnectAptos } = useAuthLogin();
 
   useEffect(() => {
     if (cookies !== "undefined" && cookies !== undefined) {

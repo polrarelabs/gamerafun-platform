@@ -41,6 +41,7 @@ import {
   SetSearch,
   SetPageIndex,
   SetPageSize,
+  SetStatusAPI,
 } from "./reducer";
 import { Genre, Platform, SortBy } from "@constant/enum";
 import {
@@ -91,6 +92,11 @@ export const useGame = () => {
     sortBy,
     search,
   } = useAppSelector((state) => state.game);
+
+  const setStatusAPI = () => {
+    dispatch(SetStatusAPI());
+  };
+
   const getGame = (param: ParamsGameProps) => {
     dispatch(GetGame(param));
   };
@@ -244,6 +250,7 @@ export const useGame = () => {
     pageSize,
     getGameCount,
     createGame,
+    setStatusAPI,
 
     setSearch,
     search,

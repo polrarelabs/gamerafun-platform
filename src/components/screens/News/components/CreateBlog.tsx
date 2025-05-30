@@ -6,6 +6,7 @@ import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
 import { SCREEN_PX } from "@constant";
 import { StatusBlog, Tag, TypeBlog } from "@constant/enum";
+import { GENRES_PATH } from "@constant/paths";
 import {
   FormControl,
   FormHelperText,
@@ -92,7 +93,7 @@ const CreateBlog = ({ type = "create" }: PropsBlog) => {
 
   useEffect(() => {
     if (loading === false && error === "") {
-      <Snackbared open={openSnack} setOpen={setOpenSnack} message="Success" />;
+      setOpenSnack(true);
     }
   }, [loading, error]);
 
@@ -155,135 +156,144 @@ const CreateBlog = ({ type = "create" }: PropsBlog) => {
   );
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Stack px={SCREEN_PX} gap={2}>
-        <UploadImage
-          ratioWidth={3}
-          ratioHeight={2}
-          imgUrl={
-            blogId && blogId.thumbnailUrl && blogId.thumbnailUrl.length > 0
-              ? blogId.thumbnailUrl
-              : null
-          }
-        />
-        {type !== "create" && (
-          <Stack direction={"column"} gap={3} flex={4}>
-            <Stack flex={2} gap={1}>
-              <Text>Select Blogs</Text>
-              <FormControl
-                error={formik.touched.id && Boolean(formik.errors.id)}
-                fullWidth
-              >
-                <Select
-                  name="id"
-                  value={formik.values.id}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  defaultValue={formik.values.id}
+    <>
+      <form onSubmit={formik.handleSubmit}>
+        <Stack px={SCREEN_PX} gap={2}>
+          <UploadImage
+            ratioWidth={3}
+            ratioHeight={2}
+            imgUrl={
+              blogId && blogId.thumbnailUrl && blogId.thumbnailUrl.length > 0
+                ? blogId.thumbnailUrl
+                : null
+            }
+          />
+          {type !== "create" && (
+            <Stack direction={"column"} gap={3} flex={4}>
+              <Stack flex={2} gap={1}>
+                <Text>Select Blogs</Text>
+                <FormControl
+                  error={formik.touched.id && Boolean(formik.errors.id)}
+                  fullWidth
                 >
-                  {blogDisplay &&
-                    blogDisplay.map((item, index) => {
-                      const isLast = index === blogDisplay.length - 1;
-                      return (
-                        <MenuItem
-                          ref={isLast ? lastElementRef : null}
-                          value={item.id}
-                          key={index}
-                          onClick={() => handleClickItem(item.id)}
-                        >
-                          {item.title}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-                {formik.touched.id && formik.errors.id && (
-                  <FormHelperText>{formik.errors.id}</FormHelperText>
-                )}
-              </FormControl>
+                  <Select
+                    name="id"
+                    value={formik.values.id}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    defaultValue={formik.values.id}
+                  >
+                    {blogDisplay &&
+                      blogDisplay.map((item, index) => {
+                        const isLast = index === blogDisplay.length - 1;
+                        return (
+                          <MenuItem
+                            ref={isLast ? lastElementRef : null}
+                            value={item.id}
+                            key={index}
+                            onClick={() => handleClickItem(item.id)}
+                          >
+                            {item.title}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                  {formik.touched.id && formik.errors.id && (
+                    <FormHelperText>{formik.errors.id}</FormHelperText>
+                  )}
+                </FormControl>
+              </Stack>
             </Stack>
+          )}
+          <Stack direction={"row"} gap={2}>
+            <TextFieldFormik
+              label="Meta Title"
+              name="metaTitle"
+              formik={formik}
+              isDisable={isDisable}
+            />
+            <TextFieldFormik
+              label="Meta Description"
+              name="metaDescription"
+              formik={formik}
+              isDisable={isDisable}
+            />
           </Stack>
-        )}
-        <Stack direction={"row"} gap={2}>
-          <TextFieldFormik
-            label="Meta Title"
-            name="metaTitle"
-            formik={formik}
-            isDisable={isDisable}
-          />
-          <TextFieldFormik
-            label="Meta Description"
-            name="metaDescription"
-            formik={formik}
-            isDisable={isDisable}
-          />
-        </Stack>
-        <Stack direction={"row"} gap={2}>
-          <TextFieldFormik
-            label="Author"
-            name="author"
-            formik={formik}
-            isDisable={isDisable}
-          />
-          <TextFieldFormik
-            label="Title"
-            name="title"
-            formik={formik}
-            isDisable={isDisable}
-          />
-        </Stack>
-        <Stack direction={"row"} gap={2}>
-          <SelectFormik
-            label={"Tags"}
-            name={"tags"}
-            formik={formik}
-            OptionEnum={Tag}
-            isDisable={isDisable}
-          />
-          <SelectFormik
-            isMultiple={false}
-            label="Status"
-            name="status"
-            formik={formik}
-            OptionEnum={Status}
-            isDisable={isDisable}
-          />
-        </Stack>
-        <Stack direction={"row"} gap={2}>
-          <SelectFormik
-            label={"Type"}
-            name={"type"}
-            formik={formik}
-            OptionEnum={TypeBlog}
-            isMultiple={false}
-            isDisable={isDisable}
-          />
-          <SelectFormik
-            label="Game"
-            name="gameIds"
-            formik={formik}
-            OptionEnum={game.items}
-            isDisable={isDisable}
-            nameDisplay={game.items}
-            keyNameDisplay="name"
-            // isMultiple={false}
-          />
-        </Stack>
-        <Stack>
-          <InputEditor
-            name="content"
-            label="Content"
-            formik={formik}
-            readonly={isDisable}
-          />
-        </Stack>
+          <Stack direction={"row"} gap={2}>
+            <TextFieldFormik
+              label="Author"
+              name="author"
+              formik={formik}
+              isDisable={isDisable}
+            />
+            <TextFieldFormik
+              label="Title"
+              name="title"
+              formik={formik}
+              isDisable={isDisable}
+            />
+          </Stack>
+          <Stack direction={"row"} gap={2}>
+            <SelectFormik
+              label={"Tags"}
+              name={"tags"}
+              formik={formik}
+              OptionEnum={Tag}
+              isDisable={isDisable}
+            />
+            <SelectFormik
+              isMultiple={false}
+              label="Status"
+              name="status"
+              formik={formik}
+              OptionEnum={Status}
+              isDisable={isDisable}
+            />
+          </Stack>
+          <Stack direction={"row"} gap={2}>
+            <SelectFormik
+              label={"Type"}
+              name={"type"}
+              formik={formik}
+              OptionEnum={TypeBlog}
+              isMultiple={false}
+              isDisable={isDisable}
+            />
+            <SelectFormik
+              label="Game"
+              name="gameIds"
+              formik={formik}
+              OptionEnum={game.items}
+              isDisable={isDisable}
+              nameDisplay={game.items}
+              keyNameDisplay="name"
+              // isMultiple={false}
+            />
+          </Stack>
+          <Stack>
+            <InputEditor
+              name="content"
+              label="Content"
+              formik={formik}
+              readonly={isDisable}
+            />
+          </Stack>
 
-        <Stack direction={"row"} width={"100%"} justifyContent={"end"}>
-          <Button type="submit" loading={loading} variant="outlined">
-            Submit
-          </Button>
+          <Stack direction={"row"} width={"100%"} justifyContent={"end"}>
+            <Button type="submit" loading={loading} variant="outlined">
+              Submit
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </form>
+      </form>
+      <Snackbared
+        open={openSnack}
+        setOpen={setOpenSnack}
+        message={(error ?? "").length > 0 ? "Error" : "Success"}
+        path={(error ?? "").length ? null : GENRES_PATH}
+        status={(error ?? "").length > 0 ? "error" : "success"}
+      />
+    </>
   );
 };
 

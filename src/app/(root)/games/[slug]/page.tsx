@@ -8,7 +8,7 @@ import {
   Review,
   UserReviews,
 } from "@components/screens/Games";
-import { Image } from "@components/shared";
+import { Image, Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
 import { Stack } from "@mui/material";
@@ -22,6 +22,9 @@ import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
+import { FooterTabContants } from "@components/screens/Games/components";
+import Latest from "@components/Latest";
+import Subscribe from "@components/Subscribe";
 
 const LayoutGameDetail = () => {
   const { id } = useParams();
@@ -60,7 +63,7 @@ const LayoutGameDetail = () => {
   }, [gameById]);
 
   const tabItems = [
-    { label: "Overview", content: <Overview /> },
+    { label: "Overview", content: <Overview />, disabled: false },
     { label: "Review", content: <Review />, disabled: true },
     { label: "Guides", content: <Guides />, disabled: true },
     { label: "News", content: <News />, disabled: true },
@@ -164,13 +167,25 @@ const LayoutGameDetail = () => {
           />
         </Stack>
       </Stack>
-      <Stack px={SCREEN_PX} mt={4} direction={"row"} gap={3}>
-        <Stack flex={6}>
-          <TabContents tabs={tabItems} value={value} />
+      <Stack px={SCREEN_PX} mt={4} direction={"row"} gap={6}>
+        <Stack flex={6} gap={2}>
+          <Stack width={"100%"}>
+            <TabContents tabs={tabItems} value={value} />
+          </Stack>
+          <FooterTabContants />
         </Stack>
         <Stack flex={2} position={"relative"}>
           <InfoOverview />
         </Stack>
+      </Stack>
+      <Stack my={8}>
+        <Latest
+          title="Related Games"
+          path={GAME_PATH}
+          type="game"
+          widthGame={224}
+          isReview={true}
+        />
       </Stack>
     </Stack>
   );

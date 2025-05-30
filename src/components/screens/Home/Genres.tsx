@@ -9,7 +9,7 @@ import React, { memo } from "react";
 
 const Genres = () => {
   return (
-    <Stack px={SCREEN_PX} direction={"column"} gap={4} width={"100%"}>
+    <Stack px={SCREEN_PX} my={8} direction={"column"} gap={4} width={"100%"}>
       <Stack direction={"column"} alignItems={"center"}>
         <Text
           textAlign={"center"}

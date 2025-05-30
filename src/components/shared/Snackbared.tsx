@@ -1,6 +1,9 @@
 "use client";
 
-import { Snackbar, SnackbarCloseReason } from "@mui/material";
+import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material";
+import { useGame } from "@store/game";
+import { useBlog } from "@store/new";
+import { useRouter } from "next/navigation";
 import React, { memo } from "react";
 
 interface SnackBarProps {
@@ -10,6 +13,9 @@ interface SnackBarProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   vertical?: "bottom" | "top";
   horizontal?: "right" | "left" | "center";
+  path?: string | null;
+  status?: "error" | "info" | "success" | "warning" | undefined;
+  handleClose?: () => void;
 }
 
 const Snackbared = ({
@@ -19,7 +25,15 @@ const Snackbared = ({
   setOpen,
   vertical = "bottom",
   horizontal = "right",
+  path = null,
+  status = undefined,
+  handleClose,
 }: SnackBarProps) => {
+  const router = useRouter();
+
+  const { setStatusAPI: statusGame } = useGame();
+  const { setStatusAPI: statusBlog } = useBlog();
+
   const handleCloseSnackbar = (
     _event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason,
@@ -27,7 +41,17 @@ const Snackbared = ({
     if (reason === "clickaway") {
       return;
     }
+    if (path !== null) {
+      if (reason === "timeout") {
+        router.push(path);
+      }
+    }
     setOpen(false);
+    statusGame();
+    statusBlog();
+    if (reason === "timeout") {
+      handleClose && handleClose();
+    }
   };
   return (
     <Snackbar
@@ -35,8 +59,23 @@ const Snackbared = ({
       open={open}
       autoHideDuration={autoHideDuration}
       onClose={handleCloseSnackbar}
-      message={message}
-    />
+      sx={{
+        zIndex: 9999999,
+      }}
+      // message={message}
+    >
+      <Alert
+        onClose={handleCloseSnackbar}
+        severity={status}
+        variant="filled"
+        sx={{
+          width: "100%",
+          zIndex: 99999999,
+        }}
+      >
+        {message}
+      </Alert>
+    </Snackbar>
   );
 };
 

@@ -16,11 +16,16 @@ const GetIcon = ({ array }: PropsGetIcon) => {
   const arrayNew: any[] = [];
   if (array && array.length > 0) {
     for (let i = 0; i < array.length; i++) {
-      if (array[i] === "WINDOWS") arrayNew.push(<WindowsIcon />);
-      else if (array[i] === "MACOS") arrayNew.push(<MacIcon />);
-      else if (array[i] === "ANDROID") arrayNew.push(<AndroidIcon />);
-      else if (array[i] === "WEB") arrayNew.push(<WebsiteIcon />);
-      else if (array[i] === "IOS") arrayNew.push(<IosIcon />);
+      if (array[i] === "WINDOWS")
+        arrayNew.push(<WindowsIcon sx={{ fontSize: 14 }} />);
+      else if (array[i] === "MACOS")
+        arrayNew.push(<MacIcon sx={{ fontSize: 14 }} />);
+      else if (array[i] === "ANDROID")
+        arrayNew.push(<AndroidIcon sx={{ fontSize: 14 }} />);
+      else if (array[i] === "WEB")
+        arrayNew.push(<WebsiteIcon sx={{ fontSize: 14 }} />);
+      else if (array[i] === "IOS")
+        arrayNew.push(<IosIcon sx={{ fontSize: 14 }} />);
       // else if (array[i] === "STEAM") arrayNew.push(<WindowsIcon />);
       // else if (array[i] === "EPIC GAMES") arrayNew.push(<MacIcon />);
     }
@@ -29,7 +34,7 @@ const GetIcon = ({ array }: PropsGetIcon) => {
     <Stack
       direction={"row"}
       alignItems={"center"}
-      gap={{ md: 2, xs: 1 }}
+      gap={1}
       justifyContent={"center"}
     >
       {arrayNew &&
@@ -40,7 +45,6 @@ const GetIcon = ({ array }: PropsGetIcon) => {
               key={index}
               direction={"row"}
               alignItems={"center"}
-              fontSize={16}
               color={palette.colorGray}
               justifyContent={"center"}
             >

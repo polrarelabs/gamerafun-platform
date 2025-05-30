@@ -4,29 +4,30 @@ import { Button, Image, Text } from "@components/shared";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Box, Stack } from "@mui/material";
 import { motion } from "framer-motion";
-import bgSlider from "public/images/banner.webp";
 import { palette } from "public/material";
 import { useEffect, useRef, useState } from "react";
+import image1 from "public/images/img-login.png";
+import image2 from "public/images/img-local.png";
 
 const DATA = [
   {
-    img: bgSlider,
+    img: image1,
     title: "banner 1",
   },
   {
-    img: bgSlider,
+    img: image2,
     title: "banner 2",
   },
   {
-    img: bgSlider,
+    img: image1,
     title: "banner 3",
   },
   {
-    img: bgSlider,
+    img: image2,
     title: "banner 4",
   },
   {
-    img: bgSlider,
+    img: image1,
     title: "banner 5",
   },
 ];
@@ -262,5 +263,3 @@ const Banner = () => {
 export default Banner;
 
 const ASPECT_RATIO = { xs: 4 / 2, md: 1000 / 600, lg: 1920 / 800 };
-
-/* box-shadow: 0 0 0 3px  #f9fafb, 0 0 18px 4px  #f9fafb; */

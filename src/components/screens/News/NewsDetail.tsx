@@ -1,18 +1,15 @@
 "use client";
 
-import { Button, Snackbared, Text } from "@components/shared";
+import { Button, DialogShare, Text } from "@components/shared";
 // import Snackbar from '@components/Snackbar'
 import { formatMMMMDoYYYY } from "@components/helper";
-import { DOMAIN } from "@constant";
 import useBreakpoint from "@hooks/useBreakpoint";
-import CheckedIcon from "@icons/common/CheckedIcon";
 import CircleIcon from "@icons/common/CircleIcon";
-import CopyIcon from "@icons/common/CopyIcon";
-import { Dialog, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { usePathname } from "next/navigation";
 import { palette } from "public/material";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { PiShareFat } from "react-icons/pi";
 import Related from "./Related";
 
@@ -23,29 +20,8 @@ const NewsDetail = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
-
   const pathname = usePathname();
-  const [isCopied, setIsCopied] = useState<boolean>(false);
-
   const { isMdSmaller } = useBreakpoint();
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(`${DOMAIN}${pathname}`);
-      setIsCopied(true);
-      setOpenSnackbar(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy text:", err);
-    }
-  };
-
   return (
     <Stack direction={"column"} gap={2}>
       <Stack
@@ -264,61 +240,8 @@ const NewsDetail = () => {
             )}
           </Stack>
         )}
-
-        <Dialog
-          fullWidth
-          maxWidth={"lg"}
-          open={open}
-          onClose={handleClose}
-          sx={{
-            "&:.mui-o1er99-MuiPaper-root-MuiDialog-paper ": {
-              backgroundColor: "transparent !important",
-              backgroundImage: "none !important",
-            },
-          }}
-        >
-          <Stack alignItems={"center"} gap={2} p={"8px 16px"}>
-            <Text color={"white"} fontSize={"32px"} fontWeight={700}>
-              Share it with your friends
-            </Text>
-
-            <Stack
-              direction={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              width={"100%"}
-            >
-              <Stack alignItems={"start"} gap={1}>
-                <Text color={palette.colorReview?.textCopy} fontSize={"16px"}>
-                  Or copy Link
-                </Text>
-                <Text fontSize={"18px"} fontWeight={400} color={"white"}>
-                  {`${DOMAIN}${pathname}`}
-                </Text>
-              </Stack>
-              {isCopied ? (
-                <CheckedIcon />
-              ) : (
-                <CopyIcon
-                  sx={{
-                    fontSize: 24,
-                    "&:hover": {
-                      cursor: "pointer",
-                    },
-                  }}
-                  onClick={handleCopy}
-                />
-              )}
-            </Stack>
-          </Stack>
-
-          <Snackbared
-            message="Copied."
-            open={openSnackbar}
-            setOpen={setOpenSnackbar}
-          />
-        </Dialog>
       </Stack>
+      <DialogShare open={open} setOpen={setOpen} pathname={pathname} />
     </Stack>
   );
 };

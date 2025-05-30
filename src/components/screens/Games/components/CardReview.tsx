@@ -1,5 +1,6 @@
 "use client";
 
+import { Avartars, AverageStar, Text } from "@components/shared";
 import { Stack } from "@mui/material";
 import { RateProps } from "@store/game/type";
 import { palette } from "public/material";
@@ -24,7 +25,27 @@ const CardReview = ({ data }: CardReviewProps) => {
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
-      ></Stack>
+      >
+        <Stack direction={"row"} alignItems={"center"} gap={2}>
+          <Avartars
+            sx={{
+              background: palette.colorIconHover,
+            }}
+          />
+          <Text color="white" fontSize={"18px"} fontWeight={600}>
+            display name
+          </Text>
+        </Stack>
+        <Stack position={"relative"}>
+          <AverageStar size={52} value={data.score} />
+        </Stack>
+      </Stack>
+
+      <Stack>
+        <Text color="white" fontSize={"14px"} fontWeight={400}>
+          {data.review}
+        </Text>
+      </Stack>
     </Stack>
   );
 };

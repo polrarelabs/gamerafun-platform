@@ -20,9 +20,12 @@ interface ListGenresProps {
 const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
   const router = useRouter();
 
-  const { gameCount, SetGenres, SetGenresTitle } = useGame();
-  const {} = useBlog();
+  const { gameCount, SetGenres, SetGenresTitle, getGameCount } = useGame();
   const [genres, setGenres] = useState<string[]>([]);
+
+  useEffect(() => {
+    getGameCount();
+  }, []);
 
   useEffect(() => {
     if (gameCount && gameCount.genre) {

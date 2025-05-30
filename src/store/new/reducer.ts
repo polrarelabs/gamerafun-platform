@@ -12,7 +12,7 @@ import { Blog, BlogItem, BlogState } from "./type";
 
 const initialState: BlogState = {
   loading: false,
-  error: "",
+  error: null,
   blog: {
     items: [],
     totalItems: 0,
@@ -62,6 +62,10 @@ const BlogReducer = createSlice({
     SetStatus: (state, action: PayloadAction<StatusBlog>) => {
       state.status = action.payload;
     },
+    SetStatusAPI: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -71,6 +75,7 @@ const BlogReducer = createSlice({
       .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog>) => {
         state.loading = false;
         state.blog = action.payload;
+        state.error = "";
       })
       .addCase(GetBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -84,6 +89,7 @@ const BlogReducer = createSlice({
         (state, action: PayloadAction<BlogItem>) => {
           state.loading = false;
           state.blogId = action.payload;
+          state.error = "";
         },
       )
       .addCase(GetBlogId.rejected, (state, action: PayloadAction<any>) => {
@@ -96,6 +102,7 @@ const BlogReducer = createSlice({
       .addCase(CreateBlog.fulfilled, (state) => {
         state.loading = false;
         state.isCreate = true;
+        state.error = "";
       })
       .addCase(CreateBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -107,6 +114,7 @@ const BlogReducer = createSlice({
       .addCase(UpdateBlog.fulfilled, (state) => {
         state.loading = false;
         state.isCreate = true;
+        state.error = "";
       })
       .addCase(UpdateBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -118,6 +126,7 @@ const BlogReducer = createSlice({
       .addCase(DeleteBlog.fulfilled, (state) => {
         state.loading = false;
         state.isCreate = true;
+        state.error = "";
       })
       .addCase(DeleteBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
@@ -138,4 +147,5 @@ export const {
   SetSortBy,
   SetSearch,
   SetStatus,
+  SetStatusAPI,
 } = BlogReducer.actions;
