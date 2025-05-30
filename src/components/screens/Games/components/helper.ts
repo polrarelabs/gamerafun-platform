@@ -3,9 +3,9 @@ import * as yup from "yup";
 export const GetColor = (value: number, opacity?: number) => {
   const percent = value / 10;
   const colorStops = [
-    { stop: 0, color: [184, 84, 85] },
-    { stop: 0.5, color: [229, 155, 44] },
-    { stop: 1, color: [1, 183, 98] },
+    { stop: 0, color: [255, 59, 48] },
+    { stop: 0.5, color: [255, 204, 0] },
+    { stop: 1, color: [52, 199, 89] },
   ];
 
   let start = colorStops[0];

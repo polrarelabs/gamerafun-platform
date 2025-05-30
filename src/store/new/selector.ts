@@ -16,6 +16,7 @@ import {
   SetSearch,
   SetSortBy,
   SetStatus,
+  SetStatusAPI,
   SetTags,
 } from "./reducer";
 import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
@@ -78,6 +79,10 @@ export const useBlog = () => {
     dispatch(SetStatus(value));
   };
 
+  const setStatusAPI = () => {
+    dispatch(SetStatusAPI());
+  };
+
   const {
     loading,
     error,
@@ -94,6 +99,7 @@ export const useBlog = () => {
   } = useAppSelector((state) => state.blog);
 
   return {
+    setStatusAPI,
     sortBy,
     setSortBy,
     getBlog,

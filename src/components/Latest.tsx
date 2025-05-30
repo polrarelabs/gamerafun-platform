@@ -22,6 +22,7 @@ interface LatestProps {
   isHome?: boolean;
   widthGame?: number | null;
   direction?: "row" | "row-reverse" | "column" | "column-reverse";
+  isReview?: boolean;
 }
 
 const Latest = ({
@@ -30,6 +31,7 @@ const Latest = ({
   isPadding = true,
   type,
   isHome = false,
+  isReview = false,
   widthGame = null,
   direction = "row",
 }: LatestProps) => {
@@ -64,7 +66,12 @@ const Latest = ({
   const [hover, setHover] = useState<boolean>(false);
 
   return (
-    <Stack width={"100%"} px={isPadding ? SCREEN_PX : undefined} gap={2}>
+    <Stack
+      width={"100%"}
+      px={isPadding ? SCREEN_PX : undefined}
+      gap={2}
+      zIndex={3}
+    >
       <Stack direction={"row"} gap={2} alignItems={"center"}>
         <Text color={"white"} fontWeight={700} fontSize={"24px"}>
           {title}
@@ -124,7 +131,7 @@ const Latest = ({
                         index={index}
                         displayLayout={"no-list"}
                         handleClick={handleClickNew}
-                        isHover={false}
+                        isHover={true}
                         widthMax={widthGame ? widthGame : 350}
                       />
                     </ClickWrapper>
@@ -143,7 +150,7 @@ const Latest = ({
                       index={index}
                       displayLayout={"no-list"}
                       handleClick={handleClickNew}
-                      isHover={false}
+                      isHover={true}
                       widthMax={widthGame ? widthGame : 350}
                     />
                   );
@@ -172,6 +179,7 @@ const Latest = ({
                         handleClick={handleClickGame}
                         widthMax={widthGame ? widthGame : 350}
                         isHome={isHome}
+                        isReview={isReview}
                       />
                     </ClickWrapper>
                   );
@@ -192,6 +200,7 @@ const Latest = ({
                       handleClick={handleClickGame}
                       widthMax={widthGame ? widthGame : 350}
                       isHome={isHome}
+                      isReview={isReview}
                     />
                   );
                 })}

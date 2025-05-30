@@ -41,7 +41,7 @@ export interface GameItems {
   rates?: RateProps[];
   mediaUrl: string[];
   statusGame: ScheduleStatus;
-  playableOnDestop: boolean;
+  playableOnDesktop: boolean;
   review: string | null;
   discord: string;
   telegramChat: string;
@@ -53,6 +53,7 @@ export interface GameItems {
   contactPhone: string;
   contactEmail: string;
   contactName: string;
+  blogs: BlogItem[];
 }
 
 export interface GameProps {
@@ -93,7 +94,7 @@ export interface FormCreateGameProps {
   chain: SupportChain[];
   platformLink: PlatformLinkProps[];
   mediaUrl: string[];
-  playableOnDestop: boolean;
+  playableOnDesktop: boolean;
   genreName: string[];
   statusGame: ScheduleStatus;
   discord: string;
@@ -178,7 +179,7 @@ export interface GameBlogItems {
   rates?: RateProps[];
   mediaUrl: string[];
   statusGame: ScheduleStatus;
-  playableOnDestop: boolean;
+  playableOnDesktop: boolean;
   review: string | null;
   discord: string;
   telegramChat: string;

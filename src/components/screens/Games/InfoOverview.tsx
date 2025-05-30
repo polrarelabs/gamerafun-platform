@@ -1,21 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Button, Text, TextField } from "@components/shared";
+import {
+  Button,
+  DialogShare,
+  Snackbared,
+  Text,
+  TextField,
+} from "@components/shared";
 import { Dialog, DialogContent, Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { palette } from "public/material";
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { GetIcon } from "./components";
 import { thumbColor } from "@components/shared/helper";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 const InfoOverview = () => {
   const params = useParams();
 
-  console.log(params);
+  const pathname = usePathname();
 
-  const { gameById, createRate } = useGame();
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+  const { gameById, createRate, loading, error } = useGame();
 
   const option = [
     {
@@ -55,6 +63,13 @@ const InfoOverview = () => {
       score: rate,
     });
   };
+  const [openSnack, setOpenSnack] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (loading === false && error === "") {
+      setOpenSnack(true);
+    }
+  }, [loading, error]);
 
   return (
     <Stack direction={"column"} gap={4} position={"sticky"} top={0}>
@@ -147,8 +162,24 @@ const InfoOverview = () => {
             );
           })}
         </Stack>
-      </Stack>
 
+        <Stack>
+          <Button
+            variant="contained"
+            sx={{
+              borderRadius: "8px !important",
+            }}
+            onClick={() => setOpenDialog(true)}
+          >
+            Share
+          </Button>
+        </Stack>
+      </Stack>
+      <DialogShare
+        open={openDialog}
+        setOpen={setOpenDialog}
+        pathname={pathname}
+      />
       <Dialog
         open={open}
         onClose={handleClose}
@@ -204,7 +235,7 @@ const InfoOverview = () => {
                       borderRadius={"4px"}
                       onClick={() => setRate(index + 1)}
                       sx={{
-                        border: `1px solid ${palette.bgMenuHover}`,
+                        border: `1px solid ${rate === index + 1 ? thumbColor(rate, 0.2) : palette.bgMenuHover}`,
                         background:
                           rate === index + 1 ? thumbColor(rate) : undefined,
                         "&:hover": {
@@ -231,6 +262,13 @@ const InfoOverview = () => {
               </Button>
             </Stack>
           </Stack>
+          <Snackbared
+            open={openSnack}
+            setOpen={setOpenSnack}
+            message={(error ?? "").length > 0 ? "Error" : "Success"}
+            status={(error ?? "").length > 0 ? "error" : "success"}
+            handleClose={() => setOpen(false)}
+          />
         </DialogContent>
       </Dialog>
     </Stack>

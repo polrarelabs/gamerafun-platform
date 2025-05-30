@@ -1,7 +1,5 @@
 import Latest from "@components/Latest";
 import { Banner, Genres } from "@components/screens/Home";
-import Subscribe from "@components/Subscribe";
-import { MIN_HEIGHT_SCREEN } from "@constant";
 import { GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { generateMetadata } from "@utils/seo";
@@ -11,12 +9,7 @@ export const metadata: Metadata = generateMetadata("Home", HOME_PATH);
 
 export default function Home() {
   return (
-    <Stack
-      flex={1}
-      minHeight={MIN_HEIGHT_SCREEN}
-      alignItems="center"
-      spacing={4}
-    >
+    <Stack height={"auto"} alignItems="center" gap={4}>
       <Banner />
       <Latest
         title="Play Now"
@@ -28,8 +21,6 @@ export default function Home() {
       <Latest title="Latest News" path={NEWS_PATH} type="new" />
 
       <Genres />
-
-      <Subscribe />
     </Stack>
   );
 }

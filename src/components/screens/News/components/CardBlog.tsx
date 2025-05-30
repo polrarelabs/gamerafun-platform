@@ -60,19 +60,24 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
         direction={displayLayout === "list" ? "row" : "column"}
         alignItems={displayLayout === "list" ? "center" : undefined}
         sx={{
-          background: palette.colorGame?.colorBorderLinear,
+          background: palette.colorGame?.colorBorderLinear1,
           padding: "1px",
           borderRadius: "16px",
-          transition:
-            displayLayout === "list" ? undefined : "translate 0.2s ease-in-out",
+          transition: "translate 0.2s ease-in-out",
           "&:hover": {
-            translate: isHover
-              ? displayLayout === "list"
-                ? undefined
-                : "0 -6px"
-              : undefined,
+            translate: isHover ? "0 -6px" : undefined,
             cursor: "pointer",
           },
+          // transition:
+          //   displayLayout === "list" ? undefined : "translate 0.2s ease-in-out",
+          // "&:hover": {
+          //   translate: isHover
+          //     ? displayLayout === "list"
+          //       ? undefined
+          //       : "0 -6px"
+          //     : undefined,
+          //   cursor: "pointer",
+          // },
         }}
         onMouseEnter={(e) => {
           if (isHover === true) {
@@ -96,7 +101,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
       >
         <Stack
           bgcolor={palette.bgMenuHover}
-          p={"6px"}
+          p={"4px"}
           width="100%"
           height="100%"
           borderRadius={"16px"}

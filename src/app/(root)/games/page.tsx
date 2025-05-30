@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { LayoutGame } from "@components/screens/Games";
@@ -13,7 +14,6 @@ import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
 import image from "public/images/img-login.png";
-import { useGallery } from "@store/media";
 
 const GameHome = () => {
   const theme = useTheme();
@@ -52,8 +52,6 @@ const GameHome = () => {
     },
   ];
 
-  const { url } = useGallery();
-
   return (
     <Stack direction={"column"} gap={4}>
       <Stack
@@ -89,7 +87,6 @@ const GameHome = () => {
                 "& img": {
                   objectFit: "cover",
                   objectPosition: "center",
-                  // transition: "all 0.5s ease-in-out",
                 },
               },
             }}
@@ -102,7 +99,7 @@ const GameHome = () => {
               width: "100%",
               height: "100%",
               pointerEvents: "none",
-              background: `linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)`,
+              background: palette.colorGame?.colorBgLineaer1,
               zIndex: 2,
             }}
           />

@@ -1,4 +1,4 @@
-import { Text, Tooltip } from "@components/shared";
+import { AverageStar, Text, Tooltip } from "@components/shared";
 import { Slider, Stack } from "@mui/material";
 import { palette } from "public/material";
 import { memo } from "react";
@@ -53,44 +53,7 @@ const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
             }}
           />
         </Stack>
-        <Tooltip
-          title={`This game have a rating of ${value}/10`}
-          placement="top"
-          sx={{
-            fontSize: "14px",
-            fontWeight: 500,
-            color: palette.colorGray,
-          }}
-        >
-          <Stack
-            flex={1}
-            direction={"row"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            position={"relative"}
-          >
-            <BsFillHexagonFill
-              size={40}
-              style={{
-                color:
-                  value === 0 ? palette.colorGame?.color : thumbColor(value),
-              }}
-            />
-            <Text
-              fontSize={"16px"}
-              fontWeight={700}
-              sx={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                translate: "-50% -50%",
-                color: value === 0 ? palette.colorGray : "black",
-              }}
-            >
-              {value === 0 ? "-" : value}
-            </Text>
-          </Stack>
-        </Tooltip>
+        <AverageStar size={44} value={value} onSider={true} />
       </Stack>
     </Stack>
   );

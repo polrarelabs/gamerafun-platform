@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
@@ -29,14 +30,6 @@ interface Props {
   setDisplayLayout: React.Dispatch<React.SetStateAction<string>>;
 }
 
-// function getStyles(name: string, personName: readonly string[], theme: Theme) {
-//   return {
-//     fontWeight: personName.includes(name)
-//       ? theme.typography.fontWeightMedium
-//       : theme.typography.fontWeightRegular,
-//   };
-// }
-
 const BrowserGame = ({
   isLayoutMD,
   theme,
@@ -55,7 +48,6 @@ const BrowserGame = ({
     setPageIndex,
     getGameById,
     platforms,
-    getGameBlog,
   } = useGame();
   const { checkDate } = useBlog();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));

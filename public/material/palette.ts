@@ -11,8 +11,8 @@ export default {
     onBackgroundChannel: "rgb(255, 255, 255)",
   },
   primary: {
-    main: "#1CD6CE", // OK
-    light: "#C4FFF4",
+    main: "#29B6F6", // OK
+    light: "#4FC3F7",
     dark: "#2B4747", // OK
     contrastText: "rgba(0, 0, 0, 0.87)",
     mainChannel: "rgb(144, 202, 249)",
@@ -252,6 +252,10 @@ export default {
     bgColor1: "#1b2332",
   },
   colorGame: {
+    colorBgLinear1:
+      "linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)",
+    colorBorderLinear1:
+      "linear-gradient(180deg,rgba(154, 161, 157, 0.7) 0%, rgba(154, 161, 157, 0.3) 70%, rgba(9, 222, 87, 0.01)) 100%",
     colorBorderLinear:
       "linear-gradient(180deg,rgba(9, 222, 87, 0.7) 0%, rgba(9, 222, 87, 0.4) 70%, rgba(9, 222, 87, 0.01)) 100%",
     colorBoderLinear1:
@@ -269,6 +273,8 @@ export default {
     bgColor2: "#6b7280",
   },
   colorRelate: {
+    bgBtnSocial: "#6b72801a",
+    bgBtnSocialHover: "#6b728026",
     bgColor: "#2456",
     borderColor: "#FFFFFF40",
     bgColorHover: "#FFFFFF1A",

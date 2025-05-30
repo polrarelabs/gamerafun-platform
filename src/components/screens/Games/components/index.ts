@@ -12,6 +12,7 @@ import ModalShare from "./ModalShare";
 import RelatedGames from "./RelatedGames";
 import Share from "./Share";
 import PlatformLink from "./PlatformLink";
+import FooterTabContants from "./FooterTabContants";
 
 export {
   BodyBrowserGame,
@@ -28,4 +29,5 @@ export {
   RelatedGames,
   Share,
   PlatformLink,
+  FooterTabContants,
 };

@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "@components/shared";
+import { Button, Snackbared } from "@components/shared";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
 import { SCREEN_PX } from "@constant";
+import { GAME_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { GenresCProps } from "@store/game/type";
@@ -23,18 +24,14 @@ const CreateGenres = () => {
   } = useGame();
 
   const handleClick = (id: number) => {
-    console.log(id);
-
     getGenresById(id);
   };
+
+  const [openSnack, setOpenSnack] = useState<boolean>(false);
 
   useEffect(() => {
     getGenres({});
   }, []);
-
-  useEffect(() => {
-    console.log(genreItems);
-  }, [genreItems]);
 
   const [types, setTypes] = useState<string>("create");
   const [disable, setDisable] = useState<boolean>(false);
@@ -56,7 +53,6 @@ const CreateGenres = () => {
           values: {
             id: genreById.id,
             name: genreById.name,
-            // shortDescription: genreById.shortDescription,
             media: genreById.media,
           },
         });
@@ -66,7 +62,6 @@ const CreateGenres = () => {
         formik.resetForm({
           values: {
             name: "",
-            // shortDescription: genreById.shortDescription,
             media: "",
           },
         });
@@ -76,7 +71,6 @@ const CreateGenres = () => {
       formik.resetForm({
         values: {
           name: "",
-          // shortDescription: genreById.shortDescription,
           media: "",
         },
       });
@@ -98,7 +92,7 @@ const CreateGenres = () => {
 
   useEffect(() => {
     if (loading === false && error === "") {
-      console.log("create success");
+      setOpenSnack(true);
     }
   }, [loading, error]);
 
@@ -125,20 +119,8 @@ const CreateGenres = () => {
                   nameDisplay={genreItems}
                   keyNameDisplay="name"
                 />
-                {/* <TextFieldFormik
-                  label="Name"
-                  name="name"
-                  formik={formik}
-                  isDisable={disable}
-                /> */}
               </Stack>
               <Stack direction={"row"} gap={2}>
-                {/* <TextFieldFormik
-                  label="Short Description"
-                  name="shortDescription"
-                  formik={formik}
-                  isDisable={disable}
-                /> */}
                 <TextFieldFormik
                   label="Name"
                   name="name"
@@ -176,6 +158,13 @@ const CreateGenres = () => {
           </Stack>
         </Stack>
       </form>
+      <Snackbared
+        open={openSnack}
+        setOpen={setOpenSnack}
+        message={(error ?? "").length > 0 ? "Error" : "Success"}
+        // path={(error ?? '').length ? null : GAME_PATH}
+        status={(error ?? "").length > 0 ? "error" : "success"}
+      />
     </Stack>
   );
 };

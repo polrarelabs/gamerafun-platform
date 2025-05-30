@@ -7,6 +7,7 @@ import TelegramIcon from "@icons/socials/TelegramIcon";
 import DiscordIcon from "@icons/socials/DiscordIcon";
 import Link from "@components/Link";
 import { TELE_URL, X_URL } from "./helper";
+import Subscribe from "@components/Subscribe";
 
 type FooterProps = {};
 
@@ -19,6 +20,7 @@ const Footer = (props: FooterProps) => {
       px={SCREEN_PX}
       spacing={2}
     >
+      <Subscribe />
       <Text variant="caption" textAlign="center" color="grey.400">
         Disclaimer: Digital assets are highly speculative and involve
         significant risk of loss. The value of meme coins is extremely volatile,

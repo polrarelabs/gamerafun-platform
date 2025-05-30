@@ -35,7 +35,7 @@ export interface Blog {
 
 export interface BlogState {
   loading: boolean;
-  error: string;
+  error: string | null;
   blog: Blog;
   blogId: BlogItem;
   isCreate: boolean;
