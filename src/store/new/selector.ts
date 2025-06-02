@@ -5,6 +5,7 @@ import {
   GetBlog,
   GetBlogId,
   GetBlogProps,
+  GetBlogSponsored,
   UpdateBlog,
 } from "./action";
 import {
@@ -83,6 +84,10 @@ export const useBlog = () => {
     dispatch(SetStatusAPI());
   };
 
+  const getBlogSponsored = (param: GetBlogProps) => {
+    dispatch(GetBlogSponsored(param));
+  };
+
   const {
     loading,
     error,
@@ -96,9 +101,12 @@ export const useBlog = () => {
     sortBy,
     search,
     status,
+    blogSponsored,
   } = useAppSelector((state) => state.blog);
 
   return {
+    getBlogSponsored,
+    blogSponsored,
     setStatusAPI,
     sortBy,
     setSortBy,

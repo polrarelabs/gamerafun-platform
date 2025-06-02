@@ -16,6 +16,7 @@ export interface PropsLastNew {
   handleClick?: (id: string) => void;
   isHover?: boolean;
   widthMax?: number | null;
+  isBg?: boolean;
 }
 
 const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
@@ -27,6 +28,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
       handleClick,
       isHover = true,
       widthMax = null,
+      isBg = false,
     },
     ref,
   ) => {
@@ -57,27 +59,18 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
     return (
       <Stack
         ref={ref}
-        direction={displayLayout === "list" ? "row" : "column"}
-        alignItems={displayLayout === "list" ? "center" : undefined}
         sx={{
-          background: palette.colorGame?.colorBorderLinear1,
+          background: !isBg
+            ? palette.colorGame?.colorBorderLinear1
+            : palette.colorGame?.colorBorderLinear,
           padding: "1px",
           borderRadius: "16px",
           transition: "translate 0.2s ease-in-out",
+          zIndex: 2,
           "&:hover": {
             translate: isHover ? "0 -6px" : undefined,
             cursor: "pointer",
           },
-          // transition:
-          //   displayLayout === "list" ? undefined : "translate 0.2s ease-in-out",
-          // "&:hover": {
-          //   translate: isHover
-          //     ? displayLayout === "list"
-          //       ? undefined
-          //       : "0 -6px"
-          //     : undefined,
-          //   cursor: "pointer",
-          // },
         }}
         onMouseEnter={(e) => {
           if (isHover === true) {
@@ -105,6 +98,8 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
           width="100%"
           height="100%"
           borderRadius={"16px"}
+          direction={displayLayout === "list" ? "row" : "column"}
+          alignItems={displayLayout === "list" ? "center" : undefined}
         >
           <Stack
             height={displayLayout === "list" ? "100%" : undefined}
@@ -126,9 +121,11 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
                   border: "1px",
                   borderColor: palette.borderColorLinear,
                   "& img": {
-                    objectFit: hover && id === index ? "cover" : "fill",
+                    // objectFit: hover && id === index ? "cover" : "fill",
+                    scale: hover && id === index ? 1.05 : 1,
+                    objectFit: "cover",
                     objectPosition: "center",
-                    transition: "all 0.5s ease-in-out",
+                    transition: "all 0.3s ease-in-out",
                   },
                 },
               }}

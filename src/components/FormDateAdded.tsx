@@ -98,7 +98,7 @@ const FormDateAdded = () => {
                 checkedIcon={
                   <RadioButtonCheckedIcon
                     sx={{
-                      color: palette.greenColor,
+                      color: "primary.main",
                     }}
                   />
                 }

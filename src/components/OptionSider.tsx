@@ -18,6 +18,8 @@ const OptionSider = () => {
     SetGenres,
     gameCount,
     setSearch,
+    SetStatusGame,
+    statusGame,
   } = useGame();
 
   const handleChangeMinRating = (
@@ -66,12 +68,12 @@ const OptionSider = () => {
           arrayKey={genres}
         />
 
-        {/* <FormListOption
+        <FormListOption
           name={"Status"}
           data={gameCount.schedule_status!}
-          setArray={SetGenres}
-          arrayKey={genres}
-        /> */}
+          setArray={SetStatusGame}
+          arrayKey={statusGame}
+        />
 
         <FormDateAdded />
       </Stack>

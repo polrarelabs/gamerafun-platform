@@ -26,6 +26,18 @@ export const GetBlog = createAsyncThunk(
   },
 );
 
+export const GetBlogSponsored = createAsyncThunk(
+  "get/blog-sponsored",
+  async (param: GetBlogProps) => {
+    try {
+      const response = await client.get(Endpoint.GET_BLOG, param);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
 export const GetBlogId = createAsyncThunk(
   "get/blog-id",
   async (blogId: string) => {

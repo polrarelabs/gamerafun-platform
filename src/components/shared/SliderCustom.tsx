@@ -22,7 +22,7 @@ const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
           <Slider
             max={10}
             min={0}
-            // step={0.1}
+            step={0.1}
             value={typeof value === "number" ? value : 0}
             onChange={handleChange}
             aria-labelledby="input-slider"

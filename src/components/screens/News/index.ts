@@ -8,6 +8,8 @@ import CreateBlog from "./components/CreateBlog";
 import Related from "./Related";
 import BannerNew from "./BannerNew";
 import BannerJoin from "./BannerJoin";
+import LastNewSlider from "./LastNewSlider";
+
 export {
   LastNewsItem,
   LastNewsOptions,
@@ -19,4 +21,5 @@ export {
   Related,
   BannerNew,
   BannerJoin,
+  LastNewSlider,
 };

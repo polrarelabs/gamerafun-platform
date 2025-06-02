@@ -125,9 +125,6 @@ const UploadImage = ({
     }
   };
 
-  console.log("image", image);
-  console.log("imgUrl", imgUrl);
-
   return (
     <>
       <Stack position="relative" direction="row" height="100%" width="100%">

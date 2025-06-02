@@ -1,24 +1,40 @@
 "use client";
 
-import { ClickWrapper, Slider, Text } from "@components/shared";
+import { ClickWrapper, Image, Slider, Text } from "@components/shared";
 import PopularIcon from "@icons/web3/PopularIcon";
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
+import img from "public/images/img-local.png";
 
 const PopularGenres = () => {
-  const { gameCount, getGameCount } = useGame();
-  const [arrKeys, setArrKeys] = useState<string[]>([]);
+  const { genreItems, getGenres } = useGame();
 
   useEffect(() => {
-    getGameCount();
+    getGenres({});
   }, []);
-  useEffect(() => {
-    if (gameCount?.genre) {
-      setArrKeys(Object.keys(gameCount.genre));
+
+  const [hover, setHover] = useState<boolean>(false);
+  const [id, setId] = useState<number | null>(null);
+
+  const handleHover = (index: number) => {
+    setHover(true);
+    setId(index);
+  };
+
+  const handleUnHover = () => {
+    setHover(false);
+    setId(null);
+  };
+
+  const getImageSrc = (url: string) => {
+    if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
+      return url;
     }
-  }, [gameCount]);
+    return img;
+  };
+
   return (
     <Stack direction="column" gap={2} sx={{ width: "100%" }}>
       <Stack direction="row" alignItems="center" gap={2}>
@@ -27,38 +43,70 @@ const PopularGenres = () => {
           Popular Genres
         </Text>
       </Stack>
-      {arrKeys && arrKeys.length > 6 ? (
+      {genreItems && genreItems.length > 6 ? (
         <Slider itemWidth={208} step={16}>
-          {arrKeys.map((item, index) => (
+          {genreItems.map((item, index) => (
             <ClickWrapper key={index}>
               <Stack
+                borderRadius={"8px"}
+                position={"relative"}
+                onMouseEnter={() => handleHover(index)}
+                onMouseLeave={handleUnHover}
                 width={`208px`}
                 height="108px"
-                bgcolor={palette.bgColorYellow}
-                position="relative"
-                flexShrink={0}
+                // onClick={() => handleClick(item)}
                 sx={{
-                  borderRadius: "6px",
-                  opacity: 0.7,
                   "&:hover": {
-                    opacity: 1,
                     cursor: "pointer",
                   },
                 }}
               >
-                <Text
-                  position="absolute"
-                  left="50%"
-                  bottom={2}
-                  color="common.white"
-                  variant={{ xs: "body1", md: "subtitle1" }}
-                  fontWeight={500}
+                <Image
+                  src={getImageSrc(item.media)}
+                  alt={`img-${item.media}`}
+                  size="100%"
+                  aspectRatio={7 / 4}
+                  sizes="960px"
+                  containerProps={{
+                    sx: {
+                      width: "100%",
+                      height: "100%",
+                      overflow: "hidden",
+                      borderRadius: "16px",
+                      border: "1px",
+                      "& img": {
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      },
+                      opacity: hover && id === index ? 1 : 0.6,
+                      cursor: hover && id === index ? "pointer" : undefined,
+                      transition: "all 0.2s ease-in-out",
+                    },
+                  }}
+                />
+                <Box
                   sx={{
+                    position: "absolute",
+                    background:
+                      "linear-gradient(180deg,rgba(33, 43, 56, 0) 0%, rgba(33, 43, 56, 1) 97%, rgba(33, 43, 56, 1) 100%) !important",
+                    width: "100%",
+                    height: "100%",
+                    bottom: 0,
+                    opacity: 0.2,
+                    display: hover && id === index ? "block" : "none",
+                    transition: "all 0.2s ease-in-out",
+                  }}
+                />
+                <Text
+                  sx={{
+                    position: "absolute",
+                    left: "50%",
+                    bottom: 0,
                     translate: "-50% -50%",
-                    // zIndex: 3,
+                    fontWeight: 700,
                   }}
                 >
-                  {item}
+                  {item.name}
                 </Text>
               </Stack>
             </ClickWrapper>
@@ -66,37 +114,70 @@ const PopularGenres = () => {
         </Slider>
       ) : (
         <Stack direction={"row"} gap={2} alignItems={"center"}>
-          {arrKeys &&
-            arrKeys.map((item, index) => {
+          {genreItems &&
+            genreItems.map((item, index) => {
               return (
                 <Stack
                   key={index}
+                  borderRadius={"8px"}
+                  position={"relative"}
+                  onMouseEnter={() => handleHover(index)}
+                  onMouseLeave={handleUnHover}
                   width={`208px`}
                   height="108px"
-                  bgcolor={palette.bgColorYellow}
-                  position="relative"
-                  flexShrink={0}
+                  // onClick={() => handleClick(item)}
                   sx={{
-                    borderRadius: "6px",
-                    opacity: 0.7,
                     "&:hover": {
-                      opacity: 1,
                       cursor: "pointer",
                     },
                   }}
                 >
-                  <Text
-                    position="absolute"
-                    left="50%"
-                    bottom={2}
-                    color="common.white"
-                    variant={{ xs: "body1", md: "subtitle1" }}
-                    fontWeight={500}
+                  <Image
+                    src={getImageSrc(item.media)}
+                    alt={`img-${item.media}`}
+                    size="100%"
+                    aspectRatio={7 / 4}
+                    sizes="960px"
+                    containerProps={{
+                      sx: {
+                        width: "100%",
+                        height: "100%",
+                        overflow: "hidden",
+                        borderRadius: "16px",
+                        border: "1px",
+                        "& img": {
+                          objectFit: "cover",
+                          objectPosition: "center",
+                        },
+                        opacity: hover && id === index ? 1 : 0.6,
+                        cursor: hover && id === index ? "pointer" : undefined,
+                        transition: "all 0.2s ease-in-out",
+                      },
+                    }}
+                  />
+                  <Box
                     sx={{
+                      position: "absolute",
+                      background:
+                        "linear-gradient(180deg,rgba(33, 43, 56, 0) 0%, rgba(33, 43, 56, 1) 97%, rgba(33, 43, 56, 1) 100%) !important",
+                      width: "100%",
+                      height: "100%",
+                      bottom: 0,
+                      opacity: 0.2,
+                      display: hover && id === index ? "block" : "none",
+                      transition: "all 0.2s ease-in-out",
+                    }}
+                  />
+                  <Text
+                    sx={{
+                      position: "absolute",
+                      left: "50%",
+                      bottom: 0,
                       translate: "-50% -50%",
+                      fontWeight: 700,
                     }}
                   >
-                    {item}
+                    {item.name}
                   </Text>
                 </Stack>
               );
@@ -108,121 +189,3 @@ const PopularGenres = () => {
 };
 
 export default memo(PopularGenres);
-
-// const containerRef = useRef<HTMLDivElement | null>(null);
-// const trackRef = useRef<HTMLDivElement | null>(null);
-// const x = useMotionValue(0);
-
-// const ITEM_WIDTH = 208;
-// const STEP = ITEM_WIDTH + 16;
-
-// const handleScroll = (direction: "left" | "right") => {
-//   const container = containerRef.current;
-//   const track = trackRef.current;
-//   if (!container || !track) return;
-
-//   const step = direction === "left" ? STEP : -STEP;
-//   const newX = x.get() + step;
-
-//   const maxScroll = -(track.scrollWidth - container.offsetWidth);
-//   const clampedX = Math.max(Math.min(newX, 0), maxScroll);
-
-//   animate(x, clampedX, {
-//     type: "tween",
-//     duration: 0.35,
-//     ease: "easeInOut",
-//   });
-// };
-
-{
-  /* <Stack direction="row" alignItems="center" gap={1}>
-        <Stack
-          direction="row"
-          overflow="hidden"
-          flex={1}
-          ref={containerRef}
-          sx={{ position: "relative" }}
-        >
-          <IconButton
-            onClick={() => handleScroll("left")}
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: 25,
-              translate: "-50% -50%",
-              zIndex: 1,
-              color: palette.colorGray,
-              "&:hover": {
-                color: "white",
-              },
-            }}
-          >
-            <ChevronLeftIcon sx={{ fontSize: 40 }} />
-          </IconButton>
-          <IconButton
-            onClick={() => handleScroll("right")}
-            sx={{
-              position: "absolute",
-              top: "50%",
-              right: 0,
-              translate: "0 -50%",
-              zIndex: 1,
-              color: palette.colorGray,
-              transform: "rotate(180deg)",
-              "&:hover": {
-                color: "white",
-              },
-            }}
-          >
-            <ChevronLeftIcon sx={{ fontSize: 40 }} />
-          </IconButton>
-          <motion.div
-            ref={trackRef}
-            style={{ x, display: "flex", gap: `16px` }}
-            drag="x"
-            dragConstraints={false}
-            onDragEnd={(_event, info) => {
-              if (info.offset.x > 50) {
-                handleScroll("left");
-              } else if (info.offset.x < -50) {
-                handleScroll("right");
-              }
-            }}
-          >
-            {arrKeys.map((item) => (
-              <Stack
-                key={item}
-                width={`${ITEM_WIDTH}px`}
-                height="108px"
-                bgcolor={palette.bgColorYellow}
-                position="relative"
-                flexShrink={0}
-                sx={{
-                  borderRadius: "6px",
-                  opacity: 0.7,
-                  "&:hover": {
-                    opacity: 1,
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                <Text
-                  position="absolute"
-                  left="50%"
-                  bottom={2}
-                  color="common.white"
-                  variant={{ xs: "body1", md: "subtitle1" }}
-                  fontWeight={500}
-                  sx={{
-                    translate: "-50% -50%",
-                    // zIndex: 3,
-                  }}
-                >
-                  {item}
-                </Text>
-              </Stack>
-            ))}
-          </motion.div>
-        </Stack>
-      </Stack> */
-}

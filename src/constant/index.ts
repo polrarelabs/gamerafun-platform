@@ -48,7 +48,7 @@ export const FORM_DATA_HEADER = {
 };
 
 export const HEADER_HEIGHT = 76;
-export const SCREEN_PX = { xs: 1.5, sm: 2, md: 6, xl: 8 };
+export const SCREEN_PX = { xs: 1.5, sm: 2, md: 4, lg: 8 };
 export const MIN_HEIGHT_SCREEN = `calc(100svh - ${HEADER_HEIGHT}px - 188px)`;
 
 export const APP_TOKEN_NAME = "GAMERA";

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Genre, Platform, SortBy } from "@constant/enum";
+import { Genre, Platform, ScheduleStatus, SortBy } from "@constant/enum";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateGame,
@@ -60,11 +60,14 @@ interface PropsGameReducers {
   isGetGameId: boolean;
   genres: Genre[];
   platforms: Platform[];
+  statusGame: ScheduleStatus[];
   errorsSizeImage: string | null;
-  playNow: boolean;
-  freeToPlay: boolean;
-  awardWinners: boolean;
-  favorites: boolean;
+  playable: boolean;
+  beta: boolean;
+  inDevelopment: boolean;
+  alpha: boolean;
+  discontinued: boolean;
+  tba: boolean;
   genresTitle: string;
   sortBy: SortBy;
   search: string;
@@ -92,12 +95,15 @@ const initialState: PropsGameReducers = {
   gameId: 0,
   isGetGameId: false,
   genres: [],
+  statusGame: [],
   errorsSizeImage: null,
   platforms: [],
-  playNow: false,
-  freeToPlay: false,
-  awardWinners: false,
-  favorites: false,
+  playable: false,
+  beta: false,
+  inDevelopment: false,
+  alpha: false,
+  discontinued: false,
+  tba: false,
   genresTitle: "",
   sortBy: SortBy.Newest,
   search: "",
@@ -134,23 +140,32 @@ const GameReducers = createSlice({
     setGenres: (state, action: PayloadAction<Genre[]>) => {
       state.genres = action.payload;
     },
+    setStatusGame: (state, action: PayloadAction<ScheduleStatus[]>) => {
+      state.statusGame = action.payload;
+    },
     setPlatforms: (state, action: PayloadAction<Platform[]>) => {
       state.platforms = action.payload;
     },
     setErrorsSizeImage: (state, action: PayloadAction<string | null>) => {
       state.errorsSizeImage = action.payload;
     },
-    setPlayNow: (state, action: PayloadAction<boolean>) => {
-      state.playNow = action.payload;
+    setPlayable: (state, action: PayloadAction<boolean>) => {
+      state.playable = action.payload;
     },
-    setFreeToPlay: (state, action: PayloadAction<boolean>) => {
-      state.freeToPlay = action.payload;
+    setBeta: (state, action: PayloadAction<boolean>) => {
+      state.beta = action.payload;
     },
-    setAwardWinners: (state, action: PayloadAction<boolean>) => {
-      state.awardWinners = action.payload;
+    setInDevelopment: (state, action: PayloadAction<boolean>) => {
+      state.inDevelopment = action.payload;
     },
-    setFavorites: (state, action: PayloadAction<boolean>) => {
-      state.favorites = action.payload;
+    setAlpha: (state, action: PayloadAction<boolean>) => {
+      state.alpha = action.payload;
+    },
+    setDiscontinued: (state, action: PayloadAction<boolean>) => {
+      state.discontinued = action.payload;
+    },
+    setTBA: (state, action: PayloadAction<boolean>) => {
+      state.tba = action.payload;
     },
     setGenresTitle: (state, action: PayloadAction<string>) => {
       state.genresTitle = action.payload;
@@ -468,10 +483,10 @@ export const {
   setGenres,
   setPlatforms,
   setErrorsSizeImage,
-  setPlayNow,
-  setAwardWinners,
-  setFavorites,
-  setFreeToPlay,
+  setPlayable,
+  setInDevelopment,
+  setAlpha,
+  setBeta,
   setGenresTitle,
   SetIsCreateRate,
   SetIsDelete,
@@ -483,4 +498,7 @@ export const {
   SetPageSize,
   SetPageIndex,
   SetStatusAPI,
+  setDiscontinued,
+  setTBA,
+  setStatusGame,
 } = GameReducers.actions;

@@ -48,13 +48,13 @@ const SelectOptions = ({
           if (isShow && selected === "") {
             return (
               <Stack direction={"row"} alignItems={"center"} gap={1}>
-                <Text
+                {/* <Text
                   fontWeight={500}
                   fontSize={"12px"}
                   color={palette.colorGray}
                 >
                   Sort by:
-                </Text>
+                </Text> */}
                 <Text
                   fontWeight={500}
                   fontSize={"14px"}
@@ -67,7 +67,7 @@ const SelectOptions = ({
           }
           return (
             <Stack direction={"row"} alignItems={"center"} gap={1}>
-              {isShow && (
+              {/* {isShow && (
                 <Text
                   fontWeight={500}
                   fontSize={"12px"}
@@ -75,7 +75,7 @@ const SelectOptions = ({
                 >
                   Sort by:
                 </Text>
-              )}
+              )} */}
               <Text
                 fontWeight={500}
                 fontSize={"14px"}

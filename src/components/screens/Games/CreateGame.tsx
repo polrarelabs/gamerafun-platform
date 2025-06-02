@@ -10,13 +10,18 @@ import { FormControl, FormHelperText, Stack } from "@mui/material";
 import { SCREEN_PX } from "@constant";
 import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
-import { FormCreateGameProps, PlatformLinkProps } from "@store/game/type";
+import {
+  FormCreateGameProps,
+  GameItems,
+  PlatformLinkProps,
+} from "@store/game/type";
 import { useGallery } from "@store/media";
 import { useFormik } from "formik";
 import { memo, useEffect, useState } from "react";
 import { PlatformLink } from "./components";
 import { validationSchema } from "./helper";
 import UploadAvarta, { PropsInfo } from "./UploadAvatar";
+import { log } from "console";
 
 interface PropsFormGame {
   name?: string;
@@ -35,7 +40,26 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
     getGameById,
     loading,
     error,
+    gameCount,
+    getGameCount,
   } = useGame();
+
+  useEffect(() => {
+    getGameCount();
+  }, []);
+
+  const [genre, setGenre] = useState<PropsFormGame>();
+
+  useEffect(() => {
+    if (gameCount) {
+      const key = gameCount.genre ? Object.keys(gameCount.genre) : [];
+
+      if (key.length > 0) {
+        const obj = Object.fromEntries(key.map((item, index) => [item, item]));
+        setGenre(obj);
+      }
+    }
+  }, [gameCount]);
 
   const [isDisable, setIdDisable] = useState<boolean>(false);
 
@@ -48,6 +72,10 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
   useEffect(() => {
     getGame({ pageIndex: 1, pageSize: 10 });
   }, []);
+
+  useEffect(() => {
+    console.log("games", game);
+  }, [game]);
 
   useEffect(() => {
     if (name === "update") {
@@ -84,6 +112,22 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
             contactName: gameById.contactName,
           },
         });
+        if (gameById.platformLink && gameById.platformLink.length > 0) {
+          setListPlatform(gameById.platformLink);
+        }
+        // if (gameById.mediaUrl && gameById.mediaUrl.length > 0) {
+        //   const arr: PropsInfo[] = [];
+        //   for (let i = 0; i < gameById.mediaUrl.length; i++) {
+        //     arr.push({
+        //       url: gameById.mediaUrl[i],
+        //       file: null as any,
+        //       name: "",
+        //       position: "",
+        //       widthImg: 0,
+        //       heightImg: 0,
+        //     })
+        //   }
+        // }
         setIdDisable(false);
       } else setIdDisable(true);
     }
@@ -122,6 +166,10 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
+    // onSubmit: (values) => {
+    //   formik.values.platformLink = listPlatform;
+    //   console.log(values);
+    // }
     onSubmit: async () => {
       try {
         formik.values.platformLink = listPlatform;
@@ -153,6 +201,11 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
 
     if (lenMedia === lenDataList && lenMedia > 0) {
       formik.values.mediaUrl = media;
+      if (String(formik.values.playableOnDesktop) === "true") {
+        formik.values.playableOnDesktop = true;
+      } else formik.values.playableOnDesktop = false;
+      console.log("formik value", formik.values);
+
       if (name === "create") createGame(formik.values);
       else if (name === "update") updateGame(formik.values);
     }
@@ -191,8 +244,10 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
                   label={"Game Id"}
                   name={"id"}
                   formik={formik}
-                  OptionEnum={game.items}
+                  // OptionEnum={game.items}
                   handleClick={handleClick}
+                  nameDisplay={game.items}
+                  keyNameDisplay="name"
                 />
               )}
               <Stack direction={"row"} gap={3}>
@@ -238,13 +293,13 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               isDisable={isDisable}
             />
             <SelectFormik
-              label={"Playable On Destop"}
-              name={"playableOnDesktop"}
+              label="Playable On Desktop"
+              name="playableOnDesktop"
               formik={formik}
               OptionEnum={PlayableOnDesktop}
               isMultiple={false}
-              isDisable={isDisable}
             />
+
             <SelectFormik
               label={"Status Game"}
               name={"statusGame"}
@@ -266,7 +321,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               label={"Genre"}
               name={"genreName"}
               formik={formik}
-              OptionEnum={Genre}
+              OptionEnum={genre}
               isDisable={isDisable}
             />
             <SelectFormik
@@ -406,6 +461,6 @@ const Status = {
 };
 
 const PlayableOnDesktop = {
-  true: true,
-  false: false,
+  True: "true",
+  False: "false",
 };

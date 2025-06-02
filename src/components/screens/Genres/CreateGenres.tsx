@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Snackbared } from "@components/shared";
+import { Button, Snackbared, UploadImage } from "@components/shared";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
 import { SCREEN_PX } from "@constant";
@@ -8,6 +8,7 @@ import { GAME_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { GenresCProps } from "@store/game/type";
+import { useGallery } from "@store/media";
 import { useFormik } from "formik";
 import React, { memo, useEffect, useState } from "react";
 
@@ -22,6 +23,8 @@ const CreateGenres = () => {
     getGenres,
     updateGenres,
   } = useGame();
+
+  const { dataGallery } = useGallery();
 
   const handleClick = (id: number) => {
     getGenresById(id);
@@ -45,6 +48,12 @@ const CreateGenres = () => {
     name: "",
     media: "",
   };
+
+  useEffect(() => {
+    if (dataGallery) {
+      formik.values.media = dataGallery.url;
+    }
+  }, [dataGallery]);
 
   useEffect(() => {
     if (types === "update") {
@@ -80,12 +89,17 @@ const CreateGenres = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      if (types === "create") {
-        createGenres(values);
-        formik.resetForm();
-      } else {
-        updateGenres(values);
-        formik.resetForm();
+      if (dataGallery) {
+        formik.values.media = dataGallery.url;
+      }
+      if (formik.values.media && formik.values.media.length > 0) {
+        if (types === "create") {
+          createGenres(values);
+          formik.resetForm();
+        } else {
+          updateGenres(values);
+          formik.resetForm();
+        }
       }
     },
   });
@@ -106,51 +120,32 @@ const CreateGenres = () => {
 
       <form onSubmit={formik.handleSubmit}>
         <Stack direction={"column"} gap={3}>
-          {types === "update" ? (
-            <>
-              <Stack direction={"row"} gap={2}>
-                <SelectFormik
-                  isMultiple={false}
-                  label={"Select Genres"}
-                  name={"id"}
-                  formik={formik}
-                  OptionEnum={genreItems}
-                  handleClick={handleClick}
-                  nameDisplay={genreItems}
-                  keyNameDisplay="name"
-                />
-              </Stack>
-              <Stack direction={"row"} gap={2}>
-                <TextFieldFormik
-                  label="Name"
-                  name="name"
-                  formik={formik}
-                  isDisable={disable}
-                />
-                <TextFieldFormik
-                  label="Media"
-                  name="media"
-                  formik={formik}
-                  isDisable={disable}
-                />
-              </Stack>
-            </>
-          ) : (
+          <Stack>
+            <UploadImage ratioHeight={2} ratioWidth={3} />
+          </Stack>
+
+          {types === "update" && (
             <Stack direction={"row"} gap={2}>
-              <TextFieldFormik
-                label="Name"
-                name="name"
+              <SelectFormik
+                isMultiple={false}
+                label={"Select Genres"}
+                name={"id"}
                 formik={formik}
-                isDisable={disable}
-              />
-              <TextFieldFormik
-                label="Media"
-                name="media"
-                formik={formik}
-                isDisable={disable}
+                OptionEnum={genreItems}
+                handleClick={handleClick}
+                nameDisplay={genreItems}
+                keyNameDisplay="name"
               />
             </Stack>
           )}
+          <Stack direction={"row"} gap={2}>
+            <TextFieldFormik
+              label="Name"
+              name="name"
+              formik={formik}
+              isDisable={disable}
+            />
+          </Stack>
           <Stack direction={"row"} width={"100%"} justifyContent={"end"}>
             <Button variant="outlined" type="submit">
               Submit
