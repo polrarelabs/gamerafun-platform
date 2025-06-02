@@ -8,7 +8,7 @@ import CircleCheckIcon from "@icons/common/CircleCheckIcon";
 import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 const BannerNew = () => {
   const { blogId } = useBlog();
@@ -26,6 +26,11 @@ const BannerNew = () => {
       title: blogId.title,
     },
   ];
+
+  useEffect(() => {
+    console.log(blogId);
+  }, [blogId]);
+
   return (
     <Stack
       px={SCREEN_PX}
@@ -54,28 +59,30 @@ const BannerNew = () => {
         height={"100%"}
         zIndex={1}
       >
-        <Image
-          src={blogId.thumbnailUrl}
-          alt={`img-${blogId.thumbnailUrl}`}
-          size="100%"
-          aspectRatio={3 / 2}
-          sizes={`1920px`}
-          containerProps={{
-            sx: {
-              width: `100%`,
-              height: "100%",
-              overflow: "hidden",
-              opacity: 0.2,
-              border: "1px",
-              borderColor: palette.borderColorLinear,
-              "& img": {
-                objectFit: "cover",
-                objectPosition: "center",
-                // transition: "all 0.5s ease-in-out",
+        {blogId.thumbnailUrl && (
+          <Image
+            src={blogId.thumbnailUrl}
+            alt={`img-${blogId.thumbnailUrl}`}
+            size="100%"
+            aspectRatio={3 / 2}
+            sizes={`1920px`}
+            containerProps={{
+              sx: {
+                width: `100%`,
+                height: "100%",
+                overflow: "hidden",
+                opacity: 0.2,
+                border: "1px",
+                borderColor: palette.borderColorLinear,
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  // transition: "all 0.5s ease-in-out",
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        )}
       </Stack>
       <Stack direction={"column"} gap={2} maxWidth={"50%"} zIndex={2}>
         <Breadcumbs breadcumbs={breadcrumbs} />

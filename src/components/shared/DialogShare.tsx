@@ -35,13 +35,17 @@ const DialogShare = ({ open, setOpen, pathname }: DialogShareProps) => {
   return (
     <Dialog
       fullWidth
-      maxWidth={"lg"}
+      maxWidth={"md"}
       open={open}
       onClose={handleClose}
       sx={{
-        "&:.mui-o1er99-MuiPaper-root-MuiDialog-paper ": {
-          backgroundColor: "transparent !important",
-          backgroundImage: "none !important",
+        "& .mui-6z1qq0-MuiPaper-root-MuiDialog-paper": {
+          backgroundColor: "inherit !important",
+          backgroundImage: "inherit !important",
+          boxShadow: "none !important",
+        },
+        "& .mui-19do60a-MuiDialog-container": {
+          backdropFilter: "blur(15px)",
         },
       }}
     >
@@ -55,8 +59,11 @@ const DialogShare = ({ open, setOpen, pathname }: DialogShareProps) => {
           justifyContent={"space-between"}
           alignItems={"center"}
           width={"100%"}
+          bgcolor={palette.colorModalShare?.bgCopy}
+          padding={"15px 20px"}
+          borderRadius={"4px"}
         >
-          <Stack alignItems={"start"} gap={1}>
+          <Stack alignItems={"start"}>
             <Text color={palette.colorReview?.textCopy} fontSize={"16px"}>
               Or copy Link
             </Text>

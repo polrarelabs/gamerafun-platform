@@ -123,8 +123,14 @@ const GameHome = () => {
           >
             game
           </Text>
-          <Text color={palette.textWhite} fontWeight={500} fontSize={"20px"}>
-            TITLE GAME
+          <Text
+            color={palette.colorGray}
+            fontWeight={500}
+            fontSize={"20px"}
+            width={{ xs: "100%", md: "60%", lg: "35%" }}
+          >
+            GAMERA showcases top games across different platforms including
+            Steam, web3 and beyond!
           </Text>
         </Stack>
       </Stack>

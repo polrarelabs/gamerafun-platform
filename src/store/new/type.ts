@@ -38,6 +38,7 @@ export interface BlogState {
   error: string | null;
   blog: Blog;
   blogId: BlogItem;
+  blogSponsored: Blog;
   isCreate: boolean;
   isUpdate: boolean;
   isDelete: boolean;

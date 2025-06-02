@@ -12,51 +12,65 @@ const Selected = () => {
     setMaxRating,
     minRating,
     maxRating,
-    playNow,
-    freeToPlay,
-    awardWinners,
-    favorites,
+    playable,
+    beta,
+    inDevelopment,
+    alpha,
     platforms,
-    SetPlayNow,
-    SetFreeToPlay,
-    SetAwardWinners,
-    SetFavorites,
+    SetPlayable,
+    SetBeta,
+    SetInDevelopment,
+    SetAlpha,
     SetPlatforms,
     genres,
     SetGenres,
+    discontinued,
+    SetDiscontinued,
+    tba,
+    SetTBA,
   } = useGame();
 
   const { tags, setTags } = useBlog();
 
   return (
     <Stack direction={"row"} gap={2} flexWrap={"wrap"}>
-      {playNow && (
+      {playable && (
         <BoxSelected
-          name={"play now"}
-          value={playNow}
-          onClose={() => SetPlayNow(false)}
+          name={"playable"}
+          value={playable}
+          onClose={() => SetPlayable(false)}
         />
       )}
-      {freeToPlay && (
+      {beta && (
         <BoxSelected
-          name={"free-to-play"}
-          value={freeToPlay}
-          onClose={() => SetFreeToPlay(false)}
+          name={"beta"}
+          value={beta}
+          onClose={() => SetBeta(false)}
         />
       )}
-      {favorites && (
+      {alpha && (
         <BoxSelected
-          name={"favorites"}
-          value={favorites}
-          onClose={() => SetFavorites(false)}
+          name={"alpha"}
+          value={alpha}
+          onClose={() => SetAlpha(false)}
         />
       )}
-      {awardWinners && (
+      {inDevelopment && (
         <BoxSelected
-          name={"award winners"}
-          value={awardWinners}
-          onClose={() => SetAwardWinners(false)}
+          name={"inDevelopment"}
+          value={inDevelopment}
+          onClose={() => SetInDevelopment(false)}
         />
+      )}
+      {discontinued && (
+        <BoxSelected
+          name={"discontinued"}
+          value={discontinued}
+          onClose={() => SetDiscontinued(false)}
+        />
+      )}
+      {tba && (
+        <BoxSelected name={"tba"} value={tba} onClose={() => SetTBA(false)} />
       )}
       {platforms.length > 0 && (
         <BoxSelected

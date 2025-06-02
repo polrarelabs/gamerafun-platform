@@ -163,3 +163,9 @@ export enum TypeBlog {
   GUIDES = "guides",
   REVIEWS = "reviews",
 }
+
+export enum ModeQuest {
+  DAILY = "DAILY",
+  WEEKLY = "WEEKLY",
+  ACHIEVEMENT = "ACHIEVEMENT",
+}

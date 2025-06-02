@@ -31,7 +31,7 @@ export default {
     contrastTextChannel: "rgb(0, 0, 0)",
   },
   error: {
-    main: "#EB4A53", // OK
+    main: "#EB4A53",
     light: "#EB4A53",
     dark: "#D32F2F",
     contrastText: "#FFFFFF",
@@ -208,10 +208,10 @@ export default {
   text80: "#FFFFFF80",
   borderColorLinear:
     "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
-  greenColorText: "#7dffac",
-  greenColor: "#33F57A",
-  colorBorderTag: "#0a5d2b80",
-  greenColorButton: "color-mix(in srgb, #33F57A, transparent 85%)",
+  greenColorText: "#29B6F6",
+  greenColor: "#29B6F6",
+  colorBorderTag: "rgba(28, 214, 206, 0.1)",
+  greenColorButton: "color-mix(in srgb, #29B6F6, transparent 85%)",
   backgroundReview: "#121926",
   colorTextRed: "#f87171",
   colorTextGray: "#acbbcc",
@@ -236,6 +236,7 @@ export default {
       "linear-gradient(90deg, #1F2937 0%,rgba(75, 85, 99, 0.36) 50%, rgba(75, 85, 99, 0.68) 100%)",
   },
   colorReview: {
+    colorBorder: "#e5e7eb70",
     textCopy: "#94a7c6",
     bgColor: "#333",
     color: "#ccc",
@@ -250,6 +251,9 @@ export default {
   colorModalShare: {
     bgColor: "#0e1420",
     bgColor1: "#1b2332",
+    borderColor: "#474747",
+    bgCopy: "#1b2332bf",
+    bgStep: "#242e42",
   },
   colorGame: {
     colorBgLinear1:
@@ -257,12 +261,12 @@ export default {
     colorBorderLinear1:
       "linear-gradient(180deg,rgba(154, 161, 157, 0.7) 0%, rgba(154, 161, 157, 0.3) 70%, rgba(9, 222, 87, 0.01)) 100%",
     colorBorderLinear:
-      "linear-gradient(180deg,rgba(9, 222, 87, 0.7) 0%, rgba(9, 222, 87, 0.4) 70%, rgba(9, 222, 87, 0.01)) 100%",
+      "linear-gradient(180deg,rgba(9, 59, 222, 0.7) 0%, rgba(9, 59, 222, 0.4) 70%, rgba(9, 222, 87, 0.01)) 100%",
     colorBoderLinear1:
-      "linear-gradient(180deg, rgba(255, 171, 45, 0.7) 0%, rgba(255, 171, 45, 0.4) 70%, rgba(255, 171, 45, 0.01)) 100%",
-    btnChat: "#69F660",
+      "linear-gradient(180deg, rgb(255, 241, 45, 1) 0%, rgb(255, 241, 45, 0.4) 60%, rgba(255, 171, 45, 0.01)) 100%",
+    btnChat: "#4FC3F7",
     textColor: "#ffffff99",
-    colorBtnNew: "#00ce6b",
+    colorBtnNew: "#29B6F6",
     colorLinear:
       "linear-gradient(90deg,rgba(184, 84, 85, 1) 1%, rgba(229, 155, 44, 1) 50%, rgba(1, 183, 98, 1) 100%)",
     color: "#242C3D",
@@ -289,7 +293,7 @@ export default {
       "linear-gradient(rgba(14, 20, 32, 0) 0%, rgba(14, 20, 32, 0) 40%, rgba(14, 20, 32, 0.75) 80%, #111111 100%)",
     textShadow: "rgba(255, 255, 255, 0.3) 0px 0px 12px",
     colorBtn: "#1b233280",
-    bgColorSub: "#00ce6b26",
+    bgColorSub: "rgba(28, 87, 214, 0.1)",
     colorBorderBottom: "#1f2c47",
   },
 } as unknown as PaletteOptions;

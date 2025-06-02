@@ -24,7 +24,6 @@ const News = () => {
 
   return (
     <Stack direction={"column"} gap={4}>
-      {/* <Stack direction={"column"} gap={2}> */}
       <Stack
         px={SCREEN_PX}
         direction={"column"}
@@ -39,50 +38,6 @@ const News = () => {
           position={"relative"}
           py={4}
         >
-          {/* <Stack
-            position={"absolute"}
-            top={0}
-            left={0}
-            width={"100%"}
-            height={"100%"}
-            zIndex={1}
-          >
-            <Image
-              src={url ? url : "/images/img-login.png"}
-              alt={`img-`}
-              size="100%"
-              aspectRatio={3 / 2}
-              sizes={`1920px`}
-              containerProps={{
-                sx: {
-                  width: `100%`,
-                  height: "100%",
-                  overflow: "hidden",
-                  opacity: 0.2,
-                  border: "1px",
-                  borderColor: palette.borderColorLinear,
-                  "& img": {
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    // transition: "all 0.5s ease-in-out",
-                  },
-                },
-              }}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                pointerEvents: "none",
-                background:
-                  `linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)`,
-                zIndex: 2,
-              }}
-            />
-          </Stack> */}
           <Breadcumbs breadcumbs={breadcrumbs} />
           <Stack direction={"column"}>
             <Text color={palette.textWhite} fontWeight={700} fontSize={"31px"}>

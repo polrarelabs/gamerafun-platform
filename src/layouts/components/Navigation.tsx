@@ -102,95 +102,118 @@ const Item = (props: ItemProps) => {
   return (
     <>
       {label === "Games" ? (
-        <Box onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <Stack
-            component={Link}
-            aria-describedby={id}
-            href={href}
-            className={isActive ? "active" : ""}
-            sx={sx.item}
-            target={href?.startsWith("http") ? "_blank" : undefined}
-            gap={1}
-            direction="row"
-            alignItems="center"
-            position="relative"
-          >
-            <Text variant="subtitle2" color="inherit">
-              {label}
-            </Text>
-            <ArrowIcon
-              sx={{
-                transform: open ? "rotate(180deg)" : "rotate(0deg)",
-                transition: "all 0.3s ease-in-out",
-                fontSize: 12,
-              }}
-            />
-          </Stack>
-
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={() => setAnchorEl(null)}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
+        <Stack
+          component={Link}
+          aria-describedby={id}
+          href={href}
+          className={isActive ? "active" : ""}
+          sx={sx.item}
+          target={href?.startsWith("http") ? "_blank" : undefined}
+          gap={1}
+          direction="row"
+          alignItems="center"
+          position="relative"
+        >
+          <Text variant="subtitle2" color="inherit">
+            {label}
+          </Text>
+          <ArrowIcon
+            sx={{
+              transform: open ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "all 0.3s ease-in-out",
+              fontSize: 12,
             }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            disableRestoreFocus
-            sx={{ zIndex: 9999 }}
-          >
-            <Stack direction="column" gap="16px" p="16px" minWidth={200}>
-              <Stack
-                borderBottom={`1px solid ${palette.colorBorderBlack}`}
-                pb="16px"
-                direction="row"
-                gap="8px"
-                alignItems="center"
-              >
-                <Stack direction="column" justifyContent="center">
-                  <Text
-                    color="white"
-                    lineHeight="150%"
-                    fontSize="16px"
-                    fontWeight={500}
-                  >
-                    1
-                  </Text>
-                  <Text
-                    color={palette.text80}
-                    lineHeight="150%"
-                    fontSize="14px"
-                    fontWeight={400}
-                  >
-                    1
-                  </Text>
-                </Stack>
-              </Stack>
-
-              <Stack
-                color="white"
-                direction="row"
-                gap="8px"
-                alignItems="center"
-                sx={{ "&:hover": { cursor: "pointer" } }}
-              >
-                <Text
-                  color="white"
-                  lineHeight="150%"
-                  fontSize="16px"
-                  fontWeight={500}
-                >
-                  Log out
-                </Text>
-              </Stack>
-            </Stack>
-          </Popover>
-        </Box>
+          />
+        </Stack>
       ) : (
+        // <Box onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        // <Stack
+        //   component={Link}
+        //   aria-describedby={id}
+        //   href={href}
+        //   className={isActive ? "active" : ""}
+        //   sx={sx.item}
+        //   target={href?.startsWith("http") ? "_blank" : undefined}
+        //   gap={1}
+        //   direction="row"
+        //   alignItems="center"
+        //   position="relative"
+        // >
+        //   <Text variant="subtitle2" color="inherit">
+        //     {label}
+        //   </Text>
+        //   <ArrowIcon
+        //     sx={{
+        //       transform: open ? "rotate(180deg)" : "rotate(0deg)",
+        //       transition: "all 0.3s ease-in-out",
+        //       fontSize: 12,
+        //     }}
+        //   />
+        // </Stack>
+
+        //   <Popover
+        //     id={id}
+        //     open={open}
+        //     anchorEl={anchorEl}
+        //     onClose={() => setAnchorEl(null)}
+        //     anchorOrigin={{
+        //       vertical: "bottom",
+        //       horizontal: "left",
+        //     }}
+        //     transformOrigin={{
+        //       vertical: "top",
+        //       horizontal: "left",
+        //     }}
+        //     disableRestoreFocus
+        //     sx={{ zIndex: 9999 }}
+        //   >
+        //     <Stack direction="column" gap="16px" p="16px" minWidth={200}>
+        //       <Stack
+        //         borderBottom={`1px solid ${palette.colorBorderBlack}`}
+        //         pb="16px"
+        //         direction="row"
+        //         gap="8px"
+        //         alignItems="center"
+        //       >
+        //         <Stack direction="column" justifyContent="center">
+        //           <Text
+        //             color="white"
+        //             lineHeight="150%"
+        //             fontSize="16px"
+        //             fontWeight={500}
+        //           >
+        //             1
+        //           </Text>
+        //           <Text
+        //             color={palette.text80}
+        //             lineHeight="150%"
+        //             fontSize="14px"
+        //             fontWeight={400}
+        //           >
+        //             1
+        //           </Text>
+        //         </Stack>
+        //       </Stack>
+
+        //       <Stack
+        //         color="white"
+        //         direction="row"
+        //         gap="8px"
+        //         alignItems="center"
+        //         sx={{ "&:hover": { cursor: "pointer" } }}
+        //       >
+        //         <Text
+        //           color="white"
+        //           lineHeight="150%"
+        //           fontSize="16px"
+        //           fontWeight={500}
+        //         >
+        //           Log out
+        //         </Text>
+        //       </Stack>
+        //     </Stack>
+        //   </Popover>
+        // </Box>
         <Stack
           component={Link}
           href={href}

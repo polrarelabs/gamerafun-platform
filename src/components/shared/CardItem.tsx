@@ -4,15 +4,18 @@
 import { GetIcon } from "@components/screens/Games/components";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useWindowSize from "@hooks/useWindowSize";
+import StarOutlineIcon from "@icons/common/StarOutlineIcon";
 import GameIcon from "@icons/web3/GameIcon";
 import { Stack } from "@mui/material";
 import { PlatformLinkProps } from "@store/game/type";
+import { motion } from "framer-motion";
 import img from "public/images/img-logo.png";
 import { palette } from "public/material";
 import { forwardRef, memo, useEffect, useRef, useState } from "react";
 import AverageStar from "./AverageStar";
 import Image from "./Image";
 import Text from "./Text";
+import StarSolidIcon from "@icons/common/StarSolidIcon";
 
 interface CardItemProps {
   index: number;
@@ -53,9 +56,13 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           : undefined,
       );
     }, [width]);
+    // const refStar = useRef<HTMLDivElement | null>(null);
+    // const isInView = useInView(refStar);
 
     const [hover, setHover] = useState<boolean>(false);
     const [id, setId] = useState<number | null>(null);
+
+    const [favorite, setFavorite] = useState<boolean>(false);
 
     const getImageSrc = (url: string) => {
       if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
@@ -63,6 +70,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
       }
       return img;
     };
+
     const getGenres = (genres: string[]) => {
       if (genres && genres.length > 2) {
         return genres.map((genre, index) => {
@@ -118,6 +126,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
       <Stack
         ref={ref}
         position={"relative"}
+        zIndex={2}
         sx={{
           background: palette.colorGame?.colorBorderLinear1,
           padding: "1px",
@@ -148,8 +157,35 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           if (handleClick) handleClick(data.id);
         }}
       >
+        {favorite && (
+          <Stack
+            position={"absolute"}
+            top={15}
+            right={10}
+            sx={{
+              zIndex: 2,
+              height: 40,
+              width: 40,
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          >
+            <StarSolidIcon
+              sx={{
+                fontSize: 26,
+                color: "secondary.main",
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setFavorite(false);
+              }}
+            />
+          </Stack>
+        )}
         <Stack
           bgcolor={palette.bgMenuHover}
+          component={motion.section}
           p={"4px"}
           width="100%"
           height="100%"
@@ -162,6 +198,37 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
             ref={isSmaller ? containerRef : undefined}
             position={"relative"}
           >
+            {!favorite && (
+              <Stack
+                position={"fixed"}
+                top={15}
+                right={10}
+                sx={{
+                  zIndex: favorite ? 3 : hover ? 2 : undefined,
+                  display: favorite ? "block" : hover ? "block" : "none",
+                  height: 40,
+                  width: 40,
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+                component={motion.div}
+                variants={{
+                  open: { y: 0, transition: { duration: 0.3 } },
+                  close: { y: -10 },
+                }}
+                animate={favorite ? "open" : hover ? "open" : "close"}
+              >
+                <StarOutlineIcon
+                  sx={{ fontSize: 26 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFavorite(true);
+                  }}
+                />
+              </Stack>
+            )}
+
             <Image
               src={getImageSrc(data.mediaUrl[0])}
               alt={`img-${img}`}
@@ -186,9 +253,10 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
                   border: "1px",
                   borderColor: palette.borderColorLinear,
                   "& img": {
-                    objectFit: hover && id === index ? "cover" : "fill",
+                    scale: hover && id === index ? 1.05 : 1,
+                    objectFit: "cover",
                     objectPosition: "center",
-                    transition: "all s ease-in-out",
+                    transition: "all 0.2s ease-in-out",
                   },
                 },
               }}

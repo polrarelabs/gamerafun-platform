@@ -6,6 +6,7 @@ import {
   DeleteBlog,
   GetBlog,
   GetBlogId,
+  GetBlogSponsored,
   UpdateBlog,
 } from "./action";
 import { Blog, BlogItem, BlogState } from "./type";
@@ -21,6 +22,13 @@ const initialState: BlogState = {
     totalPages: 0,
   },
   blogId: {} as BlogItem,
+  blogSponsored: {
+    items: [],
+    totalItems: 0,
+    pageIndex: 1,
+    pageSize: 10,
+    totalPages: 0,
+  },
   isCreate: false,
   isUpdate: false,
   isDelete: false,
@@ -71,6 +79,7 @@ const BlogReducer = createSlice({
     builder
       .addCase(GetBlog.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog>) => {
         state.loading = false;
@@ -79,10 +88,32 @@ const BlogReducer = createSlice({
       })
       .addCase(GetBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
+
+      .addCase(GetBlogSponsored.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetBlogSponsored.fulfilled,
+        (state, action: PayloadAction<Blog>) => {
+          state.loading = false;
+          state.blogSponsored = action.payload;
+          state.error = "";
+        },
+      )
+      .addCase(
+        GetBlogSponsored.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        },
+      )
+
       .addCase(GetBlogId.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(
         GetBlogId.fulfilled,
@@ -94,7 +125,7 @@ const BlogReducer = createSlice({
       )
       .addCase(GetBlogId.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
       .addCase(CreateBlog.pending, (state) => {
         state.loading = true;
@@ -106,10 +137,11 @@ const BlogReducer = createSlice({
       })
       .addCase(CreateBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
       .addCase(UpdateBlog.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(UpdateBlog.fulfilled, (state) => {
         state.loading = false;
@@ -118,10 +150,11 @@ const BlogReducer = createSlice({
       })
       .addCase(UpdateBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
       .addCase(DeleteBlog.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(DeleteBlog.fulfilled, (state) => {
         state.loading = false;
@@ -130,7 +163,7 @@ const BlogReducer = createSlice({
       })
       .addCase(DeleteBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       });
   },
 });

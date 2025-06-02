@@ -8,7 +8,7 @@ import {
   Review,
   UserReviews,
 } from "@components/screens/Games";
-import { Image, Text } from "@components/shared";
+import { Image } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { TabContents, TabHeaders, useCustomTabs } from "@components/shared/Tab";
 import { Stack } from "@mui/material";
@@ -16,15 +16,14 @@ import { useParams } from "next/navigation";
 import bgSlider from "public/images/banner.webp";
 import { useEffect } from "react";
 
+import Latest from "@components/Latest";
+import { FooterTabContants } from "@components/screens/Games/components";
 import { SCREEN_PX } from "@constant";
 import { AddedDateSort, SortBy } from "@constant/enum";
 import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
-import { FooterTabContants } from "@components/screens/Games/components";
-import Latest from "@components/Latest";
-import Subscribe from "@components/Subscribe";
 
 const LayoutGameDetail = () => {
   const { id } = useParams();
@@ -58,9 +57,9 @@ const LayoutGameDetail = () => {
     sortGame(SortBy.Newest);
   }, [id]);
 
-  useEffect(() => {
-    console.log("gameById", gameById);
-  }, [gameById]);
+  // useEffect(() => {
+  //   console.log("gameById", gameById);
+  // }, [gameById]);
 
   const tabItems = [
     { label: "Overview", content: <Overview />, disabled: false },
@@ -70,7 +69,11 @@ const LayoutGameDetail = () => {
     { label: "Analysis", content: <div>Analysis</div>, disabled: true },
     { label: "Live Stream", content: <div>Live Stream</div>, disabled: true },
     { label: "Community", content: <div>Community</div>, disabled: true },
-    { label: "User Reviews", content: <UserReviews /> },
+    {
+      label: "User Reviews",
+      content: <UserReviews />,
+      disabled: gameById.rates && gameById.rates.length > 0 ? false : true,
+    },
   ];
   const { value, handleChange } = useCustomTabs();
 

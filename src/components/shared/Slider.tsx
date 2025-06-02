@@ -30,6 +30,8 @@ const Slider = ({
   const ITEM_WIDTH = itemWidth;
   const STEP = ITEM_WIDTH + step;
 
+  const isDragging = useRef(false);
+
   const handleScroll = (direction: "left" | "right") => {
     const container = containerRef.current;
     const track = trackRef.current;
@@ -40,7 +42,6 @@ const Slider = ({
 
     const maxScroll = -(track.scrollWidth - container.offsetWidth);
     const clampedX = Math.max(Math.min(newX, 0), maxScroll);
-
     animate(x, clampedX, {
       type: "tween",
       duration: 0.35,
@@ -138,6 +139,9 @@ const Slider = ({
           drag="x"
           dragConstraints={false}
           dragMomentum={false}
+          onDragStart={() => {
+            isDragging.current = true;
+          }}
           onDragEnd={(_event, info) => {
             const container = containerRef.current;
             const track = trackRef.current;
@@ -158,16 +162,21 @@ const Slider = ({
             ) {
               onLoadMore();
             }
+
+            setTimeout(() => {
+              isDragging.current = false;
+            }, 0);
           }}
-          // onDragEnd={(_event, info) => {
-          //   if (info.offset.x > 50) {
-          //     handleScroll("left");
-          //   } else if (info.offset.x < -50) {
-          //     handleScroll("right");
-          //   }
-          // }}
         >
-          {children}
+          {/* {children} */}
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement<{ isDragging?: boolean }>(child)) {
+              return React.cloneElement(child, {
+                isDragging: isDragging.current,
+              });
+            }
+            return child;
+          })}
         </motion.div>
       </Stack>
     </Stack>

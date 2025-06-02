@@ -13,16 +13,19 @@ import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 import { CardBlog } from "./screens/News/components";
+import { Tag } from "@constant/enum";
 
 interface LatestProps {
   title: string;
-  path: string;
+  path?: string;
   isPadding?: boolean;
   type: string;
   isHome?: boolean;
   widthGame?: number | null;
   direction?: "row" | "row-reverse" | "column" | "column-reverse";
   isReview?: boolean;
+  tags?: Tag | null;
+  isShow?: boolean;
 }
 
 const Latest = ({
@@ -34,13 +37,20 @@ const Latest = ({
   isReview = false,
   widthGame = null,
   direction = "row",
+  tags = null,
+  isShow = true,
 }: LatestProps) => {
   const { blog, getBlogId, getBlog } = useBlog();
   const { game, getGame, getGameById } = useGame();
   useEffect(() => {
-    getBlog({ pageIndex: 1, pageSize: 11 });
-    getGame({ pageIndex: 1, pageSize: 11 });
-  }, []);
+    if (type === "new") {
+      if (tags) {
+        getBlog({ pageIndex: 1, pageSize: 11, tags: [tags] });
+      } else getBlog({ pageIndex: 1, pageSize: 11 });
+    } else {
+      getGame({ pageIndex: 1, pageSize: 11 });
+    }
+  }, [tags]);
 
   const router = useRouter();
 
@@ -53,14 +63,14 @@ const Latest = ({
     // const cookie = Cookies.get(ACCESSTOKEN_COOKIE)
     // if (cookie && cookie !== 'undefined') {
     getGameById(id);
-    router.push(`${GAME_PATH}/${id}`);
+    router.push(`${path}/${id}`);
     // } else {
     // router.push(LOGIN_PATH)
     // }
   };
 
   const handleViewAll = () => {
-    router.push(NEWS_PATH);
+    if (path) router.push(path);
   };
 
   const [hover, setHover] = useState<boolean>(false);
@@ -72,61 +82,84 @@ const Latest = ({
       gap={2}
       zIndex={3}
     >
-      <Stack direction={"row"} gap={2} alignItems={"center"}>
+      <Stack direction={"row"} gap={2} alignItems={"center"} zIndex={1}>
         <Text color={"white"} fontWeight={700} fontSize={"24px"}>
           {title}
         </Text>
-        <Stack
-          direction={"row"}
-          alignItems={"center"}
-          color={palette.greenColorText}
-        >
-          <Text
-            fontSize={"14px"}
-            fontWeight={500}
+        {isShow && (
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
             color={palette.greenColorText}
-            sx={{
-              "&:hover": {
-                cursor: "pointer",
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleViewAll}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
           >
-            View All
-          </Text>
-          {hover ? (
-            <ArrowLongIcon
+            <Text
+              fontSize={"14px"}
+              fontWeight={500}
+              color={palette.greenColorText}
               sx={{
-                rotate: "180deg",
+                "&:hover": {
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                },
               }}
-            />
-          ) : (
-            <ArrowIcon
-              sx={{
-                fontSize: 15,
-                rotate: "-90deg",
-              }}
-            />
-          )}
-        </Stack>
-      </Stack>
-      {type === "new" ? (
-        <>
-          {blog && blog.totalItems > 4 ? (
-            <Slider
-              itemWidth={widthGame ? widthGame : 350}
-              step={16}
-              iconWhite={true}
+              onClick={handleViewAll}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
             >
-              {blog &&
-                blog.items &&
-                blog.items.map((item, index) => {
-                  return (
-                    <ClickWrapper key={index}>
+              View All
+            </Text>
+            {hover ? (
+              <ArrowLongIcon
+                sx={{
+                  rotate: "180deg",
+                }}
+              />
+            ) : (
+              <ArrowIcon
+                sx={{
+                  fontSize: 15,
+                  rotate: "-90deg",
+                }}
+              />
+            )}
+          </Stack>
+        )}
+      </Stack>
+      <Stack zIndex={2} py={1}>
+        {type === "new" ? (
+          <>
+            {blog && blog.totalItems > 5 ? (
+              <Slider
+                itemWidth={widthGame ? widthGame : 350}
+                step={16}
+                iconWhite={true}
+              >
+                {blog &&
+                  blog.items &&
+                  blog.items.map((item, index) => {
+                    return (
+                      <ClickWrapper key={index}>
+                        <CardBlog
+                          key={index}
+                          data={item}
+                          index={index}
+                          displayLayout={"no-list"}
+                          handleClick={handleClickNew}
+                          isHover={true}
+                          widthMax={widthGame ? widthGame : 350}
+                        />
+                      </ClickWrapper>
+                    );
+                  })}
+              </Slider>
+            ) : (
+              <Stack direction={direction} gap={2}>
+                {blog &&
+                  blog.items &&
+                  blog.items.map((item, index) => {
+                    return (
                       <CardBlog
+                        key={index}
                         data={item}
                         index={index}
                         displayLayout={"no-list"}
@@ -134,45 +167,51 @@ const Latest = ({
                         isHover={true}
                         widthMax={widthGame ? widthGame : 350}
                       />
-                    </ClickWrapper>
-                  );
-                })}
-            </Slider>
-          ) : (
-            <Stack direction={direction} gap={2}>
-              {blog &&
-                blog.items &&
-                blog.items.map((item, index) => {
-                  return (
-                    <CardBlog
-                      key={index}
-                      data={item}
-                      index={index}
-                      displayLayout={"no-list"}
-                      handleClick={handleClickNew}
-                      isHover={true}
-                      widthMax={widthGame ? widthGame : 350}
-                    />
-                  );
-                })}
-            </Stack>
-          )}
-        </>
-      ) : (
-        <>
-          {game && game.totalItems > 8 ? (
-            <Slider
-              itemWidth={widthGame ? widthGame : 350}
-              step={16}
-              iconWhite={true}
-            >
-              {game &&
-                game.items &&
-                game.items.map((item, index) => {
-                  return (
-                    <ClickWrapper key={index}>
+                    );
+                  })}
+              </Stack>
+            )}
+          </>
+        ) : (
+          <>
+            {game && game.totalItems > 8 ? (
+              <Slider
+                itemWidth={widthGame ? widthGame : 350}
+                step={16}
+                iconWhite={true}
+              >
+                {game &&
+                  game.items &&
+                  game.items.map((item, index) => {
+                    return (
+                      // <ClickWrapper key={index}>
+                      <ClickWrapper
+                        key={index}
+                        onClick={() => handleClickGame(item.id)}
+                      >
+                        <CardItem
+                          isSmaller={false}
+                          index={index}
+                          data={item}
+                          title={"Title"}
+                          handleClick={handleClickGame}
+                          widthMax={widthGame ? widthGame : 350}
+                          isHome={isHome}
+                          isReview={isReview}
+                        />
+                      </ClickWrapper>
+                    );
+                  })}
+              </Slider>
+            ) : (
+              <Stack direction={direction} gap={2}>
+                {game &&
+                  game.items &&
+                  game.items.map((item, index) => {
+                    return (
                       <CardItem
                         isSmaller={false}
+                        key={index}
                         index={index}
                         data={item}
                         title={"Title"}
@@ -181,33 +220,13 @@ const Latest = ({
                         isHome={isHome}
                         isReview={isReview}
                       />
-                    </ClickWrapper>
-                  );
-                })}
-            </Slider>
-          ) : (
-            <Stack direction={direction} gap={2}>
-              {game &&
-                game.items &&
-                game.items.map((item, index) => {
-                  return (
-                    <CardItem
-                      isSmaller={false}
-                      key={index}
-                      index={index}
-                      data={item}
-                      title={"Title"}
-                      handleClick={handleClickGame}
-                      widthMax={widthGame ? widthGame : 350}
-                      isHome={isHome}
-                      isReview={isReview}
-                    />
-                  );
-                })}
-            </Stack>
-          )}
-        </>
-      )}
+                    );
+                  })}
+              </Stack>
+            )}
+          </>
+        )}
+      </Stack>
     </Stack>
   );
 };

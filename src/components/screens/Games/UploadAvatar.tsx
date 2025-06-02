@@ -32,6 +32,7 @@ export interface PropsInfo {
   position: string;
   widthImg: number;
   heightImg: number;
+  url?: string;
 }
 
 const UploadAvarta = ({

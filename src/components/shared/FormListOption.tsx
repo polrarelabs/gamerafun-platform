@@ -40,7 +40,7 @@ const FormListOption = ({
         direction={"row"}
         justifyContent={"space-between"}
         alignItems={"center"}
-        px={2}
+        // px={2}
       >
         <Stack
           direction={"row"}
@@ -54,7 +54,7 @@ const FormListOption = ({
           {arrayKey.length > 0 && (
             <Stack
               sx={{
-                backgroundColor: palette.greenColorButton,
+                backgroundColor: "primary.darkChannel",
                 borderRadius: "10000px",
                 height: 20,
                 width: 20,
@@ -63,11 +63,7 @@ const FormListOption = ({
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Text
-                color={palette.greenColor}
-                fontWeight={600}
-                fontSize={"12px"}
-              >
+              <Text color={"primary.main"} fontWeight={600} fontSize={"12px"}>
                 {arrayKey.length}
               </Text>
             </Stack>
@@ -75,7 +71,7 @@ const FormListOption = ({
         </Stack>
         {arrKeys.length > 5 && (
           <Text
-            color={palette.greenColor}
+            color={"primary.main"}
             fontSize={"16px"}
             fontWeight={500}
             sx={{
@@ -131,7 +127,7 @@ const FormListOption = ({
                     {arrayKey.includes(arrKeys[index]) && (
                       <CircleCheckIcon
                         sx={{
-                          color: palette.greenColor,
+                          color: "primary.main",
                           fontSize: 16,
                         }}
                       />
@@ -180,7 +176,7 @@ const FormListOption = ({
                       {arrayKey.includes(arrKeys[index]) && (
                         <CircleCheckIcon
                           sx={{
-                            color: palette.greenColor,
+                            color: "primary.main",
                             fontSize: 16,
                           }}
                         />
@@ -231,7 +227,7 @@ const FormListOption = ({
                 {arrayKey.includes(arrKeys[index]) && (
                   <CircleCheckIcon
                     sx={{
-                      color: palette.greenColor,
+                      color: "primary.main",
                       fontSize: 16,
                     }}
                   />

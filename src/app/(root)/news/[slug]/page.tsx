@@ -10,7 +10,6 @@ import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
 import { useParams } from "next/navigation";
-import Subscribe from "@components/Subscribe";
 
 const News = () => {
   const { getBlogId } = useBlog();
@@ -18,9 +17,9 @@ const News = () => {
   const param = useParams();
 
   useEffect(() => {
-    const id = param.token as string;
+    const id = param.slug as string;
     getBlogId(id);
-  }, []);
+  }, [param.slug]);
 
   return (
     <Stack gap={2}>

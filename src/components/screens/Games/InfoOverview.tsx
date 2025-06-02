@@ -168,6 +168,8 @@ const InfoOverview = () => {
             variant="contained"
             sx={{
               borderRadius: "8px !important",
+              fontWeight: "700 !important",
+              fontSize: "18px !important",
             }}
             onClick={() => setOpenDialog(true)}
           >

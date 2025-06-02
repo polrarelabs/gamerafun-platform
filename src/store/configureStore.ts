@@ -7,6 +7,7 @@ import ChatAIReducer from "./chatAI/reducer";
 import { reducers as MediaReducer } from "./media";
 import BlogReducer from "./new/reducer";
 import Auth_Login from "./auth/reducer";
+import QuestReducers from "./quests/reducer";
 
 export interface State {
   app: AppState;
@@ -19,6 +20,7 @@ const appReducers = combineReducers({
   blog: BlogReducer,
   auth: Auth_Login,
   game: GameReducer,
+  quest: QuestReducers,
   ...MediaReducer,
 });
 

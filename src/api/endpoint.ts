@@ -38,4 +38,6 @@ export const Endpoint = {
   PATCH_UPDATE_BLOG: "/blog/udpate",
   DELETE_BLOG: "/blog/delete",
   GET_PROFILE: "/user/profile",
+
+  GET_QUEST: "/quest",
 };

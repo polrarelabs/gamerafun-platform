@@ -108,7 +108,7 @@ const LastNewsLists = ({
   );
 
   return (
-    <Stack flex={5} direction={"column"} gap={4}>
+    <Stack flex={5} direction={"column"} gap={1}>
       <Stack>
         <Text color={palette.textWhite} fontWeight={700} fontSize={"31px"}>
           Latest News
@@ -141,7 +141,7 @@ const LastNewsLists = ({
           md: displayLayout === "list" ? "repeat(1,1fr)" : "repeat(2,1fr)",
           xs: displayLayout === "list" ? "repeat(1,1fr)" : "repeat(1,1fr)",
         }}
-        gap={4}
+        gap={2}
       >
         {blogDisplay.map((item, index) => {
           const isLast = index === blogDisplay.length - 1;
@@ -153,6 +153,7 @@ const LastNewsLists = ({
               index={index}
               displayLayout={displayLayout}
               handleClick={handleClick}
+              isBg={true}
             />
           );
         })}

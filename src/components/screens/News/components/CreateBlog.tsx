@@ -6,7 +6,7 @@ import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
 import { SCREEN_PX } from "@constant";
 import { StatusBlog, Tag, TypeBlog } from "@constant/enum";
-import { GENRES_PATH } from "@constant/paths";
+import { GENRES_PATH, NEWS_PATH } from "@constant/paths";
 import {
   FormControl,
   FormHelperText,
@@ -91,14 +91,15 @@ const CreateBlog = ({ type = "create" }: PropsBlog) => {
 
   const [openSnack, setOpenSnack] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (loading === false && error === "") {
-      setOpenSnack(true);
-    }
-  }, [loading, error]);
+  // useEffect(() => {
+  //   if (loading === false && error === "") {
+  //     setOpenSnack(true);
+  //   }
+  // }, [loading, error]);
 
   useEffect(() => {
     if (isCreate) {
+      setOpenSnack(true);
       setIsCreateBlog(false);
     }
   }, [isCreate]);
@@ -290,7 +291,7 @@ const CreateBlog = ({ type = "create" }: PropsBlog) => {
         open={openSnack}
         setOpen={setOpenSnack}
         message={(error ?? "").length > 0 ? "Error" : "Success"}
-        path={(error ?? "").length ? null : GENRES_PATH}
+        path={(error ?? "").length > 0 ? null : NEWS_PATH}
         status={(error ?? "").length > 0 ? "error" : "success"}
       />
     </>
