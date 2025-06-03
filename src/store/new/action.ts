@@ -1,18 +1,7 @@
 import { client, Endpoint } from "@api";
 import { StatusBlog, Tag } from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BlogRequestState } from "./type";
-
-export interface GetBlogProps {
-  pageIndex: number;
-  pageSize: number;
-  search?: string;
-  sortBy?: string;
-  sortBydate?: string;
-  tags?: Tag[];
-  skip?: number;
-  status?: string;
-}
+import { BlogRequestState, GetBlogProps } from "./type";
 
 export const GetBlog = createAsyncThunk(
   "get/blog",

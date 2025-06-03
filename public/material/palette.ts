@@ -296,4 +296,15 @@ export default {
     bgColorSub: "rgba(28, 87, 214, 0.1)",
     colorBorderBottom: "#1f2c47",
   },
+  colorQuests: {
+    main: "#FFCD57",
+    bgTags: "rgba(254, 219, 57, 0.1)",
+    bgMission: "#ffffff0a",
+    bgMissionHover: "#ffffff29",
+    colorMission: "rgba(255, 255, 255, 0.7)",
+    bgCheckbox: "#ffffff29",
+    bgCheckboxHover: "#ffffff4d",
+    bgLinear:
+      "radial-gradient(60% 100% at 100% 0%, rgba(255, 205, 87, 0.2), transparent)",
+  },
 } as unknown as PaletteOptions;

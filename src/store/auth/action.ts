@@ -41,6 +41,8 @@ export const loginX = createAsyncThunk(
 
 export interface LoginGoogle {
   email: string;
+  name: string;
+  avatar: string;
 }
 
 export const loginGoogle = createAsyncThunk(

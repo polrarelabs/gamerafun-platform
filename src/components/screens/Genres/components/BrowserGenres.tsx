@@ -61,7 +61,7 @@ const BrowserGenres = ({
               Browse Auto Battler Games
             </Text>
             <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-              {game?.items.length} results
+              {game.items && game.items.length > 0 && game.items.length} results
             </Text>
           </Stack>
         </Stack>
@@ -92,17 +92,19 @@ const BrowserGenres = ({
           }}
           gap={2}
         >
-          {game?.items.map((item, index) => {
-            return (
-              <CardItem
-                key={index}
-                index={index}
-                data={item}
-                title={"Title"}
-                isSmaller={isSmSmaller}
-              />
-            );
-          })}
+          {game.items &&
+            game.items.length > 0 &&
+            game.items.map((item, index) => {
+              return (
+                <CardItem
+                  key={index}
+                  index={index}
+                  data={item}
+                  title={"Title"}
+                  isSmaller={isSmSmaller}
+                />
+              );
+            })}
         </Stack>
       </Stack>
     </>

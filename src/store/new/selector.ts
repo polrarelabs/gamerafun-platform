@@ -4,7 +4,6 @@ import {
   DeleteBlog,
   GetBlog,
   GetBlogId,
-  GetBlogProps,
   GetBlogSponsored,
   UpdateBlog,
 } from "./action";
@@ -21,7 +20,7 @@ import {
   SetTags,
 } from "./reducer";
 import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
-import { BlogRequestState } from "./type";
+import { BlogRequestState, GetBlogProps } from "./type";
 
 export const useBlog = () => {
   const dispatch = useAppDispatch();

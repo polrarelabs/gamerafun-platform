@@ -17,8 +17,10 @@ import Snackbared from "./Snackbared";
 import Avartars from "./Avartars";
 import AverageStar from "./AverageStar";
 import DialogShare from "./DialogShare";
+import MobileSteppered from "./MobileSteppered";
 
 export {
+  MobileSteppered,
   Tooltip,
   Text,
   IconButton,

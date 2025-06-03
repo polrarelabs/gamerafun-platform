@@ -4,10 +4,12 @@
 import { Image, Text } from "@components/shared";
 import { Box, Stack } from "@mui/material";
 import { useGame } from "@store/game";
+import { GenresCProps } from "@store/game/type";
 import { useBlog } from "@store/new";
 import { useRouter } from "next/navigation";
 import img from "public/images/img-local.png";
 import { memo, useEffect, useState } from "react";
+import { getImageSrc } from "./helper";
 
 interface ListGenresProps {
   xs?: number;
@@ -20,19 +22,11 @@ interface ListGenresProps {
 const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
   const router = useRouter();
 
-  const { gameCount, SetGenres, SetGenresTitle, getGameCount } = useGame();
-  const [genres, setGenres] = useState<string[]>([]);
+  const { SetGenres, SetGenresTitle, getGenres, genreItems } = useGame();
 
   useEffect(() => {
-    getGameCount();
+    getGenres({});
   }, []);
-
-  useEffect(() => {
-    if (gameCount && gameCount.genre) {
-      const arr: string[] = Object.keys(gameCount.genre);
-      setGenres(arr);
-    }
-  }, [gameCount]);
 
   const [hover, setHover] = useState<boolean>(false);
   const [id, setId] = useState<number | null>(null);
@@ -47,8 +41,8 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
     setId(null);
   };
 
-  const handleClick = (item: string) => {
-    const text = item.toLowerCase();
+  const handleClick = (item: GenresCProps) => {
+    const text = item.name.toLowerCase();
     const arr: any[] = [];
     arr.push(text.toUpperCase());
     SetGenres(arr);
@@ -68,7 +62,7 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
         xl: `repeat(${xl}, 1fr)`,
       }}
     >
-      {genres.map((item, index) => {
+      {genreItems.map((item, index) => {
         return (
           <Stack
             key={index}
@@ -86,8 +80,8 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
             }}
           >
             <Image
-              src={img}
-              alt={`img-${img}`}
+              src={getImageSrc(item.media, img)}
+              alt={`img-${getImageSrc(item.media, img)}`}
               size="100%"
               aspectRatio={7 / 4}
               sizes="960px"
@@ -104,7 +98,7 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
                   },
                   opacity: hover && id === index ? 1 : 0.6,
                   cursor: hover && id === index ? "pointer" : undefined,
-                  transition: "all 0.5s ease-in-out",
+                  transition: "all 0.2s ease-in-out",
                 },
               }}
             />
@@ -118,7 +112,7 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
                 bottom: 0,
                 opacity: 0.2,
                 display: hover && id === index ? "block" : "none",
-                transition: "all 0.5s ease-in-out",
+                transition: "all 0.2s ease-in-out",
               }}
             />
             <Text
@@ -128,9 +122,10 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
                 bottom: 0,
                 translate: "-50% -50%",
                 fontWeight: 700,
+                textTransform: "uppercase",
               }}
             >
-              {item}
+              {item.name}
             </Text>
           </Stack>
         );
