@@ -71,7 +71,7 @@ const BannerNew = () => {
                 width: `100%`,
                 height: "100%",
                 overflow: "hidden",
-                opacity: 0.2,
+                opacity: 0.1,
                 border: "1px",
                 borderColor: palette.borderColorLinear,
                 "& img": {

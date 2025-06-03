@@ -64,3 +64,13 @@ export interface BlogRequestState {
   publicDate?: string;
   slug?: string;
 }
+export interface GetBlogProps {
+  pageIndex: number;
+  pageSize: number;
+  search?: string;
+  sortBy?: string;
+  sortBydate?: string;
+  tags?: Tag[];
+  skip?: number;
+  status?: string;
+}

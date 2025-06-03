@@ -73,11 +73,12 @@ const LoginSocials = ({ setOption }: PropsSocials) => {
   }, [data]);
 
   useEffect(() => {
-    console.log("session", session);
-
-    if (session?.user?.email) {
-      LoginGoogle({ email: session.user.email });
-      console.log("login google", session.user.email);
+    if (session?.user?.email && session?.user?.image && session?.user?.name) {
+      LoginGoogle({
+        email: session.user.email,
+        avatar: session.user.image,
+        name: session.user.name,
+      });
     }
   }, [session]);
 

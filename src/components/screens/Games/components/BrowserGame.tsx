@@ -9,18 +9,16 @@ import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
 import { SortBy } from "@constant/enum";
+import { GAME_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import GameIcon from "@icons/web3/GameIcon";
 import { Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
 import { GameItems } from "@store/game/type";
 import { useBlog } from "@store/new";
+import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import Cookies from "js-cookie";
-import { ACCESSTOKEN_COOKIE } from "@constant";
-import { GAME_PATH, LOGIN_PATH } from "@constant/paths";
-import { useRouter } from "next/navigation";
 
 interface Props {
   isLayoutMD: boolean;
@@ -77,13 +75,13 @@ const BrowserGame = ({
   };
 
   const handleClick = (id: number) => {
-    const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
-    if (cookie && cookie !== "undefined") {
-      getGameById(id);
-      router.push(`${GAME_PATH}/${id}`);
-    } else {
-      router.push(LOGIN_PATH);
-    }
+    // const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
+    // if (cookie && cookie !== "undefined") {
+    getGameById(id);
+    router.push(`${GAME_PATH}/${id}`);
+    // } else {
+    //   router.push(LOGIN_PATH);
+    // }
   };
 
   const [gameDisplay, setGameDisplay] = useState<GameItems[]>([]);

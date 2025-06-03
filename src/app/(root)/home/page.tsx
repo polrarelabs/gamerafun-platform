@@ -1,6 +1,6 @@
 import Latest from "@components/Latest";
 import { Banner, Genres } from "@components/screens/Home";
-import { GAME_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
+import { GAME_PATH, HOME_PATH, NEWS_PATH, QUESTS_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { generateMetadata } from "@utils/seo";
 import { Metadata } from "next";
@@ -12,6 +12,12 @@ export default function Home() {
     <Stack height={"auto"} alignItems="center" gap={4}>
       <Banner />
       <Latest
+        title="Latest Quests"
+        type="quest"
+        widthGame={414}
+        path={QUESTS_PATH}
+      />
+      <Latest
         title="Play Now"
         path={GAME_PATH}
         type="game"
@@ -19,7 +25,6 @@ export default function Home() {
         widthGame={250}
       />
       <Latest title="Latest News" path={NEWS_PATH} type="new" />
-
       <Genres />
     </Stack>
   );

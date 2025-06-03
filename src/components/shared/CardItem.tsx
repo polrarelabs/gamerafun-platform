@@ -16,6 +16,7 @@ import AverageStar from "./AverageStar";
 import Image from "./Image";
 import Text from "./Text";
 import StarSolidIcon from "@icons/common/StarSolidIcon";
+import { getImageSrc } from "@components/helper";
 
 interface CardItemProps {
   index: number;
@@ -28,6 +29,7 @@ interface CardItemProps {
   widthMax?: number | null;
   isHome?: boolean;
   isReview?: boolean;
+  isStar?: boolean;
 }
 
 const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
@@ -41,6 +43,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
       widthMax = null,
       isHome = false,
       isReview = false,
+      isStar = true,
     },
     ref,
   ) => {
@@ -63,13 +66,6 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
     const [id, setId] = useState<number | null>(null);
 
     const [favorite, setFavorite] = useState<boolean>(false);
-
-    const getImageSrc = (url: string) => {
-      if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
-        return url;
-      }
-      return img;
-    };
 
     const getGenres = (genres: string[]) => {
       if (genres && genres.length > 2) {
@@ -157,31 +153,35 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           if (handleClick) handleClick(data.id);
         }}
       >
-        {favorite && (
-          <Stack
-            position={"absolute"}
-            top={15}
-            right={10}
-            sx={{
-              zIndex: 2,
-              height: 40,
-              width: 40,
-              "&:hover": {
-                cursor: "pointer",
-              },
-            }}
-          >
-            <StarSolidIcon
-              sx={{
-                fontSize: 26,
-                color: "secondary.main",
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setFavorite(false);
-              }}
-            />
-          </Stack>
+        {isStar && (
+          <>
+            {favorite && (
+              <Stack
+                position={"absolute"}
+                top={15}
+                right={10}
+                sx={{
+                  zIndex: 2,
+                  height: 40,
+                  width: 40,
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                <StarSolidIcon
+                  sx={{
+                    fontSize: 26,
+                    color: "secondary.main",
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFavorite(false);
+                  }}
+                />
+              </Stack>
+            )}
+          </>
         )}
         <Stack
           bgcolor={palette.bgMenuHover}
@@ -198,39 +198,42 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
             ref={isSmaller ? containerRef : undefined}
             position={"relative"}
           >
-            {!favorite && (
-              <Stack
-                position={"fixed"}
-                top={15}
-                right={10}
-                sx={{
-                  zIndex: favorite ? 3 : hover ? 2 : undefined,
-                  display: favorite ? "block" : hover ? "block" : "none",
-                  height: 40,
-                  width: 40,
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}
-                component={motion.div}
-                variants={{
-                  open: { y: 0, transition: { duration: 0.3 } },
-                  close: { y: -10 },
-                }}
-                animate={favorite ? "open" : hover ? "open" : "close"}
-              >
-                <StarOutlineIcon
-                  sx={{ fontSize: 26 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFavorite(true);
-                  }}
-                />
-              </Stack>
+            {isStar && (
+              <>
+                {!favorite && (
+                  <Stack
+                    position={"fixed"}
+                    top={15}
+                    right={10}
+                    sx={{
+                      zIndex: favorite ? 3 : hover ? 2 : undefined,
+                      display: favorite ? "block" : hover ? "block" : "none",
+                      height: 40,
+                      width: 40,
+                      "&:hover": {
+                        cursor: "pointer",
+                      },
+                    }}
+                    component={motion.div}
+                    variants={{
+                      open: { y: 0, transition: { duration: 0.3 } },
+                      close: { y: -10 },
+                    }}
+                    animate={favorite ? "open" : hover ? "open" : "close"}
+                  >
+                    <StarOutlineIcon
+                      sx={{ fontSize: 26 }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setFavorite(true);
+                      }}
+                    />
+                  </Stack>
+                )}
+              </>
             )}
-
             <Image
-              src={getImageSrc(data.mediaUrl[0])}
+              src={getImageSrc(data.mediaUrl[0], img)}
               alt={`img-${img}`}
               size="100%"
               aspectRatio={1 / 1}

@@ -3,8 +3,8 @@
 import { ClickWrapper, Slider, Text } from "@components/shared";
 import { Tag } from "@constant/enum";
 import { Stack } from "@mui/material";
-import { GetBlogProps, useBlog } from "@store/new";
-import { Blog, BlogItem } from "@store/new/type";
+import { useBlog } from "@store/new";
+import { Blog, BlogItem, GetBlogProps } from "@store/new/type";
 import React, { memo, useEffect, useState } from "react";
 import { CardBlog } from "./components";
 import { useRouter } from "next/navigation";

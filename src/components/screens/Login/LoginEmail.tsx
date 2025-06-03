@@ -23,6 +23,8 @@ const LoginEmail = ({ setOption }: LoginEmailProps) => {
 
   const initialValues: LoginGoogle = {
     email: "",
+    name: "",
+    avatar: "",
   };
 
   useEffect(() => {

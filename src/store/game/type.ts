@@ -143,7 +143,7 @@ export interface GenresItems {
 }
 
 export interface GenresProps {
-  seaerchName?: string;
+  seaerchName?: string[];
 }
 
 interface GameCountItems {

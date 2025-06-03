@@ -7,6 +7,7 @@ import { useGame } from "@store/game";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 import img from "public/images/img-local.png";
+import { getImageSrc } from "@components/helper";
 
 const PopularGenres = () => {
   const { genreItems, getGenres } = useGame();
@@ -26,13 +27,6 @@ const PopularGenres = () => {
   const handleUnHover = () => {
     setHover(false);
     setId(null);
-  };
-
-  const getImageSrc = (url: string) => {
-    if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
-      return url;
-    }
-    return img;
   };
 
   return (
@@ -62,7 +56,7 @@ const PopularGenres = () => {
                 }}
               >
                 <Image
-                  src={getImageSrc(item.media)}
+                  src={getImageSrc(item.media, img)}
                   alt={`img-${item.media}`}
                   size="100%"
                   aspectRatio={7 / 4}
@@ -133,7 +127,7 @@ const PopularGenres = () => {
                   }}
                 >
                   <Image
-                    src={getImageSrc(item.media)}
+                    src={getImageSrc(item.media, img)}
                     alt={`img-${item.media}`}
                     size="100%"
                     aspectRatio={7 / 4}

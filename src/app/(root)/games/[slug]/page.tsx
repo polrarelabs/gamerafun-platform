@@ -37,6 +37,7 @@ const LayoutGameDetail = () => {
     gameById,
     setSearch: searchGame,
     setSortBy: sortGame,
+    gameBlog,
   } = useGame();
   const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
 
@@ -188,6 +189,7 @@ const LayoutGameDetail = () => {
           type="game"
           widthGame={224}
           isReview={true}
+          isStar={false}
         />
       </Stack>
     </Stack>

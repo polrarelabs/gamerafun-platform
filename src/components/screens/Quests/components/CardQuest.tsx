@@ -1,29 +1,32 @@
 "use client";
 
-import { Button, Image, Text } from "@components/shared";
-import { MobileStepper, Stack, SxProps } from "@mui/material";
-import { palette } from "public/material";
-import React, { memo, useState } from "react";
-import img from "public/images/img-bg-login.png";
-import { motion } from "framer-motion";
+import { getImageSrc } from "@components/helper";
+import { Button, Image, MobileSteppered, Text } from "@components/shared";
+import { QUESTS_PATH } from "@constant/paths";
+import { Stack, SxProps } from "@mui/material";
 import { QuestItems } from "@store/quests/type";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import img from "public/images/img-bg-login.png";
+import { palette } from "public/material";
+import { memo, useState } from "react";
 
 interface CardQuestProps {
   sx?: SxProps;
   data: QuestItems;
+  witdhMax?: number | null;
 }
 
-const CardQuest = ({ sx, data }: CardQuestProps) => {
+const CardQuest = ({ sx, data, witdhMax = null }: CardQuestProps) => {
+  const router = useRouter();
+
   const [activeStep, setActiveStep] = useState<number>(1);
 
-  const getImageSrc = (url: string) => {
-    if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
-      return url;
-    }
-    return img;
-  };
-
   const [hover, setHover] = useState<boolean>(false);
+
+  const handleClick = () => {
+    router.push(`${QUESTS_PATH}/quests-detail`);
+  };
 
   return (
     <Stack direction={"column"} sx={{ ...sx }}>
@@ -47,15 +50,15 @@ const CardQuest = ({ sx, data }: CardQuestProps) => {
           zIndex={2}
         >
           <Image
-            src={getImageSrc("1")}
+            src={getImageSrc("1", img)}
             alt={`img-${img}`}
             size={"100%"}
             aspectRatio={2 / 2}
-            sizes={"414px"}
+            sizes={witdhMax ? witdhMax : "414px"}
             draggable={false}
             containerProps={{
               sx: {
-                width: "100%",
+                width: witdhMax ? witdhMax : "414px",
                 height: "100%",
                 overflow: "hidden",
                 borderTopLeftRadius: "12px",
@@ -71,7 +74,6 @@ const CardQuest = ({ sx, data }: CardQuestProps) => {
             }}
           />
 
-          {/* overlay text block */}
           <Stack
             position="absolute"
             width="100%"
@@ -81,10 +83,6 @@ const CardQuest = ({ sx, data }: CardQuestProps) => {
           >
             <motion.div
               style={{ width: "100%" }}
-              // animate={{
-              //   y: hover ? 0 : 'calc(100% - 80px)',
-              // }}
-              // transition={{ duration: 0.4, ease: 'easeInOut' }}
               variants={{
                 open: { y: 0, transition: { duration: 0.3 } },
                 close: { y: "calc(100% - 70px)" },
@@ -117,6 +115,7 @@ const CardQuest = ({ sx, data }: CardQuestProps) => {
                         color: "black !important",
                       },
                     }}
+                    onClick={handleClick}
                   >
                     Explore Missions
                   </Button>
@@ -137,29 +136,24 @@ const CardQuest = ({ sx, data }: CardQuestProps) => {
           borderBottomLeftRadius: "12px",
           borderBottomRightRadius: "12px",
         }}
+        gap={1}
       >
-        <MobileStepper
-          variant="progress"
-          steps={6}
-          position="static"
+        <MobileSteppered
           activeStep={activeStep}
+          steps={6}
           sx={{
-            flexGrow: 1,
-            "& .mui-j9l60e-MuiLinearProgress-root-MuiMobileStepper-progress": {
+            "& .MuiLinearProgress-root": {
+              backgroundColor: `${palette.colorModalShare?.bgStep} !important`,
               width: "100% !important",
               height: "7px !important",
-              borderRadius: "9999px",
-              background: `${palette.colorModalShare?.bgStep}`,
+              borderRadius: "9999px !important",
             },
           }}
-          backButton={<div />}
-          nextButton={<div />}
         />
         <Stack
           direction={"row"}
           alignItems={"center"}
           justifyContent={"space-between"}
-          px={"8px"}
         >
           <Text
             fontSize={"12px"}
@@ -175,7 +169,14 @@ const CardQuest = ({ sx, data }: CardQuestProps) => {
             color={palette.colorReview?.textCopy}
             textTransform={"uppercase"}
           >
-            1 / 6
+            <span
+              style={{
+                color: palette.colorQuests?.main,
+              }}
+            >
+              {activeStep}
+            </span>{" "}
+            / 6
           </Text>
         </Stack>
       </Stack>

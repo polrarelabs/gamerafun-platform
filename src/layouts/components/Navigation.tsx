@@ -2,7 +2,13 @@
 
 import Link from "@components/Link";
 import { Text } from "@components/shared";
-import { GAME_PATH, GENRES_PATH, HOME_PATH, NEWS_PATH } from "@constant/paths";
+import {
+  GAME_PATH,
+  GENRES_PATH,
+  HOME_PATH,
+  NEWS_PATH,
+  QUESTS_PATH,
+} from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import ArrowIcon from "@icons/common/ArrowIcon";
 import Sidebar from "@layouts/Sidebar";
@@ -252,11 +258,9 @@ const sx = {
 };
 
 const DATA = [
-  {
-    label: "Home",
-    href: HOME_PATH,
-  },
+  { label: "Home", href: HOME_PATH },
   { label: "Games", href: GAME_PATH },
   { label: "News", href: NEWS_PATH },
   { label: "Genres", href: GENRES_PATH },
+  { label: "Quests", href: QUESTS_PATH },
 ];

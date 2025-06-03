@@ -6,7 +6,7 @@ import { Stack } from "@mui/material";
 import { palette } from "public/material";
 import React, { forwardRef, memo, useEffect, useRef, useState } from "react";
 import img from "public/images/img-bg-login.png";
-import { formatMMMMDoYYYY } from "@components/helper";
+import { formatMMMMDoYYYY, getImageSrc } from "@components/helper";
 import { useGallery } from "@store/media";
 import { BlogItem } from "@store/new/type";
 export interface PropsLastNew {
@@ -48,13 +48,6 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
           : undefined,
       );
     }, [width]);
-
-    const getImageSrc = (url: string) => {
-      if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
-        return url;
-      }
-      return img;
-    };
 
     return (
       <Stack
@@ -106,7 +99,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
             ref={displayLayout === "list" ? containerRef : undefined}
           >
             <Image
-              src={getImageSrc(data.thumbnailUrl)}
+              src={getImageSrc(data.thumbnailUrl, img)}
               alt={`img-${img}`}
               size={"100%"}
               aspectRatio={3 / 2}

@@ -3,17 +3,18 @@
 import { ClickWrapper, Slider, Text } from "@components/shared";
 import CardItem from "@components/shared/CardItem";
 import { SCREEN_PX } from "@constant";
-import { GAME_PATH, NEWS_PATH } from "@constant/paths";
+import { Tag } from "@constant/enum";
 import ArrowIcon from "@icons/common/ArrowIcon";
 import ArrowLongIcon from "@icons/common/ArrowLongIcon";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
+import { useQuest } from "@store/quests";
 import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 import { CardBlog } from "./screens/News/components";
-import { Tag } from "@constant/enum";
+import { CardQuest } from "./screens/Quests/components";
 
 interface LatestProps {
   title: string;
@@ -26,6 +27,7 @@ interface LatestProps {
   isReview?: boolean;
   tags?: Tag | null;
   isShow?: boolean;
+  isStar?: boolean;
 }
 
 const Latest = ({
@@ -39,16 +41,21 @@ const Latest = ({
   direction = "row",
   tags = null,
   isShow = true,
+  isStar = true,
 }: LatestProps) => {
   const { blog, getBlogId, getBlog } = useBlog();
   const { game, getGame, getGameById } = useGame();
+  const { quest, getQuest } = useQuest();
+
   useEffect(() => {
     if (type === "new") {
       if (tags) {
         getBlog({ pageIndex: 1, pageSize: 11, tags: [tags] });
       } else getBlog({ pageIndex: 1, pageSize: 11 });
-    } else {
+    } else if (type === "game") {
       getGame({ pageIndex: 1, pageSize: 11 });
+    } else if (type === "quest") {
+      getQuest({});
     }
   }, [tags]);
 
@@ -60,13 +67,8 @@ const Latest = ({
   };
 
   const handleClickGame = (id: number) => {
-    // const cookie = Cookies.get(ACCESSTOKEN_COOKIE)
-    // if (cookie && cookie !== 'undefined') {
     getGameById(id);
     router.push(`${path}/${id}`);
-    // } else {
-    // router.push(LOGIN_PATH)
-    // }
   };
 
   const handleViewAll = () => {
@@ -125,20 +127,40 @@ const Latest = ({
           </Stack>
         )}
       </Stack>
-      <Stack zIndex={2} py={1}>
-        {type === "new" ? (
-          <>
-            {blog && blog.totalItems > 5 ? (
-              <Slider
-                itemWidth={widthGame ? widthGame : 350}
-                step={16}
-                iconWhite={true}
-              >
-                {blog &&
-                  blog.items &&
-                  blog.items.map((item, index) => {
-                    return (
-                      <ClickWrapper key={index}>
+      {(type === "game" || type === "new") && (
+        <Stack zIndex={2} py={1}>
+          {type === "new" ? (
+            <>
+              {blog && blog.totalItems > 5 ? (
+                <Slider
+                  itemWidth={widthGame ? widthGame : 350}
+                  step={16}
+                  iconWhite={true}
+                >
+                  {blog &&
+                    blog.items &&
+                    blog.items.map((item, index) => {
+                      return (
+                        <ClickWrapper key={index}>
+                          <CardBlog
+                            key={index}
+                            data={item}
+                            index={index}
+                            displayLayout={"no-list"}
+                            handleClick={handleClickNew}
+                            isHover={true}
+                            widthMax={widthGame ? widthGame : 350}
+                          />
+                        </ClickWrapper>
+                      );
+                    })}
+                </Slider>
+              ) : (
+                <Stack direction={direction} gap={2}>
+                  {blog &&
+                    blog.items &&
+                    blog.items.map((item, index) => {
+                      return (
                         <CardBlog
                           key={index}
                           data={item}
@@ -148,49 +170,52 @@ const Latest = ({
                           isHover={true}
                           widthMax={widthGame ? widthGame : 350}
                         />
-                      </ClickWrapper>
-                    );
-                  })}
-              </Slider>
-            ) : (
-              <Stack direction={direction} gap={2}>
-                {blog &&
-                  blog.items &&
-                  blog.items.map((item, index) => {
-                    return (
-                      <CardBlog
-                        key={index}
-                        data={item}
-                        index={index}
-                        displayLayout={"no-list"}
-                        handleClick={handleClickNew}
-                        isHover={true}
-                        widthMax={widthGame ? widthGame : 350}
-                      />
-                    );
-                  })}
-              </Stack>
-            )}
-          </>
-        ) : (
-          <>
-            {game && game.totalItems > 8 ? (
-              <Slider
-                itemWidth={widthGame ? widthGame : 350}
-                step={16}
-                iconWhite={true}
-              >
-                {game &&
-                  game.items &&
-                  game.items.map((item, index) => {
-                    return (
-                      // <ClickWrapper key={index}>
-                      <ClickWrapper
-                        key={index}
-                        onClick={() => handleClickGame(item.id)}
-                      >
+                      );
+                    })}
+                </Stack>
+              )}
+            </>
+          ) : (
+            <>
+              {game && game.totalItems > 8 ? (
+                <Slider
+                  itemWidth={widthGame ? widthGame : 350}
+                  step={16}
+                  iconWhite={true}
+                >
+                  {game &&
+                    game.items &&
+                    game.items.map((item, index) => {
+                      return (
+                        // <ClickWrapper key={index}>
+                        <ClickWrapper
+                          key={index}
+                          onClick={() => handleClickGame(item.id)}
+                        >
+                          <CardItem
+                            isSmaller={false}
+                            index={index}
+                            data={item}
+                            title={"Title"}
+                            handleClick={handleClickGame}
+                            widthMax={widthGame ? widthGame : 350}
+                            isHome={isHome}
+                            isReview={isReview}
+                            isStar={isStar}
+                          />
+                        </ClickWrapper>
+                      );
+                    })}
+                </Slider>
+              ) : (
+                <Stack direction={direction} gap={2}>
+                  {game &&
+                    game.items &&
+                    game.items.map((item, index) => {
+                      return (
                         <CardItem
                           isSmaller={false}
+                          key={index}
                           index={index}
                           data={item}
                           title={"Title"}
@@ -198,35 +223,63 @@ const Latest = ({
                           widthMax={widthGame ? widthGame : 350}
                           isHome={isHome}
                           isReview={isReview}
+                          isStar={isStar}
                         />
-                      </ClickWrapper>
-                    );
-                  })}
-              </Slider>
-            ) : (
-              <Stack direction={direction} gap={2}>
-                {game &&
-                  game.items &&
-                  game.items.map((item, index) => {
-                    return (
-                      <CardItem
-                        isSmaller={false}
+                      );
+                    })}
+                </Stack>
+              )}
+            </>
+          )}
+        </Stack>
+      )}
+      {type === "quest" && (
+        <Stack zIndex={2} py={1}>
+          {quest && quest.length > 4 ? (
+            <Slider
+              itemWidth={widthGame ? widthGame : 350}
+              step={16}
+              iconWhite={true}
+            >
+              {quest &&
+                quest.map((item, index) => {
+                  return (
+                    <ClickWrapper key={index}>
+                      <CardQuest
                         key={index}
-                        index={index}
                         data={item}
-                        title={"Title"}
-                        handleClick={handleClickGame}
-                        widthMax={widthGame ? widthGame : 350}
-                        isHome={isHome}
-                        isReview={isReview}
+                        sx={{
+                          border: `0.2px solid ${palette.colorReview?.colorBorder}`,
+                          borderRadius: "16px",
+                          padding: "4px",
+                        }}
+                        witdhMax={widthGame}
                       />
-                    );
-                  })}
-              </Stack>
-            )}
-          </>
-        )}
-      </Stack>
+                    </ClickWrapper>
+                  );
+                })}
+            </Slider>
+          ) : (
+            <Stack direction={direction} gap={2}>
+              {quest &&
+                quest.map((item, index) => {
+                  return (
+                    <CardQuest
+                      key={index}
+                      data={item}
+                      sx={{
+                        border: `0.2px solid ${palette.colorReview?.colorBorder}`,
+                        borderRadius: "16px",
+                        padding: "4px",
+                      }}
+                      witdhMax={widthGame}
+                    />
+                  );
+                })}
+            </Stack>
+          )}
+        </Stack>
+      )}
     </Stack>
   );
 };
