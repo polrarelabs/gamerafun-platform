@@ -28,6 +28,8 @@ export interface PropsUserAuth {
   userConnects?: PropsUserConnectsAuth[];
   lastLogin?: number;
   isDefaultAdmin?: boolean;
+  avatar?: string;
+
   email?: string;
 }
 export interface PropsAuths {

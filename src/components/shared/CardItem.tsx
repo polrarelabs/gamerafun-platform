@@ -30,11 +30,13 @@ interface CardItemProps {
   isHome?: boolean;
   isReview?: boolean;
   isStar?: boolean;
+  isDragging?: boolean;
 }
 
 const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
   (
     {
+      isDragging,
       index,
       data,
       handleClick,
@@ -150,7 +152,10 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           }
         }}
         onClick={() => {
-          if (handleClick) handleClick(data.id);
+          if (handleClick) {
+            if (isDragging) return;
+            handleClick(data.id);
+          }
         }}
       >
         {isStar && (

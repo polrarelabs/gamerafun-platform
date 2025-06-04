@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { QuestItems, QuestState } from "./type";
-import { GetQuest } from "./action";
+import { CreateQuest, GetQuest, GetQuestById } from "./action";
 
 const initialState: QuestState = {
   quest: [],
+  questById: {} as QuestItems,
+  isCreate: false,
   loading: false,
   error: null,
 };
@@ -12,7 +14,11 @@ const initialState: QuestState = {
 const QuestReducers = createSlice({
   name: "quest/reducer",
   initialState,
-  reducers: {},
+  reducers: {
+    SetCreate: (state) => {
+      state.isCreate = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(GetQuest.pending, (state) => {
@@ -28,8 +34,37 @@ const QuestReducers = createSlice({
       .addCase(GetQuest.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+
+      .addCase(GetQuestById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        GetQuestById.fulfilled,
+        (state, action: PayloadAction<QuestItems>) => {
+          state.loading = false;
+          state.questById = action.payload;
+        },
+      )
+      .addCase(GetQuestById.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      .addCase(CreateQuest.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(CreateQuest.fulfilled, (state) => {
+        state.loading = false;
+        state.isCreate = true;
+      })
+      .addCase(CreateQuest.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
+
+export const { SetCreate } = QuestReducers.actions;
 
 export default QuestReducers.reducer;

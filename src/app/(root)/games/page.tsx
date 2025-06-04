@@ -67,6 +67,18 @@ const GameHome = () => {
           left={0}
           width={"100%"}
           height={"100%"}
+          zIndex={2}
+          sx={{
+            background: palette.colorGame?.bgLinear,
+            opacity: 1,
+          }}
+        />
+        <Stack
+          position={"absolute"}
+          top={0}
+          left={0}
+          width={"100%"}
+          height={"100%"}
           zIndex={1}
         >
           <Image

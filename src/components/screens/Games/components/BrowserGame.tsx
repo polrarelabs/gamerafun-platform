@@ -90,12 +90,15 @@ const BrowserGame = ({
   useEffect(() => {
     if (game.pageIndex === 1) {
       setGameDisplay(game.items);
-    } else setGameFake(game.items);
+    }
+    setGameFake(game.items);
   }, [game.items]);
 
   useEffect(() => {
-    if (gameFake !== game.items) {
-      setGameDisplay([...gameDisplay, ...gameFake]);
+    if (gameDisplay !== gameFake) {
+      const arr: GameItems[] = [...gameDisplay, ...gameFake];
+      setGameDisplay(arr);
+      setGameFake(arr);
     }
   }, [gameFake]);
 

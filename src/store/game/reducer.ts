@@ -108,7 +108,7 @@ const initialState: PropsGameReducers = {
   sortBy: SortBy.Newest,
   search: "",
   pageIndex: 1,
-  pageSize: 10,
+  pageSize: 24,
 };
 
 const GameReducers = createSlice({

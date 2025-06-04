@@ -80,12 +80,15 @@ const LastNewsLists = ({
   useEffect(() => {
     if (blog.pageIndex === 1) {
       setBlogDisplay(blog.items);
-    } else setBlogFake(blog.items);
+    }
+    setBlogFake(blog.items);
   }, [blog.items]);
 
   useEffect(() => {
-    if (blogFake !== blog.items) {
-      setBlogDisplay([...blogDisplay, ...blogFake]);
+    if (blogFake !== blogDisplay) {
+      const arr: BlogItem[] = [...blogDisplay, ...blogFake];
+      setBlogDisplay(arr);
+      setBlogFake(arr);
     }
   }, [blogFake]);
 

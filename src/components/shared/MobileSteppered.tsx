@@ -14,7 +14,7 @@ const MobileSteppered = ({ steps, activeStep, sx }: MobileSteppers) => {
   return (
     <MobileStepper
       variant="progress"
-      steps={steps}
+      steps={steps + 1}
       position="static"
       activeStep={activeStep}
       sx={{

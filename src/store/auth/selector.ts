@@ -1,3 +1,4 @@
+import { store } from "@store/configureStore";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   authAptos,
@@ -11,9 +12,6 @@ import {
   PropsLoginX,
 } from "./action";
 import { setIsConnectAptos, setIsLogin } from "./reducer";
-import { store } from "@store/configureStore";
-import Cookies from "js-cookie";
-import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
 
 export const useAuthLogin = () => {
   const dispatch = useAppDispatch();
