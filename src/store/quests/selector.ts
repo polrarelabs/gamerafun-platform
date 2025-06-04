@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { QuestCreationRequest, QuestProps } from "./type";
-import { CreateQuest, GetQuest, GetQuestById } from "./action";
-import { SetCreate } from "./reducer";
+import { JoinRequest, QuestCreationRequest, QuestProps } from "./type";
+import { CreateQuest, GetQuest, GetQuestById, JoinQuest } from "./action";
+import { SetCreate, SetJoin } from "./reducer";
 
 export const useQuest = () => {
   const dispatch = useAppDispatch();
@@ -18,11 +18,19 @@ export const useQuest = () => {
     dispatch(CreateQuest(body));
   };
 
+  const joinQuest = (body: JoinRequest) => {
+    dispatch(JoinQuest(body));
+  };
+
   const setCreate = () => {
     dispatch(SetCreate());
   };
 
-  const { error, loading, quest, questById, isCreate } = useAppSelector(
+  const setJoin = () => {
+    dispatch(SetJoin());
+  };
+
+  const { error, loading, quest, questById, isCreate, isJoin } = useAppSelector(
     (state) => state.quest,
   );
 
@@ -36,5 +44,8 @@ export const useQuest = () => {
     getQuest,
     getQuestById,
     questById,
+    joinQuest,
+    isJoin,
+    setJoin,
   };
 };

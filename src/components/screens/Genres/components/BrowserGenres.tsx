@@ -6,10 +6,13 @@ import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
+import { decode } from "@components/shared/helper";
 import useBreakpoint from "@hooks/useBreakpoint";
 import GameIcon from "@icons/web3/GameIcon";
 import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
+import { useBlog } from "@store/new";
+import { useParams, usePathname } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 interface Props {
@@ -27,13 +30,44 @@ const BrowserGenres = ({
   displayLayout,
   setDisplayLayout,
 }: Props) => {
-  const { game, getGame } = useGame();
+  const {
+    game,
+    getGame,
+    pageIndex,
+    pageSize,
+    genres,
+    sortBy,
+    search,
+    platforms,
+    SetGenres,
+    SetGenresTitle,
+  } = useGame();
+  const { checkDate } = useBlog();
 
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { isSmSmaller } = useBreakpoint();
-  // useEffect(() => {
-  //   getGame();
-  // }, []);
+
+  const param = useParams();
+
+  useEffect(() => {
+    const text = param.token as string;
+    const arr: any[] = [];
+    arr.push(decode(text));
+    SetGenres(arr);
+    SetGenresTitle(decode(text));
+  }, []);
+
+  useEffect(() => {
+    getGame({
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+      genres: genres,
+      addedDateSort: checkDate,
+      sortBy: sortBy,
+      search: search === "" ? undefined : search,
+      platform: platforms,
+    });
+  }, [genres, checkDate, sortBy, search, pageIndex, pageSize, platforms]);
 
   const names = ["OptionSelect1", "OptionSelect2", "OptionSelect3"];
   const [selected, setSelected] = useState<string>("");
@@ -61,7 +95,7 @@ const BrowserGenres = ({
               Browse Auto Battler Games
             </Text>
             <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-              {game.items && game.items.length > 0 && game.items.length} results
+              {game.items && game.items.length} results
             </Text>
           </Stack>
         </Stack>

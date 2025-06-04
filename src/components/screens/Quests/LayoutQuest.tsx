@@ -4,7 +4,10 @@ import { useQuest } from "@store/quests";
 import React, { memo, useEffect } from "react";
 import CardQuest from "./components/CardQuest";
 import { palette } from "public/material";
-import { Text } from "@components/shared";
+import { Button, Text } from "@components/shared";
+import { useRouter } from "next/navigation";
+import { QUESTS_PATH } from "@constant/paths";
+import { BannerJoin } from "../News";
 
 const LayoutQuest = () => {
   const { quest, getQuest } = useQuest();
@@ -13,13 +16,35 @@ const LayoutQuest = () => {
     getQuest({});
   }, []);
 
+  const router = useRouter();
+
   return (
-    <Stack gap={2}>
+    <Stack gap={2} position={"relative"}>
+      <Button
+        variant="contained"
+        sx={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+        }}
+        onClick={() => router.push(`${QUESTS_PATH}/create-quest`)}
+      >
+        Create Quest
+      </Button>
       <Text color="white" fontSize={"34px"} fontWeight={700}>
         Quests
       </Text>
 
-      <Stack display={"grid"} gridTemplateColumns={"repeat(4,1fr)"} gap={2}>
+      <Stack
+        display={"grid"}
+        gridTemplateColumns={{
+          lg: "repeat(4,1fr)",
+          md: "repeat(3,1fr)",
+          sm: "repeat(2,1fr)",
+          xs: "repeat(1,1fr)",
+        }}
+        gap={2}
+      >
         {quest.map((item, index) => {
           return (
             <CardQuest

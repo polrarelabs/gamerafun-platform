@@ -63,13 +63,13 @@ const Layout = () => {
         mb={2}
       >
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={() => router.push(CREATE_NEWS_PATH)}
         >
           Create Blog
         </Button>
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={() => router.push(UPDATE_NEWS_PATH)}
         >
           Update Blog

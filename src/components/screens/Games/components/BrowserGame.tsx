@@ -57,7 +57,7 @@ const BrowserGame = ({
     getGame({
       pageIndex: pageIndex,
       pageSize: pageSize,
-      genre: genres,
+      genres: genres,
       addedDateSort: checkDate,
       sortBy: sortBy,
       search: search === "" ? undefined : search,

@@ -46,10 +46,14 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
       if (!containerRef.current) return;
       setHeight(
         containerRef.current?.offsetHeight
-          ? containerRef.current?.offsetHeight * 1.5
+          ? (containerRef.current?.offsetHeight * 1.5) / 1.5
           : undefined,
       );
     }, [width]);
+
+    useEffect(() => {
+      console.log(height);
+    }, [height]);
 
     return (
       <Stack
@@ -108,18 +112,28 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
               alt={`img-${img}`}
               size={"100%"}
               aspectRatio={3 / 2}
-              sizes={widthMax === null ? `${height}px` : `${widthMax}px`}
+              sizes={
+                displayLayout === "list"
+                  ? height
+                  : widthMax === null
+                    ? `${height}px`
+                    : `${widthMax}px`
+              }
               draggable={false}
               containerProps={{
                 sx: {
-                  width: widthMax == null ? `${height}px` : `${widthMax}px`,
+                  width:
+                    displayLayout === "list"
+                      ? height
+                      : widthMax === null
+                        ? `${height}px`
+                        : `${widthMax}px`,
                   height: "100%",
                   overflow: "hidden",
                   borderRadius: "16px",
                   border: "1px",
                   borderColor: palette.borderColorLinear,
                   "& img": {
-                    // objectFit: hover && id === index ? "cover" : "fill",
                     scale: hover && id === index ? 1.05 : 1,
                     objectFit: "cover",
                     objectPosition: "center",

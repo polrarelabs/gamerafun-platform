@@ -11,9 +11,12 @@ import DiscordIcon from "@icons/socials/DiscordIcon";
 import TelegramIcon from "@icons/socials/TelegramIcon";
 import MediumIcon from "@icons/socials/MediumIcon";
 import Link from "@components/Link";
+import useBreakpoint from "@hooks/useBreakpoint";
 
 const FooterTabContants = () => {
   const { gameById } = useGame();
+
+  const { isMdSmaller } = useBreakpoint();
 
   const arrSocial = [
     {
@@ -75,6 +78,33 @@ const FooterTabContants = () => {
           }}
         />
       </Stack>
+      {isMdSmaller && (
+        <>
+          {gameById.mediaUrl && (
+            <Stack position={"relative"} width={150}>
+              <Image
+                src={gameById.mediaUrl[0]}
+                alt={`img-${gameById.mediaUrl[0]}`}
+                size="100%"
+                aspectRatio={1 / 1}
+                sizes={150}
+                draggable={false}
+                containerProps={{
+                  sx: {
+                    width: 150,
+                    height: 150,
+                    overflow: "hidden",
+                    "& img": {
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    },
+                  },
+                }}
+              />
+            </Stack>
+          )}
+        </>
+      )}
       <Stack
         direction={"row"}
         justifyContent={"space-between"}
@@ -98,7 +128,10 @@ const FooterTabContants = () => {
         </Stack>
         <Stack
           display={"grid"}
-          gridTemplateColumns={"repeat(5,1fr)"}
+          gridTemplateColumns={{
+            md: "repeat(5,1fr)",
+            xs: "repeat(3,1fr)",
+          }}
           alignItems={"center"}
           gap={1}
         >
@@ -131,29 +164,32 @@ const FooterTabContants = () => {
             }
           })}
         </Stack>
-
-        {gameById.mediaUrl && gameById.mediaUrl.length > 0 && (
-          <Stack position={"relative"}>
-            <Image
-              src={gameById.mediaUrl[0]}
-              alt={`img-${gameById.mediaUrl[0]}`}
-              size="100%"
-              aspectRatio={1 / 1}
-              sizes={150}
-              draggable={false}
-              containerProps={{
-                sx: {
-                  width: 150,
-                  height: 150,
-                  overflow: "hidden",
-                  "& img": {
-                    objectFit: "cover",
-                    objectPosition: "center",
-                  },
-                },
-              }}
-            />
-          </Stack>
+        {!isMdSmaller && (
+          <>
+            {gameById.mediaUrl && (
+              <Stack position={"relative"}>
+                <Image
+                  src={gameById.mediaUrl[0]}
+                  alt={`img-${gameById.mediaUrl[0]}`}
+                  size="100%"
+                  aspectRatio={1 / 1}
+                  sizes={150}
+                  draggable={false}
+                  containerProps={{
+                    sx: {
+                      width: 150,
+                      height: 150,
+                      overflow: "hidden",
+                      "& img": {
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      },
+                    },
+                  }}
+                />
+              </Stack>
+            )}
+          </>
         )}
       </Stack>
     </Stack>

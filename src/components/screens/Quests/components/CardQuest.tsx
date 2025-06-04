@@ -2,14 +2,17 @@
 
 import { getImageSrc } from "@components/helper";
 import { Button, Image, MobileSteppered, Text } from "@components/shared";
-import { QUESTS_PATH } from "@constant/paths";
+import { LOGIN_PATH, QUESTS_PATH } from "@constant/paths";
 import { Stack, SxProps } from "@mui/material";
-import { QuestItems } from "@store/quests/type";
+import { useQuest } from "@store/quests";
+import { JoinRequest, QuestItems } from "@store/quests/type";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import img from "public/images/img-bg-login.png";
 import { palette } from "public/material";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
 
 interface CardQuestProps {
   sx?: SxProps;
@@ -26,6 +29,8 @@ const CardQuest = ({
 }: CardQuestProps) => {
   const router = useRouter();
 
+  const { setJoin, joinQuest, isJoin, getQuest } = useQuest();
+
   const [activeStep, setActiveStep] = useState<number>(0);
 
   const [hover, setHover] = useState<boolean>(false);
@@ -33,6 +38,42 @@ const CardQuest = ({
   const handleClick = () => {
     router.push(`${QUESTS_PATH}/${data.id}`);
   };
+
+  const handleJoin = (id: number) => {
+    const accessToken = Cookies.get(ACCESSTOKEN_COOKIE);
+    const refreshToken = Cookies.get(REFRESHTOKEN_COOKIE);
+
+    if (
+      accessToken &&
+      accessToken !== "undefined" &&
+      refreshToken &&
+      refreshToken !== "undefined"
+    ) {
+      const body: JoinRequest = {
+        questId: id,
+      };
+      joinQuest(body);
+    } else {
+      router.push(LOGIN_PATH);
+    }
+  };
+
+  const [check, setCheck] = useState<boolean>(false);
+
+  useEffect(() => {
+    const day = new Date();
+    const endDate = new Date(data.endTime);
+
+    if (endDate > day) setCheck(false);
+    else setCheck(true);
+  }, []);
+
+  useEffect(() => {
+    if (isJoin) {
+      getQuest({});
+      setJoin();
+    }
+  }, [isJoin]);
 
   return (
     <Stack direction={"column"} sx={{ ...sx }}>
@@ -64,7 +105,7 @@ const CardQuest = ({
             draggable={false}
             containerProps={{
               sx: {
-                width: witdhMax ? witdhMax : "414px",
+                width: witdhMax ? witdhMax : "100%",
                 height: "100%",
                 overflow: "hidden",
                 borderTopLeftRadius: "12px",
@@ -140,7 +181,8 @@ const CardQuest = ({
                         },
                         width: "100% !important",
                       }}
-                      // onClick={handleClick}
+                      onClick={handleClick}
+                      disabled={check}
                     >
                       Missions
                     </Button>
@@ -154,7 +196,8 @@ const CardQuest = ({
                           color: "black !important",
                         },
                       }}
-                      // onClick={handleClick}
+                      onClick={() => handleJoin(data.id)}
+                      disabled={check}
                     >
                       Start Quest
                     </Button>
