@@ -4,6 +4,8 @@ import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
 import React, { memo } from "react";
+import img from "public/images/img-login.png";
+import { getImageSrc } from "@components/helper";
 
 const BannerJoin = () => {
   const { blogId } = useBlog();
@@ -37,7 +39,7 @@ const BannerJoin = () => {
         zIndex={1}
       >
         <Image
-          src={blogId.thumbnailUrl}
+          src={getImageSrc(blogId.thumbnailUrl, img)}
           alt={`img-${blogId.thumbnailUrl}`}
           size="100%"
           aspectRatio={3 / 2}

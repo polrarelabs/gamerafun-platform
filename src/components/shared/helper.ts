@@ -7,3 +7,14 @@ export const thumbColor = (value: number, opacity?: number) => {
   const color = GetColor(value, opacity);
   return color.toString();
 };
+
+export const encode = (text: string) => {
+  return text.trim().toLowerCase().replace(/\s+/g, "-");
+};
+
+export const decode = (slug: string) => {
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

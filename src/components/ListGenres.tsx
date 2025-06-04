@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Image, Text } from "@components/shared";
@@ -10,6 +9,7 @@ import { useRouter } from "next/navigation";
 import img from "public/images/img-local.png";
 import { memo, useEffect, useState } from "react";
 import { getImageSrc } from "./helper";
+import { decode, encode } from "./shared/helper";
 
 interface ListGenresProps {
   xs?: number;
@@ -42,11 +42,8 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
   };
 
   const handleClick = (item: GenresCProps) => {
-    const text = item.name.toLowerCase();
-    const arr: any[] = [];
-    arr.push(text.toUpperCase());
-    SetGenres(arr);
-    SetGenresTitle(text);
+    const text = encode(item.name);
+
     router.push(`/genres/${text}`);
   };
 

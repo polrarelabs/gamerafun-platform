@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig, HttpStatusCode } from "axios";
 import { API_TIMEOUT, API_URL } from "constant";
 import { ErrorResponse } from "constant/types";
-import { sleep } from "utils/index";
 import qs from "qs";
+import { sleep } from "utils/index";
 const requestAbortCode = "ECONNABORTED";
 
 axios.defaults.baseURL = API_URL;

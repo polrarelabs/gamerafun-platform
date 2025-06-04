@@ -74,6 +74,7 @@ export interface QuestState {
   quest: QuestItems[];
   questById: QuestItems;
   isCreate: boolean;
+  isJoin: boolean;
   loading: boolean;
   error: string | null;
 }

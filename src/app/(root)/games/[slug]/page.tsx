@@ -24,6 +24,7 @@ import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
+import useBreakpoint from "@hooks/useBreakpoint";
 
 const LayoutGameDetail = () => {
   const { id } = useParams();
@@ -97,6 +98,8 @@ const LayoutGameDetail = () => {
     getGameById(Number(param.slug));
     getGameBlog({ gameId: Number(param.slug), typeBlog: "overview" });
   }, [param.slug]);
+
+  const { isLgSmaller } = useBreakpoint();
 
   return (
     <Stack direction={"column"} gap={2}>
@@ -177,10 +180,13 @@ const LayoutGameDetail = () => {
             <TabContents tabs={tabItems} value={value} />
           </Stack>
           <FooterTabContants />
+          {isLgSmaller && <InfoOverview />}
         </Stack>
-        <Stack flex={2} position={"relative"}>
-          <InfoOverview />
-        </Stack>
+        {!isLgSmaller && (
+          <Stack flex={2} position={"relative"}>
+            <InfoOverview />
+          </Stack>
+        )}
       </Stack>
       <Stack my={8}>
         <Latest

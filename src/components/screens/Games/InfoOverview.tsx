@@ -77,19 +77,18 @@ const InfoOverview = () => {
         <Button
           variant="contained"
           sx={{
-            width: "100%",
             height: "53px !important",
             fontWeight: "700 !important",
             fontSize: "18px !important",
             borderRadius: "4px !important",
           }}
+          fullWidth
         >
           Play Now
         </Button>
         <Button
           variant="contained"
           sx={{
-            width: "100%",
             height: "53px !important",
             background: "white !important",
             fontWeight: "700 !important",
@@ -97,6 +96,7 @@ const InfoOverview = () => {
             borderRadius: "4px !important",
           }}
           onClick={() => setOpen(true)}
+          fullWidth
         >
           Write a Review
         </Button>
@@ -150,7 +150,6 @@ const InfoOverview = () => {
                     marginBottom: 6,
                   }}
                 />
-
                 {index === 2 ? (
                   <GetIcon array={getPlatform(item.value as any[])} />
                 ) : (

@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { QuestItems, QuestState } from "./type";
-import { CreateQuest, GetQuest, GetQuestById } from "./action";
+import { CreateQuest, GetQuest, GetQuestById, JoinQuest } from "./action";
 
 const initialState: QuestState = {
   quest: [],
   questById: {} as QuestItems,
   isCreate: false,
+  isJoin: false,
   loading: false,
   error: null,
 };
@@ -17,6 +18,9 @@ const QuestReducers = createSlice({
   reducers: {
     SetCreate: (state) => {
       state.isCreate = false;
+    },
+    SetJoin: (state) => {
+      state.isJoin = false;
     },
   },
   extraReducers: (builder) => {
@@ -61,10 +65,22 @@ const QuestReducers = createSlice({
       .addCase(CreateQuest.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+
+      .addCase(JoinQuest.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(JoinQuest.fulfilled, (state) => {
+        state.loading = false;
+        state.isJoin = true;
+      })
+      .addCase(JoinQuest.rejected, (state, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { SetCreate } = QuestReducers.actions;
+export const { SetCreate, SetJoin } = QuestReducers.actions;
 
 export default QuestReducers.reducer;
