@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ModeQuest } from "@constant/enum";
 
 export interface QuestProps {
@@ -20,6 +19,20 @@ export interface RewardItems {
   amount: number;
 }
 
+export interface ProgressesItems {
+  id: number;
+  missionId: number;
+  progress: number;
+  completed: boolean;
+}
+export interface ParticipantsItems {
+  id: number;
+  questId: number;
+  userId: string;
+  hasClaimedReward: boolean;
+  progresses: ProgressesItems[];
+}
+
 export interface QuestItems {
   id: number;
   name: string;
@@ -30,11 +43,37 @@ export interface QuestItems {
   rewards: RewardItems[];
   startTime: string;
   endTime: string;
-  participants: any[];
+  participants: ParticipantsItems[];
+}
+
+export interface MissionCreationItems {
+  name: string;
+  type: string;
+  target: number;
+}
+export interface RewardCreationItems {
+  type: string;
+  amount: number;
+}
+export interface QuestCreationRequest {
+  name: string;
+  description: string;
+  status: number;
+  mode: ModeQuest;
+  missions: MissionCreationItems[];
+  rewards: RewardCreationItems[];
+  startTime: string;
+  endTime: string;
+}
+
+export interface JoinRequest {
+  questId: number;
 }
 
 export interface QuestState {
   quest: QuestItems[];
+  questById: QuestItems;
+  isCreate: boolean;
   loading: boolean;
   error: string | null;
 }

@@ -42,7 +42,7 @@ const Snackbared = ({
       return;
     }
     if (path !== null) {
-      if (reason === "timeout") {
+      if (reason === "timeout" && status === "success") {
         router.push(path);
       }
     }

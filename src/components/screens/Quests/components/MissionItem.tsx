@@ -4,13 +4,31 @@ import { Text } from "@components/shared";
 import ArrowLongIcon from "@icons/common/ArrowLongIcon";
 import SquareIcon from "@icons/common/SquareIcon";
 import { Checkbox, Stack } from "@mui/material";
+import { MisstionItems } from "@store/quests/type";
 import { palette } from "public/material";
 import React, { memo, useState } from "react";
+
+interface MissionItemState {
+  data: MisstionItems;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  isClose?: boolean;
+}
+
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
-``;
-const MissionItem = () => {
+
+const MissionItem = ({
+  data,
+  setActiveStep,
+  isClose = false,
+}: MissionItemState) => {
   const [hover, setHover] = useState<boolean>(false);
   const [checkbox, setCheckbox] = useState<boolean>(false);
+
+  const handleClick = () => {
+    setCheckbox(!checkbox);
+    if (checkbox === false) setActiveStep((pre) => pre + 1);
+    else setActiveStep((pre) => pre - 1);
+  };
 
   return (
     <Stack
@@ -24,7 +42,7 @@ const MissionItem = () => {
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => setCheckbox(!checkbox)}
+      onClick={handleClick}
       direction={"row"}
       alignItems={"center"}
       justifyContent={"space-between"}
@@ -53,7 +71,7 @@ const MissionItem = () => {
           fontSize={"16px"}
           color={hover ? "white" : palette.colorQuests?.colorMission}
         >
-          Mission Quests
+          {data.name}
         </Text>
       </Stack>
       <Stack>

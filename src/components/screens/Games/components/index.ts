@@ -13,6 +13,7 @@ import RelatedGames from "./RelatedGames";
 import Share from "./Share";
 import PlatformLink from "./PlatformLink";
 import FooterTabContants from "./FooterTabContants";
+import CardGenres from "./CardGenres";
 
 export {
   BodyBrowserGame,
@@ -30,4 +31,5 @@ export {
   Share,
   PlatformLink,
   FooterTabContants,
+  CardGenres,
 };

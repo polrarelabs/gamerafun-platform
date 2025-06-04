@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { QuestProps } from "./type";
-import { GetQuest } from "./action";
+import { QuestCreationRequest, QuestProps } from "./type";
+import { CreateQuest, GetQuest, GetQuestById } from "./action";
+import { SetCreate } from "./reducer";
 
 export const useQuest = () => {
   const dispatch = useAppDispatch();
@@ -9,12 +10,31 @@ export const useQuest = () => {
     dispatch(GetQuest(params));
   };
 
-  const { error, loading, quest } = useAppSelector((state) => state.quest);
+  const getQuestById = (params: number) => {
+    dispatch(GetQuestById(params));
+  };
+
+  const createQuest = (body: QuestCreationRequest) => {
+    dispatch(CreateQuest(body));
+  };
+
+  const setCreate = () => {
+    dispatch(SetCreate());
+  };
+
+  const { error, loading, quest, questById, isCreate } = useAppSelector(
+    (state) => state.quest,
+  );
 
   return {
+    createQuest,
+    isCreate,
+    setCreate,
     error,
     loading,
     quest,
     getQuest,
+    getQuestById,
+    questById,
   };
 };

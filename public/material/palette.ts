@@ -256,6 +256,8 @@ export default {
     bgStep: "#242e42",
   },
   colorGame: {
+    bgLinear:
+      "linear-gradient(180deg, rgb(17, 17, 17) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgb(17, 17, 17) 100%)",
     colorBgLinear1:
       "linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)",
     colorBorderLinear1:

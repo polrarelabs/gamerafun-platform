@@ -23,7 +23,7 @@ const LoginEmail = ({ setOption }: LoginEmailProps) => {
 
   const initialValues: LoginGoogle = {
     email: "",
-    name: "",
+    // name: "",
     avatar: "",
   };
 

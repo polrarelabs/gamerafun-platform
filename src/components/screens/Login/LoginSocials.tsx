@@ -77,7 +77,7 @@ const LoginSocials = ({ setOption }: PropsSocials) => {
       LoginGoogle({
         email: session.user.email,
         avatar: session.user.image,
-        name: session.user.name,
+        // name: session.user.name,
       });
     }
   }, [session]);

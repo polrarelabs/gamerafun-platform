@@ -169,3 +169,7 @@ export enum ModeQuest {
   WEEKLY = "WEEKLY",
   ACHIEVEMENT = "ACHIEVEMENT",
 }
+
+export enum TypeQuest {
+  PLAY_GAME = "PLAY_GAME",
+}

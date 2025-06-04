@@ -40,4 +40,6 @@ export const Endpoint = {
   GET_PROFILE: "/user/profile",
 
   GET_QUEST: "/quest",
+  CREATE_QUEST: "/quest/create",
+  JOIN_QUEST: "/quest/join",
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useRef } from "react";
+import React, { memo, useRef, useState } from "react";
 import { IconButton, Stack } from "@mui/material";
 import { palette } from "public/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -21,7 +21,6 @@ const Slider = ({
   children,
   iconWhite = false,
   onLoadMore,
-  hasMore,
 }: SliderProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -30,7 +29,8 @@ const Slider = ({
   const ITEM_WIDTH = itemWidth;
   const STEP = ITEM_WIDTH + step;
 
-  const isDragging = useRef(false);
+  const isDraggingRef = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleScroll = (direction: "left" | "right") => {
     const container = containerRef.current;
@@ -67,7 +67,7 @@ const Slider = ({
                 top: "50%",
                 left: 30,
                 translate: "-50% -50%",
-                zIndex: 1,
+                zIndex: 3,
                 color: "black",
                 background: "white",
                 "&:hover": {
@@ -84,7 +84,7 @@ const Slider = ({
                 top: "50%",
                 right: 0,
                 translate: "0 -50%",
-                zIndex: 1,
+                zIndex: 3,
                 transform: "rotate(180deg)",
                 color: "black",
                 background: "white",
@@ -105,8 +105,9 @@ const Slider = ({
                 top: "50%",
                 left: 25,
                 translate: "-50% -50%",
-                zIndex: 1,
-                color: palette.colorGray,
+                zIndex: 3,
+                // color: palette.colorGray,
+                color: palette.colorBgHover,
                 "&:hover": {
                   color: "white",
                 },
@@ -121,8 +122,9 @@ const Slider = ({
                 top: "50%",
                 right: 0,
                 translate: "0 -50%",
-                zIndex: 1,
-                color: palette.colorGray,
+                zIndex: 3,
+                // color: palette.colorGray,
+                color: palette.colorBgHover,
                 transform: "rotate(180deg)",
                 "&:hover": {
                   color: "white",
@@ -140,7 +142,8 @@ const Slider = ({
           dragConstraints={false}
           dragMomentum={false}
           onDragStart={() => {
-            isDragging.current = true;
+            isDraggingRef.current = true;
+            setIsDragging(true);
           }}
           onDragEnd={(_event, info) => {
             const container = containerRef.current;
@@ -162,17 +165,16 @@ const Slider = ({
             ) {
               onLoadMore();
             }
-
             setTimeout(() => {
-              isDragging.current = false;
-            }, 0);
+              isDraggingRef.current = false;
+              setIsDragging(false);
+            }, 50);
           }}
         >
-          {/* {children} */}
           {React.Children.map(children, (child) => {
             if (React.isValidElement<{ isDragging?: boolean }>(child)) {
               return React.cloneElement(child, {
-                isDragging: isDragging.current,
+                isDragging: isDragging,
               });
             }
             return child;

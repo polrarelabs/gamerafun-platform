@@ -75,18 +75,16 @@ const LastNewSlider = ({
           >
             {sponsore.map((item, index) => {
               return (
-                <ClickWrapper key={index}>
-                  <CardBlog
-                    key={index}
-                    data={item}
-                    index={index}
-                    displayLayout={"no-list"}
-                    handleClick={handleClickNew}
-                    isHover={true}
-                    widthMax={widthGame ? widthGame : 350}
-                    isBg={true}
-                  />
-                </ClickWrapper>
+                <CardBlog
+                  key={index}
+                  data={item}
+                  index={index}
+                  displayLayout={"no-list"}
+                  handleClick={handleClickNew}
+                  isHover={true}
+                  widthMax={widthGame ? widthGame : 350}
+                  isBg={true}
+                />
               );
             })}
           </Slider>

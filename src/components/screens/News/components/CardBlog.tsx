@@ -17,6 +17,7 @@ export interface PropsLastNew {
   isHover?: boolean;
   widthMax?: number | null;
   isBg?: boolean;
+  isDragging?: boolean;
 }
 
 const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
@@ -29,6 +30,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
       isHover = true,
       widthMax = null,
       isBg = false,
+      isDragging,
     },
     ref,
   ) => {
@@ -82,7 +84,10 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
           }
         }}
         onClick={() => {
-          if (handleClick) handleClick(data.id);
+          if (handleClick) {
+            if (isDragging) return;
+            handleClick(data.id);
+          }
         }}
       >
         <Stack

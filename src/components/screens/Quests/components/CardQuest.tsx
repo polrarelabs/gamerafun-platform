@@ -15,17 +15,23 @@ interface CardQuestProps {
   sx?: SxProps;
   data: QuestItems;
   witdhMax?: number | null;
+  isDragging?: boolean;
 }
 
-const CardQuest = ({ sx, data, witdhMax = null }: CardQuestProps) => {
+const CardQuest = ({
+  sx,
+  data,
+  witdhMax = null,
+  isDragging,
+}: CardQuestProps) => {
   const router = useRouter();
 
-  const [activeStep, setActiveStep] = useState<number>(1);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const [hover, setHover] = useState<boolean>(false);
 
   const handleClick = () => {
-    router.push(`${QUESTS_PATH}/quests-detail`);
+    router.push(`${QUESTS_PATH}/${data.id}`);
   };
 
   return (
@@ -92,7 +98,7 @@ const CardQuest = ({ sx, data, witdhMax = null }: CardQuestProps) => {
               <Stack px={4} direction="column" pb={2} gap={2}>
                 <Stack>
                   <Text color="white" fontWeight={700} fontSize={"24px"}>
-                    Spekter Agent
+                    {data.name}
                   </Text>
                   <Text
                     color={palette.colorGray}
@@ -100,10 +106,11 @@ const CardQuest = ({ sx, data, witdhMax = null }: CardQuestProps) => {
                     fontSize={"14px"}
                     textTransform={"uppercase"}
                   >
-                    Eliminate all the restless spirits to become the
+                    {data.description}
                   </Text>
                 </Stack>
-                <Stack>
+
+                {data.participants && data.participants.length > 0 ? (
                   <Button
                     variant="outlined"
                     sx={{
@@ -119,13 +126,45 @@ const CardQuest = ({ sx, data, witdhMax = null }: CardQuestProps) => {
                   >
                     Explore Missions
                   </Button>
-                </Stack>
+                ) : (
+                  <Stack direction={"row"} gap={2} width={"100%"}>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        borderRadius: "4px !important",
+                        color: "white !important",
+                        border: "1px solid white !important",
+                        "&:hover": {
+                          background: "white !important",
+                          color: "black !important",
+                        },
+                        width: "100% !important",
+                      }}
+                      // onClick={handleClick}
+                    >
+                      Missions
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        borderRadius: "4px !important",
+                        width: "100% !important",
+                        fontWeight: "500 !important",
+                        "&:hover": {
+                          color: "black !important",
+                        },
+                      }}
+                      // onClick={handleClick}
+                    >
+                      Start Quest
+                    </Button>
+                  </Stack>
+                )}
               </Stack>
             </motion.div>
           </Stack>
         </Stack>
       </Stack>
-
       <Stack
         px={"8px"}
         zIndex={3}
@@ -140,7 +179,7 @@ const CardQuest = ({ sx, data, witdhMax = null }: CardQuestProps) => {
       >
         <MobileSteppered
           activeStep={activeStep}
-          steps={6}
+          steps={data.missions && data.missions.length}
           sx={{
             "& .MuiLinearProgress-root": {
               backgroundColor: `${palette.colorModalShare?.bgStep} !important`,
@@ -176,7 +215,7 @@ const CardQuest = ({ sx, data, witdhMax = null }: CardQuestProps) => {
             >
               {activeStep}
             </span>{" "}
-            / 6
+            / {data.missions && data.missions.length}
           </Text>
         </Stack>
       </Stack>

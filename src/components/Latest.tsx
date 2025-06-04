@@ -135,23 +135,21 @@ const Latest = ({
                 <Slider
                   itemWidth={widthGame ? widthGame : 350}
                   step={16}
-                  iconWhite={true}
+                  // iconWhite={true}
                 >
                   {blog &&
                     blog.items &&
                     blog.items.map((item, index) => {
                       return (
-                        <ClickWrapper key={index}>
-                          <CardBlog
-                            key={index}
-                            data={item}
-                            index={index}
-                            displayLayout={"no-list"}
-                            handleClick={handleClickNew}
-                            isHover={true}
-                            widthMax={widthGame ? widthGame : 350}
-                          />
-                        </ClickWrapper>
+                        <CardBlog
+                          key={index}
+                          data={item}
+                          index={index}
+                          displayLayout={"no-list"}
+                          handleClick={handleClickNew}
+                          isHover={true}
+                          widthMax={widthGame ? widthGame : 350}
+                        />
                       );
                     })}
                 </Slider>
@@ -181,29 +179,24 @@ const Latest = ({
                 <Slider
                   itemWidth={widthGame ? widthGame : 350}
                   step={16}
-                  iconWhite={true}
+                  // iconWhite={true}
                 >
                   {game &&
                     game.items &&
                     game.items.map((item, index) => {
                       return (
-                        // <ClickWrapper key={index}>
-                        <ClickWrapper
+                        <CardItem
                           key={index}
-                          onClick={() => handleClickGame(item.id)}
-                        >
-                          <CardItem
-                            isSmaller={false}
-                            index={index}
-                            data={item}
-                            title={"Title"}
-                            handleClick={handleClickGame}
-                            widthMax={widthGame ? widthGame : 350}
-                            isHome={isHome}
-                            isReview={isReview}
-                            isStar={isStar}
-                          />
-                        </ClickWrapper>
+                          isSmaller={false}
+                          index={index}
+                          data={item}
+                          title={"Title"}
+                          handleClick={handleClickGame}
+                          widthMax={widthGame ? widthGame : 350}
+                          isHome={isHome}
+                          isReview={isReview}
+                          isStar={isStar}
+                        />
                       );
                     })}
                 </Slider>
@@ -239,23 +232,21 @@ const Latest = ({
             <Slider
               itemWidth={widthGame ? widthGame : 350}
               step={16}
-              iconWhite={true}
+              // iconWhite={true}
             >
               {quest &&
                 quest.map((item, index) => {
                   return (
-                    <ClickWrapper key={index}>
-                      <CardQuest
-                        key={index}
-                        data={item}
-                        sx={{
-                          border: `0.2px solid ${palette.colorReview?.colorBorder}`,
-                          borderRadius: "16px",
-                          padding: "4px",
-                        }}
-                        witdhMax={widthGame}
-                      />
-                    </ClickWrapper>
+                    <CardQuest
+                      key={index}
+                      data={item}
+                      sx={{
+                        border: `0.2px solid ${palette.colorReview?.colorBorder}`,
+                        borderRadius: "16px",
+                        padding: "4px",
+                      }}
+                      witdhMax={widthGame}
+                    />
                   );
                 })}
             </Slider>
