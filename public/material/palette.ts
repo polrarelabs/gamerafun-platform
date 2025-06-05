@@ -211,6 +211,8 @@ export default {
   greenColorText: "#29B6F6",
   greenColor: "#29B6F6",
   colorBorderTag: "rgba(28, 214, 206, 0.1)",
+  colorErrors: "#EB4A53",
+  colorBgErrors: "rgba(245, 0, 79, 0.1)",
   greenColorButton: "color-mix(in srgb, #29B6F6, transparent 85%)",
   backgroundReview: "#121926",
   colorTextRed: "#f87171",
@@ -234,6 +236,8 @@ export default {
     colorText: "#D1D5D8",
     borderLinear:
       "linear-gradient(90deg, #1F2937 0%,rgba(75, 85, 99, 0.36) 50%, rgba(75, 85, 99, 0.68) 100%)",
+    bgBtnLike: "rgba(152,170,192,0.16)",
+    bgBtnLikeHover: "rgba(152,170,192,1)",
   },
   colorReview: {
     colorBorder: "#e5e7eb70",
@@ -261,7 +265,7 @@ export default {
     colorBgLinear1:
       "linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)",
     colorBorderLinear1:
-      "linear-gradient(180deg,rgba(154, 161, 157, 0.7) 0%, rgba(154, 161, 157, 0.3) 70%, rgba(9, 222, 87, 0.01)) 100%",
+      "linear-gradient(180deg,rgba(154, 161, 157, 0.7) 0%, rgba(154, 161, 157, 0.3) 70%, rgba(9, 222, 87, 0.01) 100%",
     colorBorderLinear:
       "linear-gradient(180deg,rgba(9, 59, 222, 0.7) 0%, rgba(9, 59, 222, 0.4) 70%, rgba(9, 222, 87, 0.01)) 100%",
     colorBoderLinear1:

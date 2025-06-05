@@ -28,7 +28,7 @@ const CardGenres = ({ index, data }: CardGenresProps) => {
 
   return (
     <Stack
-      borderRadius={"8px"}
+      borderRadius={"5px"}
       position={"relative"}
       onMouseEnter={() => handleHover(index)}
       onMouseLeave={handleUnHover}
@@ -52,7 +52,7 @@ const CardGenres = ({ index, data }: CardGenresProps) => {
             width: "100%",
             height: "100%",
             overflow: "hidden",
-            borderRadius: "16px",
+            borderRadius: "5px",
             border: "1px",
             "& img": {
               objectFit: "cover",

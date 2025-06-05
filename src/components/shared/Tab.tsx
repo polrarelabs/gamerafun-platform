@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import { SxProps } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,8 +34,9 @@ function a11yProps(index: number) {
 }
 
 export interface TabItem {
+  id?: string;
   label: string;
-  content: React.ReactNode;
+  content?: React.ReactNode;
   disabled?: boolean;
 }
 
@@ -47,20 +50,31 @@ export function useCustomTabs(defaultIndex = 0) {
   return { value, handleChange, setValue };
 }
 
+export interface TabHeadersProps {
+  tabs: TabItem[];
+  value?: number;
+  handleChange?: (e: React.SyntheticEvent, val: number) => void;
+  handleClick?: (id: any) => void;
+  orientation?: "vertical" | "horizontal";
+  sx?: SxProps;
+}
+
 export function TabHeaders({
   tabs,
   value,
   handleChange,
-}: {
-  tabs: TabItem[];
-  value: number;
-  handleChange: (e: React.SyntheticEvent, val: number) => void;
-}) {
+  handleClick,
+  orientation = "horizontal",
+  sx,
+}: TabHeadersProps) {
   return (
     <Box>
       <Tabs
+        orientation={orientation}
         value={value}
-        onChange={handleChange}
+        onChange={() => {
+          if (handleChange) handleChange;
+        }}
         aria-label="custom tabs"
         textColor="inherit"
       >
@@ -69,7 +83,13 @@ export function TabHeaders({
             key={index}
             label={tab.label}
             {...a11yProps(index)}
+            onClick={() => {
+              if (handleClick && tab.id) handleClick(tab.id);
+            }}
             disabled={tab.disabled}
+            sx={{
+              ...sx,
+            }}
           />
         ))}
       </Tabs>

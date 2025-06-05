@@ -46,7 +46,7 @@ const RequestsPage = () => {
         </Stack>
         <LayoutQuest />
       </Stack>
-      <BannerJoin />
+      {/* <BannerJoin /> */}
     </>
   );
 };

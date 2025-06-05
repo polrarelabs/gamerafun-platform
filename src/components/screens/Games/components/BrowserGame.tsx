@@ -74,6 +74,10 @@ const BrowserGame = ({
     setOpen(true);
   };
 
+  useEffect(() => {
+    console.log("window", window);
+  }, []);
+
   const handleClick = (id: number) => {
     // const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
     // if (cookie && cookie !== "undefined") {
@@ -83,6 +87,8 @@ const BrowserGame = ({
     //   router.push(LOGIN_PATH);
     // }
   };
+
+  const ref = useRef(null);
 
   const [gameDisplay, setGameDisplay] = useState<GameItems[]>([]);
   const [gameFake, setGameFake] = useState<GameItems[]>([]);
@@ -123,19 +129,25 @@ const BrowserGame = ({
   return (
     <Stack direction={"column"} gap={2} flex={{ lg: 5, xs: 4 }}>
       <Stack direction={"row"} alignItems={"center"} gap={2}>
-        <GameIcon sx={{ color: palette.colorGray }} />
         <Stack
           direction={"row"}
           justifyContent={"space-between"}
           width={"100%"}
         >
-          <Stack direction={"row"} alignItems={"end"} gap={2}>
-            <Text color="white" fontSize={"20px"} fontWeight={700}>
-              Browse Games
-            </Text>
-            <Text color={palette.colorGray} fontSize={"14px"} fontWeight={400}>
-              {game.totalItems} results
-            </Text>
+          <Stack direction={"row"} gap={1} alignItems={"center"} ref={ref}>
+            <GameIcon sx={{ color: palette.colorGray }} />
+            <Stack direction={"row"} alignItems={"end"} gap={2} ref={ref}>
+              <Text color="white" fontSize={"20px"} fontWeight={700}>
+                Browse Games
+              </Text>
+              <Text
+                color={palette.colorGray}
+                fontSize={"14px"}
+                fontWeight={400}
+              >
+                {game.totalItems} results
+              </Text>
+            </Stack>
           </Stack>
 
           <Stack>
@@ -174,7 +186,7 @@ const BrowserGame = ({
           lg: "repeat(4, 1fr)",
           sm: "repeat(2, 1fr)",
         }}
-        gap={2.5}
+        gap={1.5}
       >
         {gameDisplay &&
           gameDisplay.map((item, index) => {

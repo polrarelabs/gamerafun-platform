@@ -3,7 +3,7 @@
 import FormDateAdded from "@components/FormDateAdded";
 import { getSort } from "@components/helper";
 import { Search, SelectOptions, Text } from "@components/shared";
-import FormListOption from "@components/shared/FormListOption";
+import FormOption from "@components/shared/FormOption";
 import { SortBy, Tag } from "@constant/enum";
 import SearchIcon from "@icons/common/SearchIcon";
 import { InputBase, SelectChangeEvent, Stack } from "@mui/material";
@@ -97,12 +97,13 @@ const LastNewsOptions = ({
       )}
       <Search setSearch={setSearch} placeholder="Search for news" />
 
-      <FormListOption
-        name={"Tag"}
+      <FormOption
+        title={"Tag"}
         data={Tag}
         setArray={setTags}
         arrayKey={tags}
         isValue={false}
+        label={Object.keys(Tag)}
       />
 
       <FormDateAdded />

@@ -2,18 +2,16 @@
 "use client";
 
 import { LayoutGame } from "@components/screens/Games";
-import { FormCreateGame } from "@components/screens/Games/components";
-import { Image, Text } from "@components/shared";
+import { BackgroundImage, Image, Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
-// import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
 import { AddedDateSort, SortBy } from "@constant/enum";
 import { HOME_PATH } from "@constant/paths";
 import { Box, Stack, useTheme } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import { memo, useEffect } from "react";
 import image from "public/images/img-login.png";
+import { memo, useEffect } from "react";
 
 const GameHome = () => {
   const theme = useTheme();
@@ -61,7 +59,8 @@ const GameHome = () => {
         position={"relative"}
         py={4}
       >
-        <Stack
+        <BackgroundImage url={image} />
+        {/* <Stack
           position={"absolute"}
           top={0}
           left={0}
@@ -82,7 +81,6 @@ const GameHome = () => {
           zIndex={1}
         >
           <Image
-            // src={(url && url.length > 0) ? url : image}
             src={image}
             alt={`img-`}
             size="100%"
@@ -115,7 +113,7 @@ const GameHome = () => {
               zIndex: 2,
             }}
           />
-        </Stack>
+        </Stack> */}
         <Stack
           direction={"row"}
           alignItems={"center"}
@@ -123,7 +121,6 @@ const GameHome = () => {
           zIndex={3}
         >
           <Breadcumbs breadcumbs={breadcrumbs} />
-          <FormCreateGame />
         </Stack>
 
         <Stack direction={"column"} zIndex={3}>

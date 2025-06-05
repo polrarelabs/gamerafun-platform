@@ -139,7 +139,7 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
                 sx={{
                   width: "100%",
                   backgroundColor: palette.colorReview?.bgColor,
-                  borderRadius: "8px",
+                  borderRadius: "5px",
                   "& .MuiSelect-select": {
                     padding: "10px",
                     color: "white",
@@ -164,7 +164,7 @@ const ModalReview = ({ open, setOpen }: PropsModalReview) => {
                 sx={{
                   width: "100%",
                   backgroundColor: palette.colorReview?.bgColor,
-                  borderRadius: "8px",
+                  borderRadius: "5px",
                   "& .MuiSelect-select": {
                     padding: "10px",
                     color: "white",

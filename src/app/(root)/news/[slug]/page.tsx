@@ -27,20 +27,19 @@ const News = () => {
       <Stack px={SCREEN_PX} direction={"column"} gap={2}>
         <NewsDetail />
       </Stack>
-      <Stack>
-        <Stack
-          width={"100%"}
-          height={"auto"}
-          bgcolor={"black"}
-          px={SCREEN_PX}
-          alignItems={"center"}
-          direction={"row"}
-          py={4}
-        >
-          <Related relateBy="news" title="Related News" />
-        </Stack>
-        <BannerJoin />
+      {/* <Stack> */}
+      <Stack
+        width={"100%"}
+        height={"auto"}
+        bgcolor={"black"}
+        px={SCREEN_PX}
+        alignItems={"center"}
+        direction={"row"}
+        py={4}
+      >
+        <Related relateBy="news" title="Related News" />
       </Stack>
+      {/* </Stack> */}
     </Stack>
   );
 };

@@ -18,6 +18,7 @@ import Avartars from "./Avartars";
 import AverageStar from "./AverageStar";
 import DialogShare from "./DialogShare";
 import MobileSteppered from "./MobileSteppered";
+import BackgroundImage from "./BackgroundImage";
 
 export {
   MobileSteppered,
@@ -40,6 +41,7 @@ export {
   Avartars,
   AverageStar,
   DialogShare,
+  BackgroundImage,
 };
 
 export type {

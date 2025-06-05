@@ -95,7 +95,7 @@ const PlatformLink = ({
           size="small"
           onClick={handleClick}
           sx={{
-            borderRadius: "8px !important",
+            borderRadius: "5px !important",
             width: "max-content",
             padding: "4px 8px",
           }}

@@ -49,7 +49,7 @@ const Item = (props: LinkProps & { usePush?: boolean }) => {
       component={href && !usePush ? Link : "div"}
       href={usePush ? undefined : href}
       onClick={usePush ? onClick : undefined}
-      borderRadius={1.25}
+      borderRadius={"5px"}
       direction="row"
       alignItems="center"
       p={1}

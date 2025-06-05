@@ -72,7 +72,7 @@ export interface ParamsGameProps {
   addedDateSort?: string;
   minRating?: number;
   maxRating?: number;
-  genres?: Genre[];
+  genres?: string[];
   platform?: string[];
   statusGame?: ScheduleStatus[];
   playableOnDesktop?: boolean;

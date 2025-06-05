@@ -15,6 +15,7 @@ import { useBlog } from "@store/new";
 import { useParams, usePathname } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
+import { HandleClickOption } from "./helper";
 interface Props {
   isLayoutMD: boolean;
   theme: any | null;

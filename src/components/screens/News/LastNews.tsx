@@ -36,6 +36,7 @@ const LayoutLastNews = () => {
           "& .MuiDrawer-paper": {
             width: "300px",
             padding: "8px 16px",
+            backgroundImage: "none",
           },
         }}
       >

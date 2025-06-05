@@ -63,7 +63,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
             ? palette.colorGame?.colorBorderLinear1
             : palette.colorGame?.colorBorderLinear,
           padding: "1px",
-          borderRadius: "16px",
+          borderRadius: "5px",
           transition: "translate 0.2s ease-in-out",
           zIndex: 2,
           "&:hover": {
@@ -96,10 +96,10 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
       >
         <Stack
           bgcolor={palette.bgMenuHover}
-          p={"4px"}
+          p={"2px"}
           width="100%"
           height="100%"
-          borderRadius={"16px"}
+          borderRadius={"5px"}
           direction={displayLayout === "list" ? "row" : "column"}
           alignItems={displayLayout === "list" ? "center" : undefined}
         >
@@ -130,7 +130,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
                         : `${widthMax}px`,
                   height: "100%",
                   overflow: "hidden",
-                  borderRadius: "16px",
+                  borderRadius: "5px",
                   border: "1px",
                   borderColor: palette.borderColorLinear,
                   "& img": {
@@ -191,7 +191,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
                         sx={{
                           backgroundColor: palette.greenColorButton,
                           padding: "4px 8px",
-                          borderRadius: "4px",
+                          borderRadius: "5px",
                           width: "max-content",
                           border: `1px solid ${palette.colorBorderTag}`,
                         }}
@@ -210,7 +210,7 @@ const CardBlog = forwardRef<HTMLDivElement, PropsLastNew>(
                         sx={{
                           backgroundColor: palette.greenColorButton,
                           padding: "4px 8px",
-                          borderRadius: "4px",
+                          borderRadius: "5px",
                           width: "max-content",
                           border: `1px solid ${palette.colorBorderTag}`,
                         }}

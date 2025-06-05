@@ -19,7 +19,7 @@ const Subscribe = () => {
         border={`1px solid ${palette.colorRelate?.bgColorSub}`}
         p={{ md: "56px 40px", xs: "40px 28px" }}
         bgcolor={palette.colorRelate?.bgColorSub}
-        borderRadius={"4px"}
+        borderRadius={"5px"}
         flex={1}
       >
         <Stack
@@ -63,7 +63,7 @@ const Subscribe = () => {
                     "&:hover": {
                       background: `${palette.colorGame?.btnChat} !important`,
                     },
-                    borderRadius: "8px !important",
+                    borderRadius: "5px !important",
                     padding: "12px 24px !important",
                     fontWeight: `${700} !important`,
                   }}

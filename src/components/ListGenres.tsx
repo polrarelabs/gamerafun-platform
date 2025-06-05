@@ -43,7 +43,6 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
 
   const handleClick = (item: GenresCProps) => {
     const text = encode(item.name);
-
     router.push(`/genres/${text}`);
   };
 
@@ -63,7 +62,7 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
         return (
           <Stack
             key={index}
-            borderRadius={"8px"}
+            borderRadius={"5px"}
             position={"relative"}
             onMouseEnter={() => handleHover(index)}
             onMouseLeave={handleUnHover}
@@ -87,7 +86,7 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
                   width: "100%",
                   height: "100%",
                   overflow: "hidden",
-                  borderRadius: "16px",
+                  borderRadius: "5spx",
                   border: "1px",
                   "& img": {
                     objectFit: "cover",

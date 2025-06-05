@@ -3,9 +3,10 @@
 import { Search, SliderCustom, Text } from "@components/shared";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import FormDateAdded from "./FormDateAdded";
-import FormListOption from "./shared/FormListOption";
+import FormOption from "./shared/FormOption";
+import { Platform, ScheduleStatus } from "@constant/enum";
 const OptionSider = () => {
   const {
     setMinRating,
@@ -20,7 +21,25 @@ const OptionSider = () => {
     setSearch,
     SetStatusGame,
     statusGame,
+    genreItems,
   } = useGame();
+
+  const [listGenres, setListGenres] = useState<string[]>([]);
+
+  useEffect(() => {
+    console.log(listGenres);
+    console.log("genresItem", genreItems);
+  }, [listGenres]);
+
+  useEffect(() => {
+    if (genreItems) {
+      const arr: string[] = [];
+      for (const item of genreItems) {
+        arr.push(item.name);
+      }
+      setListGenres(arr);
+    }
+  }, [genreItems]);
 
   const handleChangeMinRating = (
     _event: Event,
@@ -36,16 +55,25 @@ const OptionSider = () => {
   };
 
   return (
-    <Stack direction={"column"} gap={2} flex={{ lg: 1, xs: 2 }}>
+    <Stack
+      direction={"column"}
+      gap={2}
+      flex={{
+        lg: 1,
+        xs: 2,
+      }}
+      mb={4}
+    >
       <Search setSearch={setSearch} placeholder="Search for games" />
       <Stack direction={"column"} gap={2}>
-        <FormListOption
-          name={"Platform"}
+        <FormOption
+          title={"Platform"}
           data={gameCount.platform!}
           setArray={SetPlatforms}
           arrayKey={platforms}
+          label={Object.keys(Platform)}
         />
-        <Stack direction={"column"} gap={2}>
+        <Stack direction={"column"} gap={2} pl={2}>
           <Text color="white" fontSize={"16px"} fontWeight={500}>
             Min Rating
           </Text>
@@ -61,18 +89,20 @@ const OptionSider = () => {
           />
         </Stack>
 
-        <FormListOption
-          name={"Genres"}
-          data={gameCount.genre!}
+        <FormOption
+          title={"Genres"}
+          data={listGenres}
           setArray={SetGenres}
           arrayKey={genres}
+          label={listGenres}
         />
 
-        <FormListOption
-          name={"Status"}
+        <FormOption
+          title={"Status"}
           data={gameCount.schedule_status!}
           setArray={SetStatusGame}
           arrayKey={statusGame}
+          label={Object.keys(ScheduleStatus)}
         />
 
         <FormDateAdded />

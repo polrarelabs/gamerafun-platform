@@ -1,29 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import {
-  Button,
-  DialogShare,
-  Snackbared,
-  Text,
-  TextField,
-} from "@components/shared";
-import { Dialog, DialogContent, Stack } from "@mui/material";
+import { Button, DialogShare, Image, Text } from "@components/shared";
+import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
+import { usePathname } from "next/navigation";
 import { palette } from "public/material";
-import React, { memo, useEffect, useState } from "react";
-import { GetIcon } from "./components";
-import { thumbColor } from "@components/shared/helper";
-import { useParams, usePathname } from "next/navigation";
+import { memo, useState } from "react";
+import { GetIcon, GroupButtons } from "./components";
+import useBreakpoint from "@hooks/useBreakpoint";
 
 const InfoOverview = () => {
-  const params = useParams();
-
   const pathname = usePathname();
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-  const { gameById, createRate, loading, error } = useGame();
+  const { gameById } = useGame();
 
   const option = [
     {
@@ -47,69 +39,46 @@ const InfoOverview = () => {
     return arr;
   };
 
-  const [open, setOpen] = useState<boolean>(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [value, setValue] = useState<string>("");
-
-  const [rate, setRate] = useState<number>(0);
-
-  const handleSubmit = () => {
-    createRate({
-      gameId: Number(params.slug),
-      review: value,
-      score: rate,
-    });
-  };
-  const [openSnack, setOpenSnack] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (loading === false && error === "") {
-      setOpenSnack(true);
-    }
-  }, [loading, error]);
+  const { isLgSmaller, isSmSmaller } = useBreakpoint();
 
   return (
     <Stack direction={"column"} gap={4} position={"sticky"} top={0}>
-      <Stack direction={"row"} gap={2}>
-        <Button
-          variant="contained"
-          sx={{
-            height: "53px !important",
-            fontWeight: "700 !important",
-            fontSize: "18px !important",
-            borderRadius: "4px !important",
-          }}
-          fullWidth
-        >
-          Play Now
-        </Button>
-        <Button
-          variant="contained"
-          sx={{
-            height: "53px !important",
-            background: "white !important",
-            fontWeight: "700 !important",
-            fontSize: "18px !important",
-            borderRadius: "4px !important",
-          }}
-          onClick={() => setOpen(true)}
-          fullWidth
-        >
-          Write a Review
-        </Button>
-      </Stack>
+      {!isLgSmaller && <GroupButtons />}
       <Stack
         direction={"column"}
         p={"24px"}
         gap={4}
         bgcolor={palette.colorRelate?.colorBtn}
       >
-        <Text color={palette.textWhite} fontSize={"16px"}>
-          {gameById.description}
-        </Text>
+        {gameById.mediaUrl && (
+          <Stack position={"relative"}>
+            <Image
+              src={gameById.mediaUrl[0]}
+              alt={`img-${gameById.mediaUrl[0]}`}
+              size="100%"
+              aspectRatio={1 / 1}
+              sizes={150}
+              draggable={false}
+              containerProps={{
+                sx: {
+                  width: 150,
+                  height: 150,
+                  overflow: "hidden",
+                  "& img": {
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  },
+                },
+              }}
+            />
+          </Stack>
+        )}
+        {!isSmSmaller && (
+          <Text color={palette.textWhite} fontSize={"16px"}>
+            {gameById.description}
+          </Text>
+        )}
+
         <Stack direction={"row"} gap={1} alignItems={"center"}>
           {gameById &&
             gameById.genreName &&
@@ -125,7 +94,7 @@ const InfoOverview = () => {
                   sx={{
                     backgroundColor: palette.greenColorButton,
                     padding: "4px 8px",
-                    borderRadius: "4px",
+                    borderRadius: "5px",
                     width: "max-content",
                     border: `1px solid ${palette.colorBorderTag}`,
                   }}
@@ -135,6 +104,11 @@ const InfoOverview = () => {
               );
             })}
         </Stack>
+        {isSmSmaller && (
+          <Text color={palette.textWhite} fontSize={"16px"}>
+            {gameById.description}
+          </Text>
+        )}
         <Stack direction={"column"} gap={2}>
           {option.map((item, index) => {
             return (
@@ -166,7 +140,7 @@ const InfoOverview = () => {
           <Button
             variant="contained"
             sx={{
-              borderRadius: "8px !important",
+              borderRadius: "5px !important",
               fontWeight: "700 !important",
               fontSize: "18px !important",
             }}
@@ -181,97 +155,6 @@ const InfoOverview = () => {
         setOpen={setOpenDialog}
         pathname={pathname}
       />
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        maxWidth={"sm"}
-        sx={{
-          "& .mui-1hp2eyy-MuiPaper-root-MuiDialog-paper": {
-            backgroundImage: "inherit !important",
-          },
-        }}
-      >
-        <DialogContent>
-          <Stack direction={"column"} gap={4}>
-            <Text color={"white"} fontSize={"31.2px"} fontWeight={700}>
-              Write a review for War of Nova
-            </Text>
-            <Text color={palette.colorTextGray} fontSize={"16px"}>
-              Please describe what you liked or disliked about this game and
-              whether you recommend it to others. Please remember to be polite
-              and follow the Rules and Guidelines.
-            </Text>
-            <Stack direction={"column"} gap={1}>
-              <Stack
-                direction={"row"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Text>Your Review</Text>
-                <Text fontSize={"14px"}>{value.length} / 500 characters</Text>
-              </Stack>
-              <TextField
-                multiline
-                rows={4}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </Stack>
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Text fontSize={"14px"}>Choose a rating:</Text>
-              <Stack direction={"row"} alignItems={"center"} gap={0.5}>
-                {Array.from({ length: 10 }).map((_, index) => {
-                  return (
-                    <Stack
-                      key={index}
-                      height={36}
-                      width={36}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      borderRadius={"4px"}
-                      onClick={() => setRate(index + 1)}
-                      sx={{
-                        border: `1px solid ${rate === index + 1 ? thumbColor(rate, 0.2) : palette.bgMenuHover}`,
-                        background:
-                          rate === index + 1 ? thumbColor(rate) : undefined,
-                        "&:hover": {
-                          cursor: "pointer",
-                          background: thumbColor(index + 1),
-                        },
-                      }}
-                    >
-                      <Text fontSize={"14px"}>{index + 1}</Text>
-                    </Stack>
-                  );
-                })}
-              </Stack>
-            </Stack>
-            <Stack width={"100%"}>
-              <Button
-                variant="contained"
-                sx={{
-                  borderRadius: "8px !important",
-                }}
-                onClick={handleSubmit}
-              >
-                Submit your review
-              </Button>
-            </Stack>
-          </Stack>
-          <Snackbared
-            open={openSnack}
-            setOpen={setOpenSnack}
-            message={(error ?? "").length > 0 ? "Error" : "Success"}
-            status={(error ?? "").length > 0 ? "error" : "success"}
-            handleClose={() => setOpen(false)}
-          />
-        </DialogContent>
-      </Dialog>
     </Stack>
   );
 };

@@ -57,7 +57,7 @@ const FooterTabContants = () => {
   };
 
   return (
-    <Stack gap={2}>
+    <Stack gap={2} my={4}>
       <Stack direction={"row"} alignItems={"center"} gap={2} width={"100%"}>
         <Text
           color={palette.colorGray}
@@ -78,59 +78,33 @@ const FooterTabContants = () => {
           }}
         />
       </Stack>
-      {isMdSmaller && (
-        <>
-          {gameById.mediaUrl && (
-            <Stack position={"relative"} width={150}>
-              <Image
-                src={gameById.mediaUrl[0]}
-                alt={`img-${gameById.mediaUrl[0]}`}
-                size="100%"
-                aspectRatio={1 / 1}
-                sizes={150}
-                draggable={false}
-                containerProps={{
-                  sx: {
-                    width: 150,
-                    height: 150,
-                    overflow: "hidden",
-                    "& img": {
-                      objectFit: "cover",
-                      objectPosition: "center",
-                    },
-                  },
-                }}
-              />
-            </Stack>
-          )}
-        </>
-      )}
+
       <Stack
-        direction={"row"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
+        direction={{ xs: "column", md: "row" }}
+        justifyContent={{ md: "space-between" }}
+        alignItems={{ md: "center", xs: "start" }}
+        gap={{ xs: 2, md: undefined }}
       >
-        <Stack gap={1}>
+        <Stack>
           <Text color={palette.colorGray} fontSize={"16px"}>
             Studio
           </Text>
-          <Text color={palette.textWhite} fontSize={"20px"}>
+          <Text color={palette.textWhite} fontSize={"14px"}>
             Name Studio
           </Text>
         </Stack>
-        <Stack gap={1}>
+        <Stack>
           <Text color={palette.colorGray} fontSize={"16px"}>
             Website
           </Text>
-          <Text color={palette.textWhite} fontSize={"20px"}>
+          <Text color={palette.textWhite} fontSize={"14px"}>
             {gameById.website}
           </Text>
         </Stack>
         <Stack
           display={"grid"}
           gridTemplateColumns={{
-            md: "repeat(5,1fr)",
-            xs: "repeat(3,1fr)",
+            xs: "repeat(5,1fr)",
           }}
           alignItems={"center"}
           gap={1}
@@ -145,7 +119,7 @@ const FooterTabContants = () => {
                   height={40}
                   width={42}
                   border={`1px solid ${palette.bgMenuHover}`}
-                  borderRadius={"8px"}
+                  borderRadius={"5px"}
                   justifyContent={"center"}
                   alignItems={"center"}
                   sx={{
