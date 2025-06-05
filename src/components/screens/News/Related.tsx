@@ -51,10 +51,12 @@ const Related = ({
     });
   }, [blogId.tags]);
 
-  // useEffect(() => {
-  //   console.log("game", game);
-  //   console.log("news", blog.items);
-  // }, [game, blog.items]);
+  const [listGame, setListGame] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (dataGame && dataGame.length > 0) setListGame(dataGame);
+    else setListGame(game.items);
+  }, []);
 
   const handleViewAll = () => {
     if (relateBy === "game") return router.push(GAME_PATH);
@@ -65,88 +67,67 @@ const Related = ({
     <>
       {relateBy === "game" ? (
         <Stack direction={"column"} gap={2}>
-          <Stack direction={"row"} gap={2} alignItems={"center"}>
-            <Text color={"white"} fontWeight={700} fontSize={"24px"}>
-              {title}
-            </Text>
-            {isViewAll && (
-              <Stack
-                direction={"row"}
-                alignItems={"center"}
-                color={palette.greenColorText}
-              >
-                <Text
-                  fontSize={"14px"}
-                  fontWeight={500}
-                  color={palette.greenColorText}
-                  sx={{
-                    "&:hover": {
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                    },
-                  }}
-                  onClick={handleViewAll}
-                  onMouseEnter={() => setHover(true)}
-                  onMouseLeave={() => setHover(false)}
-                >
-                  View All
+          {listGame && (
+            <>
+              <Stack direction={"row"} gap={2} alignItems={"center"}>
+                <Text color={"white"} fontWeight={700} fontSize={"24px"}>
+                  {title}
                 </Text>
-                {hover ? (
-                  <ArrowLongIcon
-                    sx={{
-                      rotate: "180deg",
-                    }}
-                  />
-                ) : (
-                  <ArrowIcon
-                    sx={{
-                      fontSize: 15,
-                      rotate: "-90deg",
-                    }}
-                  />
+                {isViewAll && (
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    color={palette.greenColorText}
+                  >
+                    <Text
+                      fontSize={"14px"}
+                      fontWeight={500}
+                      color={palette.greenColorText}
+                      sx={{
+                        "&:hover": {
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        },
+                      }}
+                      onClick={handleViewAll}
+                      onMouseEnter={() => setHover(true)}
+                      onMouseLeave={() => setHover(false)}
+                    >
+                      View All
+                    </Text>
+                    {hover ? (
+                      <ArrowLongIcon
+                        sx={{
+                          rotate: "180deg",
+                        }}
+                      />
+                    ) : (
+                      <ArrowIcon
+                        sx={{
+                          fontSize: 15,
+                          rotate: "-90deg",
+                        }}
+                      />
+                    )}
+                  </Stack>
                 )}
               </Stack>
-            )}
-          </Stack>
-          {dataGame && dataGame.length > 0 ? (
-            <>
-              {dataGame.map((item, index) => {
-                return (
-                  <CardItem
-                    key={index}
-                    data={item}
-                    index={index}
-                    displayLayout={"no-list"}
-                    // handleClick={handleClick}
-                    isSmaller={true}
-                    isHover={true}
-                    widthMax={150}
-                    title="title"
-                  />
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {game && game.items && (
-                <Stack direction={"column"} gap={2}>
-                  {game.items.map((item, index) => {
-                    return (
-                      <CardItem
-                        key={index}
-                        data={item}
-                        index={index}
-                        displayLayout={"no-list"}
-                        // handleClick={handleClick}
-                        isSmaller={true}
-                        isHover={true}
-                        widthMax={150}
-                        title="title"
-                      />
-                    );
-                  })}
-                </Stack>
-              )}
+              <Stack direction={"column"} gap={2} width={"100%"}>
+                {listGame.map((item, index) => {
+                  return (
+                    <CardItem
+                      key={index}
+                      data={item}
+                      index={index}
+                      displayLayout={"no-list"}
+                      isSmaller={true}
+                      isHover={true}
+                      widthMax={150}
+                      title="title"
+                    />
+                  );
+                })}
+              </Stack>
             </>
           )}
         </Stack>

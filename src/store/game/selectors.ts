@@ -171,7 +171,7 @@ export const useGame = () => {
     dispatch(setStatusGetGameID(value));
   };
 
-  const SetGenres = (value: Genre[]) => {
+  const SetGenres = (value: string[]) => {
     dispatch(setGenres(value));
   };
 

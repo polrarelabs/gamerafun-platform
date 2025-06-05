@@ -58,7 +58,7 @@ interface PropsGameReducers {
   maxRating: number;
   gameId: number;
   isGetGameId: boolean;
-  genres: Genre[];
+  genres: string[];
   platforms: Platform[];
   statusGame: ScheduleStatus[];
   errorsSizeImage: string | null;
@@ -137,7 +137,7 @@ const GameReducers = createSlice({
     setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
       state.isGetGameId = action.payload;
     },
-    setGenres: (state, action: PayloadAction<Genre[]>) => {
+    setGenres: (state, action: PayloadAction<string[]>) => {
       state.genres = action.payload;
     },
     setStatusGame: (state, action: PayloadAction<ScheduleStatus[]>) => {

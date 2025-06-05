@@ -17,8 +17,11 @@ import bgSlider from "public/images/banner.webp";
 import { useEffect } from "react";
 
 import Latest from "@components/Latest";
-import { FooterTabContants } from "@components/screens/Games/components";
-import { SCREEN_PX } from "@constant";
+import {
+  FooterTabContants,
+  GroupButtons,
+} from "@components/screens/Games/components";
+import { SCREEN_PX, SCREEN_PY } from "@constant";
 import { AddedDateSort, SortBy } from "@constant/enum";
 import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
@@ -99,7 +102,7 @@ const LayoutGameDetail = () => {
     getGameBlog({ gameId: Number(param.slug), typeBlog: "overview" });
   }, [param.slug]);
 
-  const { isLgSmaller } = useBreakpoint();
+  const { isLgSmaller, isXsSmaller } = useBreakpoint();
 
   return (
     <Stack direction={"column"} gap={2}>
@@ -158,6 +161,17 @@ const LayoutGameDetail = () => {
             },
           }}
         />
+        {isXsSmaller && (
+          <Stack
+            position={"absolute"}
+            top={0}
+            left={0}
+            px={SCREEN_PX}
+            py={SCREEN_PY}
+          >
+            <Breadcumbs breadcumbs={breadcrumbs} />
+          </Stack>
+        )}
         <Stack
           position="absolute"
           bottom={0}
@@ -165,7 +179,7 @@ const LayoutGameDetail = () => {
           px={SCREEN_PX}
           zIndex={2}
         >
-          <Breadcumbs breadcumbs={breadcrumbs} />
+          {!isXsSmaller && <Breadcumbs breadcumbs={breadcrumbs} />}
           <h1>{gameById.name}</h1>
           <TabHeaders
             tabs={tabItems}
@@ -176,6 +190,7 @@ const LayoutGameDetail = () => {
       </Stack>
       <Stack px={SCREEN_PX} mt={4} direction={"row"} gap={6}>
         <Stack flex={6} gap={2}>
+          {isLgSmaller && <GroupButtons />}
           <Stack width={"100%"}>
             <TabContents tabs={tabItems} value={value} />
           </Stack>

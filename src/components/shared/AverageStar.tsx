@@ -73,7 +73,7 @@ const AverageStar = ({
                 color:
                   value === 0
                     ? palette.colorGame?.color
-                    : thumbColor(value, 0.6),
+                    : thumbColor(value, 0.2),
                 zIndex: 1,
               }}
             />
@@ -84,7 +84,7 @@ const AverageStar = ({
                 color:
                   value === 0
                     ? palette.colorGame?.color
-                    : thumbColor(value, 0.6),
+                    : thumbColor(value, 0.2),
                 position: "absolute",
                 left: "50%",
                 top: "50%",

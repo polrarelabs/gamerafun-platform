@@ -237,9 +237,9 @@ const getDefaultSx = (
 
   [OUTLINED_CLASS]: {
     border: "1px solid",
-    borderColor: overrideCss?.borderColor ?? "success.light",
-    color: overrideCss?.color ?? "success.light",
-    bgcolor: overrideCss?.backgroundColor ?? "success.dark",
+    borderColor: overrideCss?.borderColor ?? "info.light",
+    color: overrideCss?.color ?? "info.light",
+    bgcolor: overrideCss?.backgroundColor ?? "info.dark",
     transition: "0.5s",
     boxShadow: "none",
     position: "relative",

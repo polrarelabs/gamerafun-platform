@@ -20,17 +20,6 @@ const LayoutQuest = () => {
 
   return (
     <Stack gap={2} position={"relative"}>
-      <Button
-        variant="contained"
-        sx={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-        onClick={() => router.push(`${QUESTS_PATH}/create-quest`)}
-      >
-        Create Quest
-      </Button>
       <Text color="white" fontSize={"34px"} fontWeight={700}>
         Quests
       </Text>

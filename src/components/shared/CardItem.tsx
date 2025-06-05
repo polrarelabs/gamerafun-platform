@@ -128,7 +128,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
         sx={{
           background: palette.colorGame?.colorBorderLinear1,
           padding: "1px",
-          borderRadius: "16px",
+          borderRadius: "5px",
           transition: "translate 0.2s ease-in-out",
           "&:hover": {
             translate: isHover ? "0 -6px" : undefined,
@@ -194,7 +194,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
           p={"4px"}
           width="100%"
           height="100%"
-          borderRadius={"16px"}
+          borderRadius={"5px"}
           direction={isSmaller ? "row" : "column"}
           gap={2}
         >
@@ -256,8 +256,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
                       : widthMax,
                   height: isSmaller ? 125 : "100%",
                   overflow: "hidden",
-                  borderRadius: "8px",
-
+                  borderRadius: "5px",
                   border: "1px",
                   borderColor: palette.borderColorLinear,
                   "& img": {
@@ -317,7 +316,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
               <Stack
                 py="2px"
                 sx={{
-                  borderBottomRightRadius: "12px",
+                  borderBottomRightRadius: "5px",
                   background: palette.colorItemGame?.borderLinear,
                 }}
                 direction={"row"}
@@ -379,8 +378,8 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
                   bgcolor={palette.colorItemGame?.borderTitle}
                   py="2px"
                   sx={{
-                    borderBottomLeftRadius: "12px",
-                    borderBottomRightRadius: "12px",
+                    borderBottomLeftRadius: "7px",
+                    borderBottomRightRadius: "7px",
                   }}
                   direction={"row"}
                   alignItems={"center"}

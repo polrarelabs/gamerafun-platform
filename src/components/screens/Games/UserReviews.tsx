@@ -1,10 +1,8 @@
-import { AverageStar, Text, Tooltip } from "@components/shared";
-import { thumbColor } from "@components/shared/helper";
+import { AverageStar, Text } from "@components/shared";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { palette } from "public/material";
-import React, { memo } from "react";
-import { BsFillHexagonFill } from "react-icons/bs";
+import { memo } from "react";
 import CardReview from "./components/CardReview";
 
 const UserReviews = () => {

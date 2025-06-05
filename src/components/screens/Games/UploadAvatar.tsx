@@ -96,7 +96,7 @@ const UploadAvarta = ({
             variant="outlined"
             tabIndex={-1}
             sx={{
-              borderRadius: "8px",
+              borderRadius: "5px",
               p: 2,
               width: "max-content",
             }}

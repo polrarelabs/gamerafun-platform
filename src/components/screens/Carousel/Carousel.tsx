@@ -220,7 +220,7 @@ const Carousel = () => {
                     key={index}
                     width={"18%"}
                     height={"auto"}
-                    borderRadius={"6px"}
+                    borderRadius={"5px"}
                     border={"1px solid white"}
                     // position={"relative"}
                     onClick={() => handleClickImage(index)}
@@ -243,7 +243,7 @@ const Carousel = () => {
                           "& img": {
                             objectFit: "cover",
                             objectPosition: "center",
-                            borderRadius: "6px",
+                            borderRadius: "5px",
                           },
                         },
                       }}

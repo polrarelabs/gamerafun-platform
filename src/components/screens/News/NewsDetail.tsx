@@ -30,7 +30,7 @@ const NewsDetail = () => {
         alignItems={"start"}
       >
         {isMdSmaller && (
-          <Stack flex={2}>
+          <Stack flex={2} width={"100%"}>
             {blogId.game && blogId.game.length > 0 && (
               <Related
                 relateBy="game"

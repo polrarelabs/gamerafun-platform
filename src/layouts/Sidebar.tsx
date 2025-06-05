@@ -31,6 +31,7 @@ const Sidebar = () => {
             width: "60%",
             minWidth: 260,
             p: 2,
+            backgroundImage: "none",
           },
         }}
       >

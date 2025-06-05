@@ -18,3 +18,4 @@ export const CREATE_GAME_PATH = "/games/create-game";
 export const UPDATE_GAME_PATH = "/games/update-game";
 export const CREATE_GENRES_PATH = "/genres/create-genres";
 export const QUESTS_PATH = "/quests";
+export const QUESTS_CREATE_PATH = "/quests/create-quest";

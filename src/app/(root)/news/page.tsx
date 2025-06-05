@@ -1,11 +1,11 @@
 "use client";
 
 import Layout from "@components/screens/News/Layout";
-import { Image, Text } from "@components/shared";
+import { Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { SCREEN_PX } from "@constant";
 import { HOME_PATH } from "@constant/paths";
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useGallery } from "@store/media";
 import { palette } from "public/material";
 import { memo } from "react";

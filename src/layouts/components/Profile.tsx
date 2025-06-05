@@ -13,6 +13,14 @@ import login_token from "public/images/login-token.svg";
 import { palette } from "public/material";
 import React, { memo, useState } from "react";
 import { GetEmail, GetUserName } from "./helper";
+import {
+  CREATE_GAME_PATH,
+  CREATE_GENRES_PATH,
+  CREATE_NEWS_PATH,
+  QUESTS_CREATE_PATH,
+  UPDATE_GAME_PATH,
+} from "@constant/paths";
+import { useRouter } from "next/navigation";
 declare global {
   interface Window {
     google?: {
@@ -31,6 +39,8 @@ const Profile = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const { disconnect } = useAptosWallet();
+
+  const router = useRouter();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -51,6 +61,10 @@ const Profile = () => {
     signOut();
     disconnect();
     logOut();
+  };
+
+  const handleNext = (path: string) => {
+    router.push(path);
   };
 
   return (
@@ -143,6 +157,26 @@ const Profile = () => {
             </Stack>
           </Stack>
 
+          <Stack gap={2}>
+            {ListFeature.map((item, index) => {
+              return (
+                <Stack
+                  key={index}
+                  onClick={() => handleNext(item.path)}
+                  sx={{
+                    padding: 1,
+                    "&:hover": {
+                      background: palette.bgMenuHover,
+                      cursor: "pointer",
+                    },
+                  }}
+                >
+                  {item.title}
+                </Stack>
+              );
+            })}
+          </Stack>
+
           <Stack
             color="white"
             direction={"row"}
@@ -172,3 +206,26 @@ const Profile = () => {
 };
 
 export default memo(Profile);
+
+const ListFeature = [
+  {
+    title: "Create Game",
+    path: CREATE_GAME_PATH,
+  },
+  {
+    title: "Update Game",
+    path: UPDATE_GAME_PATH,
+  },
+  {
+    title: "Create Blog",
+    path: CREATE_NEWS_PATH,
+  },
+  {
+    title: "Create Genres",
+    path: CREATE_GENRES_PATH,
+  },
+  {
+    title: "Create Quest",
+    path: QUESTS_CREATE_PATH,
+  },
+];

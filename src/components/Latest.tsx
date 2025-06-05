@@ -1,6 +1,6 @@
 "use client";
 
-import { ClickWrapper, Slider, Text } from "@components/shared";
+import { Slider, Text } from "@components/shared";
 import CardItem from "@components/shared/CardItem";
 import { SCREEN_PX } from "@constant";
 import { Tag } from "@constant/enum";
@@ -15,6 +15,7 @@ import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 import { CardBlog } from "./screens/News/components";
 import { CardQuest } from "./screens/Quests/components";
+import useBreakpoint from "@hooks/useBreakpoint";
 
 interface LatestProps {
   title: string;
@@ -46,6 +47,27 @@ const Latest = ({
   const { blog, getBlogId, getBlog } = useBlog();
   const { game, getGame, getGameById } = useGame();
   const { quest, getQuest } = useQuest();
+
+  const { isXsSmaller, isSmSmaller, isMdSmaller, isLgSmaller } =
+    useBreakpoint();
+
+  const SizeSliderGame = () => {
+    if (isXsSmaller) return 2;
+    if (isSmSmaller) return 3;
+    if (isMdSmaller) return 5;
+    return 8;
+  };
+  const SizeSliderBlog = () => {
+    if (isSmSmaller) return 2;
+    if (isMdSmaller) return 3;
+    return 5;
+  };
+
+  const SizeSliderQuest = () => {
+    if (isSmSmaller) return 2;
+    if (isMdSmaller) return 3;
+    return 4;
+  };
 
   useEffect(() => {
     if (type === "new") {
@@ -131,7 +153,7 @@ const Latest = ({
         <Stack zIndex={2} py={1}>
           {type === "new" ? (
             <>
-              {blog && blog.totalItems > 5 ? (
+              {blog && blog.totalItems > SizeSliderBlog() ? (
                 <Slider
                   itemWidth={widthGame ? widthGame : 350}
                   step={16}
@@ -175,7 +197,7 @@ const Latest = ({
             </>
           ) : (
             <>
-              {game && game.totalItems > 8 ? (
+              {game && game.totalItems > SizeSliderGame() ? (
                 <Slider
                   itemWidth={widthGame ? widthGame : 350}
                   step={16}
@@ -228,7 +250,7 @@ const Latest = ({
       )}
       {type === "quest" && (
         <Stack zIndex={2} py={1}>
-          {quest && quest.length > 4 ? (
+          {quest && quest.length > SizeSliderQuest() ? (
             <Slider
               itemWidth={widthGame ? widthGame : 350}
               step={16}

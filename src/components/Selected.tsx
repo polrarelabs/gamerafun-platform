@@ -33,7 +33,7 @@ const Selected = () => {
   const { tags, setTags } = useBlog();
 
   return (
-    <Stack direction={"row"} gap={2} flexWrap={"wrap"}>
+    <Stack direction={"row"} gap={2} flexWrap={"wrap"} mb={2} mt={1}>
       {playable && (
         <BoxSelected
           name={"playable"}
