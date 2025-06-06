@@ -1,5 +1,7 @@
 // import { GenresDetailBreadcumb } from "@components/screens/Genres";
 // import { GenresDetail } from "@components/screens/Genres/components";
+"use client";
+
 import { memo } from "react";
 import dynamic from "next/dynamic";
 
