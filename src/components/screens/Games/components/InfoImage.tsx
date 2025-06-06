@@ -61,7 +61,7 @@ const InfoImage = ({ data, id, setDataList, dataList }: PropsInfoInmage) => {
         onMouseLeave={() => setHover(false)}
       >
         <Image
-          src={URL.createObjectURL(data.file)}
+          src={data.url ? data.url : URL.createObjectURL(data.file)}
           alt="preview"
           size="100%"
           aspectRatio={3 / 2}

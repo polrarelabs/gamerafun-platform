@@ -1,11 +1,10 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import {
   CreateBlog,
-  BlogCreateProps,
   DeleteBlog,
   GetBlog,
   GetBlogId,
-  GetBlogProps,
+  GetBlogSponsored,
   UpdateBlog,
 } from "./action";
 import {
@@ -17,9 +16,11 @@ import {
   SetSearch,
   SetSortBy,
   SetStatus,
+  SetStatusAPI,
   SetTags,
 } from "./reducer";
 import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
+import { BlogRequestState, GetBlogProps } from "./type";
 
 export const useBlog = () => {
   const dispatch = useAppDispatch();
@@ -32,11 +33,11 @@ export const useBlog = () => {
     dispatch(GetBlogId(blogId));
   };
 
-  const createBlog = (body: BlogCreateProps) => {
+  const createBlog = (body: BlogRequestState) => {
     dispatch(CreateBlog(body));
   };
 
-  const updateBlog = (body: BlogCreateProps) => {
+  const updateBlog = (body: BlogRequestState) => {
     dispatch(UpdateBlog(body));
   };
 
@@ -78,6 +79,14 @@ export const useBlog = () => {
     dispatch(SetStatus(value));
   };
 
+  const setStatusAPI = () => {
+    dispatch(SetStatusAPI());
+  };
+
+  const getBlogSponsored = (param: GetBlogProps) => {
+    dispatch(GetBlogSponsored(param));
+  };
+
   const {
     loading,
     error,
@@ -91,9 +100,13 @@ export const useBlog = () => {
     sortBy,
     search,
     status,
+    blogSponsored,
   } = useAppSelector((state) => state.blog);
 
   return {
+    getBlogSponsored,
+    blogSponsored,
+    setStatusAPI,
     sortBy,
     setSortBy,
     getBlog,

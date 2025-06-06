@@ -11,8 +11,8 @@ export default {
     onBackgroundChannel: "rgb(255, 255, 255)",
   },
   primary: {
-    main: "#1CD6CE", // OK
-    light: "#C4FFF4",
+    main: "#29B6F6", // OK
+    light: "#4FC3F7",
     dark: "#2B4747", // OK
     contrastText: "rgba(0, 0, 0, 0.87)",
     mainChannel: "rgb(144, 202, 249)",
@@ -31,7 +31,7 @@ export default {
     contrastTextChannel: "rgb(0, 0, 0)",
   },
   error: {
-    main: "#EB4A53", // OK
+    main: "#EB4A53",
     light: "#EB4A53",
     dark: "#D32F2F",
     contrastText: "#FFFFFF",
@@ -208,10 +208,12 @@ export default {
   text80: "#FFFFFF80",
   borderColorLinear:
     "linear-gradient(180deg,rgba(189, 189, 189, 1) 0%, rgba(87, 87, 87, 0.5) 100%)",
-  greenColorText: "#7dffac",
-  greenColor: "#33F57A",
-  colorBorderTag: "#0a5d2b80",
-  greenColorButton: "color-mix(in srgb, #33F57A, transparent 85%)",
+  greenColorText: "#29B6F6",
+  greenColor: "#29B6F6",
+  colorBorderTag: "rgba(28, 214, 206, 0.1)",
+  colorErrors: "#EB4A53",
+  colorBgErrors: "rgba(245, 0, 79, 0.1)",
+  greenColorButton: "color-mix(in srgb, #29B6F6, transparent 85%)",
   backgroundReview: "#121926",
   colorTextRed: "#f87171",
   colorTextGray: "#acbbcc",
@@ -233,9 +235,12 @@ export default {
     borderTitle: "#4B556380",
     colorText: "#D1D5D8",
     borderLinear:
-      "linear-gradient(90deg,rgba(24, 37, 44, 1) 0%,rgba(24, 37, 44, 1) 10%, rgba(75, 85, 99, 0.68) 100%)",
+      "linear-gradient(90deg, #1F2937 0%,rgba(75, 85, 99, 0.36) 50%, rgba(75, 85, 99, 0.68) 100%)",
+    bgBtnLike: "rgba(152,170,192,0.16)",
+    bgBtnLikeHover: "rgba(152,170,192,1)",
   },
   colorReview: {
+    colorBorder: "#e5e7eb70",
     textCopy: "#94a7c6",
     bgColor: "#333",
     color: "#ccc",
@@ -250,11 +255,24 @@ export default {
   colorModalShare: {
     bgColor: "#0e1420",
     bgColor1: "#1b2332",
+    borderColor: "#474747",
+    bgCopy: "#1b2332bf",
+    bgStep: "#242e42",
   },
   colorGame: {
-    btnChat: "#69F660",
+    bgLinear:
+      "linear-gradient(180deg, rgb(17, 17, 17) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgb(17, 17, 17) 100%)",
+    colorBgLinear1:
+      "linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)",
+    colorBorderLinear1:
+      "linear-gradient(180deg,rgba(154, 161, 157, 0.7) 0%, rgba(154, 161, 157, 0.3) 70%, rgba(9, 222, 87, 0.01) 100%",
+    colorBorderLinear:
+      "linear-gradient(180deg,rgba(9, 59, 222, 0.7) 0%, rgba(9, 59, 222, 0.4) 70%, rgba(9, 222, 87, 0.01)) 100%",
+    colorBoderLinear1:
+      "linear-gradient(180deg, rgb(255, 241, 45, 1) 0%, rgb(255, 241, 45, 0.4) 60%, rgba(255, 171, 45, 0.01)) 100%",
+    btnChat: "#4FC3F7",
     textColor: "#ffffff99",
-    colorBtnNew: "#00ce6b",
+    colorBtnNew: "#29B6F6",
     colorLinear:
       "linear-gradient(90deg,rgba(184, 84, 85, 1) 1%, rgba(229, 155, 44, 1) 50%, rgba(1, 183, 98, 1) 100%)",
     color: "#242C3D",
@@ -265,6 +283,8 @@ export default {
     bgColor2: "#6b7280",
   },
   colorRelate: {
+    bgBtnSocial: "#6b72801a",
+    bgBtnSocialHover: "#6b728026",
     bgColor: "#2456",
     borderColor: "#FFFFFF40",
     bgColorHover: "#FFFFFF1A",
@@ -272,9 +292,25 @@ export default {
     linearHr:
       "linear-gradient(90deg,rgba(14, 20, 32, 1) 1%, rgba(217, 217, 217, 1) 50%, rgba(14, 20, 32, 1) 100%)",
     linearImage:
-      "linear-gradient(to right, rgba(14, 20, 32, 0.6) 0%, rgba(0, 206, 107, 0.6) 100%), linear-gradient(to right, rgba(14, 20, 32, 0.8) 0%, rgba(14, 20, 32, 0) 100%)",
+      "linear-gradient(to right, rgba(14, 20, 32, 0.6) 0%, #002BC2 40%, #9747FF 60%,  #58C2C9 80%, #00C27C 100%)",
+    linearOverview:
+      "linear-gradient(to right, #111111 0%, transparent 15%, transparent 85%, #111111 100%)",
+    linearOverview1:
+      "linear-gradient(rgba(14, 20, 32, 0) 0%, rgba(14, 20, 32, 0) 40%, rgba(14, 20, 32, 0.75) 80%, #111111 100%)",
     textShadow: "rgba(255, 255, 255, 0.3) 0px 0px 12px",
     colorBtn: "#1b233280",
-    bgColorSub: "#00ce6b26",
+    bgColorSub: "rgba(28, 87, 214, 0.1)",
+    colorBorderBottom: "#1f2c47",
+  },
+  colorQuests: {
+    main: "#FFCD57",
+    bgTags: "rgba(254, 219, 57, 0.1)",
+    bgMission: "#ffffff0a",
+    bgMissionHover: "#ffffff29",
+    colorMission: "rgba(255, 255, 255, 0.7)",
+    bgCheckbox: "#ffffff29",
+    bgCheckboxHover: "#ffffff4d",
+    bgLinear:
+      "radial-gradient(60% 100% at 100% 0%, rgba(255, 205, 87, 0.2), transparent)",
   },
 } as unknown as PaletteOptions;

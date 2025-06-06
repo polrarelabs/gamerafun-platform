@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
@@ -8,14 +9,17 @@ import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
 import { SortBy } from "@constant/enum";
+import { GAME_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import GameIcon from "@icons/web3/GameIcon";
 import { Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
 import { GameItems } from "@store/game/type";
 import { useBlog } from "@store/new";
+import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
+
 interface Props {
   isLayoutMD: boolean;
   theme: any | null;
@@ -23,14 +27,6 @@ interface Props {
   displayLayout: string;
   setDisplayLayout: React.Dispatch<React.SetStateAction<string>>;
 }
-
-// function getStyles(name: string, personName: readonly string[], theme: Theme) {
-//   return {
-//     fontWeight: personName.includes(name)
-//       ? theme.typography.fontWeightMedium
-//       : theme.typography.fontWeightRegular,
-//   };
-// }
 
 const BrowserGame = ({
   isLayoutMD,
@@ -48,21 +44,26 @@ const BrowserGame = ({
     pageIndex,
     pageSize,
     setPageIndex,
+    getGameById,
+    platforms,
   } = useGame();
   const { checkDate } = useBlog();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { isSmSmaller } = useBreakpoint();
 
+  const router = useRouter();
+
   useEffect(() => {
     getGame({
       pageIndex: pageIndex,
       pageSize: pageSize,
-      genre: genres,
+      genres: genres,
       addedDateSort: checkDate,
       sortBy: sortBy,
       search: search === "" ? undefined : search,
+      platform: platforms,
     });
-  }, [genres, checkDate, sortBy, search, pageIndex, pageSize]);
+  }, [genres, checkDate, sortBy, search, pageIndex, pageSize, platforms]);
 
   useEffect(() => {
     if (isSm) setDisplayLayout("no-list");
@@ -73,15 +74,21 @@ const BrowserGame = ({
     setOpen(true);
   };
 
-  // const handleClick = (id: number) => {
-  //   const cookie = Cookies.get(ACCESSTOKEN_COOKIE)
-  //   if (cookie && cookie !== 'undefined') {
-  //     getGameId(id)
-  //     router.push(`${GAME_PATH}/${id}`)
-  //   } else {
-  //     router.push(LOGIN_PATH)
-  //   }
-  // }
+  useEffect(() => {
+    console.log("window", window);
+  }, []);
+
+  const handleClick = (id: number) => {
+    // const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
+    // if (cookie && cookie !== "undefined") {
+    getGameById(id);
+    router.push(`${GAME_PATH}/${id}`);
+    // } else {
+    //   router.push(LOGIN_PATH);
+    // }
+  };
+
+  const ref = useRef(null);
 
   const [gameDisplay, setGameDisplay] = useState<GameItems[]>([]);
   const [gameFake, setGameFake] = useState<GameItems[]>([]);
@@ -89,12 +96,15 @@ const BrowserGame = ({
   useEffect(() => {
     if (game.pageIndex === 1) {
       setGameDisplay(game.items);
-    } else setGameFake(game.items);
+    }
+    setGameFake(game.items);
   }, [game.items]);
 
   useEffect(() => {
-    if (gameFake !== game.items) {
-      setGameDisplay([...gameDisplay, ...gameFake]);
+    if (gameDisplay !== gameFake) {
+      const arr: GameItems[] = [...gameDisplay, ...gameFake];
+      setGameDisplay(arr);
+      setGameFake(arr);
     }
   }, [gameFake]);
 
@@ -117,16 +127,16 @@ const BrowserGame = ({
   );
 
   return (
-    <>
-      <Stack direction={"column"} gap={2} flex={{ lg: 5, xs: 4 }}>
-        <Stack direction={"row"} alignItems={"center"} gap={2}>
-          <GameIcon sx={{ color: palette.colorGray }} />
-          <Stack
-            direction={"row"}
-            justifyContent={"space-between"}
-            width={"100%"}
-          >
-            <Stack direction={"row"} alignItems={"end"} gap={2}>
+    <Stack direction={"column"} gap={2} flex={{ lg: 5, xs: 4 }}>
+      <Stack direction={"row"} alignItems={"center"} gap={2}>
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          width={"100%"}
+        >
+          <Stack direction={"row"} gap={1} alignItems={"center"} ref={ref}>
+            <GameIcon sx={{ color: palette.colorGray }} />
+            <Stack direction={"row"} alignItems={"end"} gap={2} ref={ref}>
               <Text color="white" fontSize={"20px"} fontWeight={700}>
                 Browse Games
               </Text>
@@ -138,62 +148,63 @@ const BrowserGame = ({
                 {game.totalItems} results
               </Text>
             </Stack>
-
-            <Stack>
-              <SelectOptions
-                selected={sortBy}
-                setSelected={setSortBy}
-                options={Object.keys(SortBy)}
-                getSort={getSort}
-              />
-            </Stack>
           </Stack>
-        </Stack>
-        {!isLayoutMD && (
-          <Stack
-            alignItems={"center"}
-            gap={2}
-            height={"100%"}
-            display={"grid"}
-            gridTemplateColumns={"repeat(2,1fr)"}
-          >
+
+          <Stack>
             <SelectOptions
               selected={sortBy}
               setSelected={setSortBy}
               options={Object.keys(SortBy)}
               getSort={getSort}
             />
-
-            <ButtonFillters handleOpen={handleOpen} />
           </Stack>
-        )}
-        <Selected />
-        <Stack
-          display={"grid"}
-          gridTemplateColumns={{
-            xl: "repeat(6, 1fr)",
-            lg: "repeat(4, 1fr)",
-            sm: "repeat(2, 1fr)",
-          }}
-          gap={2.5}
-        >
-          {gameDisplay &&
-            gameDisplay.map((item, index) => {
-              const isLast = index === gameDisplay.length - 1;
-              return (
-                <CardItem
-                  ref={isLast ? lastElementRef : null}
-                  isSmaller={isSmSmaller}
-                  key={index}
-                  index={index}
-                  data={item}
-                  title={"Title"}
-                />
-              );
-            })}
         </Stack>
       </Stack>
-    </>
+      {!isLayoutMD && (
+        <Stack
+          alignItems={"center"}
+          gap={2}
+          height={"100%"}
+          display={"grid"}
+          gridTemplateColumns={"repeat(2,1fr)"}
+        >
+          <SelectOptions
+            selected={sortBy}
+            setSelected={setSortBy}
+            options={Object.keys(SortBy)}
+            getSort={getSort}
+          />
+
+          <ButtonFillters handleOpen={handleOpen} />
+        </Stack>
+      )}
+      <Selected />
+      <Stack
+        display={"grid"}
+        gridTemplateColumns={{
+          xl: "repeat(6, 1fr)",
+          lg: "repeat(4, 1fr)",
+          sm: "repeat(2, 1fr)",
+        }}
+        gap={1.5}
+      >
+        {gameDisplay &&
+          gameDisplay.map((item, index) => {
+            const isLast = index === gameDisplay.length - 1;
+            return (
+              <CardItem
+                ref={isLast ? lastElementRef : null}
+                isSmaller={isSmSmaller}
+                key={index}
+                index={index}
+                data={item}
+                title={"Title"}
+                handleClick={handleClick}
+              />
+            );
+          })}
+      </Stack>
+    </Stack>
   );
 };
 

@@ -8,11 +8,12 @@ import ButtonFillters from "@components/shared/ButtonFillters";
 import { SortBy } from "@constant/enum";
 import { NEWS_PATH } from "@constant/paths";
 import { SelectChangeEvent, Stack } from "@mui/material";
-import { BlogItem, useBlog } from "@store/new";
+import { useBlog } from "@store/new";
 import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { CardBlog } from "./components";
+import { BlogItem } from "@store/new/type";
 
 interface Props {
   isLayoutMD: boolean;
@@ -79,12 +80,15 @@ const LastNewsLists = ({
   useEffect(() => {
     if (blog.pageIndex === 1) {
       setBlogDisplay(blog.items);
-    } else setBlogFake(blog.items);
+    }
+    setBlogFake(blog.items);
   }, [blog.items]);
 
   useEffect(() => {
-    if (blogFake !== blog.items) {
-      setBlogDisplay([...blogDisplay, ...blogFake]);
+    if (blogFake !== blogDisplay) {
+      const arr: BlogItem[] = [...blogDisplay, ...blogFake];
+      setBlogDisplay(arr);
+      setBlogFake(arr);
     }
   }, [blogFake]);
 
@@ -107,7 +111,7 @@ const LastNewsLists = ({
   );
 
   return (
-    <Stack flex={5} direction={"column"} gap={4}>
+    <Stack flex={5} direction={"column"} gap={1}>
       <Stack>
         <Text color={palette.textWhite} fontWeight={700} fontSize={"31px"}>
           Latest News
@@ -140,7 +144,7 @@ const LastNewsLists = ({
           md: displayLayout === "list" ? "repeat(1,1fr)" : "repeat(2,1fr)",
           xs: displayLayout === "list" ? "repeat(1,1fr)" : "repeat(1,1fr)",
         }}
-        gap={4}
+        gap={2}
       >
         {blogDisplay.map((item, index) => {
           const isLast = index === blogDisplay.length - 1;
@@ -152,6 +156,7 @@ const LastNewsLists = ({
               index={index}
               displayLayout={displayLayout}
               handleClick={handleClick}
+              isBg={true}
             />
           );
         })}

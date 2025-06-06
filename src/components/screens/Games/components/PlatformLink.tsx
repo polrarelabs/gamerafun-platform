@@ -1,17 +1,13 @@
 "use client";
 
-import { Button, Text } from "@components/shared";
-import SelectFormik from "@components/shared/SelectFormik";
+import { Button, IconButton, Text, TextField } from "@components/shared";
+import Select from "@components/shared/Select"; // dùng Select custom của bạn
+import { Platform } from "@constant/enum";
 import { Option } from "@constant/types";
-import {
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Stack,
-  SelectChangeEvent,
-} from "@mui/material";
 import { PlatformLinkProps } from "@store/game/type";
-import React, { memo, useEffect, useState } from "react";
+import { InputBase, Stack } from "@mui/material";
+import React, { memo, useEffect, useMemo, useState } from "react";
+import { typography } from "public/material";
 
 interface PropsPlatformLink {
   data: PlatformLinkProps[];
@@ -19,84 +15,161 @@ interface PropsPlatformLink {
   isDisable?: boolean;
 }
 
+interface PlatFormItems {
+  platform: string;
+  path: string;
+}
+
 const PlatformLink = ({
   data,
   setData,
   isDisable = false,
 }: PropsPlatformLink) => {
-  const [value, setValue] = useState<string>("");
+  const [dataFake, setDataFake] = useState<PlatFormItems[]>([]);
 
-  const options: Option[] = [
-    {
-      label: "Windows",
-      value: "windows",
-    },
-    {
-      label: "MacOS",
-      value: "macos",
-    },
-  ];
+  const platformOptions: Option[] = useMemo(() => {
+    return Object.keys(Platform).map((key) => ({
+      label: key,
+      value: Platform[key],
+    }));
+  }, []);
 
-  const [option, setOption] = useState<Option[]>([]);
+  const usedPlatforms = useMemo(() => {
+    return data.map((item) => Object.keys(item)[0]);
+  }, [data]);
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    const selectedValue = event.target.value;
-    setValue(selectedValue);
-    const newDate: PlatformLinkProps[] = [...data];
-    newDate.push({
-      [selectedValue]: "",
-    });
-    setData(newDate);
+  const handleClick = () => {
+    setDataFake((prev) => [...prev, { platform: "", path: "" }]);
+  };
+
+  const handleChangePlatform = (selected: string[], index: number) => {
+    const arr = [...dataFake];
+    arr[index].platform = selected[0] || "";
+    setDataFake(arr);
+  };
+
+  const handleChangePath = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number,
+  ) => {
+    const arr = [...dataFake];
+    arr[index].path = event.target.value;
+    setDataFake(arr);
+  };
+
+  const handleDelete = (index: number) => {
+    const arr = [...dataFake];
+    arr.splice(index, 1);
+    setDataFake(arr);
   };
 
   useEffect(() => {
-    setOption(options);
-  }, []);
+    if (data && data.length > 0) {
+      const mapped = data.map((item) => {
+        const platform = Object.keys(item)[0];
+        const path = item[platform];
+        return { platform, path };
+      });
+      setDataFake(mapped);
+    }
+  }, [data]);
 
-  const handleClick = () => {};
+  useEffect(() => {
+    const arr: PlatformLinkProps[] = [];
+    dataFake.forEach((item) => {
+      if (item.platform) {
+        arr.push({
+          [item.platform]: item.path,
+        });
+      }
+    });
+    setData(arr);
+  }, [dataFake]);
 
   return (
-    <Stack direction={"row"} gap={2}>
-      <Stack direction={"column"} gap={1} flex={1}>
+    <Stack direction="column" gap={2}>
+      <Stack direction="row" gap={2} flex={1} alignItems="center">
         <Text>Platform Link</Text>
         <Button
           variant="outlined"
           size="small"
-          onClick={() => {
-            setValue("");
-            setData([]);
-          }}
+          onClick={handleClick}
           sx={{
-            borderRadius: "8px !important",
+            borderRadius: "5px !important",
             width: "max-content",
             padding: "4px 8px",
           }}
         >
           +
         </Button>
-        <Select
-          value={value}
-          onChange={handleChange}
-          input={<OutlinedInput />}
-          disabled={isDisable}
-          fullWidth
-        >
-          {options.map((item, index) => (
-            <MenuItem
-              key={index}
-              value={item.value}
-              disabled={data.some((d) => Object.keys(d)[0] === item.value)}
-            >
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
       </Stack>
-      {data.length > 0 && (
-        <Stack flex={2} direction={"column"} gap={2}>
-          {data.map((item, index) => {
-            return <Stack key={index} direction={"row"} gap={2}></Stack>;
-          })}
+
+      {dataFake.length > 0 && (
+        <Stack width="100%" direction="column" gap={2}>
+          <Stack direction="row" gap={2} width="100%">
+            <Stack flex={1}>
+              <Text>Platform</Text>
+            </Stack>
+            <Stack flex={2}>
+              <Text>Link</Text>
+            </Stack>
+          </Stack>
+
+          {dataFake.map((item, index) => (
+            <Stack key={index} direction="row" width="100%" gap={2}>
+              <Stack flex={1}>
+                <Select
+                  value={item.platform}
+                  onChange={(val) =>
+                    handleChangePlatform(val as string[], index)
+                  }
+                  options={platformOptions}
+                  placeholder=""
+                  ignoreIds={usedPlatforms.filter((p) => p !== item.platform)}
+                  showPlaceholder
+                  isFilter
+                  // error={!item.platform}
+                  // disabled={isDisable}
+                />
+              </Stack>
+
+              <Stack flex={2} direction="row" gap={2} alignItems="center">
+                <TextField
+                  fullWidth
+                  value={item.path}
+                  onChangeText={(newValue) => {
+                    handleChangePath(
+                      {
+                        target: { value: newValue ?? "" },
+                      } as React.ChangeEvent<HTMLInputElement>,
+                      index,
+                    );
+                  }}
+                  disabled={isDisable}
+                  sx={{
+                    ...typography.subtitle2,
+                    height: "100%",
+                    bgcolor: "background.paper",
+                    borderRadius: 2,
+                    border: "1px solid",
+                    borderColor: "transparent",
+                    "&:hover": {
+                      borderColor: "grey.400",
+                    },
+                    "&:focus-within": {
+                      borderColor: "primary.main",
+                    },
+                  }}
+                />
+                <IconButton
+                  sx={{ height: 30, width: 30 }}
+                  onClick={() => handleDelete(index)}
+                >
+                  -
+                </IconButton>
+              </Stack>
+            </Stack>
+          ))}
         </Stack>
       )}
     </Stack>

@@ -10,7 +10,7 @@ const Subscribe = () => {
   const [email, setEmail] = useState<string>("");
 
   return (
-    <Stack px={SCREEN_PX} py={4}>
+    <Stack py={4} flex={1} width={"100%"}>
       <Stack
         direction={{ sm: "row", xs: "column" }}
         justifyContent={{ md: "space-between" }}
@@ -19,7 +19,8 @@ const Subscribe = () => {
         border={`1px solid ${palette.colorRelate?.bgColorSub}`}
         p={{ md: "56px 40px", xs: "40px 28px" }}
         bgcolor={palette.colorRelate?.bgColorSub}
-        borderRadius={"4px"}
+        borderRadius={"5px"}
+        flex={1}
       >
         <Stack
           direction={"column"}
@@ -62,7 +63,7 @@ const Subscribe = () => {
                     "&:hover": {
                       background: `${palette.colorGame?.btnChat} !important`,
                     },
-                    borderRadius: "8px !important",
+                    borderRadius: "5px !important",
                     padding: "12px 24px !important",
                     fontWeight: `${700} !important`,
                   }}

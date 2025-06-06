@@ -10,21 +10,20 @@ import {
   GetGame,
   GetGameById,
   GetGameCount,
+  GetGameIdTypeBlog,
   // getGameID,
   GetGameOwner,
   GetGenres,
   GetGenresById,
   GetOwnerById,
-  PropsFormik,
-  PropsGameReview,
   UpdateGame,
   UpdateGenres,
 } from "./action";
 import {
-  setAwardWinners,
+  setInDevelopment,
   setErrorsSizeImage,
-  setFavorites,
-  setFreeToPlay,
+  setAlpha,
+  setBeta,
   setGameId,
   setGenres,
   setGenresTitle,
@@ -33,7 +32,7 @@ import {
   SetIsDelete,
   SetIsUpdateGame,
   setPlatforms,
-  setPlayNow,
+  setPlayable,
   SetStatus,
   setStatusGetGameID,
   SetMaxRating,
@@ -42,13 +41,17 @@ import {
   SetSearch,
   SetPageIndex,
   SetPageSize,
+  SetStatusAPI,
+  setTBA,
+  setDiscontinued,
+  setStatusGame,
 } from "./reducer";
-import { Genre, Platform, SortBy } from "@constant/enum";
+import { Genre, Platform, ScheduleStatus, SortBy } from "@constant/enum";
 import {
   FormCreateGameProps,
+  GameBlogProps,
   GameDProps,
   GenresCProps,
-  GenresDProps,
   GenresProps,
   ParamsGameProps,
   RateProps,
@@ -70,7 +73,10 @@ export const useGame = () => {
     genreById,
     pageIndex,
     pageSize,
-
+    gameBlog,
+    tba,
+    discontinued,
+    statusGame,
     isCreate,
     isCreateRate,
     isDelete,
@@ -83,14 +89,19 @@ export const useGame = () => {
     genres,
     errorsSizeImage,
     platforms,
-    playNow,
-    freeToPlay,
-    awardWinners,
-    favorites,
+    playable,
+    beta,
+    inDevelopment,
+    alpha,
     genresTitle,
     sortBy,
     search,
   } = useAppSelector((state) => state.game);
+
+  const setStatusAPI = () => {
+    dispatch(SetStatusAPI());
+  };
+
   const getGame = (param: ParamsGameProps) => {
     dispatch(GetGame(param));
   };
@@ -160,8 +171,12 @@ export const useGame = () => {
     dispatch(setStatusGetGameID(value));
   };
 
-  const SetGenres = (value: Genre[]) => {
+  const SetGenres = (value: string[]) => {
     dispatch(setGenres(value));
+  };
+
+  const SetStatusGame = (value: ScheduleStatus[]) => {
+    dispatch(setStatusGame(value));
   };
 
   const SetErrorsSizeImage = (value: string | null) => {
@@ -171,18 +186,27 @@ export const useGame = () => {
     dispatch(setPlatforms(value));
   };
 
-  const SetPlayNow = (value: boolean) => {
-    dispatch(setPlayNow(value));
+  const SetPlayable = (value: boolean) => {
+    dispatch(setPlayable(value));
   };
-  const SetFreeToPlay = (value: boolean) => {
-    dispatch(setFreeToPlay(value));
+  const SetBeta = (value: boolean) => {
+    dispatch(setBeta(value));
   };
-  const SetAwardWinners = (value: boolean) => {
-    dispatch(setAwardWinners(value));
+  const SetInDevelopment = (value: boolean) => {
+    dispatch(setInDevelopment(value));
   };
-  const SetFavorites = (value: boolean) => {
-    dispatch(setFavorites(value));
+  const SetAlpha = (value: boolean) => {
+    dispatch(setAlpha(value));
   };
+
+  const SetDiscontinued = (value: boolean) => {
+    dispatch(setDiscontinued(value));
+  };
+
+  const SetTBA = (value: boolean) => {
+    dispatch(setTBA(value));
+  };
+
   const SetGenresTitle = (value: string) => {
     dispatch(setGenresTitle(value));
   };
@@ -215,7 +239,13 @@ export const useGame = () => {
     dispatch(SetSearch(value));
   };
 
+  const getGameBlog = (params: GameBlogProps) => {
+    dispatch(GetGameIdTypeBlog(params));
+  };
+
   return {
+    getGameBlog,
+    gameBlog,
     getGameById,
     getOwnerById,
     getGame,
@@ -238,6 +268,12 @@ export const useGame = () => {
     pageSize,
     getGameCount,
     createGame,
+    setStatusAPI,
+    tba,
+    discontinued,
+    SetDiscontinued,
+    SetTBA,
+    setStatusGame,
 
     setSearch,
     search,
@@ -266,10 +302,10 @@ export const useGame = () => {
     genres,
     errorsSizeImage,
     platforms,
-    playNow,
-    freeToPlay,
-    awardWinners,
-    favorites,
+    playable,
+    beta,
+    inDevelopment,
+    alpha,
     genresTitle,
     setMinRating,
     setMaxRating,
@@ -278,10 +314,12 @@ export const useGame = () => {
     SetGenres,
     SetErrorsSizeImage,
     SetPlatforms,
-    SetAwardWinners,
-    SetFavorites,
-    SetFreeToPlay,
-    SetPlayNow,
+    SetInDevelopment,
+    SetAlpha,
+    SetBeta,
+    SetPlayable,
     SetGenresTitle,
+    SetStatusGame,
+    statusGame,
   };
 };

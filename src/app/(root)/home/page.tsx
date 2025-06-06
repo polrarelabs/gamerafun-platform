@@ -1,8 +1,6 @@
-// 'use client'
-
-import { Banner, LatestNews } from "@components/screens/Home";
-import { MIN_HEIGHT_SCREEN } from "@constant";
-import { HOME_PATH } from "@constant/paths";
+import Latest from "@components/Latest";
+import { Banner, Genres } from "@components/screens/Home";
+import { GAME_PATH, HOME_PATH, NEWS_PATH, QUESTS_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { generateMetadata } from "@utils/seo";
 import { Metadata } from "next";
@@ -11,15 +9,23 @@ export const metadata: Metadata = generateMetadata("Home", HOME_PATH);
 
 export default function Home() {
   return (
-    <Stack
-      flex={1}
-      minHeight={MIN_HEIGHT_SCREEN}
-      alignItems="center"
-      spacing={4}
-    >
+    <Stack height={"auto"} alignItems="center" gap={4}>
       <Banner />
-
-      <LatestNews />
+      <Latest
+        title="Latest Quests"
+        type="quest"
+        widthGame={414}
+        path={QUESTS_PATH}
+      />
+      <Latest
+        title="Play Now"
+        path={GAME_PATH}
+        type="game"
+        isHome={true}
+        widthGame={250}
+      />
+      <Latest title="Latest News" path={NEWS_PATH} type="new" />
+      <Genres />
     </Stack>
   );
 }

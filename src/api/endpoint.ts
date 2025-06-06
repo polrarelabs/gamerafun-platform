@@ -15,6 +15,7 @@ export const Endpoint = {
   CREATE_GAME_REVIEW: "game/rate",
   DELETE_OWNER: "/game/owner/delete",
   GET_GENRES: "/game/genres",
+  GET_GENRES_BY_ID: "/game/genre",
   CREATE_GENRES: "/game/genres/create",
   UPDATE_GENRES: "/game/genres/update",
   DELETE_GENRES: "/game/genre/delete",
@@ -37,4 +38,8 @@ export const Endpoint = {
   PATCH_UPDATE_BLOG: "/blog/udpate",
   DELETE_BLOG: "/blog/delete",
   GET_PROFILE: "/user/profile",
+
+  GET_QUEST: "/quest",
+  CREATE_QUEST: "/quest/create",
+  JOIN_QUEST: "/quest/join",
 };

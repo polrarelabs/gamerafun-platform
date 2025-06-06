@@ -6,71 +6,29 @@ import {
   DeleteBlog,
   GetBlog,
   GetBlogId,
+  GetBlogSponsored,
   UpdateBlog,
 } from "./action";
-
-interface MediaProp {
-  id: number;
-  type: string;
-  url: string;
-  blogId: number;
-  createAt: string;
-  createBy: string;
-  updateBy: string;
-}
-
-export interface BlogItem {
-  id: string;
-  title: string;
-  content: string;
-  slug: string;
-  thumbnailUrl: string;
-  publicDate: string;
-  status: StatusBlog;
-  tags: Tag[];
-  author: string;
-  metaTitle: string;
-  metaDescription: string;
-  createAt: string;
-  createBy: string;
-  updateBy: string;
-  updateAt: string;
-}
-
-export interface Blog {
-  items: BlogItem[];
-  totalItems: number;
-  pageIndex: number;
-  pageSize: number;
-  totalPages: number;
-}
-
-export interface BlogState {
-  loading: boolean;
-  error: string;
-  blog: Blog;
-  blogId: BlogItem;
-  isCreate: boolean;
-  isUpdate: boolean;
-  isDelete: boolean;
-  checkDate: AddedDateSort;
-  tags: Tag[];
-  sortBy: SortBy;
-  search: string;
-  status: StatusBlog;
-}
+import { Blog, BlogItem, BlogState } from "./type";
 
 const initialState: BlogState = {
   loading: false,
-  error: "",
+  error: null,
   blog: {
     items: [],
     totalItems: 0,
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 12,
     totalPages: 0,
   },
   blogId: {} as BlogItem,
+  blogSponsored: {
+    items: [],
+    totalItems: 0,
+    pageIndex: 1,
+    pageSize: 12,
+    totalPages: 0,
+  },
   isCreate: false,
   isUpdate: false,
   isDelete: false,
@@ -112,33 +70,62 @@ const BlogReducer = createSlice({
     SetStatus: (state, action: PayloadAction<StatusBlog>) => {
       state.status = action.payload;
     },
+    SetStatusAPI: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(GetBlog.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(GetBlog.fulfilled, (state, action: PayloadAction<Blog>) => {
         state.loading = false;
         state.blog = action.payload;
+        state.error = "";
       })
       .addCase(GetBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
+
+      .addCase(GetBlogSponsored.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetBlogSponsored.fulfilled,
+        (state, action: PayloadAction<Blog>) => {
+          state.loading = false;
+          state.blogSponsored = action.payload;
+          state.error = "";
+        },
+      )
+      .addCase(
+        GetBlogSponsored.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        },
+      )
+
       .addCase(GetBlogId.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(
         GetBlogId.fulfilled,
         (state, action: PayloadAction<BlogItem>) => {
           state.loading = false;
           state.blogId = action.payload;
+          state.error = "";
         },
       )
       .addCase(GetBlogId.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
       .addCase(CreateBlog.pending, (state) => {
         state.loading = true;
@@ -146,32 +133,37 @@ const BlogReducer = createSlice({
       .addCase(CreateBlog.fulfilled, (state) => {
         state.loading = false;
         state.isCreate = true;
+        state.error = "";
       })
       .addCase(CreateBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
       .addCase(UpdateBlog.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(UpdateBlog.fulfilled, (state) => {
         state.loading = false;
         state.isCreate = true;
+        state.error = "";
       })
       .addCase(UpdateBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       })
       .addCase(DeleteBlog.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(DeleteBlog.fulfilled, (state) => {
         state.loading = false;
         state.isCreate = true;
+        state.error = "";
       })
       .addCase(DeleteBlog.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload || "";
+        state.error = action.payload as string;
       });
   },
 });
@@ -188,4 +180,5 @@ export const {
   SetSortBy,
   SetSearch,
   SetStatus,
+  SetStatusAPI,
 } = BlogReducer.actions;

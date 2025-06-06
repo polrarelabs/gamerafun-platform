@@ -32,6 +32,7 @@ export interface PropsInfo {
   position: string;
   widthImg: number;
   heightImg: number;
+  url?: string;
 }
 
 const UploadAvarta = ({
@@ -95,7 +96,7 @@ const UploadAvarta = ({
             variant="outlined"
             tabIndex={-1}
             sx={{
-              borderRadius: "8px",
+              borderRadius: "5px",
               p: 2,
               width: "max-content",
             }}

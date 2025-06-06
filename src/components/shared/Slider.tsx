@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useRef } from "react";
+import React, { memo, useRef, useState } from "react";
 import { IconButton, Stack } from "@mui/material";
 import { palette } from "public/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -11,6 +11,8 @@ interface SliderProps {
   step: number;
   children: React.ReactNode;
   iconWhite?: boolean;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
 }
 
 const Slider = ({
@@ -18,6 +20,7 @@ const Slider = ({
   step,
   children,
   iconWhite = false,
+  onLoadMore,
 }: SliderProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -25,6 +28,9 @@ const Slider = ({
 
   const ITEM_WIDTH = itemWidth;
   const STEP = ITEM_WIDTH + step;
+
+  const isDraggingRef = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleScroll = (direction: "left" | "right") => {
     const container = containerRef.current;
@@ -36,7 +42,6 @@ const Slider = ({
 
     const maxScroll = -(track.scrollWidth - container.offsetWidth);
     const clampedX = Math.max(Math.min(newX, 0), maxScroll);
-
     animate(x, clampedX, {
       type: "tween",
       duration: 0.35,
@@ -62,7 +67,7 @@ const Slider = ({
                 top: "50%",
                 left: 30,
                 translate: "-50% -50%",
-                zIndex: 1,
+                zIndex: 3,
                 color: "black",
                 background: "white",
                 "&:hover": {
@@ -79,7 +84,7 @@ const Slider = ({
                 top: "50%",
                 right: 0,
                 translate: "0 -50%",
-                zIndex: 1,
+                zIndex: 3,
                 transform: "rotate(180deg)",
                 color: "black",
                 background: "white",
@@ -100,8 +105,9 @@ const Slider = ({
                 top: "50%",
                 left: 25,
                 translate: "-50% -50%",
-                zIndex: 1,
-                color: palette.colorGray,
+                zIndex: 3,
+                // color: palette.colorGray,
+                color: palette.colorBgHover,
                 "&:hover": {
                   color: "white",
                 },
@@ -116,8 +122,9 @@ const Slider = ({
                 top: "50%",
                 right: 0,
                 translate: "0 -50%",
-                zIndex: 1,
-                color: palette.colorGray,
+                zIndex: 3,
+                // color: palette.colorGray,
+                color: palette.colorBgHover,
                 transform: "rotate(180deg)",
                 "&:hover": {
                   color: "white",
@@ -130,18 +137,48 @@ const Slider = ({
         )}
         <motion.div
           ref={trackRef}
-          style={{ x, display: "flex", gap: `16px` }}
+          style={{ x, display: "flex", gap: `16px`, userSelect: "none" }}
           drag="x"
           dragConstraints={false}
+          dragMomentum={false}
+          onDragStart={() => {
+            isDraggingRef.current = true;
+            setIsDragging(true);
+          }}
           onDragEnd={(_event, info) => {
+            const container = containerRef.current;
+            const track = trackRef.current;
+            if (!container || !track) return;
+
+            const maxScrollX = -(track.scrollWidth - container.offsetWidth);
+            const currentX = x.get();
+
             if (info.offset.x > 50) {
               handleScroll("left");
             } else if (info.offset.x < -50) {
               handleScroll("right");
             }
+
+            if (
+              Math.abs(currentX - maxScrollX) < STEP &&
+              typeof onLoadMore === "function"
+            ) {
+              onLoadMore();
+            }
+            setTimeout(() => {
+              isDraggingRef.current = false;
+              setIsDragging(false);
+            }, 50);
           }}
         >
-          {children}
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement<{ isDragging?: boolean }>(child)) {
+              return React.cloneElement(child, {
+                isDragging: isDragging,
+              });
+            }
+            return child;
+          })}
         </motion.div>
       </Stack>
     </Stack>

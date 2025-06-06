@@ -1,5 +1,5 @@
 import Banner from "./Banner";
 import ArbitrumCatalogue from "./ArbitrumCatalogue";
-import LatestNews from "./LatestNews";
+import Genres from "./Genres";
 
-export { Banner, ArbitrumCatalogue, LatestNews };
+export { Banner, ArbitrumCatalogue, Genres };

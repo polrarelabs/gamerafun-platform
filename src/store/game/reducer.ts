@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Genre,
-  Platform,
-  SortBy,
-  SupportChain,
-  SupportOs,
-} from "@constant/enum";
+import { Genre, Platform, ScheduleStatus, SortBy } from "@constant/enum";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateGame,
@@ -21,18 +15,23 @@ import {
   GetGame,
   GetGameById,
   GetGameCount,
+  GetGameIdTypeBlog,
   // getGameID,
   GetGameOwner,
   GetGenres,
   GetGenresById,
   GetOwnerById,
-  PropsMedia,
-  PropsSchedule,
   UpdateGame,
   UpdateGenres,
   UpdateOwnerReview,
 } from "./action";
-import { GameCountProps, GameItems, GameProps, GenresItems } from "./type";
+import {
+  GameBlogItems,
+  GameCountProps,
+  GameItems,
+  GameProps,
+  GenresItems,
+} from "./type";
 
 interface PropsGameReducers {
   loading: boolean;
@@ -45,6 +44,7 @@ interface PropsGameReducers {
   ownerById: GameItems;
   genreItems: GenresItems[];
   genreById: GenresItems;
+  gameBlog: GameBlogItems;
 
   pageIndex: number;
   pageSize: number;
@@ -58,13 +58,16 @@ interface PropsGameReducers {
   maxRating: number;
   gameId: number;
   isGetGameId: boolean;
-  genres: Genre[];
+  genres: string[];
   platforms: Platform[];
+  statusGame: ScheduleStatus[];
   errorsSizeImage: string | null;
-  playNow: boolean;
-  freeToPlay: boolean;
-  awardWinners: boolean;
-  favorites: boolean;
+  playable: boolean;
+  beta: boolean;
+  inDevelopment: boolean;
+  alpha: boolean;
+  discontinued: boolean;
+  tba: boolean;
   genresTitle: string;
   sortBy: SortBy;
   search: string;
@@ -84,6 +87,7 @@ const initialState: PropsGameReducers = {
   game: {} as GameProps,
   gameById: {} as GameItems,
   genreById: {} as GenresItems,
+  gameBlog: {} as GameBlogItems,
   genreItems: [],
   status: false,
   minRating: 0,
@@ -91,23 +95,30 @@ const initialState: PropsGameReducers = {
   gameId: 0,
   isGetGameId: false,
   genres: [],
+  statusGame: [],
   errorsSizeImage: null,
   platforms: [],
-  playNow: false,
-  freeToPlay: false,
-  awardWinners: false,
-  favorites: false,
+  playable: false,
+  beta: false,
+  inDevelopment: false,
+  alpha: false,
+  discontinued: false,
+  tba: false,
   genresTitle: "",
   sortBy: SortBy.Newest,
   search: "",
   pageIndex: 1,
-  pageSize: 10,
+  pageSize: 24,
 };
 
 const GameReducers = createSlice({
   name: "game/reducers",
   initialState,
   reducers: {
+    SetStatusAPI: (state) => {
+      state.error = null;
+      state.loading = false;
+    },
     SetPageIndex: (state, action: PayloadAction<number>) => {
       state.pageIndex = action.payload;
     },
@@ -126,8 +137,11 @@ const GameReducers = createSlice({
     setStatusGetGameID: (state, action: PayloadAction<boolean>) => {
       state.isGetGameId = action.payload;
     },
-    setGenres: (state, action: PayloadAction<Genre[]>) => {
+    setGenres: (state, action: PayloadAction<string[]>) => {
       state.genres = action.payload;
+    },
+    setStatusGame: (state, action: PayloadAction<ScheduleStatus[]>) => {
+      state.statusGame = action.payload;
     },
     setPlatforms: (state, action: PayloadAction<Platform[]>) => {
       state.platforms = action.payload;
@@ -135,17 +149,23 @@ const GameReducers = createSlice({
     setErrorsSizeImage: (state, action: PayloadAction<string | null>) => {
       state.errorsSizeImage = action.payload;
     },
-    setPlayNow: (state, action: PayloadAction<boolean>) => {
-      state.playNow = action.payload;
+    setPlayable: (state, action: PayloadAction<boolean>) => {
+      state.playable = action.payload;
     },
-    setFreeToPlay: (state, action: PayloadAction<boolean>) => {
-      state.freeToPlay = action.payload;
+    setBeta: (state, action: PayloadAction<boolean>) => {
+      state.beta = action.payload;
     },
-    setAwardWinners: (state, action: PayloadAction<boolean>) => {
-      state.awardWinners = action.payload;
+    setInDevelopment: (state, action: PayloadAction<boolean>) => {
+      state.inDevelopment = action.payload;
     },
-    setFavorites: (state, action: PayloadAction<boolean>) => {
-      state.favorites = action.payload;
+    setAlpha: (state, action: PayloadAction<boolean>) => {
+      state.alpha = action.payload;
+    },
+    setDiscontinued: (state, action: PayloadAction<boolean>) => {
+      state.discontinued = action.payload;
+    },
+    setTBA: (state, action: PayloadAction<boolean>) => {
+      state.tba = action.payload;
     },
     setGenresTitle: (state, action: PayloadAction<string>) => {
       state.genresTitle = action.payload;
@@ -195,9 +215,9 @@ const GameReducers = createSlice({
       })
       .addCase(
         GetGameById.fulfilled,
-        (state, action: PayloadAction<GameProps>) => {
+        (state, action: PayloadAction<GameItems>) => {
           state.loading = false;
-          state.game = action.payload;
+          state.gameById = action.payload;
           state.error = null;
         },
       )
@@ -231,7 +251,7 @@ const GameReducers = createSlice({
         GetOwnerById.fulfilled,
         (state, action: PayloadAction<GameItems>) => {
           state.loading = false;
-          state.gameById = action.payload;
+          state.ownerById = action.payload;
           state.error = null;
         },
       )
@@ -430,6 +450,26 @@ const GameReducers = createSlice({
           state.loading = false;
           state.error = action.payload as string;
         },
+      )
+      //gameblog
+      .addCase(GetGameIdTypeBlog.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        GetGameIdTypeBlog.fulfilled,
+        (state, action: PayloadAction<GameBlogItems>) => {
+          state.loading = false;
+          state.error = "";
+          state.gameBlog = action.payload;
+        },
+      )
+      .addCase(
+        GetGameIdTypeBlog.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        },
       );
   },
 });
@@ -443,10 +483,10 @@ export const {
   setGenres,
   setPlatforms,
   setErrorsSizeImage,
-  setPlayNow,
-  setAwardWinners,
-  setFavorites,
-  setFreeToPlay,
+  setPlayable,
+  setInDevelopment,
+  setAlpha,
+  setBeta,
   setGenresTitle,
   SetIsCreateRate,
   SetIsDelete,
@@ -457,137 +497,8 @@ export const {
   SetSearch,
   SetPageSize,
   SetPageIndex,
+  SetStatusAPI,
+  setDiscontinued,
+  setTBA,
+  setStatusGame,
 } = GameReducers.actions;
-
-// export interface ScheduleProps {
-//   beta: string;
-//   alpha: string;
-//   release: string;
-// }
-// export interface SupportOsProps {
-//   WINDOWS: number;
-//   MAC: number;
-//   WEB: number;
-//   ANDROID: number;
-//   IOS: number;
-// }
-
-// export interface PlatformProps {
-//   EPIC: number;
-//   STEAM: number;
-// }
-
-// export interface ScheduleStatusProps {
-//   PLAYABLE: number;
-//   BETA: number;
-//   ALPHA: number;
-//   INDEVELOPMENT: number;
-// }
-
-// export interface GenreProps {
-//   ACTION: number;
-//   ADVENTURE: number;
-//   RPG: number;
-//   STRATEGY: number;
-//   PUZZLE: number;
-//   CASUAL: number;
-//   MULTIPLAYER: number;
-//   SPORTS: number;
-//   SHOOTER: number;
-//   RACING: number;
-//   FIGHTING: number;
-//   MMORPG: number;
-//   METAVERSE: number;
-//   FREETOPLAY: number;
-//   ONCHAIN: number;
-//   CARD: number;
-//   BATTLEROYALE: number;
-//   AUTOBATTLER: number;
-// }
-
-// interface Rate {
-//   gameId: number;
-//   score: number;
-//   review: string;
-// }
-
-// interface PropPlatformLink {
-//   [key: string]: string;
-// }
-// interface ListGame {
-//   id: number;
-//   name: string;
-//   description: string;
-//   status: number;
-//   platformLink: PropPlatformLink[];
-//   publisher: string;
-//   developer: string;
-//   website: string;
-//   discord: string;
-//   telegramChat: string;
-//   telegramnews: string;
-//   medium: string;
-//   twitter: string;
-//   youtube: string;
-//   // socials: PropsSocials;
-//   schedule: PropsSchedule;
-//   support_os: SupportOs[];
-//   platform: Platform[];
-//   genre: Genre[];
-//   chain: SupportChain[];
-//   media: PropsMedia[];
-//   rating: number;
-//   rates?: Rate[];
-// }
-
-// export interface GameCount {
-//   platform: PlatformProps;
-//   genre: GenreProps;
-//   support_os: SupportOsProps;
-//   schedule_status: ScheduleStatusProps;
-// }
-
-// .addCase(createGameReview.pending, (state) => {
-//   state.loading = true;
-// })
-// .addCase(createGameReview.fulfilled, (state) => {
-//   state.isCreateRate = true;
-//   state.loading = false;
-// })
-// .addCase(
-//   createGameReview.rejected,
-//   (state, action: PayloadAction<any>) => {
-//     state.loading = false;
-//     state.error = action.payload as string;
-//   },
-// )
-// .addCase(deleteGame.pending, (state) => {
-//   state.loading = true;
-//   state.isDelete = false;
-// })
-// .addCase(deleteGame.fulfilled, (state) => {
-//   state.isDelete = true;
-//   state.loading = false;
-// })
-// .addCase(deleteGame.rejected, (state, action: PayloadAction<any>) => {
-//   state.isDelete = false;
-//   state.error = action.payload as string;
-// })
-
-// .addCase(getGameID.pending, (state) => {
-//   state.loading = true;
-//   state.status = false;
-// })
-// .addCase(
-//   getGameID.fulfilled,
-//   (state, action: PayloadAction<ListGame>) => {
-//     state.loading = false;
-//     state.dataGetGameId = action.payload;
-//     state.status = true;
-//   },
-// )
-// .addCase(getGameID.rejected, (state, action: PayloadAction<any>) => {
-//   state.loading = false;
-//   state.error = action.payload?.message || "Errors";
-//   state.status = false;
-// });

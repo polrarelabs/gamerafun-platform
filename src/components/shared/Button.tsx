@@ -219,7 +219,8 @@ const getDefaultSx = (
           bgcolor: overrideCss.backgroundColor,
         }
       : {
-          background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+          // background: "linear-gradient(90deg, #1CD6CE 0%, #83F858 100%)",
+          background: "#44B0FC",
         }),
     color: overrideCss?.color ?? "text.secondary",
     boxShadow: "none",
@@ -236,9 +237,9 @@ const getDefaultSx = (
 
   [OUTLINED_CLASS]: {
     border: "1px solid",
-    borderColor: overrideCss?.borderColor ?? "success.light",
-    color: overrideCss?.color ?? "success.light",
-    bgcolor: overrideCss?.backgroundColor ?? "success.dark",
+    borderColor: overrideCss?.borderColor ?? "info.light",
+    color: overrideCss?.color ?? "info.light",
+    bgcolor: overrideCss?.backgroundColor ?? "info.dark",
     transition: "0.5s",
     boxShadow: "none",
     position: "relative",

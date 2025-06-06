@@ -1,6 +1,7 @@
 import { AddedDateSort, SortBy, StatusBlog } from "@constant/enum";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import dayjs from "dayjs";
+import { StaticImageData } from "next/image";
 
 dayjs.extend(advancedFormat);
 
@@ -45,4 +46,11 @@ export const getStatus = (value: string) => {
 
 export const formatMMMMDoYYYY = (value: string) => {
   return dayjs(value).format("MMMM Do YYYY");
+};
+
+export const getImageSrc = (url: string, img: StaticImageData) => {
+  if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
+    return url;
+  }
+  return img;
 };

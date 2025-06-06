@@ -12,8 +12,16 @@ import BoxSelected from "./BoxSelected";
 import Search from "./Search";
 import UploadImage from "./UploadImage";
 import Slider from "./Slider";
+import ClickWrapper from "./ClickWrapper";
+import Snackbared from "./Snackbared";
+import Avartars from "./Avartars";
+import AverageStar from "./AverageStar";
+import DialogShare from "./DialogShare";
+import MobileSteppered from "./MobileSteppered";
+import BackgroundImage from "./BackgroundImage";
 
 export {
+  MobileSteppered,
   Tooltip,
   Text,
   IconButton,
@@ -28,6 +36,12 @@ export {
   Search,
   UploadImage,
   Slider,
+  ClickWrapper,
+  Snackbared,
+  Avartars,
+  AverageStar,
+  DialogShare,
+  BackgroundImage,
 };
 
 export type {

@@ -1,9 +1,9 @@
-import { GetColor } from "@components/screens/Games/components/helper";
-import { Text, Tooltip } from "@components/shared";
+import { AverageStar, Text, Tooltip } from "@components/shared";
 import { Slider, Stack } from "@mui/material";
 import { palette } from "public/material";
-import React, { memo, useMemo } from "react";
+import { memo } from "react";
 import { BsFillHexagonFill } from "react-icons/bs";
+import { thumbColor } from "./helper";
 
 interface SliderCustomProps {
   value: number;
@@ -12,13 +12,6 @@ interface SliderCustomProps {
 }
 
 const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
-  const thumbColor = useMemo(() => {
-    if (typeof value !== "number" || value === 0) return palette.colorGray;
-
-    const color = GetColor(value);
-    return color;
-  }, [value]);
-
   return (
     <Stack direction={"column"} gap={1}>
       <Text color={palette.colorGray} fontSize={"12px"}>
@@ -29,7 +22,7 @@ const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
           <Slider
             max={10}
             min={0}
-            // step={0.1}
+            step={0.1}
             value={typeof value === "number" ? value : 0}
             onChange={handleChange}
             aria-labelledby="input-slider"
@@ -48,7 +41,7 @@ const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
               "& .MuiSlider-thumb": {
                 height: 16,
                 width: 16,
-                backgroundColor: thumbColor?.toString(),
+                backgroundColor: thumbColor(value),
                 border: "none",
                 "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
                   boxShadow: "inherit",
@@ -60,46 +53,7 @@ const SliderCustom = ({ value, handleChange, title }: SliderCustomProps) => {
             }}
           />
         </Stack>
-        <Tooltip
-          title={`This game have a rating of ${value}/10`}
-          placement="top"
-          sx={{
-            fontSize: "14px",
-            fontWeight: 500,
-            color: palette.colorGray,
-          }}
-        >
-          <Stack
-            flex={1}
-            direction={"row"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            position={"relative"}
-          >
-            <BsFillHexagonFill
-              size={40}
-              style={{
-                color:
-                  value === 0
-                    ? palette.colorGame?.color
-                    : thumbColor?.toString(),
-              }}
-            />
-            <Text
-              fontSize={"16px"}
-              fontWeight={700}
-              sx={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                translate: "-50% -50%",
-                color: value === 0 ? palette.colorGray : "black",
-              }}
-            >
-              {value === 0 ? "-" : value}
-            </Text>
-          </Stack>
-        </Tooltip>
+        <AverageStar size={44} value={value} onSider={true} />
       </Stack>
     </Stack>
   );

@@ -1,18 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { LayoutGame } from "@components/screens/Games";
-import { FormCreateGame } from "@components/screens/Games/components";
-import { Image, Text } from "@components/shared";
+import { BackgroundImage, Image, Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
-// import { SCREEN_PX } from '@constant'
 import { SCREEN_PX } from "@constant";
 import { AddedDateSort, SortBy } from "@constant/enum";
 import { HOME_PATH } from "@constant/paths";
 import { Box, Stack, useTheme } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import { memo, useEffect } from "react";
 import image from "public/images/img-login.png";
+import { memo, useEffect } from "react";
 
 const GameHome = () => {
   const theme = useTheme();
@@ -60,6 +59,19 @@ const GameHome = () => {
         position={"relative"}
         py={4}
       >
+        <BackgroundImage url={image} />
+        {/* <Stack
+          position={"absolute"}
+          top={0}
+          left={0}
+          width={"100%"}
+          height={"100%"}
+          zIndex={2}
+          sx={{
+            background: palette.colorGame?.bgLinear,
+            opacity: 1,
+          }}
+        />
         <Stack
           position={"absolute"}
           top={0}
@@ -85,7 +97,6 @@ const GameHome = () => {
                 "& img": {
                   objectFit: "cover",
                   objectPosition: "center",
-                  // transition: "all 0.5s ease-in-out",
                 },
               },
             }}
@@ -98,11 +109,11 @@ const GameHome = () => {
               width: "100%",
               height: "100%",
               pointerEvents: "none",
-              background: `linear-gradient(180deg, #111111 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, #111111 100%)`,
+              background: palette.colorGame?.colorBgLineaer1,
               zIndex: 2,
             }}
           />
-        </Stack>
+        </Stack> */}
         <Stack
           direction={"row"}
           alignItems={"center"}
@@ -110,7 +121,6 @@ const GameHome = () => {
           zIndex={3}
         >
           <Breadcumbs breadcumbs={breadcrumbs} />
-          <FormCreateGame />
         </Stack>
 
         <Stack direction={"column"} zIndex={3}>
@@ -122,8 +132,14 @@ const GameHome = () => {
           >
             game
           </Text>
-          <Text color={palette.textWhite} fontWeight={500} fontSize={"20px"}>
-            TITLE GAME
+          <Text
+            color={palette.colorGray}
+            fontWeight={500}
+            fontSize={"20px"}
+            width={{ xs: "100%", md: "60%", lg: "35%" }}
+          >
+            GAMERA showcases top games across different platforms including
+            Steam, web3 and beyond!
           </Text>
         </Stack>
       </Stack>

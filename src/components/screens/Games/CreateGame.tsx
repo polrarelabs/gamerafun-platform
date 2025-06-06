@@ -1,47 +1,27 @@
 "use client";
 
-import { Button, Text } from "@components/shared";
+import { Button, Snackbared } from "@components/shared";
 import DatePickerFormik from "@components/shared/DatePickerFormik";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
-import {
-  Genre,
-  MediaPosition,
-  MediaType,
-  Platform,
-  ScheduleStatus,
-  SupportChain,
-  SupportOs,
-} from "@constant/enum";
-import {
-  FormControl,
-  FormHelperText,
-  MenuItem,
-  Select,
-  Stack,
-} from "@mui/material";
+import { Genre, ScheduleStatus, SupportChain, SupportOs } from "@constant/enum";
+import { FormControl, FormHelperText, Stack } from "@mui/material";
 
-import { useFormik } from "formik";
-import React, { memo, useEffect, useState } from "react";
-import { PropsFormik, PropsMedia } from "@store/game/action";
-import { useGame } from "@store/game";
-import { useGallery } from "@store/media";
-import UploadAvarta, { PropsInfo } from "./UploadAvatar";
 import { SCREEN_PX } from "@constant";
-import InputEditor from "@components/shared/InputEditor";
-import {
-  ANDROID_URL,
-  IOS_URL,
-  MACOS_URL,
-  validationSchema,
-  WINDOW_URL,
-} from "./helper";
+import { GAME_PATH } from "@constant/paths";
+import { useGame } from "@store/game";
 import {
   FormCreateGameProps,
+  GameItems,
   PlatformLinkProps,
-  ScheduleProps,
 } from "@store/game/type";
+import { useGallery } from "@store/media";
+import { useFormik } from "formik";
+import { memo, useEffect, useState } from "react";
 import { PlatformLink } from "./components";
+import { validationSchema } from "./helper";
+import UploadAvarta, { PropsInfo } from "./UploadAvatar";
+import { log } from "console";
 
 interface PropsFormGame {
   name?: string;
@@ -51,72 +31,107 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
   const { dataGallery, uploadGallery, isUpload, SetIsUpload } = useGallery();
 
   const [dataListImage, setDataListImage] = useState<PropsInfo[]>([]);
-
-  const DownloadLinks = {
-    windows: WINDOW_URL,
-    macos: MACOS_URL,
-    android: ANDROID_URL,
-    ios: IOS_URL,
-  };
   const {
     getGame,
-    // isCreate,
-    setIsCreate,
     createGame,
     gameById,
     game,
     updateGame,
     getGameById,
+    loading,
+    error,
+    gameCount,
+    getGameCount,
   } = useGame();
 
-  const [isDisable, setIdDisable] = useState<boolean>(true);
+  useEffect(() => {
+    getGameCount();
+  }, []);
+
+  const [genre, setGenre] = useState<PropsFormGame>();
+
+  useEffect(() => {
+    if (gameCount) {
+      const key = gameCount.genre ? Object.keys(gameCount.genre) : [];
+
+      if (key.length > 0) {
+        const obj = Object.fromEntries(key.map((item, index) => [item, item]));
+        setGenre(obj);
+      }
+    }
+  }, [gameCount]);
+
+  const [isDisable, setIdDisable] = useState<boolean>(false);
 
   const [listPlatform, setListPlatform] = useState<PlatformLinkProps[]>([]);
 
   const [media, setMedia] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   if (gameId && Object.keys(gameId).length > 0) {
-  //     formik.resetForm({
-  //       values: {
-  //         gameId: gameId.id,
-  //         name: gameId.name,
-  //         description: gameId.description,
-  //         status: gameId.status,
-  //         website: gameId.website,
-  //         downloadLinks: {
-  //           windows: gameId?.downloadLink?.windows || "",
-  //           macos: gameId?.downloadLink?.macos || "",
-  //           android: gameId?.downloadLink?.android || "",
-  //           ios: gameId?.downloadLink?.ios || "",
-  //         },
-  //         publisher: gameId.publisher || "",
-  //         developer: gameId.developer || "",
-  //         socials: {
-  //           discord: gameId?.socials?.discord || "",
-  //           telegram_chat: gameId?.socials?.telegram_chat || "",
-  //           telegram_news: gameId?.socials?.telegram_news || "",
-  //           linkedin: gameId?.socials?.linkedin || "",
-  //           medium: gameId?.socials?.medium || "",
-  //           twitter: gameId?.socials?.twitter || "",
-  //           tiktok: gameId?.socials?.tiktok || "",
-  //           youtube: gameId?.socials?.youtube || "",
-  //         },
-  //         schedule: {
-  //           alpha: gameId?.schedule?.alpha || "",
-  //           beta: gameId?.schedule?.beta || "",
-  //           release: gameId?.schedule?.release || "",
-  //         },
-  //         support_os: gameId.support_os || [],
-  //         platform: gameId.platform || [],
-  //         genre: gameId.genre || [],
-  //         chain: gameId.chain || [],
-  //         media: gameId.media || [],
-  //       },
-  //     });
-  //     setIdDisable(false);
-  //   } else setIdDisable(true);
-  // }, [gameId]);
+  const [openSnack, setOpenSnack] = useState<boolean>(false);
+
+  useEffect(() => {
+    getGame({ pageIndex: 1, pageSize: 10 });
+  }, []);
+
+  useEffect(() => {
+    console.log("games", game);
+  }, [game]);
+
+  useEffect(() => {
+    if (name === "update") {
+      if (gameById && Object.keys(gameById).length > 0) {
+        formik.resetForm({
+          values: {
+            id: gameById.id,
+            name: gameById.name,
+            description: gameById.description,
+            status: gameById.status,
+            website: gameById.website,
+            publisher: gameById.publisher,
+            developer: gameById.developer,
+            schedule: {
+              alpha: gameById.schedule.alpha,
+              beta: gameById.schedule.beta,
+              release: gameById.schedule.release,
+            },
+            support_os: gameById.support_os,
+            chain: gameById.chain,
+            platformLink: gameById.platformLink,
+            mediaUrl: gameById.mediaUrl,
+            playableOnDesktop: gameById.playableOnDesktop,
+            genreName: gameById.genreName,
+            statusGame: gameById.statusGame,
+            discord: gameById.discord,
+            telegramChat: gameById.telegramChat,
+            telegramNews: gameById.telegramNews,
+            medium: gameById.medium,
+            twitter: gameById.twitter,
+            youtube: gameById.youtube,
+            contactPhone: gameById.contactPhone,
+            contactEmail: gameById.contactEmail,
+            contactName: gameById.contactName,
+          },
+        });
+        if (gameById.platformLink && gameById.platformLink.length > 0) {
+          setListPlatform(gameById.platformLink);
+        }
+        // if (gameById.mediaUrl && gameById.mediaUrl.length > 0) {
+        //   const arr: PropsInfo[] = [];
+        //   for (let i = 0; i < gameById.mediaUrl.length; i++) {
+        //     arr.push({
+        //       url: gameById.mediaUrl[i],
+        //       file: null as any,
+        //       name: "",
+        //       position: "",
+        //       widthImg: 0,
+        //       heightImg: 0,
+        //     })
+        //   }
+        // }
+        setIdDisable(false);
+      } else setIdDisable(true);
+    }
+  }, [gameById]);
 
   const initialValues: FormCreateGameProps = {
     name: "",
@@ -134,35 +149,30 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
     chain: [],
     platformLink: [],
     mediaUrl: [],
-    playableOnDestop: false,
+    playableOnDesktop: false,
     genreName: [],
     statusGame: "" as ScheduleStatus,
     discord: "",
     telegramChat: "",
-    telegramnews: "",
+    telegramNews: "",
     medium: "",
     twitter: "",
     youtube: "",
-    contact_phone: "",
-    contact_email: "",
-    contact_name: "",
+    contactPhone: "",
+    contactEmail: "",
+    contactName: "",
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
+    // onSubmit: (values) => {
+    //   formik.values.platformLink = listPlatform;
+    //   console.log(values);
+    // }
     onSubmit: async () => {
       try {
-        // const supportOs: string[] = formik.values.support_os;
-        // supportOs.forEach((item) => {
-        //   const osKey = item.toLowerCase();
-        //   if (osKey === "mac") {
-        //     formik.values.downloadLinks.macos = DownloadLinks.macos;
-        //   } else {
-        //     formik.values.downloadLinks[osKey] = DownloadLinks[osKey];
-        //   }
-        // });
-
+        formik.values.platformLink = listPlatform;
         for (let i = 0; i < dataListImage.length; i++) {
           const data = new FormData();
           data.append("file", dataListImage[i].file);
@@ -170,8 +180,6 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
           data.append("description", dataListImage[i].file.type);
           await uploadGallery(data);
         }
-
-        console.log("formik.values", formik.values);
       } catch (error) {
         throw error;
       }
@@ -193,22 +201,21 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
 
     if (lenMedia === lenDataList && lenMedia > 0) {
       formik.values.mediaUrl = media;
-      if (name === "create") createGame(formik.values);
-      else updateGame(formik.values);
+      if (String(formik.values.playableOnDesktop) === "true") {
+        formik.values.playableOnDesktop = true;
+      } else formik.values.playableOnDesktop = false;
+      console.log("formik value", formik.values);
 
-      // console.log('call api', media);
-      // console.log('formik.values', formik.values);
-      console.log("formik.values", formik.values);
+      if (name === "create") createGame(formik.values);
+      else if (name === "update") updateGame(formik.values);
     }
   }, [media]);
 
-  // useEffect(() => {
-  //   if (isCreate) {
-  //     setIsCreate();
-  //     // fetchGetGame();
-  //     formik.resetForm();
-  //   }
-  // }, [isCreate]);
+  useEffect(() => {
+    if (loading === false && error === "") {
+      setOpenSnack(true);
+    }
+  }, [loading, error]);
 
   const handleClick = (id: number) => {
     getGameById(id);
@@ -235,10 +242,12 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
                 <SelectFormik
                   isMultiple={false}
                   label={"Game Id"}
-                  name={"gameId"}
+                  name={"id"}
                   formik={formik}
-                  OptionEnum={game}
+                  // OptionEnum={game.items}
                   handleClick={handleClick}
+                  nameDisplay={game.items}
+                  keyNameDisplay="name"
                 />
               )}
               <Stack direction={"row"} gap={3}>
@@ -247,6 +256,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
                   label="Description"
                   name="description"
                   formik={formik}
+                  isDisable={isDisable}
                 />
               </Stack>
 
@@ -255,16 +265,19 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
                   label="Website"
                   name="website"
                   formik={formik}
+                  isDisable={isDisable}
                 />
                 <TextFieldFormik
                   label="Publisher"
                   name="publisher"
                   formik={formik}
+                  isDisable={isDisable}
                 />
                 <TextFieldFormik
                   label="Developer"
                   name="developer"
                   formik={formik}
+                  isDisable={isDisable}
                 />
               </Stack>
             </Stack>
@@ -277,20 +290,23 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               formik={formik}
               OptionEnum={Status}
               isMultiple={false}
+              isDisable={isDisable}
             />
             <SelectFormik
-              label={"Playable On Destop"}
-              name={"playableOnDestop"}
+              label="Playable On Desktop"
+              name="playableOnDesktop"
               formik={formik}
-              OptionEnum={PlayableOnDestop}
+              OptionEnum={PlayableOnDesktop}
               isMultiple={false}
             />
+
             <SelectFormik
               label={"Status Game"}
               name={"statusGame"}
               formik={formik}
               OptionEnum={ScheduleStatus}
               isMultiple={false}
+              isDisable={isDisable}
             />
           </Stack>
           <Stack direction={"row"} gap={2}>
@@ -299,53 +315,81 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               name={"support_os"}
               formik={formik}
               OptionEnum={SupportOs}
+              isDisable={isDisable}
             />
             <SelectFormik
               label={"Genre"}
               name={"genreName"}
               formik={formik}
-              OptionEnum={Genre}
+              OptionEnum={genre}
+              isDisable={isDisable}
             />
             <SelectFormik
               label={"Chain"}
               name={"chain"}
               formik={formik}
               OptionEnum={SupportChain}
+              isDisable={isDisable}
             />
           </Stack>
           <Stack direction={"row"} gap={2}>
-            <TextFieldFormik label="Discord" name="discord" formik={formik} />
+            <TextFieldFormik
+              label="Discord"
+              name="discord"
+              formik={formik}
+              isDisable={isDisable}
+            />
             <TextFieldFormik
               label="Telegram Chat"
               name="telegramChat"
               formik={formik}
+              isDisable={isDisable}
             />
             <TextFieldFormik
               label="Telegram News"
-              name="telegramnews"
+              name="telegramNews"
               formik={formik}
+              isDisable={isDisable}
             />
           </Stack>
           <Stack direction={"row"} gap={2}>
-            <TextFieldFormik label="Medium" name="medium" formik={formik} />
-            <TextFieldFormik label="Twitter" name="twitter" formik={formik} />
-            <TextFieldFormik label="Youtube" name="youtube" formik={formik} />
+            <TextFieldFormik
+              label="Medium"
+              name="medium"
+              formik={formik}
+              isDisable={isDisable}
+            />
+            <TextFieldFormik
+              label="Twitter"
+              name="twitter"
+              formik={formik}
+              isDisable={isDisable}
+            />
+            <TextFieldFormik
+              label="Youtube"
+              name="youtube"
+              formik={formik}
+              isDisable={isDisable}
+            />
           </Stack>
           <Stack direction={"row"} gap={2}>
             <TextFieldFormik
               label="Contact Phone"
-              name="contact_phone"
+              name="contactPhone"
               formik={formik}
+              isDisable={isDisable}
             />
             <TextFieldFormik
               label="Contact Email"
-              name="contact_email"
+              name="contactEmail"
               formik={formik}
+              isDisable={isDisable}
             />
             <TextFieldFormik
               label="Contact Name"
-              name="contact_name"
+              name="contactName"
               formik={formik}
+              isDisable={isDisable}
             />
           </Stack>
           <FormControl
@@ -361,18 +405,21 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
                 label="Alpha"
                 name="schedule.alpha"
                 scheduleError={isScheduleError}
+                isDisable={isDisable}
               />
               <DatePickerFormik
                 formik={formik}
                 label="Beta"
                 name="schedule.beta"
                 scheduleError={isScheduleError}
+                isDisable={isDisable}
               />
               <DatePickerFormik
                 formik={formik}
                 label="Release"
                 name="schedule.release"
                 scheduleError={isScheduleError}
+                isDisable={isDisable}
               />
             </Stack>
 
@@ -382,10 +429,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
               )}
           </FormControl>
 
-          {/* <PlatformLink
-            data={listPlatform}
-            setData={setListPlatform}
-          /> */}
+          <PlatformLink data={listPlatform} setData={setListPlatform} />
 
           {/* <InputEditor name="content" label="Content" formik={formik} /> */}
         </Stack>
@@ -397,6 +441,13 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
           </Button>
         </Stack>
       </form>
+      <Snackbared
+        open={openSnack}
+        setOpen={setOpenSnack}
+        message={(error ?? "").length > 0 ? "Error" : "Success"}
+        path={(error ?? "").length ? null : GAME_PATH}
+        status={(error ?? "").length > 0 ? "error" : "success"}
+      />
     </Stack>
   );
 };
@@ -409,7 +460,7 @@ const Status = {
   "3": 3,
 };
 
-const PlayableOnDestop = {
-  true: true,
-  false: false,
+const PlayableOnDesktop = {
+  True: "true",
+  False: "false",
 };

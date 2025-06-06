@@ -5,6 +5,7 @@ import {
   SupportChain,
   SupportOs,
 } from "@constant/enum";
+import { BlogItem } from "@store/new/type";
 
 // game
 
@@ -39,19 +40,20 @@ export interface GameItems {
   rating: number;
   rates?: RateProps[];
   mediaUrl: string[];
-  statusGame: ScheduleStatus[];
-  playableOnDestop: boolean;
+  statusGame: ScheduleStatus;
+  playableOnDesktop: boolean;
   review: string | null;
   discord: string;
   telegramChat: string;
-  telegramnews: string;
+  telegramNews: string;
   medium: string;
   twitter: string;
   youtube: string;
   genreName: Genre[];
-  contact_phone: string;
-  contact_email: string;
-  contact_name: string;
+  contactPhone: string;
+  contactEmail: string;
+  contactName: string;
+  blogs: BlogItem[];
 }
 
 export interface GameProps {
@@ -70,7 +72,7 @@ export interface ParamsGameProps {
   addedDateSort?: string;
   minRating?: number;
   maxRating?: number;
-  genre?: Genre[];
+  genres?: string[];
   platform?: string[];
   statusGame?: ScheduleStatus[];
   playableOnDesktop?: boolean;
@@ -92,18 +94,18 @@ export interface FormCreateGameProps {
   chain: SupportChain[];
   platformLink: PlatformLinkProps[];
   mediaUrl: string[];
-  playableOnDestop: boolean;
+  playableOnDesktop: boolean;
   genreName: string[];
   statusGame: ScheduleStatus;
   discord: string;
   telegramChat: string;
-  telegramnews: string;
+  telegramNews: string;
   medium: string;
   twitter: string;
   youtube: string;
-  contact_phone: string;
-  contact_email: string;
-  contact_name: string;
+  contactPhone: string;
+  contactEmail: string;
+  contactName: string;
 }
 
 export interface GameDProps {
@@ -113,7 +115,7 @@ export interface GameDProps {
 export interface GenresCProps {
   id?: number;
   name: string;
-  shortDescription: string;
+  shortDescription?: string;
   media: string;
 }
 export interface GenresDProps {
@@ -136,12 +138,12 @@ export interface GenresItems {
   name: string;
   shortDescription: string;
   media: string;
-  createBy: string;
-  updateBy: string;
+  // createBy?: string;
+  // updateBy?: string;
 }
 
 export interface GenresProps {
-  seaerchName?: string;
+  seaerchName?: string[];
 }
 
 interface GameCountItems {
@@ -154,4 +156,40 @@ export interface GameCountProps {
   chain: GameCountItems;
   support_os: GameCountItems;
   schedule_status: GameCountItems;
+}
+
+export interface GameBlogProps {
+  gameId: number;
+  typeBlog: string;
+}
+
+export interface GameBlogItems {
+  id: number;
+  name: string;
+  description: string;
+  status: number;
+  publisher: string;
+  developer: string;
+  website: string;
+  schedule: ScheduleProps;
+  platformLink: PlatformLinkProps[];
+  support_os: SupportOs[];
+  chain: SupportChain[];
+  rating: number;
+  rates?: RateProps[];
+  mediaUrl: string[];
+  statusGame: ScheduleStatus;
+  playableOnDesktop: boolean;
+  review: string | null;
+  discord: string;
+  telegramChat: string;
+  telegramNews: string;
+  medium: string;
+  twitter: string;
+  youtube: string;
+  genreName: Genre[];
+  contactPhone: string;
+  contactEmail: string;
+  contactName: string;
+  blogs: BlogItem[];
 }

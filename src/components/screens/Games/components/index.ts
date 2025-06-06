@@ -1,6 +1,5 @@
 import BodyBrowserGame from "./BodyBrowserGame";
 import BrowserGame from "./BrowserGame";
-import FormCreateGame from "./FormCreateGame";
 import GetIcon from "./GetIcon";
 import InfoImage from "./InfoImage";
 import ItemGame from "./ItemGame";
@@ -12,10 +11,12 @@ import ModalShare from "./ModalShare";
 import RelatedGames from "./RelatedGames";
 import Share from "./Share";
 import PlatformLink from "./PlatformLink";
+import FooterTabContants from "./FooterTabContants";
+import CardGenres from "./CardGenres";
+import GroupButtons from "./GroupButtons";
 
 export {
   BodyBrowserGame,
-  FormCreateGame,
   BrowserGame,
   GetIcon,
   InfoImage,
@@ -28,4 +29,7 @@ export {
   RelatedGames,
   Share,
   PlatformLink,
+  FooterTabContants,
+  CardGenres,
+  GroupButtons,
 };

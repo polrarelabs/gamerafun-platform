@@ -5,6 +5,7 @@ import { Drawer, Stack, useMediaQuery, useTheme } from "@mui/material";
 import React, { memo, useState } from "react";
 import BrowserGenres from "./BrowserGenres";
 import OptionSider from "@components/OptionSider";
+import { SCREEN_PX } from "@constant";
 
 const GenresDetail = () => {
   const theme = useTheme();
@@ -14,7 +15,7 @@ const GenresDetail = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <Stack direction="row" gap={4}>
+    <Stack direction="row" gap={4} px={SCREEN_PX}>
       <BrowserGenres
         setDisplayLayout={setDisplayLayout}
         displayLayout={displayLayout}
@@ -31,6 +32,7 @@ const GenresDetail = () => {
           "& .MuiDrawer-paper": {
             width: "300px",
             padding: "8px 16px",
+            backgroundImage: "none",
           },
         }}
       >

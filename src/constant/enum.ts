@@ -37,10 +37,19 @@ export enum Currency {
 }
 
 export enum Platform {
-  EPIC = "EPIC",
+  WINDOWS = "WINDOWS",
+  MACOS = "MACOS",
+  ANDROID = "ANDROID",
+  WEB = "WEB",
+  IOS = "IOS",
   STEAM = "STEAM",
-}
+  EPIC_GAMES = "EPIC GAMES",
 
+  XBOX = "XBOX",
+  ELIXIR = "ELIXIR",
+  ULTRA = "ULTRA",
+  PLAYSTATION = "PLAYSTATION",
+}
 export enum Genre {
   ACTION = "ACTION",
   ADVENTURE = "ADVENTURE",
@@ -69,13 +78,6 @@ export enum SupportOs {
   ANDROID = "ANDROID",
   IOS = "IOS",
 }
-
-// export enum ScheduleStatus {
-//   PLAYABLE = "Playable",
-//   BETA = "Beta",
-//   ALPHA = "Alpha",
-//   INDEVELOPMENT = "InDevelopment",
-// }
 
 export enum SupportChain {
   BscTestnet = "BSC_TESTNET",
@@ -154,4 +156,20 @@ export enum ScheduleStatus {
 export enum OwnerStatus {
   ACTIVE = "active",
   INACTIVE = "inactive",
+}
+
+export enum TypeBlog {
+  NEWS = "news",
+  GUIDES = "guides",
+  REVIEWS = "reviews",
+}
+
+export enum ModeQuest {
+  DAILY = "DAILY",
+  WEEKLY = "WEEKLY",
+  ACHIEVEMENT = "ACHIEVEMENT",
+}
+
+export enum TypeQuest {
+  PLAY_GAME = "PLAY_GAME",
 }

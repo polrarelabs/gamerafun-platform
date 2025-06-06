@@ -1,9 +1,7 @@
-"use client";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Stack, TextField } from "@mui/material";
+import { FormControl, FormHelperText, InputBase, Stack } from "@mui/material";
 import React, { memo } from "react";
 import Text from "./Text";
+import { typography } from "public/material";
 
 interface PropsTextFieldFormik {
   formik: any;
@@ -22,32 +20,40 @@ const TextFieldFormik = ({
   password = false,
   isDisable = false,
 }: PropsTextFieldFormik) => {
+  const error = formik.touched[name] && Boolean(formik.errors[name]);
+
   return (
     <Stack flex={1} gap={1}>
       <Text>{label}</Text>
-      <TextField
-        fullWidth
-        id={name}
-        name={name}
-        type={password ? "password" : "text"}
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        // defaultValue={formik.values[name]}
-        onBlur={formik.handleBlur}
-        error={formik.touched[name] && Boolean(formik.errors[name])}
-        helperText={formik.touched[name] && formik.errors[name]}
-        slotProps={{
-          input: {
-            readOnly: readonly,
-            disabled: isDisable,
-          },
-        }}
-        sx={{
-          "& .mui-1v24f9t-MuiOutlinedInput-notchedOutline": {
-            borderColor: "none !important",
-          },
-        }}
-      />
+      <FormControl error={error} fullWidth>
+        <InputBase
+          fullWidth
+          id={name}
+          name={name}
+          type={password ? "password" : "text"}
+          value={formik.values[name]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={readonly}
+          disabled={isDisable}
+          sx={{
+            ...typography.subtitle2,
+            px: 1.5,
+            py: 1.1875,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            border: "1px solid",
+            borderColor: error ? "error.main" : "transparent",
+            "&:hover": {
+              borderColor: "grey.400",
+            },
+            "&:focus-within": {
+              borderColor: "primary.main",
+            },
+          }}
+        />
+        {error && <FormHelperText>{formik.errors[name]}</FormHelperText>}
+      </FormControl>
     </Stack>
   );
 };

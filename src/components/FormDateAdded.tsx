@@ -38,7 +38,7 @@ const FormDateAdded = () => {
 
   return (
     <Stack direction={"column"} gap={2}>
-      <Stack>
+      <Stack pl={2}>
         <Text color="white" fontSize={"16px"} fontWeight={500}>
           Data Added
         </Text>
@@ -63,10 +63,11 @@ const FormDateAdded = () => {
                       ? palette.colorGame?.bgColor
                       : palette.colorGame?.bgColorHover,
                 },
-                borderRadius: "8px",
+                borderRadius: "5px",
+                pl: 2,
               }}
             >
-              <Stack direction={"row"} alignItems={"center"} pl={1} gap={2}>
+              <Stack direction={"row"} alignItems={"center"} gap={2}>
                 <CalendarMonthIcon
                   sx={{
                     color: palette.colorGray,
@@ -98,7 +99,7 @@ const FormDateAdded = () => {
                 checkedIcon={
                   <RadioButtonCheckedIcon
                     sx={{
-                      color: palette.greenColor,
+                      color: "primary.main",
                     }}
                   />
                 }
@@ -106,11 +107,11 @@ const FormDateAdded = () => {
             </Stack>
           );
         })}
-        <Stack>
+        <Stack pl={2}>
           <Button
             variant="contained"
             sx={{
-              borderRadius: "8px !important",
+              borderRadius: "5spx !important",
               color: `${palette.textWhite} !important`,
               background: `${palette.colorGame?.bgColor1} !important`,
               border: `1px solid ${palette.colorGame?.borderColor} !important`,

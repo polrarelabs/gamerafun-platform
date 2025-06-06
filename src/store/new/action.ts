@@ -1,20 +1,22 @@
 import { client, Endpoint } from "@api";
 import { StatusBlog, Tag } from "@constant/enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
-export interface GetBlogProps {
-  pageIndex: number;
-  pageSize: number;
-  search?: string;
-  sortBy?: string;
-  sortBydate?: string;
-  tags?: Tag[];
-  skip?: number;
-  status?: string;
-}
+import { BlogRequestState, GetBlogProps } from "./type";
 
 export const GetBlog = createAsyncThunk(
   "get/blog",
+  async (param: GetBlogProps) => {
+    try {
+      const response = await client.get(Endpoint.GET_BLOG, param);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+export const GetBlogSponsored = createAsyncThunk(
+  "get/blog-sponsored",
   async (param: GetBlogProps) => {
     try {
       const response = await client.get(Endpoint.GET_BLOG, param);
@@ -37,23 +39,9 @@ export const GetBlogId = createAsyncThunk(
   },
 );
 
-export interface BlogCreateProps {
-  id?: string;
-  title: string;
-  content: string;
-  tags: Tag[];
-  status: StatusBlog;
-  thumbnailUrl: string;
-  author: string;
-  metaTitle: string;
-  metaDescription: string;
-  slug?: string;
-  publicDate?: string;
-}
-
 export const CreateBlog = createAsyncThunk(
   "post/create-blog",
-  async (body: BlogCreateProps) => {
+  async (body: BlogRequestState) => {
     try {
       const response = await client.post(Endpoint.POST_CREATE_BLOG, body);
       return response.data;
@@ -65,7 +53,7 @@ export const CreateBlog = createAsyncThunk(
 
 export const UpdateBlog = createAsyncThunk(
   "patch/update-blog",
-  async (body: BlogCreateProps) => {
+  async (body: BlogRequestState) => {
     try {
       const response = await client.patch(Endpoint.PATCH_UPDATE_BLOG, body);
       return response.data;

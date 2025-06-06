@@ -40,6 +40,7 @@
     "firebase": "^11.6.1",
     "formik": "^2.4.6",
     "framer-motion": "^12.4.11",
+    "highlight.js": "^11.11.1",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lightweight-charts": "^4.2.2",

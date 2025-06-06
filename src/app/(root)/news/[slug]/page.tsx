@@ -4,7 +4,6 @@ import {
   BannerNew,
   NewsDetail,
   Related,
-  Subscribe,
 } from "@components/screens/News";
 import { SCREEN_PX } from "@constant";
 import { Stack } from "@mui/material";
@@ -18,9 +17,9 @@ const News = () => {
   const param = useParams();
 
   useEffect(() => {
-    const id = param.token as string;
+    const id = param.slug as string;
     getBlogId(id);
-  }, []);
+  }, [param.slug]);
 
   return (
     <Stack gap={2}>
@@ -28,21 +27,19 @@ const News = () => {
       <Stack px={SCREEN_PX} direction={"column"} gap={2}>
         <NewsDetail />
       </Stack>
-      <Stack>
-        <Stack
-          width={"100%"}
-          height={"auto"}
-          bgcolor={"black"}
-          px={SCREEN_PX}
-          alignItems={"center"}
-          direction={"row"}
-          py={4}
-        >
-          <Related relateBy="news" title="Related News" />
-        </Stack>
-        <BannerJoin />
-        <Subscribe />
+      {/* <Stack> */}
+      <Stack
+        width={"100%"}
+        height={"auto"}
+        bgcolor={"black"}
+        px={SCREEN_PX}
+        alignItems={"center"}
+        direction={"row"}
+        py={4}
+      >
+        <Related relateBy="news" title="Related News" />
       </Stack>
+      {/* </Stack> */}
     </Stack>
   );
 };

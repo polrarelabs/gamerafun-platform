@@ -27,14 +27,16 @@ declare module "@mui/material/styles/createPalette" {
     bgColorProfile?: string;
     greenColor?: string;
     colorBorderTag?: string;
+    colorErrors?: string;
+    colorBgErrors?: string;
     colorItemGame?: Record<string, string>;
     colorReview?: Record<string, string>;
     colorModalShare?: Record<string, string>;
     colorGame?: Record<string, string>;
     colorRelate?: Record<string, string>;
     colorBanner?: Record<string, string>;
+    colorQuests?: Record<string, string>;
 
-    // Tương tự nếu bạn muốn dùng AppBar, Avatar, Button... bên trong theme.palette
     AppBar?: Record<string, string>;
     Avatar?: Record<string, string>;
     Button?: Record<string, string>;
