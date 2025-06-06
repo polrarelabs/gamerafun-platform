@@ -6,7 +6,6 @@ import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { SCREEN_PX } from "@constant";
 import { HOME_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
-import { useGallery } from "@store/media";
 import { palette } from "public/material";
 import { memo } from "react";
 import image from "public/images/img-login.webp";
@@ -21,8 +20,6 @@ const News = () => {
       title: "NEWS",
     },
   ];
-  const { url } = useGallery();
-
   return (
     <Stack direction={"column"} gap={4}>
       <Stack px={SCREEN_PX} direction={"column"} gap={2} position={"relative"}>
