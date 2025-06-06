@@ -7,7 +7,6 @@ import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
 import { ScheduleStatus, SupportChain, SupportOs } from "@constant/enum";
 import { FormControl, FormHelperText, Stack } from "@mui/material";
-
 import { SCREEN_PX } from "@constant";
 import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
@@ -69,10 +68,6 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
     getGame({ pageIndex: 1, pageSize: 10 });
   }, []);
 
-  // useEffect(() => {
-  //   console.log("games", game);
-  // }, [game]);
-
   useEffect(() => {
     if (name === "update") {
       if (gameById && Object.keys(gameById).length > 0) {
@@ -111,19 +106,6 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
         if (gameById.platformLink && gameById.platformLink.length > 0) {
           setListPlatform(gameById.platformLink);
         }
-        // if (gameById.mediaUrl && gameById.mediaUrl.length > 0) {
-        //   const arr: PropsInfo[] = [];
-        //   for (let i = 0; i < gameById.mediaUrl.length; i++) {
-        //     arr.push({
-        //       url: gameById.mediaUrl[i],
-        //       file: null as any,
-        //       name: "",
-        //       position: "",
-        //       widthImg: 0,
-        //       heightImg: 0,
-        //     })
-        //   }
-        // }
         setIdDisable(false);
       } else setIdDisable(true);
     }

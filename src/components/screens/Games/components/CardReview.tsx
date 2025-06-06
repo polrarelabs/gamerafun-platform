@@ -22,8 +22,6 @@ const CardReview = ({ data }: CardReviewProps) => {
     return setTitle(value);
   };
 
-  console.log("data1", data.likeCount && data.likeCount > 0 && data.likeCount);
-
   const GetLike = (type: string) => {
     if (type === "like") {
       return data.likeCount && data.likeCount > 0 ? (

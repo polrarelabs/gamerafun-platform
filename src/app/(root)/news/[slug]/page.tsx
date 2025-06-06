@@ -1,10 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import {
-  BannerJoin,
-  BannerNew,
-  NewsDetail,
-  Related,
-} from "@components/screens/News";
+import { BannerNew, NewsDetail, Related } from "@components/screens/News";
 import { SCREEN_PX } from "@constant";
 import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";

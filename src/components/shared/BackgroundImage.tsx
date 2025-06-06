@@ -14,7 +14,7 @@ interface BackgroundImageProps {
 
 const BackgroundImage = ({ url }: BackgroundImageProps) => {
   return (
-    <Stack zIndex={2}>
+    <Stack position={"absolute"} zIndex={2}>
       <Stack
         position={"absolute"}
         top={0}
