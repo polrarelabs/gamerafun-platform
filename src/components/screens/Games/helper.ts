@@ -23,11 +23,3 @@ export const validationSchema = yup.object({
     ),
   name: yup.string().required("Name is required"),
 });
-
-export const WINDOW_URL = "https://github.com/x89-labs/be-base/actions";
-export const MACOS_URL = "https://github.com/x89-labs/be-base/actions";
-export const ANDROID_URL = "https://github.com/x89-labs/be-base/actions";
-export const IOS_URL = "https://github.com/x89-labs/be-base/actions";
-
-export const YOUTOBE_URL =
-  "https://www.youtube.com/watch?v=pA31rxn3hYM&ab_channel=EndlessClouds";

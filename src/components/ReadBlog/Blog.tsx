@@ -4,7 +4,11 @@ import { TabItem } from "@components/shared/Tab";
 import { Stack } from "@mui/material";
 import { memo, useEffect, useRef, useState } from "react";
 import NavigationBlog from "./NavigationBlog";
-import { BlogProps } from "./type";
+import RenderBlog from "./RenderBlog";
+
+export interface BlogProps {
+  content: string;
+}
 
 const Blog = ({ content }: BlogProps) => {
   const blogRef = useRef<HTMLDivElement>(null);
@@ -89,7 +93,7 @@ const Blog = ({ content }: BlogProps) => {
         />
       </Stack>
       <Stack flex={5} ref={blogRef}>
-        <Stack dangerouslySetInnerHTML={{ __html: content }} />
+        <RenderBlog content={content} />
       </Stack>
     </Stack>
   );
