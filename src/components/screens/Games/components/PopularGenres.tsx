@@ -7,13 +7,26 @@ import { useGame } from "@store/game";
 import { palette } from "public/material";
 import { memo, useEffect } from "react";
 import CardGenres from "./CardGenres";
+import useBreakpoint from "@hooks/useBreakpoint";
 
 const PopularGenres = () => {
   const { genreItems, getGenres } = useGame();
 
+  const { isMdSmaller, isXsSmaller, isSmSmaller, isLgSmaller, isXlSmaller } =
+    useBreakpoint();
+
   useEffect(() => {
     getGenres({});
   }, []);
+
+  const GetSize = () => {
+    if (isXlSmaller) return 6;
+    if (isLgSmaller) return 5;
+    if (isMdSmaller) return 4;
+    if (isSmSmaller) return 3;
+    if (isXsSmaller) return 2;
+    return 8;
+  };
 
   return (
     <Stack direction="column" gap={2} sx={{ width: "100%" }}>
@@ -23,7 +36,7 @@ const PopularGenres = () => {
           Popular Genres
         </Text>
       </Stack>
-      {genreItems && genreItems.length > 6 ? (
+      {genreItems && genreItems.length > GetSize() ? (
         <Slider itemWidth={208} step={16}>
           {genreItems.map((item, index) => {
             return <CardGenres key={index} data={item} index={index} />;

@@ -27,7 +27,6 @@ const News = () => {
       <Stack px={SCREEN_PX} direction={"column"} gap={2}>
         <NewsDetail />
       </Stack>
-      {/* <Stack> */}
       <Stack
         width={"100%"}
         height={"auto"}
@@ -39,7 +38,6 @@ const News = () => {
       >
         <Related relateBy="news" title="Related News" />
       </Stack>
-      {/* </Stack> */}
     </Stack>
   );
 };

@@ -37,4 +37,4 @@ const Logo = (props: LogoProps) => {
 
 export default memo(Logo);
 
-const ASPECT_RATIO = 152 / 48.14;
+// const ASPECT_RATIO = 152 / 48.14;

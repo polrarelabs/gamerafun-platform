@@ -8,7 +8,7 @@ import { useQuest } from "@store/quests";
 import { JoinRequest, QuestItems } from "@store/quests/type";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import img from "public/images/img-bg-login.png";
+import img from "public/images/img-bg-login.webp";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 import Cookies from "js-cookie";

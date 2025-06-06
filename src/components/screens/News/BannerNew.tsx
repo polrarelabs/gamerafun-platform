@@ -8,7 +8,7 @@ import CircleCheckIcon from "@icons/common/CircleCheckIcon";
 import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 
 const BannerNew = () => {
   const { blogId } = useBlog();
@@ -26,10 +26,6 @@ const BannerNew = () => {
       title: blogId.title,
     },
   ];
-
-  useEffect(() => {
-    console.log(blogId);
-  }, [blogId]);
 
   return (
     <Stack
@@ -77,7 +73,6 @@ const BannerNew = () => {
                 "& img": {
                   objectFit: "cover",
                   objectPosition: "center",
-                  // transition: "all 0.5s ease-in-out",
                 },
               },
             }}

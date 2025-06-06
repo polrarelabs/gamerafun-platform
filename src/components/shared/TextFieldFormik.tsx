@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl, FormHelperText, InputBase, Stack } from "@mui/material";
 import React, { memo } from "react";
 import Text from "./Text";

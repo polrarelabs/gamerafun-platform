@@ -1,16 +1,8 @@
-import { client } from "@api/client";
-import { Endpoint } from "@api/endpoint";
-import {
-  AGENT_DECIMALS,
-  AN_ERROR_TRY_AGAIN,
-  CONFIG_BY_CURRENCY,
-} from "@constant";
+import { AGENT_DECIMALS, CONFIG_BY_CURRENCY } from "@constant";
 import { Currency } from "@constant/enum";
-import { CoinType } from "@constant/types";
 import { aptosClient } from "@contexts/WalletProvider";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { blockchainToNumber, sleep } from "@utils";
-import { HttpStatusCode } from "axios";
 
 export const getBalances = createAsyncThunk(
   "app/getBalances",
@@ -26,7 +18,7 @@ export const getBalances = createAsyncThunk(
       const keysOfCurrency = Object.keys(CONFIG_BY_CURRENCY);
 
       return coinsData.reduce(
-        (out: { [key in Currency | string]: number }, item, index) => {
+        (out: { [key in Currency | string]: number }, item, _index) => {
           let key = item.asset_type,
             decimals = AGENT_DECIMALS;
 

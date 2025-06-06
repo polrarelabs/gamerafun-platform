@@ -128,12 +128,17 @@ export enum StatusBlog {
   PUBLISHED = "published",
 }
 
-export enum SortBy {
+export enum SortByGame {
   TopRated = "TopRated",
   Oldest = "Oldest",
   Newest = "Newest",
   AZ = "AZ",
   ZA = "ZA",
+}
+export enum SortByBlog {
+  Oldest = "Oldest",
+  Newest = "Newest",
+  AZ = "AZ",
 }
 
 export enum AddedDateSort {

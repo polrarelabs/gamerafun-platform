@@ -25,8 +25,6 @@ const FormOption = ({
   setArray,
   isValue = true,
 }: FormOptionProps) => {
-  console.log("1", arrayKey);
-
   const GetValue = (key: string) => {
     if (data && key) {
       return data[key] ? data[key] : 0;

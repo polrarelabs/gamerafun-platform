@@ -19,7 +19,7 @@ import {
   SetStatusAPI,
   SetTags,
 } from "./reducer";
-import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
+import { AddedDateSort, SortByBlog, StatusBlog, Tag } from "@constant/enum";
 import { BlogRequestState, GetBlogProps } from "./type";
 
 export const useBlog = () => {
@@ -67,7 +67,7 @@ export const useBlog = () => {
     dispatch(SetPageIndex(value));
   };
 
-  const setSortBy = (value: SortBy) => {
+  const setSortByBlog = (value: SortByBlog) => {
     dispatch(SetSortBy(value));
   };
 
@@ -108,7 +108,7 @@ export const useBlog = () => {
     blogSponsored,
     setStatusAPI,
     sortBy,
-    setSortBy,
+    setSortByBlog,
     getBlog,
     loading,
     error,

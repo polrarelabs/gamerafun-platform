@@ -1,6 +1,7 @@
 import {
   Genre,
   OwnerStatus,
+  Platform,
   ScheduleStatus,
   SupportChain,
   SupportOs,
@@ -20,9 +21,16 @@ export interface PlatformLinkProps {
 }
 
 export interface RateProps {
+  id?: number;
   gameId: number;
   score: number;
   review: string;
+  createdAt?: string;
+  updatedAt?: string;
+  ratedGameCountByUser?: number;
+  isLike?: boolean;
+  likeCount?: number;
+  unLikeCount?: number;
 }
 
 export interface GameItems {
@@ -151,11 +159,11 @@ interface GameCountItems {
 }
 
 export interface GameCountProps {
-  platform: GameCountItems;
+  platform: Platform;
   genre: GameCountItems;
-  chain: GameCountItems;
-  support_os: GameCountItems;
-  schedule_status: GameCountItems;
+  chain: SupportChain;
+  support_os: SupportOs;
+  status: ScheduleStatus;
 }
 
 export interface GameBlogProps {

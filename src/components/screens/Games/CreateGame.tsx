@@ -1,27 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Button, Snackbared } from "@components/shared";
+import { Button, Snackbared, Text } from "@components/shared";
 import DatePickerFormik from "@components/shared/DatePickerFormik";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
-import { Genre, ScheduleStatus, SupportChain, SupportOs } from "@constant/enum";
+import { ScheduleStatus, SupportChain, SupportOs } from "@constant/enum";
 import { FormControl, FormHelperText, Stack } from "@mui/material";
 
 import { SCREEN_PX } from "@constant";
 import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
-import {
-  FormCreateGameProps,
-  GameItems,
-  PlatformLinkProps,
-} from "@store/game/type";
+import { FormCreateGameProps, PlatformLinkProps } from "@store/game/type";
 import { useGallery } from "@store/media";
 import { useFormik } from "formik";
 import { memo, useEffect, useState } from "react";
 import { PlatformLink } from "./components";
 import { validationSchema } from "./helper";
 import UploadAvarta, { PropsInfo } from "./UploadAvatar";
-import { log } from "console";
 
 interface PropsFormGame {
   name?: string;
@@ -55,7 +51,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
       const key = gameCount.genre ? Object.keys(gameCount.genre) : [];
 
       if (key.length > 0) {
-        const obj = Object.fromEntries(key.map((item, index) => [item, item]));
+        const obj = Object.fromEntries(key.map((item, _index) => [item, item]));
         setGenre(obj);
       }
     }
@@ -73,9 +69,9 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
     getGame({ pageIndex: 1, pageSize: 10 });
   }, []);
 
-  useEffect(() => {
-    console.log("games", game);
-  }, [game]);
+  // useEffect(() => {
+  //   console.log("games", game);
+  // }, [game]);
 
   useEffect(() => {
     if (name === "update") {
@@ -204,7 +200,7 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
       if (String(formik.values.playableOnDesktop) === "true") {
         formik.values.playableOnDesktop = true;
       } else formik.values.playableOnDesktop = false;
-      console.log("formik value", formik.values);
+      // console.log("formik value", formik.values);
 
       if (name === "create") createGame(formik.values);
       else if (name === "update") updateGame(formik.values);
@@ -226,6 +222,9 @@ const CreateGame = ({ name = "create" }: PropsFormGame) => {
 
   return (
     <Stack px={SCREEN_PX}>
+      <Text fontSize={"32px"} fontWeight={700}>
+        {name === "create" ? "Create Game" : "Update Game"}
+      </Text>
       <form onSubmit={formik.handleSubmit}>
         <Stack direction={"column"} gap={3}>
           <Stack direction={"column"}>

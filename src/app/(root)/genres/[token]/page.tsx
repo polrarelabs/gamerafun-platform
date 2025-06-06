@@ -11,7 +11,7 @@ import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
 import { memo, useEffect } from "react";
-import img from "public/images/img-local.png";
+import img from "public/images/img-local.webp";
 
 const GenresDetails = () => {
   const {

@@ -23,6 +23,7 @@ export default function Home() {
         type="game"
         isHome={true}
         widthGame={250}
+        isStar={false}
       />
       <Latest title="Latest News" path={NEWS_PATH} type="new" />
       <Genres />

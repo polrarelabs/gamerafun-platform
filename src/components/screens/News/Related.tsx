@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Latest from "@components/Latest";
@@ -9,7 +10,7 @@ import ArrowLongIcon from "@icons/common/ArrowLongIcon";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 
@@ -29,15 +30,20 @@ const Related = ({
 }: RelatedProps) => {
   const router = useRouter();
 
-  const { blogId, blog, getBlog, getBlogId } = useBlog();
+  const {
+    blogId,
+    // blog,
+    getBlog,
+    // getBlogId
+  } = useBlog();
 
   const { game, getGame } = useGame();
-  const param = useParams();
+  // const param = useParams();
 
-  const handleClick = (id: string) => {
-    getBlogId(id);
-    router.push(`${NEWS_PATH}/${id}`);
-  };
+  // const handleClick = (id: string) => {
+  //   getBlogId(id);
+  //   router.push(`${NEWS_PATH}/${id}`);
+  // };
 
   useEffect(() => {
     getGame({ pageIndex: 1, pageSize: 10 });
@@ -118,12 +124,10 @@ const Related = ({
                     <CardItem
                       key={index}
                       data={item}
-                      index={index}
                       displayLayout={"no-list"}
                       isSmaller={true}
                       isHover={true}
                       widthMax={150}
-                      title="title"
                     />
                   );
                 })}

@@ -5,7 +5,7 @@ import { store } from "@store/configureStore";
 import { usePathname } from "next/navigation";
 import { memo, useCallback, useEffect } from "react";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/lib/integration/react";
+// import { PersistGate } from "redux-persist/lib/integration/react";
 
 type InitializeProviderProps = {
   children: React.ReactNode;
@@ -59,19 +59,19 @@ const InitializeProvider = (props: InitializeProviderProps) => {
 
 export default memo(InitializeProvider);
 
-const checkIsMacOS = () =>
-  ["Macintosh", "MacIntel", "MacPPC", "Mac68K"].indexOf(
-    window?.navigator?.["userAgentData"]?.platform ||
-      window?.navigator?.platform,
-  ) !== -1;
+// const checkIsMacOS = () =>
+//   ["Macintosh", "MacIntel", "MacPPC", "Mac68K"].indexOf(
+//     window?.navigator?.["userAgentData"]?.platform ||
+//       window?.navigator?.platform,
+//   ) !== -1;
 
-const checkIsMobile = () =>
-  [
-    /Android/i,
-    /webOS/i,
-    /iPhone/i,
-    /iPad/i,
-    /iPod/i,
-    /BlackBerry/i,
-    /Windows Phone/i,
-  ].some((value) => navigator?.userAgent?.match(value));
+// const checkIsMobile = () =>
+//   [
+//     /Android/i,
+//     /webOS/i,
+//     /iPhone/i,
+//     /iPad/i,
+//     /iPod/i,
+//     /BlackBerry/i,
+//     /Windows Phone/i,
+//   ].some((value) => navigator?.userAgent?.match(value));

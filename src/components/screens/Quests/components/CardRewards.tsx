@@ -3,7 +3,7 @@
 import { Image, Text } from "@components/shared";
 import { Stack } from "@mui/material";
 import React, { memo, useRef } from "react";
-import img from "public/images/img-local.png";
+import img from "public/images/img-local.webp";
 import { getImageSrc } from "@components/helper";
 import { palette } from "public/material";
 import { useMotionValue, useTransform, motion } from "framer-motion";

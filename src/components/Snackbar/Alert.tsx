@@ -1,10 +1,9 @@
-import { memo, useEffect, useMemo, useState } from "react";
-import { alertClasses, Alert as MuiAlert, Stack } from "@mui/material";
+import { IconButton, Text } from "@components/shared";
 import CloseIcon from "@icons/common/CloseIcon";
+import { alertClasses, Alert as MuiAlert, Stack } from "@mui/material";
 import { SnackbarItem, useSnackbar } from "@store/app";
 import { typography } from "public/material";
-import { IconButton, Text } from "@components/shared";
-import useNow from "@hooks/useNow";
+import { memo, useEffect, useMemo, useState } from "react";
 
 const Alert = (props: SnackbarItem) => {
   const {

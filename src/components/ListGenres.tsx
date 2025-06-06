@@ -6,7 +6,7 @@ import { useGame } from "@store/game";
 import { GenresCProps } from "@store/game/type";
 import { useBlog } from "@store/new";
 import { useRouter } from "next/navigation";
-import img from "public/images/img-local.png";
+import img from "public/images/img-local.webp";
 import { memo, useEffect, useState } from "react";
 import { getImageSrc } from "./helper";
 import { decode, encode } from "./shared/helper";
@@ -42,6 +42,7 @@ const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
   };
 
   const handleClick = (item: GenresCProps) => {
+    SetGenres([item.name.toUpperCase()]);
     const text = encode(item.name);
     router.push(`/genres/${text}`);
   };

@@ -11,7 +11,7 @@ import { BannerJoin } from "@components/screens/News";
 
 type FooterProps = {};
 
-const Footer = (props: FooterProps) => {
+const Footer = (_props: FooterProps) => {
   return (
     <>
       <BannerJoin />
@@ -40,16 +40,18 @@ const Footer = (props: FooterProps) => {
           platform.
         </Text>
         <Stack direction="row" alignItems="center" spacing={2}>
-          {DATA.map(({ Icon, ...item }) => (
-            <Link
-              sx={{ height: 24 }}
-              key={item.href}
-              href={item.href}
-              target="_blank"
-            >
-              <Icon sx={{ color: "grey.400", fontSize: 24 }} />
-            </Link>
-          ))}
+          {DATA.map(({ Icon, ...item }) =>
+            item.href ? (
+              <Link
+                sx={{ height: 24 }}
+                key={item.href.toString()}
+                href={item.href}
+                target="_blank"
+              >
+                <Icon sx={{ color: "grey.400", fontSize: 24 }} />
+              </Link>
+            ) : null,
+          )}
         </Stack>
       </Stack>
     </>
@@ -61,5 +63,4 @@ export default memo(Footer);
 const DATA = [
   { Icon: TwitterIcon, href: X_URL },
   { Icon: TelegramIcon, href: TELE_URL },
-  // { Icon: DiscordIcon, href: "https://Gamera.ai" },
 ];

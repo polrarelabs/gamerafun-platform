@@ -1,4 +1,9 @@
-import { AddedDateSort, SortBy, StatusBlog } from "@constant/enum";
+import {
+  AddedDateSort,
+  SortByGame,
+  SortByBlog,
+  StatusBlog,
+} from "@constant/enum";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import dayjs from "dayjs";
 import { StaticImageData } from "next/image";
@@ -20,18 +25,29 @@ export const getDateSort = (value: string) => {
   }
 };
 
-export const getSort = (value: string) => {
+export const getSortGame = (value: string) => {
   switch (value) {
-    case SortBy.AZ:
+    case SortByGame.AZ:
       return "A-Z";
-    case SortBy.TopRated:
+    case SortByGame.TopRated:
       return "Top Rated";
-    case SortBy.Oldest:
+    case SortByGame.Oldest:
       return "Oldest";
-    case SortBy.Newest:
+    case SortByGame.Newest:
       return "Newest";
     default:
       return "Z-A";
+  }
+};
+
+export const getSortBlog = (value: string) => {
+  switch (value) {
+    case SortByBlog.AZ:
+      return "A-Z";
+    case SortByBlog.Oldest:
+      return "Oldest";
+    default:
+      return "Newest";
   }
 };
 

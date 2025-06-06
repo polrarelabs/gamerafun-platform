@@ -22,7 +22,7 @@ import {
   GroupButtons,
 } from "@components/screens/Games/components";
 import { SCREEN_PX, SCREEN_PY } from "@constant";
-import { AddedDateSort, SortBy } from "@constant/enum";
+import { AddedDateSort, SortByBlog, SortByGame } from "@constant/enum";
 import { GAME_PATH } from "@constant/paths";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
@@ -43,7 +43,7 @@ const LayoutGameDetail = () => {
     setSortBy: sortGame,
     gameBlog,
   } = useGame();
-  const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
+  const { setTags, setCheckDate, setSortByBlog, setSearch } = useBlog();
 
   useEffect(() => {
     if (id) {
@@ -58,8 +58,8 @@ const LayoutGameDetail = () => {
     setTags([]);
     setSearch("");
     searchGame("");
-    setSortBy(SortBy.Newest);
-    sortGame(SortBy.Newest);
+    setSortByBlog(SortByBlog.Newest);
+    sortGame(SortByGame.Newest);
   }, [id]);
 
   // useEffect(() => {
@@ -178,6 +178,10 @@ const LayoutGameDetail = () => {
           left={0}
           px={SCREEN_PX}
           zIndex={2}
+          width="100%"
+          sx={{
+            overflowX: "auto",
+          }}
         >
           {!isXsSmaller && <Breadcumbs breadcumbs={breadcrumbs} />}
           <h1>{gameById.name}</h1>
@@ -185,6 +189,9 @@ const LayoutGameDetail = () => {
             tabs={tabItems}
             value={value}
             handleChange={handleChange}
+            sx={{
+              minWidth: "max-content",
+            }}
           />
         </Stack>
       </Stack>

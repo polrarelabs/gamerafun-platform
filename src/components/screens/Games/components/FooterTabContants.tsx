@@ -58,12 +58,17 @@ const FooterTabContants = () => {
 
   return (
     <Stack gap={2} my={4}>
-      <Stack direction={"row"} alignItems={"center"} gap={2} width={"100%"}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        gap={2}
+        width="100%"
+      >
         <Text
           color={palette.colorGray}
-          fontSize={"20px"}
-          letterSpacing={"8px"}
-          whiteSpace="nowrap"
+          fontSize="20px"
+          letterSpacing="8px"
+          whiteSpace={{ xs: "none", md: "nowrap" }}
           sx={{ flexShrink: 0 }}
         >
           About {gameById.name}
@@ -71,6 +76,7 @@ const FooterTabContants = () => {
         <hr
           style={{
             flex: 1,
+            width: "100%",
             border: "none",
             borderBottom: `1px dashed ${palette.colorRelate?.borderColor}`,
             margin: 0,

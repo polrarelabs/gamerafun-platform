@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { AgentState, Currency, TradeMode } from "./enum";
+import { Currency } from "./enum";
 
 export interface Size {
   width?: number;

@@ -4,7 +4,7 @@ import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
 import React, { memo } from "react";
-import img from "public/images/img-login.png";
+import img from "public/images/img-login.webp";
 import { getImageSrc } from "@components/helper";
 
 const BannerJoin = () => {
@@ -17,6 +17,7 @@ const BannerJoin = () => {
       direction={"column"}
       gap={2}
       position={"relative"}
+      mt={4}
     >
       <Stack
         position={"absolute"}
