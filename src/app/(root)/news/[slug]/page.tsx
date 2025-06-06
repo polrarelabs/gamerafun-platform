@@ -1,15 +1,21 @@
 "use client";
-import {
-  BannerJoin,
-  BannerNew,
-  NewsDetail,
-  Related,
-} from "@components/screens/News";
+// import {
+//   BannerNew,
+//   NewsDetail,
+//   Related,
+// } from "@components/screens/News";
 import { SCREEN_PX } from "@constant";
 import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
 import { useParams } from "next/navigation";
+import dynamic from "next/dynamic";
+const BannerNew = dynamic(() => import("@components/screens/News/BannerNew"), {
+  ssr: false,
+});
+const NewsDetail = dynamic(() => import("@components/screens/News/NewsDetail"), { ssr: false });
+const Related = dynamic(() => import("@components/screens/News/Related"), { ssr: false });
+
 
 const News = () => {
   const { getBlogId } = useBlog();
@@ -42,5 +48,3 @@ const News = () => {
 };
 
 export default memo(News);
-
-export const runtime = 'nodejs';
