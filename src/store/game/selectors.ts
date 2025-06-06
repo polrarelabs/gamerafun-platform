@@ -46,7 +46,7 @@ import {
   setDiscontinued,
   setStatusGame,
 } from "./reducer";
-import { Genre, Platform, ScheduleStatus, SortBy } from "@constant/enum";
+import { Platform, ScheduleStatus, SortByGame } from "@constant/enum";
 import {
   FormCreateGameProps,
   GameBlogProps,
@@ -231,7 +231,7 @@ export const useGame = () => {
     dispatch(SetIsDelete());
   };
 
-  const setSortBy = (value: SortBy) => {
+  const setSortBy = (value: SortByGame) => {
     dispatch(SetSortBy(value));
   };
 

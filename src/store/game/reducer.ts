@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Genre, Platform, ScheduleStatus, SortBy } from "@constant/enum";
+import { Platform, ScheduleStatus, SortByGame } from "@constant/enum";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateGame,
@@ -69,7 +69,7 @@ interface PropsGameReducers {
   discontinued: boolean;
   tba: boolean;
   genresTitle: string;
-  sortBy: SortBy;
+  sortBy: SortByGame;
   search: string;
   // status: string[],
 }
@@ -105,7 +105,7 @@ const initialState: PropsGameReducers = {
   discontinued: false,
   tba: false,
   genresTitle: "",
-  sortBy: SortBy.Newest,
+  sortBy: SortByGame.Newest,
   search: "",
   pageIndex: 1,
   pageSize: 24,
@@ -185,7 +185,7 @@ const GameReducers = createSlice({
     SetStatus: (state) => {
       state.status = false;
     },
-    SetSortBy: (state, action: PayloadAction<SortBy>) => {
+    SetSortBy: (state, action: PayloadAction<SortByGame>) => {
       state.sortBy = action.payload;
     },
     SetSearch: (state, action: PayloadAction<string>) => {

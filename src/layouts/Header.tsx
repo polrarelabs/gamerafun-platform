@@ -1,13 +1,11 @@
 "use client";
 
-import Connect from "@components/Connect";
 import Link from "@components/Link";
 import { Button } from "@components/shared";
 import { ACCESSTOKEN_COOKIE, HEADER_HEIGHT } from "@constant";
 import { LOGIN_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
-import { useAuthLogin } from "@store/auth";
 import Cookies from "js-cookie";
 import { memo, useEffect, useState } from "react";
 import { Logo, Navigation } from "./components";
@@ -17,7 +15,6 @@ const Header = () => {
   const cookies = Cookies.get(ACCESSTOKEN_COOKIE);
 
   const [showLogin, setShowLogin] = useState<boolean>(true);
-  const { isConnectAptos } = useAuthLogin();
 
   useEffect(() => {
     if (cookies !== "undefined" && cookies !== undefined) {
@@ -25,7 +22,7 @@ const Header = () => {
     } else setShowLogin(true);
   }, [cookies]);
 
-  const { isSmSmaller, isMdSmaller } = useBreakpoint();
+  const { isMdSmaller } = useBreakpoint();
 
   return (
     <>
@@ -43,49 +40,28 @@ const Header = () => {
         bgcolor="background.default"
         zIndex={99}
       >
-        {/* <Sidebar /> */}
-
         <Stack direction={"row"} alignItems={"center"} gap={4}>
           <Logo />
           {!isMdSmaller && <Navigation />}
         </Stack>
-        {isMdSmaller ? (
-          <>
-            <Stack direction={"row"} gap={2}>
-              {showLogin ? (
-                <Button
-                  LinkComponent={Link}
-                  href={LOGIN_PATH}
-                  variant="contained"
-                  size="small"
-                >
-                  Log In
-                </Button>
-              ) : (
-                <Profile />
-              )}
-            </Stack>
-          </>
-        ) : (
-          <Stack direction="row" spacing={2} alignItems="center">
-            {showLogin ? (
-              <>
-                {(!isSmSmaller || !isConnectAptos) && <Connect />}
-
-                <Button
-                  LinkComponent={Link}
-                  href={LOGIN_PATH}
-                  variant="contained"
-                  size="small"
-                >
-                  Log In
-                </Button>
-              </>
-            ) : (
-              <Profile />
-            )}
-          </Stack>
-        )}
+        <Stack direction="row" spacing={2} alignItems="center">
+          {showLogin ? (
+            <>
+              <Button
+                LinkComponent={Link}
+                href={LOGIN_PATH}
+                variant="contained"
+                sx={{
+                  borderRadius: "5px !important",
+                }}
+              >
+                Log In
+              </Button>
+            </>
+          ) : (
+            <Profile />
+          )}
+        </Stack>
       </Stack>
     </>
   );

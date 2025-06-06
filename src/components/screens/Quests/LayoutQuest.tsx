@@ -1,13 +1,12 @@
 "use client";
+import { Text } from "@components/shared";
+import { SCREEN_PX } from "@constant";
 import { Stack } from "@mui/material";
 import { useQuest } from "@store/quests";
-import React, { memo, useEffect } from "react";
-import CardQuest from "./components/CardQuest";
-import { palette } from "public/material";
-import { Button, Text } from "@components/shared";
 import { useRouter } from "next/navigation";
-import { QUESTS_PATH } from "@constant/paths";
-import { BannerJoin } from "../News";
+import { palette } from "public/material";
+import { memo, useEffect } from "react";
+import CardQuest from "./components/CardQuest";
 
 const LayoutQuest = () => {
   const { quest, getQuest } = useQuest();
@@ -19,7 +18,7 @@ const LayoutQuest = () => {
   const router = useRouter();
 
   return (
-    <Stack gap={2} position={"relative"}>
+    <Stack gap={2} position={"relative"} px={SCREEN_PX}>
       <Text color="white" fontSize={"34px"} fontWeight={700}>
         Quests
       </Text>

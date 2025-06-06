@@ -1,6 +1,6 @@
 import {
   AddedDateSort,
-  SortBy,
+  SortByBlog,
   StatusBlog,
   Tag,
   TypeBlog,
@@ -44,7 +44,7 @@ export interface BlogState {
   isDelete: boolean;
   checkDate: AddedDateSort;
   tags: Tag[];
-  sortBy: SortBy;
+  sortBy: SortByBlog;
   search: string;
   status: StatusBlog;
 }

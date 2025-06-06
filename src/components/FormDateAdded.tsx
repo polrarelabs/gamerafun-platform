@@ -8,7 +8,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LensIcon from "@mui/icons-material/Lens";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { useGame } from "@store/game";
-import { AddedDateSort, SortBy } from "@constant/enum";
+import { AddedDateSort, SortByGame, SortByBlog } from "@constant/enum";
 import { useBlog } from "@store/new";
 import { getDateSort } from "./helper";
 
@@ -21,7 +21,8 @@ const FormDateAdded = () => {
     setSearch: searchGame,
     setSortBy: sortGame,
   } = useGame();
-  const { checkDate, setCheckDate, setSearch, setSortBy, setTags } = useBlog();
+  const { checkDate, setCheckDate, setSearch, setSortByBlog, setTags } =
+    useBlog();
   const handleClear = () => {
     setCheckDate(AddedDateSort.AllTime);
     SetPlatforms([]);
@@ -31,8 +32,8 @@ const FormDateAdded = () => {
     setTags([]);
     setSearch("");
     searchGame("");
-    setSortBy(SortBy.Newest);
-    sortGame(SortBy.Newest);
+    sortGame(SortByGame.Newest);
+    setSortByBlog(SortByBlog.Newest);
   };
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 

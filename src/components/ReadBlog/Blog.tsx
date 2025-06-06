@@ -9,10 +9,11 @@ import { BlogProps } from "./type";
 const Blog = ({ content }: BlogProps) => {
   const blogRef = useRef<HTMLDivElement>(null);
   const [headings, setHeadings] = useState<TabItem[]>([]);
+  const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
     if (blogRef.current) {
-      const nodeHeadings = blogRef.current.querySelectorAll("h2");
+      const nodeHeadings = blogRef.current.querySelectorAll("h2[id]");
       const extracted: TabItem[] = [];
       nodeHeadings.forEach((el) => {
         extracted.push({
@@ -23,6 +24,37 @@ const Blog = ({ content }: BlogProps) => {
       setHeadings(extracted);
     }
   }, [content]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!blogRef.current) return;
+
+      const headings = Array.from(
+        blogRef.current.querySelectorAll("h2[id]"),
+      ) as HTMLElement[];
+
+      const scrollPosition = window.scrollY + 90;
+
+      let currentId = "";
+      for (let i = 0; i < headings.length; i++) {
+        const headingTop = headings[i].offsetTop;
+        if (headingTop <= scrollPosition) {
+          currentId = headings[i].id;
+        } else {
+          break;
+        }
+      }
+      if (currentId && currentId !== activeId) {
+        setActiveId(currentId);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeId]);
 
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
@@ -50,7 +82,11 @@ const Blog = ({ content }: BlogProps) => {
           alignSelf: "flex-start",
         }}
       >
-        <NavigationBlog data={headings} handleClick={scrollToHeading} />
+        <NavigationBlog
+          data={headings}
+          handleClick={scrollToHeading}
+          activeId={activeId}
+        />
       </Stack>
       <Stack flex={5} ref={blogRef}>
         <Stack dangerouslySetInnerHTML={{ __html: content }} />

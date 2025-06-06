@@ -2,8 +2,8 @@
 
 import SearchIcon from "@icons/common/SearchIcon";
 import { InputBase } from "@mui/material";
-import { palette, typography } from "public/material";
-import React, { memo, useState } from "react";
+import { typography } from "public/material";
+import { memo, useState } from "react";
 
 interface SearchProps {
   setSearch: (value: string) => void;
@@ -36,12 +36,6 @@ const Search = ({ setSearch, placeholder }: SearchProps) => {
           }}
         />
       }
-      // sx={{
-      //   border: "none !important",
-      //   backgroundColor: palette.bgMenuHover,
-      //   padding: "8px 16px",
-      //   borderRadius: "6px",
-      // }}
       sx={{
         ...typography.subtitle2,
         px: 1.5,
@@ -49,7 +43,7 @@ const Search = ({ setSearch, placeholder }: SearchProps) => {
         bgcolor: "background.paper",
         borderRadius: "5px",
         border: "1px solid",
-        borderColor: "grey.400",
+        borderColor: "grey.700",
         ml: 2,
         "&:focus-within": {
           borderColor: "primary.main",

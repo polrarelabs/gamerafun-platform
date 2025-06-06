@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Snackbared, UploadImage } from "@components/shared";
+import { Button, Snackbared, Text, UploadImage } from "@components/shared";
 import SelectFormik from "@components/shared/SelectFormik";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
 import { SCREEN_PX } from "@constant";
@@ -113,6 +113,9 @@ const CreateGenres = () => {
   return (
     <Stack px={SCREEN_PX} gap={4}>
       <Stack width={"100%"} direction={"row"} justifyContent={"end"}>
+        <Text fontSize={"32px"} fontWeight={700}>
+          {types === "create" ? "Create Genres" : "Update Genres"}
+        </Text>
         <Button variant="outlined" onClick={handleClickType}>
           {types === "create" ? "Edit" : "Create"}
         </Button>

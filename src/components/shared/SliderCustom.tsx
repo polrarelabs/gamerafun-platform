@@ -1,8 +1,7 @@
-import { AverageStar, Text, Tooltip } from "@components/shared";
+import { AverageStar, Text } from "@components/shared";
 import { Slider, Stack } from "@mui/material";
 import { palette } from "public/material";
 import { memo } from "react";
-import { BsFillHexagonFill } from "react-icons/bs";
 import { thumbColor } from "./helper";
 
 interface SliderCustomProps {

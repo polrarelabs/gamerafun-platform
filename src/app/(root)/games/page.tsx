@@ -2,15 +2,15 @@
 "use client";
 
 import { LayoutGame } from "@components/screens/Games";
-import { BackgroundImage, Image, Text } from "@components/shared";
+import { BackgroundImage, Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { SCREEN_PX } from "@constant";
-import { AddedDateSort, SortBy } from "@constant/enum";
+import { AddedDateSort, SortByBlog, SortByGame } from "@constant/enum";
 import { HOME_PATH } from "@constant/paths";
-import { Box, Stack, useTheme } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import image from "public/images/img-login.png";
+import image from "public/images/img-login.webp";
 import { memo, useEffect } from "react";
 
 const GameHome = () => {
@@ -24,7 +24,7 @@ const GameHome = () => {
     setSearch: searchGame,
     setSortBy: sortGame,
   } = useGame();
-  const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
+  const { setTags, setCheckDate, setSortByBlog, setSearch } = useBlog();
 
   useEffect(() => {
     setCheckDate(AddedDateSort.AllTime);
@@ -35,8 +35,8 @@ const GameHome = () => {
     setTags([]);
     setSearch("");
     searchGame("");
-    setSortBy(SortBy.Newest);
-    sortGame(SortBy.Newest);
+    setSortByBlog(SortByBlog.Newest);
+    sortGame(SortByGame.Newest);
   }, []);
 
   const { palette } = theme;
@@ -60,60 +60,6 @@ const GameHome = () => {
         py={4}
       >
         <BackgroundImage url={image} />
-        {/* <Stack
-          position={"absolute"}
-          top={0}
-          left={0}
-          width={"100%"}
-          height={"100%"}
-          zIndex={2}
-          sx={{
-            background: palette.colorGame?.bgLinear,
-            opacity: 1,
-          }}
-        />
-        <Stack
-          position={"absolute"}
-          top={0}
-          left={0}
-          width={"100%"}
-          height={"100%"}
-          zIndex={1}
-        >
-          <Image
-            src={image}
-            alt={`img-`}
-            size="100%"
-            aspectRatio={3 / 2}
-            sizes={`1920px`}
-            containerProps={{
-              sx: {
-                width: `100%`,
-                height: "100%",
-                overflow: "hidden",
-                opacity: 0.2,
-                border: "1px",
-                borderColor: palette.borderColorLinear,
-                "& img": {
-                  objectFit: "cover",
-                  objectPosition: "center",
-                },
-              },
-            }}
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              pointerEvents: "none",
-              background: palette.colorGame?.colorBgLineaer1,
-              zIndex: 2,
-            }}
-          />
-        </Stack> */}
         <Stack
           direction={"row"}
           alignItems={"center"}

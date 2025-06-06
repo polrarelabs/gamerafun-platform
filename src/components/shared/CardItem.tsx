@@ -5,24 +5,29 @@ import { GetIcon } from "@components/screens/Games/components";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useWindowSize from "@hooks/useWindowSize";
 import StarOutlineIcon from "@icons/common/StarOutlineIcon";
+import StarSolidIcon from "@icons/common/StarSolidIcon";
 import GameIcon from "@icons/web3/GameIcon";
 import { Stack } from "@mui/material";
 import { PlatformLinkProps } from "@store/game/type";
 import { motion } from "framer-motion";
 import img from "public/images/img-logo.png";
 import { palette } from "public/material";
-import { forwardRef, memo, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import AverageStar from "./AverageStar";
 import Image from "./Image";
 import Text from "./Text";
-import StarSolidIcon from "@icons/common/StarSolidIcon";
 import { getImageSrc } from "@components/helper";
 
 interface CardItemProps {
-  index: number;
   data: any | null;
   handleClick?: (value: number) => void;
-  title: string;
   displayLayout?: string;
   isSmaller: boolean;
   isHover?: boolean;
@@ -33,11 +38,44 @@ interface CardItemProps {
   isDragging?: boolean;
 }
 
+const getGenres = (genres: string[]) => {
+  if (!genres || genres.length === 0) return null;
+
+  const items = genres.slice(0, 2).map((genre, idx) => (
+    <Text
+      key={idx}
+      color={palette.colorGray}
+      fontSize="12px"
+      textAlign="center"
+    >
+      {genre}
+      {idx === 0 && genres.length > 1 ? ", " : ""}
+    </Text>
+  ));
+
+  if (genres.length > 2) {
+    items.push(
+      <Text
+        key="more"
+        color={palette.colorGray}
+        fontSize="12px"
+        textAlign="center"
+      >
+        +{genres.length - 2}
+      </Text>,
+    );
+  }
+
+  return items;
+};
+
+const getPlatform = (platform: PlatformLinkProps[]) =>
+  platform.map((item) => Object.keys(item)[0]);
+
 const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
   (
     {
       isDragging,
-      index,
       data,
       handleClick,
       isSmaller,
@@ -53,120 +91,124 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { width } = useWindowSize();
     const [height, setHeight] = useState<number | undefined>(undefined);
+
     useEffect(() => {
-      if (!containerRef.current) return;
-      setHeight(
-        containerRef.current?.offsetHeight
-          ? containerRef.current?.offsetHeight * 1.5
-          : undefined,
-      );
+      if (containerRef.current) {
+        setHeight(containerRef.current.offsetHeight * 1.5);
+      }
     }, [width]);
-    // const refStar = useRef<HTMLDivElement | null>(null);
-    // const isInView = useInView(refStar);
 
-    const [hover, setHover] = useState<boolean>(false);
-    const [id, setId] = useState<number | null>(null);
+    const [hover, setHover] = useState(false);
+    const [favorite, setFavorite] = useState(false);
 
-    const [favorite, setFavorite] = useState<boolean>(false);
+    const containerWidth = widthMax ?? (isSmaller ? 125 : `${height}px`);
 
-    const getGenres = (genres: string[]) => {
-      if (genres && genres.length > 2) {
-        return genres.map((genre, index) => {
-          if (index < 2) {
-            return (
-              <Text
-                key={index}
-                color={palette.colorGray}
-                fontSize={"12px"}
-                textAlign={"center"}
-              >
-                {genre}
-                {index < 1 && genres.length > 1 ? ", " : ""}
-              </Text>
-            );
-          } else if (index === 2 && genres.length > 3) {
-            return (
-              <Text
-                key={index}
-                color={palette.colorGray}
-                fontSize={"12px"}
-                textAlign={"center"}
-              >
-                +{genres.length - 2}
-              </Text>
-            );
-          }
-        });
-      } else if (genres && genres.length <= 2) {
-        return genres.map((genre, index) => {
-          return (
-            <Text
-              key={index}
-              color={palette.colorGray}
-              fontSize={"12px"}
-              textAlign={"center"}
-            >
-              {genre}
-              {index === genres.length - 1 ? "" : ", "}
-            </Text>
-          );
-        });
+    const handleMouseEnter = useCallback(() => {
+      if (isHover) setHover(true);
+    }, [isHover]);
+
+    const handleMouseLeave = useCallback(() => {
+      if (isHover) setHover(false);
+    }, [isHover]);
+
+    const handleCardClick = () => {
+      if (!isDragging && handleClick) {
+        handleClick(data.id);
       }
     };
-
-    const getPlatform = (platform: PlatformLinkProps[]) => {
-      const arr: string[] = [];
-      platform.forEach((item) => arr.push(Object.keys(item)[0]));
-      return arr;
-    };
-
+    const GameStatus = (
+      <Stack
+        py="2px"
+        sx={{
+          borderBottomLeftRadius: isSmaller ? undefined : "7px",
+          borderBottomRightRadius: "7px",
+          background: isSmaller
+            ? palette.colorItemGame?.borderLinear
+            : palette.colorItemGame?.borderTitle,
+        }}
+        direction="row"
+        alignItems="center"
+        gap={1}
+        justifyContent="center"
+      >
+        <GameIcon sx={{ color: palette.colorGray, fontSize: 15 }} />
+        <Text
+          color={palette.colorItemGame?.colorText}
+          fontSize="12px"
+          textTransform="uppercase"
+        >
+          {data.statusGame}
+        </Text>
+      </Stack>
+    );
     return (
       <Stack
         ref={ref}
-        position={"relative"}
-        zIndex={2}
+        position="relative"
         sx={{
           background: palette.colorGame?.colorBorderLinear1,
           padding: "1px",
           borderRadius: "5px",
-          transition: "translate 0.2s ease-in-out",
-          "&:hover": {
-            translate: isHover ? "0 -6px" : undefined,
-            cursor: "pointer",
-          },
+          cursor: hover ? "pointer" : "default",
+          transform: isHover && hover ? "translate(0, -6px)" : "none",
+          transition: "transform 0.2s ease-in-out",
         }}
-        justifyContent={"space-between"}
-        onMouseEnter={(e) => {
-          if (isHover === true) {
-            setHover(true);
-            setId(index);
-            const img = e.currentTarget.querySelector("img");
-            if (img) {
-            }
-          }
-        }}
-        onMouseLeave={() => {
-          if (isHover === true) {
-            setHover(false);
-            setId(null);
-          }
-        }}
-        onClick={() => {
-          if (handleClick) {
-            if (isDragging) return;
-            handleClick(data.id);
-          }
-        }}
+        justifyContent="space-between"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleCardClick}
       >
-        {isStar && (
-          <>
-            {favorite && (
+        <Stack
+          bgcolor={palette.bgMenuHover}
+          component={motion.section}
+          p="4px"
+          width="100%"
+          height="100%"
+          borderRadius="5px"
+          direction={isSmaller ? "row" : "column"}
+          position={"relative"}
+        >
+          <Stack
+            height={isSmaller ? "100%" : undefined}
+            ref={isSmaller ? containerRef : undefined}
+            position="relative"
+          >
+            {isStar && !favorite && (
               <Stack
-                position={"absolute"}
+                position="absolute"
                 top={15}
-                right={10}
+                right={5}
                 sx={{
-                  zIndex: 2,
+                  zIndex: 3,
+                  height: 40,
+                  width: 40,
+                  "&:hover": {
+                    cursor: "pointer",
+                  },
+                }}
+                component={motion.div}
+                variants={{
+                  open: { y: 0, opacity: 1, transition: { duration: 0.3 } },
+                  close: { y: -20, opacity: 0 },
+                }}
+                animate={!favorite ? (hover ? "open" : "close") : "close"}
+              >
+                <StarOutlineIcon
+                  sx={{ fontSize: 30 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFavorite(true);
+                  }}
+                />
+              </Stack>
+            )}
+            {isStar && favorite && (
+              <Stack
+                position="absolute"
+                top={15}
+                right={5}
+                sx={{
+                  zIndex: 4,
                   height: 40,
                   width: 40,
                   "&:hover": {
@@ -175,10 +217,7 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
                 }}
               >
                 <StarSolidIcon
-                  sx={{
-                    fontSize: 26,
-                    color: "secondary.main",
-                  }}
+                  sx={{ fontSize: 30, color: "secondary.main" }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setFavorite(false);
@@ -186,223 +225,81 @@ const CardItem = forwardRef<HTMLDivElement, CardItemProps>(
                 />
               </Stack>
             )}
-          </>
-        )}
-        <Stack
-          bgcolor={palette.bgMenuHover}
-          component={motion.section}
-          p={"4px"}
-          width="100%"
-          height="100%"
-          borderRadius={"5px"}
-          direction={isSmaller ? "row" : "column"}
-          gap={2}
-        >
-          <Stack
-            height={isSmaller ? "100%" : undefined}
-            ref={isSmaller ? containerRef : undefined}
-            position={"relative"}
-          >
-            {isStar && (
-              <>
-                {!favorite && (
-                  <Stack
-                    position={"fixed"}
-                    top={15}
-                    right={10}
-                    sx={{
-                      zIndex: favorite ? 3 : hover ? 2 : undefined,
-                      display: favorite ? "block" : hover ? "block" : "none",
-                      height: 40,
-                      width: 40,
-                      "&:hover": {
-                        cursor: "pointer",
-                      },
-                    }}
-                    component={motion.div}
-                    variants={{
-                      open: { y: 0, transition: { duration: 0.3 } },
-                      close: { y: -10 },
-                    }}
-                    animate={favorite ? "open" : hover ? "open" : "close"}
-                  >
-                    <StarOutlineIcon
-                      sx={{ fontSize: 26 }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFavorite(true);
-                      }}
-                    />
-                  </Stack>
-                )}
-              </>
-            )}
+
             <Image
-              src={getImageSrc(data.mediaUrl[0], img)}
+              src={getImageSrc(data.mediaUrl?.[0], img)}
               alt={`img-${img}`}
               size="100%"
               aspectRatio={1 / 1}
-              sizes={
-                widthMax === null ? (isSmaller ? 125 : `${height}px`) : widthMax
-              }
+              sizes={containerWidth}
               draggable={false}
               containerProps={{
                 sx: {
-                  width:
-                    widthMax == null
-                      ? isSmaller
-                        ? 125
-                        : `${height}px`
-                      : widthMax,
+                  width: containerWidth,
                   height: isSmaller ? 125 : "100%",
                   overflow: "hidden",
                   borderRadius: "5px",
-                  border: "1px",
-                  borderColor: palette.borderColorLinear,
                   "& img": {
-                    scale: hover && id === index ? 1.05 : 1,
+                    pointerEvents: "none",
                     objectFit: "cover",
                     objectPosition: "center",
+                    scale: hover ? 1.05 : 1,
                     transition: "all 0.2s ease-in-out",
                   },
                 },
               }}
             />
-            {!isHome && !isReview && (
-              <>
-                {!(data && data.rating > 0) && (
-                  <Stack
-                    position={"absolute"}
-                    sx={{
-                      right: isMdSmaller ? 5 : 10,
-                      bottom: isMdSmaller ? 5 : 10,
-                    }}
-                  >
-                    <AverageStar value={5} size={52} />
-                  </Stack>
-                )}
-              </>
+
+            {!isHome && !isReview && data.rating <= 0 && (
+              <Stack
+                position="absolute"
+                sx={{
+                  right: isMdSmaller ? 5 : 10,
+                  bottom: isMdSmaller ? 5 : 10,
+                }}
+              >
+                <AverageStar value={5} size={52} />
+              </Stack>
             )}
           </Stack>
-
-          {isSmaller ? (
-            <Stack justifyContent={"space-between"} width={"100%"}>
-              <Stack py="0.5rem" gap={1} alignItems={"start"}>
-                <Text
-                  fontSize={"18px"}
-                  color="white"
-                  textAlign={"center"}
-                  fontWeight={700}
-                  sx={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    WebkitLineClamp: 1,
-                  }}
-                >
-                  {data.name}
-                </Text>
-                <Stack
-                  direction={"row"}
-                  gap={1}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
-                  {getGenres(data.genreName)}
-                </Stack>
-                <GetIcon array={getPlatform(data.platformLink)} />
-              </Stack>
-              <Stack
-                py="2px"
+          <Stack
+            justifyContent="space-between"
+            height="100%"
+            width={isSmaller ? "100%" : undefined}
+          >
+            <Stack py="0.5rem" gap={1} alignItems="center">
+              <Text
+                fontSize="18px"
+                color="white"
+                textAlign="center"
+                fontWeight={700}
                 sx={{
-                  borderBottomRightRadius: "5px",
-                  background: palette.colorItemGame?.borderLinear,
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  WebkitLineClamp: 1,
                 }}
-                direction={"row"}
-                alignItems={"center"}
-                gap={1}
-                justifyContent={"center"}
               >
-                <GameIcon
-                  sx={{
-                    color: palette.colorGray,
-                    fontSize: 15,
-                  }}
-                />
-                <Text
-                  color={palette.colorItemGame?.colorText}
-                  fontSize={"12px"}
-                  textTransform={"uppercase"}
-                >
-                  {data.statusGame}
-                </Text>
+                {data.name}
+              </Text>
+
+              <Stack
+                direction="row"
+                gap={1}
+                alignItems="center"
+                justifyContent="center"
+              >
+                {getGenres(data.genreName)}
               </Stack>
-            </Stack>
-          ) : (
-            <Stack
-              direction={"column"}
-              justifyContent={"space-between"}
-              height={"100%"}
-            >
-              <Stack gap={1} pb={2}>
-                <Text
-                  fontSize={"18px"}
-                  color="white"
-                  textAlign={"center"}
-                  fontWeight={700}
-                  sx={{
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    WebkitLineClamp: 1,
-                  }}
-                >
-                  {data.name}
-                </Text>
-                <Stack
-                  direction={"row"}
-                  gap={1}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
-                  {getGenres(data.genreName)}
-                </Stack>
-                {!isHome && !isReview && (
-                  <GetIcon array={getPlatform(data.platformLink)} />
-                )}
-              </Stack>
-              {!isHome && (
-                <Stack
-                  bgcolor={palette.colorItemGame?.borderTitle}
-                  py="2px"
-                  sx={{
-                    borderBottomLeftRadius: "7px",
-                    borderBottomRightRadius: "7px",
-                  }}
-                  direction={"row"}
-                  alignItems={"center"}
-                  gap={1}
-                  justifyContent={"center"}
-                >
-                  <GameIcon
-                    sx={{
-                      color: palette.colorGray,
-                      fontSize: 15,
-                    }}
-                  />
-                  <Text
-                    color={palette.colorItemGame?.colorText}
-                    fontSize={"12px"}
-                    textTransform={"uppercase"}
-                  >
-                    {data.statusGame}
-                  </Text>
-                </Stack>
+
+              {(isSmaller || (!isHome && !isReview)) && (
+                <GetIcon array={getPlatform(data.platformLink)} />
               )}
             </Stack>
-          )}
+
+            {!isHome && GameStatus}
+          </Stack>
         </Stack>
       </Stack>
     );

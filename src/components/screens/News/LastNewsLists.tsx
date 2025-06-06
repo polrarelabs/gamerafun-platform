@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getSort } from "@components/helper";
+import { getSortBlog } from "@components/helper";
 import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
-import { SortBy } from "@constant/enum";
+import { SortByGame, SortByBlog } from "@constant/enum";
 import { NEWS_PATH } from "@constant/paths";
 import { SelectChangeEvent, Stack } from "@mui/material";
 import { useBlog } from "@store/new";
@@ -39,7 +39,7 @@ const LastNewsLists = ({
     tags,
     setPageIndex,
     sortBy,
-    setSortBy,
+    setSortByBlog,
     search,
     checkDate,
   } = useBlog();
@@ -56,7 +56,7 @@ const LastNewsLists = ({
   }, [blog.pageIndex, tags, sortBy, search, checkDate]);
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSortBy(event.target.value as SortBy);
+    setSortByBlog(event.target.value as SortByBlog);
   };
   useEffect(() => {
     if (isLayoutMD) setDisplayLayout("no-list");
@@ -127,9 +127,9 @@ const LastNewsLists = ({
         >
           <SelectOptions
             selected={sortBy}
-            options={Object.keys(SortBy)}
-            setSelected={setSortBy}
-            getSort={getSort}
+            options={Object.keys(SortByBlog)}
+            setSelected={setSortByBlog}
+            getSort={getSortBlog}
           />
 
           <ButtonFillters handleOpen={handleOpen} />

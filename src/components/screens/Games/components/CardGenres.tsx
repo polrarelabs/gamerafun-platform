@@ -4,7 +4,7 @@ import { getImageSrc } from "@components/helper";
 import { Image, Text } from "@components/shared";
 import { Box, Stack } from "@mui/material";
 import React, { memo, useState } from "react";
-import img from "public/images/img-local.png";
+import img from "public/images/img-local.webp";
 import { GenresItems } from "@store/game/type";
 
 interface CardGenresProps {
@@ -84,6 +84,7 @@ const CardGenres = ({ index, data }: CardGenresProps) => {
           bottom: 0,
           translate: "-50% -50%",
           fontWeight: 700,
+          textTransform: "uppercase",
         }}
       >
         {data.name}

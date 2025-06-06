@@ -4,7 +4,7 @@ import { Button, Image } from "@components/shared";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
 import gameDevice from "public/images/game-device.png";
-import imgBgLogin from "public/images/img-bg-login.png";
+import imgBgLogin from "public/images/img-bg-login.webp";
 import logo from "public/images/img-logo-text-big.png";
 // import { useEffect, useState } from "react";
 import SessionLogin from "./SessionLogin";

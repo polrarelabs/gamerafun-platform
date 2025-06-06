@@ -5,8 +5,6 @@ import { memo, useState } from "react";
 import LoginSocials from "./LoginSocials";
 import LoginAccount from "./LoginAccount";
 import LoginEmail from "./LoginEmail";
-import { Button } from "@components/shared";
-import { palette } from "public/material";
 
 const FormLogin = () => {
   const [option, setOption] = useState<string>("social");
@@ -19,25 +17,7 @@ const FormLogin = () => {
       gap={{ md: 3, xs: 2 }}
     >
       {option === "social" ? (
-        <>
-          <LoginSocials setOption={setOption} />
-          <Button
-            variant="outlined"
-            onClick={() => setOption("account")}
-            sx={{
-              position: "absolute !important",
-              top: 80,
-              right: 40,
-              width: "fit-content",
-              borderColor: `white !important`,
-              color: "white !important",
-              background: "inherit !important",
-            }}
-            size={"small"}
-          >
-            Login Admin
-          </Button>
-        </>
+        <LoginSocials setOption={setOption} />
       ) : option === "account" ? (
         <LoginAccount setOption={setOption} />
       ) : (

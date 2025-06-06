@@ -210,9 +210,7 @@ const Latest = ({
                         <CardItem
                           key={index}
                           isSmaller={false}
-                          index={index}
                           data={item}
-                          title={"Title"}
                           handleClick={handleClickGame}
                           widthMax={widthGame ? widthGame : 350}
                           isHome={isHome}
@@ -231,9 +229,7 @@ const Latest = ({
                         <CardItem
                           isSmaller={false}
                           key={index}
-                          index={index}
                           data={item}
-                          title={"Title"}
                           handleClick={handleClickGame}
                           widthMax={widthGame ? widthGame : 350}
                           isHome={isHome}

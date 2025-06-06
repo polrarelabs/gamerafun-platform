@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AddedDateSort, SortBy, StatusBlog, Tag } from "@constant/enum";
+import { AddedDateSort, SortByBlog, StatusBlog, Tag } from "@constant/enum";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateBlog,
@@ -34,7 +34,7 @@ const initialState: BlogState = {
   isDelete: false,
   checkDate: AddedDateSort.AllTime,
   tags: [],
-  sortBy: SortBy.Newest,
+  sortBy: SortByBlog.Newest,
   search: "",
   status: "" as StatusBlog,
 };
@@ -61,7 +61,7 @@ const BlogReducer = createSlice({
     SetPageIndex: (state, action: PayloadAction<number>) => {
       state.blog.pageIndex = action.payload;
     },
-    SetSortBy: (state, action: PayloadAction<SortBy>) => {
+    SetSortBy: (state, action: PayloadAction<SortByBlog>) => {
       state.sortBy = action.payload;
     },
     SetSearch: (state, action: PayloadAction<string>) => {
