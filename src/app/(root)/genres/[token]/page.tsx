@@ -1,14 +1,23 @@
-import { GenresDetailBreadcumb } from "@components/screens/Genres";
-import { GenresDetail } from "@components/screens/Genres/components";
-import { Stack } from "@mui/material";
+// import { GenresDetailBreadcumb } from "@components/screens/Genres";
+// import { GenresDetail } from "@components/screens/Genres/components";
 import { memo } from "react";
+import dynamic from "next/dynamic";
+
+const GenresDetailBreadcumb = dynamic(() => import("@components/screens/Genres/GenresDetailBreadcumb"), {
+  ssr: false,
+});
+
+const GenresDetail = dynamic(() => import("@components/screens/Genres/components/GenresDetail"), {
+  ssr: false,
+});
+
 
 const GenresDetails = () => {
   return (
-    <Stack py={4} direction={"column"} gap={4}>
+    <div style={{ padding: "32px 0", display: "flex", flexDirection: "column", gap: "32px" }}>
       <GenresDetailBreadcumb />
       <GenresDetail />
-    </Stack>
+    </div>
   );
 };
 
