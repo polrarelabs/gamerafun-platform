@@ -13,13 +13,12 @@ import { useParams } from "next/navigation";
 
 const News = () => {
   const { getBlogId } = useBlog();
-
-  const param = useParams();
+  const { slug } = useParams();
 
   useEffect(() => {
-    const id = param.slug as string;
-    getBlogId(id);
-  }, [param.slug]);
+    if (slug) getBlogId(slug as string);
+  }, [slug]);
+
 
   return (
     <Stack gap={2}>
@@ -43,3 +42,5 @@ const News = () => {
 };
 
 export default memo(News);
+
+export const runtime = 'nodejs';
