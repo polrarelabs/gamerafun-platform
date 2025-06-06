@@ -1,7 +1,7 @@
 "use client";
 
 import { SCREEN_PX } from "@constant";
-import { AddedDateSort, SortBy, Tag } from "@constant/enum";
+import { AddedDateSort, SortByBlog, SortByGame, Tag } from "@constant/enum";
 import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
@@ -30,7 +30,7 @@ const Layout = () => {
   const {
     setTags,
     setCheckDate,
-    setSortBy,
+    setSortByBlog,
     setSearch,
     getBlogSponsored,
     blogSponsored,
@@ -45,8 +45,8 @@ const Layout = () => {
     setTags([]);
     setSearch("");
     searchGame("");
-    setSortBy(SortBy.Newest);
-    sortGame(SortBy.Newest);
+    setSortByBlog(SortByBlog.Newest);
+    sortGame(SortByGame.Newest);
   }, []);
 
   return (
@@ -56,7 +56,7 @@ const Layout = () => {
       <LastNewSlider
         title={"Latest Sponsored News"}
         tags={Tag.SPONSORED}
-        widthGame={340}
+        widthGame={320}
         fetch={getBlogSponsored}
         data={blogSponsored}
       />

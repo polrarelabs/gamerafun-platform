@@ -27,11 +27,6 @@ const OptionSider = () => {
   const [listGenres, setListGenres] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log(listGenres);
-    console.log("genresItem", genreItems);
-  }, [listGenres]);
-
-  useEffect(() => {
     if (genreItems) {
       const arr: string[] = [];
       for (const item of genreItems) {
@@ -91,7 +86,7 @@ const OptionSider = () => {
 
         <FormOption
           title={"Genres"}
-          data={listGenres}
+          data={gameCount.genre!}
           setArray={SetGenres}
           arrayKey={genres}
           label={listGenres}
@@ -99,7 +94,7 @@ const OptionSider = () => {
 
         <FormOption
           title={"Status"}
-          data={gameCount.schedule_status!}
+          data={gameCount.status!}
           setArray={SetStatusGame}
           arrayKey={statusGame}
           label={Object.keys(ScheduleStatus)}

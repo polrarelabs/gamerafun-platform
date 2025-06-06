@@ -1,15 +1,14 @@
 "use client";
 
 import FormDateAdded from "@components/FormDateAdded";
-import { getSort } from "@components/helper";
-import { Search, SelectOptions, Text } from "@components/shared";
+import { getSortBlog } from "@components/helper";
+import { Search, SelectOptions } from "@components/shared";
 import FormOption from "@components/shared/FormOption";
-import { SortBy, Tag } from "@constant/enum";
-import SearchIcon from "@icons/common/SearchIcon";
-import { InputBase, SelectChangeEvent, Stack } from "@mui/material";
+import { SortByBlog, Tag } from "@constant/enum";
+import { SelectChangeEvent, Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { palette } from "public/material";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { FaListAlt } from "react-icons/fa";
 import { RiLayoutGridFill } from "react-icons/ri";
 
@@ -24,10 +23,10 @@ const LastNewsOptions = ({
   displayLayout,
   setDisplayLayout,
 }: PropsLastNew) => {
-  const { tags, setTags, sortBy, setSortBy, search, setSearch } = useBlog();
+  const { tags, setTags, sortBy, setSortByBlog, search, setSearch } = useBlog();
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSortBy(event.target.value as SortBy);
+    setSortByBlog(event.target.value as SortByBlog);
   };
 
   const handleSetLayout = (value: string) => {
@@ -45,9 +44,9 @@ const LastNewsOptions = ({
         >
           <SelectOptions
             selected={sortBy}
-            options={Object.keys(SortBy)}
-            setSelected={setSortBy}
-            getSort={getSort}
+            options={Object.keys(SortByBlog)}
+            setSelected={setSortByBlog}
+            getSort={getSortBlog}
           />
           <Stack
             direction={"row"}

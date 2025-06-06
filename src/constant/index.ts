@@ -8,7 +8,7 @@ export const GOOGLE_ANALYTICS_ID = process.env
 export const API_URL = process.env.API_URL as string;
 export const SOCKET_URL = process.env.SOCKET_URL as string;
 export const BONDING_PACKAGE_ID = process.env.BONDING_PACKAGE_ID as string;
-export const NOCTRA_COIN_TYPE = process.env.NOCTRA_COIN_TYPE as CoinType;
+export const GAMERA_COIN_TYPE = process.env.GAMERA_COIN_TYPE as CoinType;
 export const USDC_COIN_TYPE = process.env.USDC_COIN_TYPE as CoinType;
 export const APTOS_API_KEY = process.env.APTOS_API_KEY as string;
 export const APP_ENVIRONMENT = process.env
@@ -85,7 +85,7 @@ export const CONFIG_BY_CURRENCY: {
     name: "GAMERA",
     decimals: 8,
     icon: APP_TOKEN_IMAGE,
-    coinType: NOCTRA_COIN_TYPE,
+    coinType: GAMERA_COIN_TYPE,
   },
 };
 

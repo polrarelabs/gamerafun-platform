@@ -1,37 +1,58 @@
 "use client";
 
 import React, { memo, useEffect, useState } from "react";
-import { NavBlogProps } from "./type";
 import { Stack } from "@mui/material";
-import { TabHeaders, TabHeadersProps, TabItem } from "@components/shared/Tab";
+import { TabHeaders, TabItem } from "@components/shared/Tab";
 
-const NavigationBlog = ({ data, handleClick }: NavBlogProps) => {
+interface NavBlogProps {
+  data: TabItem[];
+  handleClick: (id: string) => void;
+  activeId?: string;
+}
+
+const NavigationBlog = ({ data, handleClick, activeId }: NavBlogProps) => {
   const [tabsList, setTablist] = useState<TabItem[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   useEffect(() => {
     if (data) {
-      const arr: TabItem[] = [];
-      for (const item of data) {
-        arr.push({
-          id: item.id,
-          label: item.label,
-        });
-      }
-      setTablist(arr);
+      setTablist(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (!activeId) return;
+    const index = tabsList.findIndex((tab) => tab.id === activeId);
+    if (index !== -1 && index !== selectedIndex) {
+      setSelectedIndex(index);
+    }
+  }, [activeId, tabsList, selectedIndex]);
+
+  const handleTabClick = (id: string) => {
+    const index = tabsList.findIndex((tab) => tab.id === id);
+    if (index !== -1) {
+      setSelectedIndex(index);
+      handleClick(id);
+    }
+  };
 
   return (
     <Stack>
       <TabHeaders
         tabs={tabsList}
-        handleClick={handleClick}
+        value={selectedIndex}
+        handleClick={handleTabClick}
         orientation="vertical"
+        tabIndicatorSx={{
+          left: 0,
+          right: "unset",
+          width: "2px",
+          height: "100%",
+          backgroundColor: "#1976d2",
+        }}
         sx={{
           alignItems: "start",
-          "& .MuiButtonBase-root": {
-            whiteSpace: "none !important",
-          },
+          whiteSpace: "nowrap",
         }}
       />
     </Stack>

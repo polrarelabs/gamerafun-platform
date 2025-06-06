@@ -22,6 +22,18 @@ const CardReview = ({ data }: CardReviewProps) => {
     return setTitle(value);
   };
 
+  console.log("data1", data.likeCount && data.likeCount > 0 && data.likeCount);
+
+  const GetLike = (type: string) => {
+    if (type === "like") {
+      return data.likeCount && data.likeCount > 0 ? (
+        <span>{data.likeCount}</span>
+      ) : null;
+    }
+    return data.unLikeCount && data.unLikeCount > 0 ? (
+      <span>{data.unLikeCount}</span>
+    ) : null;
+  };
   return (
     <Stack
       sx={{
@@ -58,7 +70,8 @@ const CardReview = ({ data }: CardReviewProps) => {
         </Text>
         <Stack direction={"row"} alignItems={"center"} gap={2}>
           <Text color={palette.colorGray} fontSize={"14px"}>
-            Published on {formatMMMMDoYYYY(new Date().toISOString())}
+            Published on{" "}
+            {formatMMMMDoYYYY(new Date(data.createdAt ?? "").toISOString())}
           </Text>
           <CircleIcon
             sx={{
@@ -67,7 +80,7 @@ const CardReview = ({ data }: CardReviewProps) => {
             }}
           />
           <Text color={palette.colorGray} fontSize={"14px"}>
-            Rated 3 games
+            Rated {data.ratedGameCountByUser && data.ratedGameCountByUser} games
           </Text>
         </Stack>
         <Stack direction={"row"} alignItems={"center"} gap={"4px"}>
@@ -75,30 +88,19 @@ const CardReview = ({ data }: CardReviewProps) => {
             return (
               <Stack
                 key={type}
-                p={2}
+                p={"16px"}
+                direction={"row"}
+                gap={1}
+                alignItems={"center"}
                 sx={{
-                  background:
-                    title === type
-                      ? type === "like"
-                        ? palette.colorBorderTag
-                        : palette.colorBgErrors
-                      : palette.colorItemGame?.bgBtnLike,
+                  background: GetBg(type, title),
                   transition: "all 0.3s ease-in-out",
-                  color:
-                    title === type
-                      ? type === "like"
-                        ? palette.greenColor
-                        : palette.colorErrors
-                      : palette.colorItemGame?.bgBtnLikeHover,
+                  color: GetBgText(type, title),
+                  fontSize: "14px",
                   borderRadius: "5px",
                   "&:hover": {
                     color: "black",
-                    background:
-                      title === type
-                        ? type === "like"
-                          ? palette.greenColor
-                          : palette.colorErrors
-                        : palette.colorItemGame?.bgBtnLikeHover,
+                    background: GetBgText(type, title),
                     cursor: "pointer",
                   },
                 }}
@@ -109,6 +111,7 @@ const CardReview = ({ data }: CardReviewProps) => {
                     fontSize: 14,
                   }}
                 />
+                {GetLike(type)}
               </Stack>
             );
           })}
@@ -130,3 +133,19 @@ const GroupButton = [
     Icon: DislikeIcon,
   },
 ];
+
+const GetBg = (type: string, title: string) => {
+  return title === type
+    ? type === "like"
+      ? palette.colorBorderTag
+      : palette.colorBgErrors
+    : palette.colorItemGame?.bgBtnLike;
+};
+
+const GetBgText = (type: string, title: string) => {
+  return title === type
+    ? type === "like"
+      ? palette.greenColor
+      : palette.colorErrors
+    : palette.colorItemGame?.bgBtnLikeHover;
+};

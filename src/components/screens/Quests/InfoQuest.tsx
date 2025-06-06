@@ -6,7 +6,7 @@ import ShareIcon from "@icons/common/ShareIcon";
 import { Avatar, AvatarGroup, Stack } from "@mui/material";
 import { palette } from "public/material";
 import React, { memo, useState } from "react";
-import img from "public/images/img-local.png";
+import img from "public/images/img-local.webp";
 import { usePathname } from "next/navigation";
 import { useQuest } from "@store/quests";
 

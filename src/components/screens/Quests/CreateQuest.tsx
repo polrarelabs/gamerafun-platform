@@ -13,7 +13,7 @@ import {
 import { useFormik } from "formik";
 import { memo, useEffect, useState } from "react";
 import { FormArrays } from "./components";
-import { Button, Snackbared } from "@components/shared";
+import { Button, Snackbared, Text } from "@components/shared";
 import { SCREEN_PX } from "@constant";
 import { useQuest } from "@store/quests";
 import { QUESTS_PATH } from "@constant/paths";
@@ -56,6 +56,9 @@ const CreateQuest = () => {
 
   return (
     <Stack px={SCREEN_PX} gap={2}>
+      <Text fontSize={"32px"} fontWeight={700}>
+        Create Quest
+      </Text>
       <form onSubmit={formik.handleSubmit}>
         <Stack gap={2}>
           <Stack direction={"row"} gap={2}>

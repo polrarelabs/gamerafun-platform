@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { setToken } from "@api/helpers";
 import WalletModal from "@components/Connect/WalletModal";
@@ -44,6 +45,10 @@ const LoginSocials = ({ setOption }: PropsSocials) => {
   const pathName = usePathname();
 
   useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  useEffect(() => {
     const id = searchParams.get("xId") || undefined;
     const sessionId = searchParams.get("sessionId") || undefined;
     if (id !== undefined && sessionId !== undefined) {
@@ -77,7 +82,7 @@ const LoginSocials = ({ setOption }: PropsSocials) => {
       LoginGoogle({
         email: session.user.email,
         avatar: session.user.image,
-        // name: session.user.name,
+        displayName: session.user.name,
       });
     }
   }, [session]);
@@ -125,6 +130,7 @@ const LoginSocials = ({ setOption }: PropsSocials) => {
   ];
 
   const [hover, setHover] = useState<boolean>(false);
+  // const [hover1, setHover1] = useState<boolean>(false);
 
   return (
     <>
@@ -289,6 +295,35 @@ const LoginSocials = ({ setOption }: PropsSocials) => {
           </Text>
           <ArrowRightCircleIcon />
         </Stack>
+        {/* <Stack
+          direction={"row"}
+          alignItems={"center"}
+          onMouseEnter={() => setHover1(true)}
+          onMouseLeave={() => setHover1(false)}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+          mt={2}
+          gap={1}
+          justifyContent={"center"}
+          onClick={() => {
+            setOption("account");
+          }}
+        >
+          <Text
+            color="white"
+            fontWeight={700}
+            fontSize={"18px"}
+            sx={{
+              textDecoration: hover1 ? "underline" : undefined,
+            }}
+          >
+            Continue With Admin
+          </Text>
+          <ArrowRightCircleIcon />
+        </Stack> */}
         <WalletModal onClose={onHide} open={isShow} />
       </Stack>
     </>

@@ -6,8 +6,8 @@ import { Box, Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import { palette } from "public/material";
 import { useEffect, useRef, useState } from "react";
-import image1 from "public/images/img-login.png";
-import image2 from "public/images/img-local.png";
+import image1 from "public/images/img-login.webp";
+import image2 from "public/images/img-local.webp";
 
 const DATA = [
   {
@@ -145,7 +145,7 @@ const Banner = () => {
             >
               {DATA[currentIndex].title}
             </Text>
-            <Stack direction={"row"} gap={2}>
+            {/* <Stack direction={"row"} gap={2}>
               <Button
                 variant="contained"
                 sx={{
@@ -176,7 +176,7 @@ const Banner = () => {
                   Add to favorites
                 </Text>
               </Button>
-            </Stack>
+            </Stack> */}
           </Stack>
         )}
       </Box>

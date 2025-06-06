@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Text, TextField } from "@components/shared";
-import { SCREEN_PX } from "@constant";
 import { InputAdornment, Stack } from "@mui/material";
 import { palette } from "public/material";
 import { memo, useState } from "react";

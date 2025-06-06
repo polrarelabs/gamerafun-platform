@@ -1,14 +1,13 @@
 "use client";
 
-import { memo } from "react";
-import { Drawer, drawerClasses, Stack } from "@mui/material";
 import { IconButton } from "@components/shared";
-import PanelIcon from "@icons/web3/PanelIcon";
-import Connect from "@components/Connect";
-import { Logo, Navigation } from "./components";
 import useBreakpoint from "@hooks/useBreakpoint";
-import BarsIcon from "@icons/common/BarsIcon";
 import useToggle from "@hooks/useToggle";
+import BarsIcon from "@icons/common/BarsIcon";
+import PanelIcon from "@icons/web3/PanelIcon";
+import { Drawer, drawerClasses, Stack } from "@mui/material";
+import { memo } from "react";
+import { Logo, Navigation } from "./components";
 
 const Sidebar = () => {
   const { isMdSmaller } = useBreakpoint();

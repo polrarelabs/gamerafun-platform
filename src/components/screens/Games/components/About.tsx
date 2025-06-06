@@ -30,9 +30,6 @@ const About = () => {
         </Stack>
         <Stack direction={"column"} spacing={1}>
           <Text variant="body2">Website</Text>
-          {/* <Link target="_blank" rel="noopener noreferrer"> */}
-          {/* <Text variant="h4">https://gam3s.gg/earth-from-another-sun/</Text> */}
-          {/* </Link> */}
         </Stack>
         <Stack direction={"row"} spacing={1} alignItems={"center"}>
           {listIcon.map((item, index) => (

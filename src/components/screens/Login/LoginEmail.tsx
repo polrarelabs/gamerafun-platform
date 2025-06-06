@@ -1,17 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { memo, useEffect } from "react";
-import { useFormik } from "formik";
-import { type LoginAccount, LoginGoogle, useAuthLogin } from "@store/auth";
-import { Stack } from "@mui/material";
+import { setToken } from "@api/helpers";
 import { Button } from "@components/shared";
 import TextFieldFormik from "@components/shared/TextFieldFormik";
-import { validationSchema } from "./helper";
-import { setToken } from "@api/helpers";
+import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
+import { HOME_PATH } from "@constant/paths";
+import ArrowRightCircleIcon from "@icons/common/ArrowRightCircleIcon";
+import { Stack } from "@mui/material";
+import { LoginGoogle, useAuthLogin } from "@store/auth";
+import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { HOME_PATH } from "@constant/paths";
-import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE } from "@constant";
-import ArrowRightCircleIcon from "@icons/common/ArrowRightCircleIcon";
+import React, { memo, useEffect } from "react";
 
 interface LoginEmailProps {
   setOption: React.Dispatch<React.SetStateAction<string>>;
@@ -23,7 +23,7 @@ const LoginEmail = ({ setOption }: LoginEmailProps) => {
 
   const initialValues: LoginGoogle = {
     email: "",
-    // name: "",
+    displayName: "",
     avatar: "",
   };
 

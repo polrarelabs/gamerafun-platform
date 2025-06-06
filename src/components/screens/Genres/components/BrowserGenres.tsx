@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
-import { getSort } from "@components/helper";
+import { getSortGame } from "@components/helper";
 import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
@@ -12,10 +12,9 @@ import GameIcon from "@icons/web3/GameIcon";
 import { SelectChangeEvent, Stack, useMediaQuery } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
-import { HandleClickOption } from "./helper";
 interface Props {
   isLayoutMD: boolean;
   theme: any | null;
@@ -53,7 +52,7 @@ const BrowserGenres = ({
   useEffect(() => {
     const text = param.token as string;
     const arr: any[] = [];
-    arr.push(decode(text));
+    arr.push(decode(text).toUpperCase());
     SetGenres(arr);
     SetGenresTitle(decode(text));
   }, []);
@@ -112,7 +111,7 @@ const BrowserGenres = ({
               selected={selected}
               setSelected={setSelected}
               options={names}
-              getSort={getSort}
+              getSort={getSortGame}
             />
             <ButtonFillters handleOpen={handleOpen} />
           </Stack>
@@ -121,7 +120,7 @@ const BrowserGenres = ({
         <Stack
           display={"grid"}
           gridTemplateColumns={{
-            xl: "repeat(5, 1fr)",
+            xl: "repeat(6, 1fr)",
             lg: "repeat(4, 1fr)",
             sm: "repeat(2, 1fr)",
           }}
@@ -131,13 +130,7 @@ const BrowserGenres = ({
             game.items.length > 0 &&
             game.items.map((item, index) => {
               return (
-                <CardItem
-                  key={index}
-                  index={index}
-                  data={item}
-                  title={"Title"}
-                  isSmaller={isSmSmaller}
-                />
+                <CardItem key={index} data={item} isSmaller={isSmSmaller} />
               );
             })}
         </Stack>

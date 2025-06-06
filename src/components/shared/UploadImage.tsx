@@ -1,15 +1,14 @@
 "use client";
 
-import { Button, Image, Text } from "@components/shared";
-import { Dialog, Stack, styled } from "@mui/material";
-import React, { memo, useEffect, useRef, useState } from "react";
-import { useGame } from "@store/game";
 import { InfoImage } from "@components/screens/Games/components";
-import { useGallery } from "@store/media";
+import { Button, Image, Text } from "@components/shared";
 import EyeIcon from "@icons/common/EyeIcon";
 import TrashIcon from "@icons/common/TrashIcon";
+import { Dialog, Stack, styled } from "@mui/material";
+import { useGame } from "@store/game";
+import { useGallery } from "@store/media";
 import { palette } from "public/material";
-import img from "/public/images/img-logo.png";
+import React, { memo, useRef, useState } from "react";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -59,7 +58,7 @@ const UploadImage = ({
   const [hover, setHover] = useState<boolean>(false);
   const handleDelete = () => {
     // dataList.splice(id, 1);
-    console.log("delete");
+    // console.log("delete");
   };
 
   const IconAction = [
@@ -73,13 +72,13 @@ const UploadImage = ({
     },
   ];
 
-  const { uploadGallery, dataGallery, loadingGallery } = useGallery();
+  const { uploadGallery } = useGallery();
   const [image, setImage] = useState<InfoImage | null>(null);
-  useEffect(() => {
-    if (dataGallery) {
-      console.log("success", dataGallery);
-    } else console.log("loading");
-  }, [loadingGallery]);
+  // useEffect(() => {
+  //   if (dataGallery) {
+  //     console.log("success", dataGallery);
+  //   } else console.log("loading");
+  // }, [loadingGallery]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 

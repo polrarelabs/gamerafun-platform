@@ -1,14 +1,14 @@
 "use client";
 
 import Layout from "@components/screens/News/Layout";
-import { Text } from "@components/shared";
+import { BackgroundImage, Text } from "@components/shared";
 import Breadcumbs, { BreadcumbsItem } from "@components/shared/Breadcumbs";
 import { SCREEN_PX } from "@constant";
 import { HOME_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
-import { useGallery } from "@store/media";
 import { palette } from "public/material";
 import { memo } from "react";
+import image from "public/images/img-login.webp";
 
 const News = () => {
   const breadcrumbs: BreadcumbsItem[] = [
@@ -20,23 +20,16 @@ const News = () => {
       title: "NEWS",
     },
   ];
-  const { url } = useGallery();
-
   return (
     <Stack direction={"column"} gap={4}>
-      <Stack
-        px={SCREEN_PX}
-        direction={"column"}
-        gap={2}
-        position={"relative"}
-        py={4}
-      >
+      <Stack px={SCREEN_PX} direction={"column"} gap={2} position={"relative"}>
+        <BackgroundImage url={image} />
         <Stack
-          px={SCREEN_PX}
           direction={"column"}
           gap={2}
           position={"relative"}
           py={4}
+          zIndex={3}
         >
           <Breadcumbs breadcumbs={breadcrumbs} />
           <Stack direction={"column"}>
@@ -49,8 +42,8 @@ const News = () => {
             </Text>
           </Stack>
         </Stack>
-        <Layout />
       </Stack>
+      <Layout />
     </Stack>
   );
 };

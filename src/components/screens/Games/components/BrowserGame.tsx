@@ -3,12 +3,12 @@
 
 "use client";
 
-import { getSort } from "@components/helper";
+import { getSortGame } from "@components/helper";
 import Selected from "@components/Selected";
 import { SelectOptions, Text } from "@components/shared";
 import ButtonFillters from "@components/shared/ButtonFillters";
 import CardItem from "@components/shared/CardItem";
-import { SortBy } from "@constant/enum";
+import { SortByGame } from "@constant/enum";
 import { GAME_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import GameIcon from "@icons/web3/GameIcon";
@@ -46,12 +46,19 @@ const BrowserGame = ({
     setPageIndex,
     getGameById,
     platforms,
+    minRating,
+    maxRating,
+    getGameCount,
   } = useGame();
   const { checkDate } = useBlog();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { isSmSmaller } = useBreakpoint();
 
   const router = useRouter();
+
+  useEffect(() => {
+    getGameCount();
+  }, []);
 
   useEffect(() => {
     getGame({
@@ -62,8 +69,20 @@ const BrowserGame = ({
       sortBy: sortBy,
       search: search === "" ? undefined : search,
       platform: platforms,
+      minRating: minRating,
+      maxRating: maxRating,
     });
-  }, [genres, checkDate, sortBy, search, pageIndex, pageSize, platforms]);
+  }, [
+    genres,
+    checkDate,
+    sortBy,
+    search,
+    pageIndex,
+    pageSize,
+    platforms,
+    minRating,
+    maxRating,
+  ]);
 
   useEffect(() => {
     if (isSm) setDisplayLayout("no-list");
@@ -73,10 +92,6 @@ const BrowserGame = ({
   const handleOpen = () => {
     setOpen(true);
   };
-
-  useEffect(() => {
-    console.log("window", window);
-  }, []);
 
   const handleClick = (id: number) => {
     // const cookie = Cookies.get(ACCESSTOKEN_COOKIE);
@@ -154,8 +169,8 @@ const BrowserGame = ({
             <SelectOptions
               selected={sortBy}
               setSelected={setSortBy}
-              options={Object.keys(SortBy)}
-              getSort={getSort}
+              options={Object.keys(SortByGame)}
+              getSort={getSortGame}
             />
           </Stack>
         </Stack>
@@ -171,8 +186,8 @@ const BrowserGame = ({
           <SelectOptions
             selected={sortBy}
             setSelected={setSortBy}
-            options={Object.keys(SortBy)}
-            getSort={getSort}
+            options={Object.keys(SortByGame)}
+            getSort={getSortGame}
           />
 
           <ButtonFillters handleOpen={handleOpen} />
@@ -196,9 +211,7 @@ const BrowserGame = ({
                 ref={isLast ? lastElementRef : null}
                 isSmaller={isSmSmaller}
                 key={index}
-                index={index}
                 data={item}
-                title={"Title"}
                 handleClick={handleClick}
               />
             );

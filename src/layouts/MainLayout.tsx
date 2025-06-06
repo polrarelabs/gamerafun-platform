@@ -1,23 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { setToken } from "@api/helpers";
 import ChatAI from "@components/AskAI/ChatAI";
 import { Button } from "@components/shared";
 import { ACCESSTOKEN_COOKIE, REFRESHTOKEN_COOKIE, SCREEN_PX } from "@constant";
-import { HOME_PATH, LOGIN_PATH } from "@constant/paths";
-import useAptosWallet from "@hooks/useAptosWallet";
+import { LOGIN_PATH } from "@constant/paths";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { Stack } from "@mui/material";
-import { useAuthLogin, useLogOut } from "@store/auth";
+import { useAuthLogin } from "@store/auth";
 import Cookies from "js-cookie";
-import { signOut } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { palette } from "public/material";
 import { memo, ReactNode, useEffect, useRef, useState } from "react";
 import { SlArrowUp } from "react-icons/sl";
 import { Navigation } from "./components";
 import Footer from "./Footer";
 import Header from "./Header";
-import { palette } from "public/material";
 
 type MainLayoutProps = {
   children: ReactNode;

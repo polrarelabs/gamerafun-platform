@@ -4,7 +4,7 @@ import { Box, Stack } from "@mui/material";
 import { palette } from "public/material";
 import React, { memo } from "react";
 import Image from "./Image";
-import img from "public/images/img-local.png";
+import img from "public/images/img-local.webp";
 import { getImageSrc } from "@components/helper";
 import { StaticImageData } from "next/image";
 

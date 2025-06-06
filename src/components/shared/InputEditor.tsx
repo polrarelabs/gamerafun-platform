@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { memo, useRef, useState, useEffect } from "react";
-import Text from "./Text";
+import { client, Endpoint } from "@api";
 import { Stack } from "@mui/material";
 import Quill from "quill";
+import { memo, useRef } from "react";
 import Editor from "./Editor";
-import { useGallery } from "@store/media";
-import { client, Endpoint } from "@api";
+import Text from "./Text";
 
 interface PropsInputEditor {
   formik: any;
@@ -31,7 +30,7 @@ const InputEditor = ({
   // Sync Quill content to Formik
   const handleTextChange = (_delta: any, _oldDelta: any, source: string) => {
     if (source === "user" && quillRef.current) {
-      const content = quillRef.current.getContents();
+      // const content = quillRef.current.getContents();
       const html = quillRef.current.root.innerHTML;
       formik.setFieldValue(name, html);
     }

@@ -1,2 +1,2 @@
-export const DOCUMENTS_URL = "https://docs.noctra.ai";
-export const STUDIO_URL = "https://studio.noctra.ai";
+export const DOCUMENTS_URL = process.env.DOCUMENTS_URL;
+export const STUDIO_URL = process.env.STUDIO_URL;

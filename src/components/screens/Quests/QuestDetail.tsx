@@ -6,7 +6,7 @@ import { SCREEN_PX, SCREEN_PY } from "@constant";
 import { QUESTS_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { useParams } from "next/navigation";
-import img from "public/images/img-local.png";
+import img from "public/images/img-local.webp";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
 import InfoQuest from "./InfoQuest";

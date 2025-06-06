@@ -1,7 +1,9 @@
 "use client";
 
 import ListGenres from "@components/ListGenres";
-import { AddedDateSort, SortBy } from "@constant/enum";
+import { SCREEN_PX } from "@constant";
+import { AddedDateSort, SortByBlog, SortByGame } from "@constant/enum";
+import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
@@ -17,7 +19,7 @@ const LayoutGenres = () => {
     setSortBy: sortGame,
   } = useGame();
 
-  const { setTags, setCheckDate, setSortBy, setSearch } = useBlog();
+  const { setTags, setCheckDate, setSortByBlog, setSearch } = useBlog();
 
   useEffect(() => {
     getGameCount();
@@ -29,11 +31,15 @@ const LayoutGenres = () => {
     setTags([]);
     setSearch("");
     searchGame("");
-    setSortBy(SortBy.Newest);
-    sortGame(SortBy.Newest);
+    setSortByBlog(SortByBlog.Newest);
+    sortGame(SortByGame.Newest);
   }, []);
 
-  return <ListGenres xs={2} sm={3} md={5} />;
+  return (
+    <Stack px={SCREEN_PX}>
+      <ListGenres xs={2} sm={3} md={5} />
+    </Stack>
+  );
 };
 
 export default memo(LayoutGenres);
