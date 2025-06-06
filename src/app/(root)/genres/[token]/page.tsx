@@ -1,17 +1,17 @@
-// import { GenresDetailBreadcumb } from "@components/screens/Genres";
-// import { GenresDetail } from "@components/screens/Genres/components";
+
 "use client";
-
+import { GenresDetailBreadcumb } from "@components/screens/Genres";
+import { GenresDetail } from "@components/screens/Genres/components";
 import { memo } from "react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
-const GenresDetailBreadcumb = dynamic(() => import("@components/screens/Genres/GenresDetailBreadcumb"), {
-  ssr: false,
-});
+// const GenresDetailBreadcumb = dynamic(() => import("@components/screens/Genres/GenresDetailBreadcumb"), {
+//   ssr: false,
+// });
 
-const GenresDetail = dynamic(() => import("@components/screens/Genres/components/GenresDetail"), {
-  ssr: false,
-});
+// const GenresDetail = dynamic(() => import("@components/screens/Genres/components/GenresDetail"), {
+//   ssr: false,
+// });
 
 
 const GenresDetails = () => {
