@@ -9,6 +9,7 @@ import Related from "./Related";
 import BannerNew from "./BannerNew";
 import BannerJoin from "./BannerJoin";
 import LastNewSlider from "./LastNewSlider";
+import NewBreadcumb from "./NewBreadcumb";
 
 export {
   LastNewsItem,
@@ -22,4 +23,5 @@ export {
   BannerNew,
   BannerJoin,
   LastNewSlider,
+  NewBreadcumb,
 };

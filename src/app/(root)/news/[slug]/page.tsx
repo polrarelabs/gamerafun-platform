@@ -1,30 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-// import {
-//   BannerNew,
-//   NewsDetail,
-//   Related,
-// } from "@components/screens/News";
+import { BannerNew, NewsDetail, Related } from "@components/screens/News";
 import { SCREEN_PX } from "@constant";
 import { Stack } from "@mui/material";
 import { useBlog } from "@store/new";
 import { memo, useEffect } from "react";
 import { useParams } from "next/navigation";
-import dynamic from "next/dynamic";
-const BannerNew = dynamic(() => import("@components/screens/News/BannerNew"), {
-  ssr: false,
-});
-const NewsDetail = dynamic(() => import("@components/screens/News/NewsDetail"), { ssr: false });
-const Related = dynamic(() => import("@components/screens/News/Related"), { ssr: false });
-
 
 const News = () => {
   const { getBlogId } = useBlog();
-  const { slug } = useParams();
+
+  const param = useParams();
 
   useEffect(() => {
-    if (slug) getBlogId(slug as string);
-  }, [slug]);
-
+    const id = param.slug as string;
+    getBlogId(id);
+  }, [param.slug]);
 
   return (
     <Stack gap={2}>

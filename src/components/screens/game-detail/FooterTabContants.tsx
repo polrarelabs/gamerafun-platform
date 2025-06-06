@@ -160,6 +160,7 @@ const FooterTabContants = () => {
                       width: 150,
                       height: 150,
                       overflow: "hidden",
+                      borderRadius: "5px",
                       "& img": {
                         objectFit: "cover",
                         objectPosition: "center",

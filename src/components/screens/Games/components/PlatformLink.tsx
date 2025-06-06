@@ -1,13 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Button, IconButton, Text, TextField } from "@components/shared";
 import Select from "@components/shared/Select"; // dùng Select custom của bạn
 import { Platform } from "@constant/enum";
 import { Option } from "@constant/types";
+import { Stack } from "@mui/material";
 import { PlatformLinkProps } from "@store/game/type";
-import { InputBase, Stack } from "@mui/material";
-import React, { memo, useEffect, useMemo, useState } from "react";
 import { typography } from "public/material";
+import React, { memo, useEffect, useMemo, useState } from "react";
 
 interface PropsPlatformLink {
   data: PlatformLinkProps[];

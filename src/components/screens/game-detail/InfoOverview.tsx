@@ -7,8 +7,9 @@ import { useGame } from "@store/game";
 import { usePathname } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useState } from "react";
-import { GetIcon, GroupButtons } from "./components";
 import useBreakpoint from "@hooks/useBreakpoint";
+import GroupButtons from "./GroupButtons";
+import { GetIcon } from "../Games/components";
 
 const InfoOverview = () => {
   const pathname = usePathname();
@@ -64,6 +65,7 @@ const InfoOverview = () => {
                   width: 150,
                   height: 150,
                   overflow: "hidden",
+                  borderRadius: "5px",
                   "& img": {
                     objectFit: "cover",
                     objectPosition: "center",
