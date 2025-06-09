@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Slider, Text } from "@components/shared";
@@ -13,9 +14,9 @@ import { useQuest } from "@store/quests";
 import { useRouter } from "next/navigation";
 import { palette } from "public/material";
 import { memo, useEffect, useState } from "react";
-import { CardBlog } from "./screens/News/components";
-import { CardQuest } from "./screens/Quests/components";
 import useBreakpoint from "@hooks/useBreakpoint";
+import { CardBlog } from "./screens/new-container";
+import { CardQuest } from "./screens/quest";
 
 interface LatestProps {
   title: string;
@@ -48,8 +49,7 @@ const Latest = ({
   const { game, getGame, getGameById } = useGame();
   const { quest, getQuest } = useQuest();
 
-  const { isXsSmaller, isSmSmaller, isMdSmaller, isLgSmaller } =
-    useBreakpoint();
+  const { isXsSmaller, isSmSmaller, isMdSmaller } = useBreakpoint();
 
   const SizeSliderGame = () => {
     if (isXsSmaller) return 2;
@@ -260,7 +260,7 @@ const Latest = ({
                       data={item}
                       sx={{
                         border: `0.2px solid ${palette.colorReview?.colorBorder}`,
-                        borderRadius: "16px",
+                        borderRadius: "5px",
                         padding: "4px",
                       }}
                       witdhMax={widthGame}
@@ -278,7 +278,7 @@ const Latest = ({
                       data={item}
                       sx={{
                         border: `0.2px solid ${palette.colorReview?.colorBorder}`,
-                        borderRadius: "16px",
+                        borderRadius: "5px",
                         padding: "4px",
                       }}
                       witdhMax={widthGame}

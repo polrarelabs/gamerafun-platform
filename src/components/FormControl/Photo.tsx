@@ -1,17 +1,17 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Box, Stack, StackProps } from "@mui/material";
-import { Container, Label, Message } from "./components";
-import { Text } from "components/shared";
-import PlaceholderImage from "public/images/banner.webp";
-import Image from "next/image";
-import useElementSize from "hooks/useElementSize";
-import useToggle from "hooks/useToggle";
-import { FeatureModule, FileType } from "components/Media/helpers";
-import { parsedRatioString } from "utils/index";
 import ImageControl, {
   ImageControlProps,
 } from "@components/shared/ImageControl";
 import { PlatformType } from "@constant/enum";
+import { Stack, StackProps } from "@mui/material";
+import { FeatureModule, FileType } from "components/Media/helpers";
+import { Text } from "components/shared";
+import useElementSize from "hooks/useElementSize";
+import useToggle from "hooks/useToggle";
+import Image from "next/image";
+import PlaceholderImage from "public/images/banner.webp";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { parsedRatioString } from "utils/index";
+import { Container, Label, Message } from "./components";
 // import Gallery from "@components/Media/Gallery";
 
 export interface Media {

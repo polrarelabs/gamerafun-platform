@@ -7,15 +7,14 @@ import TelegramIcon from "@icons/socials/TelegramIcon";
 import Link from "@components/Link";
 import { TELE_URL, X_URL } from "./helper";
 import Subscribe from "@components/Subscribe";
-import { BannerJoin } from "@components/screens/News";
+import Join from "@components/Join";
 
 type FooterProps = {};
 
 const Footer = (_props: FooterProps) => {
   return (
-    <>
-      <BannerJoin />
-
+    <Stack>
+      <Join />
       <Stack
         component="footer"
         py={4}
@@ -54,7 +53,7 @@ const Footer = (_props: FooterProps) => {
           )}
         </Stack>
       </Stack>
-    </>
+    </Stack>
   );
 };
 

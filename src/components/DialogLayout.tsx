@@ -36,8 +36,14 @@ const DialogLayout = (props: DialogLayoutProps) => {
     ...rest
   } = props;
 
-  const onClose = (_: {}, reason: "backdropClick" | "escapeKeyDown") => {
-    if (onCloseProp && reason !== "backdropClick") {
+  // const onClose = (_: {}, reason: "backdropClick" | "escapeKeyDown") => {
+  //   if (onCloseProp && reason !== "backdropClick") {
+  //     onCloseProp();
+  //   }
+  // };
+
+  const onClose = (_: {}, _reason: "backdropClick" | "escapeKeyDown") => {
+    if (onCloseProp) {
       onCloseProp();
     }
   };

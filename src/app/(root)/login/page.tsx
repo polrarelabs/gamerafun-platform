@@ -1,4 +1,4 @@
-import { LayoutLogin } from "@components/screens/Login";
+import { LayoutLogin } from "@components/screens/login";
 import { memo } from "react";
 
 import { generateMetadata } from "@utils/seo";

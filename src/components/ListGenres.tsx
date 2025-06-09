@@ -1,15 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Image, Text } from "@components/shared";
 import { Box, Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { GenresCProps } from "@store/game/type";
-import { useBlog } from "@store/new";
 import { useRouter } from "next/navigation";
 import img from "public/images/img-local.webp";
 import { memo, useEffect, useState } from "react";
 import { getImageSrc } from "./helper";
-import { decode, encode } from "./shared/helper";
+import { encode } from "./shared/helper";
 
 interface ListGenresProps {
   xs?: number;
@@ -22,7 +22,7 @@ interface ListGenresProps {
 const ListGenres = ({ xs, md, sm, lg, xl }: ListGenresProps) => {
   const router = useRouter();
 
-  const { SetGenres, SetGenresTitle, getGenres, genreItems } = useGame();
+  const { SetGenres, getGenres, genreItems } = useGame();
 
   useEffect(() => {
     getGenres({});

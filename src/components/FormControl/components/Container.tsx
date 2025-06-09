@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { forwardRef, memo } from "react";
 import { Stack, StackProps, TooltipProps } from "@mui/material";
 import { Tooltip } from "components/shared";

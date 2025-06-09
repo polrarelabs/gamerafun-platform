@@ -1,5 +1,5 @@
 import Latest from "@components/Latest";
-import { Banner, Genres } from "@components/screens/Home";
+import { Banner, Genres } from "@components/screens/home";
 import { GAME_PATH, HOME_PATH, NEWS_PATH, QUESTS_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { generateMetadata } from "@utils/seo";
