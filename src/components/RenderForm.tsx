@@ -17,6 +17,7 @@ export interface DataProps {
   handleClick?: (id: number) => void;
   nameDisplay?: any[] | null;
   keyNameDisplay?: string | null;
+  show?: boolean;
 }
 
 interface RenderFormProps {

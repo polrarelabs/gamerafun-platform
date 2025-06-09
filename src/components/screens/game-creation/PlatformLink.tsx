@@ -2,7 +2,7 @@
 "use client";
 
 import { Button, IconButton, Text, TextField } from "@components/shared";
-import Select from "@components/shared/Select"; // dùng Select custom của bạn
+import Select from "@components/shared/Select";
 import { Platform } from "@constant/enum";
 import { Option } from "@constant/types";
 import { Stack } from "@mui/material";
