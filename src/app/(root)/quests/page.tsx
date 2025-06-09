@@ -1,4 +1,4 @@
-import { LayoutQuest, QuestBreadcumb } from "@components/screens/Quests";
+import { LayoutQuest, QuestBreadcumb } from "@components/screens/quest";
 import { Stack } from "@mui/material";
 import { memo } from "react";
 import { generateMetadata } from "@utils/seo";

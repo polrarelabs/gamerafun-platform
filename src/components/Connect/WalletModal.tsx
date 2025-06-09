@@ -17,8 +17,6 @@ import { Box, ButtonBase, Stack } from "@mui/material";
 import { useAuthLogin } from "@store/auth";
 import { memo, useEffect, useMemo, useState } from "react";
 import Cookies from "js-cookie";
-import { HOME_PATH } from "@constant/paths";
-import { useRouter } from "next/navigation";
 
 type WalletModalProps = {} & Omit<DialogLayoutProps, "children">;
 
@@ -29,8 +27,6 @@ type ItemProps = {
 
 const WalletModal = (props: WalletModalProps) => {
   const { onClose, ...rest } = props;
-
-  const router = useRouter();
 
   const [selectedWallet, setSelectedWallet] = useState<
     AdapterWallet | AdapterNotDetectedWallet | null
@@ -90,13 +86,10 @@ const WalletModal = (props: WalletModalProps) => {
         secure: true,
         sameSite: "Strict",
       });
-      // router.push(HOME_PATH);
     }
   }, [data, error]);
 
   useEffect(() => {
-    console.log("log sign wall", selectedWallet, address);
-
     const signAfterConnect = async () => {
       if (!selectedWallet || !address) return;
       try {

@@ -5,7 +5,7 @@ import { UPDATE_GAME_PATH } from "@constant/paths";
 import { GameDetail } from "@components/screens/game-detail";
 
 export const metadata: Metadata = generateMetadata(
-  "Update Game",
+  "Game Detail",
   UPDATE_GAME_PATH,
 );
 

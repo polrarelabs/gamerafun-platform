@@ -1,22 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-"use client";
-import { BannerNew, NewsDetail, Related } from "@components/screens/News";
+import { BannerNew, NewsDetail, Related } from "@components/screens/new-detail";
 import { SCREEN_PX } from "@constant";
 import { Stack } from "@mui/material";
-import { useBlog } from "@store/new";
-import { memo, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { memo } from "react";
 
 const News = () => {
-  const { getBlogId } = useBlog();
-
-  const param = useParams();
-
-  useEffect(() => {
-    const id = param.slug as string;
-    getBlogId(id);
-  }, [param.slug]);
-
   return (
     <Stack gap={2}>
       <BannerNew />

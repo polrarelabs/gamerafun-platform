@@ -1,4 +1,4 @@
-import { GenresBreadcumb, LayoutGenres } from "@components/screens/Genres";
+import { GenresBreadcumb, LayoutGenres } from "@components/screens/genre";
 import { Stack } from "@mui/material";
 import { memo } from "react";
 import { Metadata } from "next";

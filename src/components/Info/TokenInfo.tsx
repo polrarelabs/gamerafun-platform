@@ -1,10 +1,10 @@
-import { isValidElement, memo, ReactNode } from "react";
-import { Avatar, Breakpoint, Stack, StackProps } from "@mui/material";
 import { Text, TextProps } from "@components/shared";
-import { formatNumber } from "@utils";
 import { APP_TOKEN_IMAGE } from "@constant";
 import { OptionFormatNumber } from "@constant/types";
+import { Avatar, Breakpoint, Stack, StackProps } from "@mui/material";
+import { formatNumber } from "@utils";
 import { typography } from "public/material";
+import { memo, ReactNode } from "react";
 
 export type TokenInfoProps = {
   value?: number | string;

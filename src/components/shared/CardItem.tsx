@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { GetIcon } from "@components/screens/Games/components";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useWindowSize from "@hooks/useWindowSize";
 import StarOutlineIcon from "@icons/common/StarOutlineIcon";
@@ -24,6 +23,7 @@ import AverageStar from "./AverageStar";
 import Image from "./Image";
 import Text from "./Text";
 import { getImageSrc } from "@components/helper";
+import GetIcon from "@components/GetIcon";
 
 interface CardItemProps {
   data: any | null;

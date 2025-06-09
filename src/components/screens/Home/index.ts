@@ -1,5 +1,6 @@
 import Banner from "./Banner";
-import ArbitrumCatalogue from "./ArbitrumCatalogue";
 import Genres from "./Genres";
+import ThumbNail from "./ThumbNail";
+import ButtonBanner from "./ButtonBanner";
 
-export { Banner, ArbitrumCatalogue, Genres };
+export { Banner, Genres, ThumbNail, ButtonBanner };

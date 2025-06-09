@@ -1,5 +1,7 @@
-import { GenresDetailBreadcumb } from "@components/screens/Genres";
-import { GenresDetail } from "@components/screens/Genres/components";
+import {
+  GenresDetail,
+  GenresDetailBreadcumb,
+} from "@components/screens/genre-detail";
 import { Stack } from "@mui/material";
 import { memo } from "react";
 

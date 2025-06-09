@@ -6,7 +6,7 @@ import React, { memo, useState } from "react";
 import Text from "./Text";
 import CircleCheckIcon from "@icons/common/CircleCheckIcon";
 import { palette } from "public/material";
-import { HandleClickOption } from "@components/screens/Genres/components/helper";
+import { HandleClickOption } from "@components/helper";
 
 interface FormOptionProps {
   label: string[];
