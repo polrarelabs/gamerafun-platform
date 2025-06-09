@@ -57,13 +57,41 @@ const GameDetail = () => {
   }, [id]);
 
   const tabItems = [
-    { label: "Overview", content: <Overview />, disabled: false },
-    { label: "Review", content: <></>, disabled: true },
-    { label: "Guides", content: <></>, disabled: true },
-    { label: "News", content: <></>, disabled: true },
-    { label: "Analysis", content: <div>Analysis</div>, disabled: true },
-    { label: "Live Stream", content: <div>Live Stream</div>, disabled: true },
-    { label: "Community", content: <div>Community</div>, disabled: true },
+    {
+      label: "Overview",
+      content: <Overview />,
+      disabled: false,
+    },
+    {
+      label: "Review",
+      content: <></>,
+      disabled: true,
+    },
+    {
+      label: "Guides",
+      content: <></>,
+      disabled: true,
+    },
+    {
+      label: "News",
+      content: <></>,
+      disabled: true,
+    },
+    {
+      label: "Analysis",
+      content: <div>Analysis</div>,
+      disabled: true,
+    },
+    {
+      label: "Live Stream",
+      content: <div>Live Stream</div>,
+      disabled: true,
+    },
+    {
+      label: "Community",
+      content: <div>Community</div>,
+      disabled: true,
+    },
     {
       label: `User Reviews (${gameById.rates && gameById.rates.length > 0 && gameById.rates.length})`,
       content: <UserReviews />,
@@ -148,7 +176,6 @@ const GameDetail = () => {
             },
           }}
         />
-
         {/* <BackgroundImage
                     url={gameById && gameById.mediaUrl && gameById.mediaUrl.length > 0
                         ? gameById.mediaUrl[0]
