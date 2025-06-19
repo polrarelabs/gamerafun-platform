@@ -5,6 +5,7 @@ import { memo, useState } from "react";
 import LoginSocials from "./LoginSocials";
 import LoginAccount from "./LoginAccount";
 import LoginEmail from "./LoginEmail";
+import { Suspense } from "react";
 
 const FormLogin = () => {
   const [option, setOption] = useState<string>("social");
@@ -17,7 +18,9 @@ const FormLogin = () => {
       gap={{ md: 3, xs: 2 }}
     >
       {option === "social" ? (
-        <LoginSocials setOption={setOption} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <LoginSocials setOption={setOption} />
+        </Suspense>
       ) : option === "account" ? (
         <LoginAccount setOption={setOption} />
       ) : (
