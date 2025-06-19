@@ -10,7 +10,7 @@ interface SelectedProps {
   selected: any;
   options: any[];
   setSelected: (value: any) => void;
-  getSort: (value: string) => React.ReactNode;
+  getSort: (value: any) => React.ReactNode;
   isShow?: boolean;
   label?: string;
 }

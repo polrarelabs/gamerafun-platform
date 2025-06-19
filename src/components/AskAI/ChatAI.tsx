@@ -1,23 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Avatar } from "@components/Info";
+import DialogLayout from "@components/DialogLayout";
 import { Text } from "@components/shared";
-import {
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  InputBase,
-  Stack,
-} from "@mui/material";
+import { CircularProgress, IconButton, InputBase, Stack } from "@mui/material";
 import { HistoryProps, useChatAI } from "@store/chatAI";
 import { TypeChat } from "@store/chatAI/helper";
-import { palette } from "public/material";
-import React, { memo, useEffect, useRef, useState } from "react";
-
+import { memo, useEffect, useRef, useState } from "react";
 import { MdSend } from "react-icons/md";
+import Message from "./Message";
 
 interface PropChatAI {
   handleClose: () => void;
@@ -90,133 +81,74 @@ const ChatAI = ({ handleClose, open }: PropChatAI) => {
   };
 
   return (
-    <Dialog
+    <DialogLayout
       fullWidth
       open={open}
       onClose={handleClose}
-      maxWidth={"md"}
       sx={{
         border: "1px solid text.disabled",
       }}
     >
-      <DialogTitle>
-        <Text color="text.disabled" fontSize={"16px"} fontWeight={500}>
-          Ask Gamera AI
-        </Text>
-      </DialogTitle>
-      <DialogContent
-        sx={{
-          maxHeight: 400,
-          minHeight: 400,
-          height: "100%",
-          overflow: "auto",
-          px: 0,
-        }}
-      >
-        <Stack
-          direction={"column"}
-          gap={2}
-          overflow={"auto"}
-          px={2}
-          mb={2}
-          height={"100%"}
-          width={"100%"}
-        >
-          {historyChats.map((item, index) => {
-            return (
-              <Stack
-                key={item.id}
-                direction={"row"}
-                justifyContent={item.type === TypeChat.AI ? "start" : "end"}
-                alignItems={"center"}
-                // ref={index === historyChats.length - 1 ? ref : null}
-                width={"100%"}
-              >
-                <Stack
-                  direction={"row"}
-                  alignItems={"start"}
-                  // gap={1}
-                  maxWidth={{ md: "70%", xs: "95%" }}
-                >
-                  {item.type === TypeChat.AI && (
-                    <Avatar
-                      sx={{
-                        bgcolor: palette.avatarAI,
-                        width: 40,
-                        height: 40,
-                      }}
-                      variant="square"
-                    >
-                      <Text>AI</Text>
-                    </Avatar>
-                  )}
-                  <Text
-                    ref={index === historyChats.length - 1 ? ref : null}
-                    sx={{
-                      background:
-                        // item.errors && item.type === "ai"
-                        //   ? "none"
-                        //   :
-                        item.type === TypeChat.AI
-                          ? // ? palette.colorGray
-                            "none"
-                          : palette.colorGray,
-                      // : palette.bgLinearGradient,
-                      width: "max-content",
-                      // border:
-                      //   item.errors && item.type === "ai"
-                      //     ? "1px solid red"
-                      //     :
-                      //     "none",
-                      padding: "4px 16px",
-                      borderTopRightRadius: "20px",
-                      borderTopLeftRadius: "20px",
-                      borderBottomLeftRadius:
-                        item.type === TypeChat.AI ? "4px" : "20px",
-                      borderBottomRightRadius:
-                        item.type === TypeChat.AI ? "20px" : "4px",
+      <Text color="text.disabled" fontSize={"16px"} fontWeight={500}>
+        Ask Gamera AI
+      </Text>
 
-                      display: "block",
-                      wordWrap: "break-word",
-                      wordBreak: "break-word",
-                      whiteSpace: "pre-wrap",
-                      color:
-                        // item.errors && item.type === TypeChat.AI
-                        //   ? "red"
-                        //   :
-                        item.type === TypeChat.AI ? "white" : "black",
-                    }}
-                  >
-                    {item.content}
-                  </Text>
-                </Stack>
-              </Stack>
-            );
-          })}
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Stack p={2} borderTop={"1px solid"} maxHeight={"50px"} flex={1}>
-          <InputBase
-            placeholder="Chat with AI"
-            value={value}
-            onChange={(e) => setvalue(e.target.value)}
-            endAdornment={
-              <IconButton
-                onClick={() => handleSendMessage()}
-                disabled={value.length > 0 ? false : true}
+      <Stack
+        direction={"column"}
+        gap={2}
+        overflow={"auto"}
+        pr={2}
+        mb={2}
+        height={"100%"}
+        width={"100%"}
+        maxHeight={400}
+        minHeight={400}
+      >
+        {historyChats.map((item, index) => {
+          return (
+            <Stack
+              key={item.id}
+              direction={"row"}
+              justifyContent={item.type === TypeChat.AI ? "start" : "end"}
+              alignItems={"center"}
+              width={"100%"}
+            >
+              <Stack
+                direction={"row"}
+                alignItems={"start"}
+                maxWidth={{ md: "70%", xs: "95%" }}
               >
-                <MdSend />
-              </IconButton>
-            }
-            onKeyDown={(key) => {
-              if (key.key === "Enter") handleSendMessage();
-            }}
-            autoFocus
-          />
-        </Stack>
-      </DialogActions>
-    </Dialog>
+                <Message
+                  index={index}
+                  item={item}
+                  historyChats={historyChats}
+                  ref={ref}
+                />
+              </Stack>
+            </Stack>
+          );
+        })}
+      </Stack>
+      <Stack px={2} borderTop={"1px solid"} maxHeight={"40px"} flex={1}>
+        <InputBase
+          placeholder="Chat with AI"
+          value={value}
+          onChange={(e) => setvalue(e.target.value)}
+          endAdornment={
+            <IconButton
+              onClick={() => handleSendMessage()}
+              disabled={value.length > 0 ? false : true}
+            >
+              <MdSend />
+            </IconButton>
+          }
+          onKeyDown={(key) => {
+            if (key.key === "Enter") handleSendMessage();
+          }}
+          autoFocus
+        />
+      </Stack>
+    </DialogLayout>
   );
 };
 

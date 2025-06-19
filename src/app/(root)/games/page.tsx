@@ -1,4 +1,4 @@
-import { GameBreadcumb, LayoutGame } from "@components/screens/Games";
+import { GameBreadcumb, LayoutGame } from "@components/screens/game";
 import { GAME_PATH } from "@constant/paths";
 import { Stack } from "@mui/material";
 import { generateMetadata } from "@utils/seo";

@@ -1,6 +1,5 @@
 "use client";
 
-import { InfoImage } from "@components/screens/Games/components";
 import { Button, Image, Text } from "@components/shared";
 import EyeIcon from "@icons/common/EyeIcon";
 import TrashIcon from "@icons/common/TrashIcon";

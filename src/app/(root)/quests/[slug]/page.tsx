@@ -1,4 +1,4 @@
-import { QuestDetail } from "@components/screens/Quests";
+import { QuestDetail } from "@components/screens/quest-detail";
 import React, { memo } from "react";
 
 const QuestDetailPage = () => {

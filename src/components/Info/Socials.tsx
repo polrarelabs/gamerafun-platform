@@ -14,7 +14,7 @@ type SocialsProps = {
 };
 
 const Socials = (props: SocialsProps) => {
-  const { data, showAll = true, usePush, itemProps } = props;
+  const { data, showAll = true, itemProps } = props;
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
       {DATA.map((item) => {

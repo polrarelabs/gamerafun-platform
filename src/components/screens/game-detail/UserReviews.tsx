@@ -3,7 +3,7 @@ import { Stack } from "@mui/material";
 import { useGame } from "@store/game";
 import { palette } from "public/material";
 import { memo } from "react";
-import CardReview from "../Games/components/CardReview";
+import CardReview from "./components/CardReview";
 
 const UserReviews = () => {
   const { gameById } = useGame();

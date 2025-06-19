@@ -1,4 +1,4 @@
-import { GetColor } from "@components/screens/Games/components/helper";
+import { GetColor } from "@components/screens/game-container/helper";
 import { palette } from "public/material";
 
 export const thumbColor = (value: number, opacity?: number) => {
